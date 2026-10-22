@@ -119,11 +119,11 @@ public class WobWorld : MonoBehaviour {
         GUI.Label(new Rect(w-228,62,200,50),"TIME "+Mathf.FloorToInt(elapsed)+"s  /  RETRIES "+deaths+"\nTAB: overview",small);
         if(!overview) {
             GUI.Label(new Rect(w/2-12,h/2-16,30,30),"+",title);
-            Panel(new Rect(w/2-200,h/2+35,400,64));
-            GUI.Label(new Rect(w/2-188,h/2+40,380,24),player.targetStatus,body);
-            GUI.color=Color.gray; GUI.DrawTexture(new Rect(w/2-184,h/2+72,368,6),white);
+            Panel(new Rect(w/2-200,h/2-100,400,64));
+            GUI.Label(new Rect(w/2-188,h/2-95,380,24),player.targetStatus,body);
+            GUI.color=Color.gray; GUI.DrawTexture(new Rect(w/2-184,h/2-63,368,6),white);
             GUI.color=player.target?WobPlayer.PropertyColor(player.target.property):Color.white;
-            GUI.DrawTexture(new Rect(w/2-184,h/2+72,368*Mathf.Clamp01(player.absorbProgress),6),white); GUI.color=Color.white;
+            GUI.DrawTexture(new Rect(w/2-184,h/2-63,368*Mathf.Clamp01(player.absorbProgress),6),white); GUI.color=Color.white;
         }
         Panel(new Rect(24,h-148,560,124));
         GUI.Label(new Rect(40,h-140,520,26),"ONE ACTIVE PROPERTY — "+player.property.ToString().ToUpper(),body);
