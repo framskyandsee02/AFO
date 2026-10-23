@@ -1,10 +1,10 @@
 {
-    "utc": "2026-10-23T02:28:46.8212211Z",
+    "utc": "2026-10-23T02:54:53.6970818Z",
     "checks": [
         {
             "name": "Yard sources found",
             "passed": true,
-            "observed": "sources=4"
+            "observed": "sources=8"
         },
         {
             "name": "Out of range rejected",
@@ -54,7 +54,7 @@
         {
             "name": "Movement continues while holding absorb",
             "passed": true,
-            "observed": "moved=2.30"
+            "observed": "moved=1.95"
         },
         {
             "name": "Absorb Pressure from tank",

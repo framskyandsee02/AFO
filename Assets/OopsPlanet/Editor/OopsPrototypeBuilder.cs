@@ -10,7 +10,7 @@ public static class OopsPrototypeBuilder {
     const string Root="Assets/OopsPlanet";
     const string ScenePath=Root+"/Scenes/OopsPlanet_Prototype01.unity";
     static Transform root;
-    static Material grey,dark,light,green,white,black,glow,blobBody,factoryWall,rust,metal,wood,water,paddy,straw,rice;
+    static Material grey,dark,light,green,white,black,glow,blobBody,factoryWall,rust,metal,wood,water,paddy,straw,rice,hazard;
     static List<BlobInteractable> zones,sources;
     static Material Mat(string name,Color color,bool emission=false) {
         string path=Root+"/Materials/"+name+".mat";
@@ -126,6 +126,41 @@ public static class OopsPrototypeBuilder {
         var go=Place(prefab,pos,yaw); go.name=name;
         var s=go.GetComponent<BlobInteractable>(); sources.Add(s); return s;
     }
+    static GameObject Ball(string name,Vector3 pos,float size,Material mat) {
+        var go=GameObject.CreatePrimitive(PrimitiveType.Sphere); go.name=name;
+        go.transform.SetParent(root); go.transform.position=pos; go.transform.localScale=Vector3.one*size;
+        go.GetComponent<Renderer>().sharedMaterial=mat; Object.DestroyImmediate(go.GetComponent<Collider>());
+        return go;
+    }
+    static Light PointLight(string name,Vector3 pos) {
+        var l=new GameObject(name).AddComponent<Light>(); l.transform.SetParent(root); l.transform.position=pos;
+        l.type=LightType.Point; l.range=16; l.intensity=3; l.color=new Color(1,.25f,.2f);
+        return l;
+    }
+    // Opaque grey sphere puffs (readable in greybox without transparent particle materials).
+    static ParticleSystem Smoke(string name,Vector3 pos) {
+        var go=new GameObject(name); go.transform.SetParent(root); go.transform.position=pos; go.transform.rotation=Quaternion.Euler(-90,0,0);
+        var ps=go.AddComponent<ParticleSystem>();
+        var main=ps.main; main.startLifetime=4; main.startSpeed=1.6f; main.startSize=new ParticleSystem.MinMaxCurve(.8f,1.4f); main.maxParticles=60; main.gravityModifier=-.03f;
+        var em=ps.emission; em.rateOverTime=6;
+        var sh=ps.shape; sh.shapeType=ParticleSystemShapeType.Cone; sh.angle=12; sh.radius=.8f;
+        var sol=ps.sizeOverLifetime; sol.enabled=true; sol.size=new ParticleSystem.MinMaxCurve(1,AnimationCurve.Linear(0,.6f,1,1.8f));
+        var r=go.GetComponent<ParticleSystemRenderer>(); r.renderMode=ParticleSystemRenderMode.Mesh;
+        r.mesh=Resources.GetBuiltinResource<Mesh>("New-Sphere.fbx"); r.sharedMaterial=Mat("Smoke grey",new Color(.32f,.3f,.3f));
+        return ps;
+    }
+    static PuzzleObjective Puzzle(string name,string id,string titleTh,string hintTh,string solvedTh,Bounds area,PuzzleObjective requires,MonoBehaviour[] conditions,PuzzleItem[] items) {
+        var go=new GameObject(name); go.transform.SetParent(root); go.transform.position=area.center;
+        var p=go.AddComponent<PuzzleObjective>();
+        p.id=id; p.titleTh=titleTh; p.hintTh=hintTh; p.solvedTh=solvedTh; p.area=area; p.requires=requires; p.conditions=conditions; p.items=items;
+        return p;
+    }
+    static void ResetPad(string name,Vector3 pos,PuzzleObjective target) {
+        var pad=Box(name,pos+Vector3.up*.03f,new Vector3(2,.06f,2),hazard,null,false);
+        var r=pad.AddComponent<PuzzleResetPad>(); r.target=target; r.size=new Vector3(2,2,2);
+        pad.transform.localScale=new Vector3(2,.06f,2);
+        Label("RESET",pos+Vector3.up*1.2f,0,.14f);
+    }
     static GameObject MagneticCube(string name,Vector3 pos,float size,float mass,Material body,Material stripe) {
         var go=Box(name,pos,Vector3.one*size,body);
         Box("Magnetic marking",pos+Vector3.up*(size/2+.01f),new Vector3(size*.8f,.03f,size*.8f),stripe,go.transform,false);
@@ -190,6 +225,10 @@ public static class OopsPrototypeBuilder {
         var absScrap=AbsorbablePrefab("Absorbable_Magnet_Scrap","ABS_ScrapMetal",new[]{metal,magnetRed},BlobProperty.Magnet,AbsorbResult.Remains);
         var absTank=AbsorbablePrefab("Absorbable_Pressure_Tank","ABS_PressureTank",new[]{tankBlue,brass},BlobProperty.Pressure,AbsorbResult.Remnant,"ABS_PressureTank_Empty");
         var absTire=AbsorbablePrefab("Absorbable_Bounce_Tire","ABS_RubberTire",new[]{rubber},BlobProperty.Bounce,AbsorbResult.Disable);
+        // Puzzle areas use sources that always remain, so the powers a puzzle needs can never run out (no softlock).
+        var absTankRemains=AbsorbablePrefab("Absorbable_Pressure_Tank_Remains","ABS_PressureTank",new[]{tankBlue,brass},BlobProperty.Pressure,AbsorbResult.Remains);
+        var absTireRemains=AbsorbablePrefab("Absorbable_Bounce_Tire_Remains","ABS_RubberTire",new[]{rubber},BlobProperty.Bounce,AbsorbResult.Remains);
+        hazard=Mat("Hazard yellow",new Color(.95f,.75f,.1f));
         var powerSet=EnsurePowerData();
         var world=new GameObject("Oops Runtime").AddComponent<BlobWorld>();
         world.levelTitle="OOPS! PLANET / PROTOTYPE 01 (GREYBOX)";world.checkpointCount=2;
@@ -203,7 +242,7 @@ public static class OopsPrototypeBuilder {
         Label("FACTORY >>",new Vector3(0,2.6f,14.4f),0,.3f);
         Label("RICE FIELDS >>",new Vector3(14.4f,2.6f,0),90,.3f);
         Label("OOPS! PLANET\nHUB",new Vector3(0,3.2f,-14.4f),180,.35f);
-        Zone("Area Hub",BlobInteraction.Area,new Vector3(0,2,0),new Vector3(30,6,30),"HUB — Absorb in the yard (hold E), then go north to the FACTORY or east to the RICE FIELDS");
+        Zone("Area Hub",BlobInteraction.Area,new Vector3(0,2,0),new Vector3(30,6,30),"HUB — ศูนย์กลาง: ฝึกดูดพลังที่ลาน (กด E ค้าง) แล้วไป FACTORY (ทิศเหนือ) หรือ RICE FIELDS (ทิศตะวันออก)");
         // P02 absorption yard (west half of the Hub): one source per AbsorbResult mode, an occluded source and a non-absorbable decoy.
         Label("ABSORPTION YARD\nAIM + HOLD E",new Vector3(-8,2.8f,-2.5f),0,.22f);
         PlaceSource(absScrap,"Absorbable Scrap (Magnet, remains)",new Vector3(-5,0,5),20);
@@ -225,41 +264,120 @@ public static class OopsPrototypeBuilder {
         Floor("Path to Rice Fields",new Vector3(20,0,0),10,6,grey);
         Walls("Rice path",new Vector3(20,0,0),10,6,"ew",.8f);
 
-        // ZONE 01 FACTORY (z 25..55)
+        // ZONE 01 FACTORY (z 25..55): front yard with the Factory Gate puzzle, back room with the Ventilation Turbine.
         var fc=new Vector3(0,0,40);
         Floor("Factory floor",fc,30,30,factoryWall);
         Walls("Factory",fc,30,30,"s",2.5f);
-        Zone("Area Factory",BlobInteraction.Area,fc+Vector3.up*2,new Vector3(30,6,30),"ZONE 01 FACTORY — Greybox (powers & puzzles arrive in P02–P04)");
+        Zone("Area Factory",BlobInteraction.Area,fc+Vector3.up*2,new Vector3(30,6,30),"ZONE 01 FACTORY — โรงงาน: เปิดประตูโรงงาน แล้วเป่ากังหันระบายอากาศ");
         Checkpoint(1,new Vector3(0,0,28),0);
         Box("Warehouse block",new Vector3(-9,4,45),new Vector3(10,8,14),dark);
         Box("Warehouse roof lip",new Vector3(-9,8.2f,45),new Vector3(10.6f,.4f,14.6f),metal);
         Cylinder("Chimney",new Vector3(10,6,50),1.5f,12,rust);
         Cylinder("Chimney cap",new Vector3(10,12.2f,50),1.8f,.4f,dark);
-        var overhead=Box("Overhead pipe run",new Vector3(1,6.5f,48),new Vector3(16,.6f,.6f),metal);
+        Box("Overhead pipe run",new Vector3(1,6.5f,48),new Vector3(16,.6f,.6f),metal);
         Box("Pipe support",new Vector3(1,3.25f,48),new Vector3(.3f,6.5f,.3f),dark);
-        Box("Loading dock (jump test, 1 m)",new Vector3(8,.5f,38),new Vector3(8,1,6),metal);
-        Label("LOADING DOCK\nJUMP UP (1 m)",new Vector3(8,2.5f,34.8f),0,.18f);
+        Box("Loading dock (jump test, 1 m)",new Vector3(9,.5f,38),new Vector3(6,1,6),metal);
+        Label("LOADING DOCK\nJUMP UP (1 m)",new Vector3(9,2.5f,34.8f),0,.18f);
         Place(crateP,new Vector3(-3,0,32));Place(crateP,new Vector3(3,0,49),20);Place(crateP,new Vector3(3.2f,1.2f,49),35);
-        Place(barrelP,new Vector3(5,0,52));Place(barrelP,new Vector3(6.1f,0,52.6f));
+        Place(barrelP,new Vector3(12,0,46));Place(barrelP,new Vector3(13.1f,0,46.6f));
         Place(pipeP,new Vector3(-2,0,52.5f));Place(scrapP,new Vector3(-4,0,29));Place(scrapP,new Vector3(12,0,30),90);
+        PlaceSource(absScrap,"Factory Magnet source (remains)",new Vector3(-12,0,32),30);
+        PlaceSource(absTankRemains,"Factory Pressure source (remains)",new Vector3(12,0,26.5f));
+        var redLamp=Mat("Lamp red",new Color(.9f,.15f,.1f),true);
+        var factoryLights=new[]{PointLight("Factory light front",new Vector3(-2,5,35)),PointLight("Factory light back",new Vector3(6,5,48))};
+        // 7 m divider wall (above Bounce + dock height) with a 4 m gate opening at x=0.
+        Box("Divider wall west",new Vector3(-8.8f,3.5f,42),new Vector3(12.4f,7,.6f),dark);
+        Box("Divider wall east",new Vector3(8.8f,3.5f,42),new Vector3(12.4f,7,.6f),dark);
+        var frame=ModelInstance("PZ_FactoryGate_Frame",new[]{metal,hazard},root,false); frame.name="Factory gate frame"; frame.transform.position=new Vector3(0,0,42);
+        foreach(float x in new[]{-2.3f,2.3f}) Box("Gate post collider",new Vector3(x,3.5f,42),new Vector3(.6f,7,.7f),metal,frame.transform).GetComponent<Renderer>().enabled=false;
+        var door=ModelInstance("PZ_FactoryGate_Door",new[]{dark,hazard},root,true); door.name="Factory gate door"; door.transform.position=new Vector3(0,0,42);
+        var gateLamp=Ball("Gate lamp",new Vector3(0,7.5f,41.5f),.45f,redLamp);
+        var socket=ModelInstance("PZ_Socket",new[]{dark,hazard},root,true); socket.name="Counterweight socket"; socket.transform.position=new Vector3(3.6f,0,39.8f);
+        var socketLamp=Ball("Socket lamp",new Vector3(3.6f,1.6f,41.3f),.3f,redLamp);
+        var sock=socket.AddComponent<ItemSocket>(); sock.key="counterweight"; sock.lamp=socketLamp.GetComponent<Renderer>();
+        Label("PLACE THE\nCOUNTERWEIGHT",new Vector3(3.6f,2.6f,41.6f),0,.14f);
+        var weight=ModelInstance("PZ_Counterweight",new[]{metal,magnetRed},root,true); weight.name="Counterweight (6 kg, magnetic)"; weight.transform.position=new Vector3(-8,0,30);
+        var wrb=weight.AddComponent<Rigidbody>(); wrb.mass=6; wrb.linearDamping=.5f; wrb.angularDamping=2; wrb.interpolation=RigidbodyInterpolation.Interpolate; wrb.collisionDetectionMode=CollisionDetectionMode.ContinuousDynamic;
+        weight.AddComponent<BlobMagnetic>(); var weightItem=weight.AddComponent<PuzzleItem>(); weightItem.key="counterweight";
+        var gate=Puzzle("Puzzle Factory Gate","factory_gate","ประตูโรงงาน","ใช้แม่เหล็ก (กด F ค้าง) ลากตุ้มถ่วงสีแดงไปวางบนแท่นข้างประตู","ประตูเปิดแล้ว — เข้าไปที่ห้องกังหัน",
+            new Bounds(new Vector3(0,2,33.5f),new Vector3(30,8,17)),null,new MonoBehaviour[]{sock},new[]{weightItem});
+        var gateReaction=gate.gameObject.AddComponent<PuzzleReaction>(); gateReaction.objective=gate; gateReaction.mover=door.transform; gateReaction.moveOffset=Vector3.up*4.4f;
+        gateReaction.recolor=new[]{gateLamp.GetComponent<Renderer>()}; gateReaction.solvedColor=new Color(.2f,1,.4f);
+        gateReaction.lights=new Light[0]; gateReaction.showWhenSolved=new GameObject[0]; gateReaction.hideWhenSolved=new GameObject[0]; gateReaction.stopWhenSolved=new ParticleSystem[0]; gateReaction.grow=new Transform[0];
+        ResetPad("Reset pad: Factory Gate",new Vector3(-11,0,27),gate);
+        // Back room: Ventilation Turbine on a 7 m vent wall.
+        Box("Vent wall",new Vector3(5.5f,3.5f,55),new Vector3(19,7,.5f),dark);
+        var turbineGO=new GameObject("Ventilation turbine"); turbineGO.transform.SetParent(root); turbineGO.transform.position=new Vector3(6,3.2f,54.4f);
+        var housing=ModelInstance("PZ_Turbine_Housing",new[]{metal,dark},turbineGO.transform,false); housing.name="Housing";
+        var rotor=ModelInstance("PZ_Turbine_Rotor",new[]{dark,hazard},turbineGO.transform,false); rotor.name="Rotor";
+        var tcol=turbineGO.AddComponent<BoxCollider>(); tcol.size=new Vector3(3.4f,3.4f,.6f);
+        var lamps=new Renderer[3];
+        for(int i=0;i<3;i++) lamps[i]=Ball("Turbine gauge lamp "+(i+1),new Vector3(8.6f,1.2f+i*.6f,54.6f),.35f,dark).GetComponent<Renderer>();
+        var turbine=turbineGO.AddComponent<PressureTurbine>(); turbine.rotor=rotor.transform; turbine.gaugeLamps=lamps;
+        Box("Pressure stand marker",new Vector3(6,.02f,49.5f),new Vector3(1.6f,.04f,1.6f),Mat("Pressure blue",BlobPlayer.PropertyColor(BlobProperty.Pressure),true),null,false);
+        Label("STAND HERE\nBLAST PRESSURE",new Vector3(6,2.2f,48.6f),0,.14f);
+        var shutter=Box("Vent shutter (closed)",new Vector3(6,6.1f,54.6f),new Vector3(4,1.2f,.25f),dark);
+        var ventOpen=Box("Vent open (fresh air)",new Vector3(6,6.1f,54.6f),new Vector3(4,1.2f,.25f),Mat("Fresh air",new Color(.5f,1,.85f),true),null,false); ventOpen.SetActive(false);
+        var smoke=Smoke("Chimney smoke",new Vector3(10,12.5f,50));
+        var vent=Puzzle("Puzzle Ventilation Turbine","factory_turbine","กังหันระบายอากาศ","ยืนบนจุดสีฟ้า แล้วเป่าแรงดันใส่กังหันหลายครั้งจนไฟครบ 3 ดวง","อากาศถ่ายเทแล้ว ควันพิษหยุด",
+            new Bounds(new Vector3(5.5f,2,48.5f),new Vector3(19,8,13)),gate,new MonoBehaviour[]{turbine},new PuzzleItem[0]);
+        turbine.objective=vent;
+        var ventReaction=vent.gameObject.AddComponent<PuzzleReaction>(); ventReaction.objective=vent;
+        ventReaction.lights=factoryLights; ventReaction.solvedLightColor=new Color(1,.85f,.6f); ventReaction.solvedIntensity=3;
+        ventReaction.hideWhenSolved=new[]{shutter}; ventReaction.showWhenSolved=new[]{ventOpen}; ventReaction.stopWhenSolved=new[]{smoke};
+        ventReaction.recolor=new Renderer[0]; ventReaction.grow=new Transform[0];
 
-        // ZONE 02 RICE FIELDS (x 25..59)
+        // ZONE 02 RICE FIELDS (x 25..59): straw blocks the sluice on a 3 m platform (Bounce up, Pressure it off).
         var rc=new Vector3(42,0,0);
         Floor("Rice field ground",rc,34,30,paddy);
         Walls("Rice",rc,34,30,"w",.8f);
-        Zone("Area Rice",BlobInteraction.Area,rc+Vector3.up*2,new Vector3(34,6,30),"ZONE 02 RICE FIELDS — Follow the dike to the demo end");
+        Zone("Area Rice",BlobInteraction.Area,rc+Vector3.up*2,new Vector3(34,6,30),"ZONE 02 RICE FIELDS — นาข้าว: เคลียร์ฟางที่อุดประตูน้ำ แล้วเดินตามคันนาไปจุดจบ");
         Checkpoint(2,new Vector3(28,0,0),90);
         Box("Main dike (walkable, 0.15 m)",new Vector3(42,.075f,0),new Vector3(30,.15f,2.2f),paddy);
         foreach(float x in new[]{34f,46f}) Box("Cross dike",new Vector3(x,.075f,0),new Vector3(1.2f,.15f,28),paddy);
-        int plants=0;
+        int plants=0; var plantList=new List<Transform>(); var paddyWater=new List<Renderer>();
         foreach(var q in new[]{new Vector3(30,0,8),new Vector3(40,0,8),new Vector3(52,0,8),new Vector3(30,0,-8),new Vector3(40,0,-8),new Vector3(52,0,-8)}) {
-            Box("Paddy water",q+Vector3.up*.02f,new Vector3(9,.02f,11),water,null,false);
-            for(int i=0;i<3;i++) for(int j=0;j<2;j++,plants++)
-                Box("Rice plant",q+new Vector3(-3+i*3,.3f,-2.5f+j*5),new Vector3(.3f,.6f,.3f),rice,null,false);
+            paddyWater.Add(Box("Paddy water",q+Vector3.up*.02f,new Vector3(9,.02f,11),water,null,false).GetComponent<Renderer>());
+            for(int i=0;i<3;i++) for(int j=0;j<2;j++,plants++) {
+                // Pivot at the base so the plant grows upward when restored.
+                var pivot=new GameObject("Rice plant"); pivot.transform.SetParent(root); pivot.transform.position=q+new Vector3(-3+i*3,0,-2.5f+j*5);
+                Box("Rice plant mesh",pivot.transform.position+Vector3.up*.3f,new Vector3(.3f,.6f,.3f),rice,pivot.transform,false);
+                plantList.Add(pivot.transform);
+            }
         }
-        Box("Irrigation channel (blocked, visual)",new Vector3(42,.03f,13.2f),new Vector3(32,.03f,1.6f),water,null,false);
-        for(int i=0;i<4;i++) Box("Straw bundle",new Vector3(36+i*3.5f,.35f,13.2f),new Vector3(1.4f,.7f,.8f),straw);
+        PlaceSource(absTireRemains,"Rice Bounce source (remains)",new Vector3(30,0,4.5f),90);
+        PlaceSource(absTankRemains,"Rice Pressure source (remains)",new Vector3(30,0,-4.5f));
+        Box("Sluice platform (3 m)",new Vector3(42,1.5f,11),new Vector3(8,3,5),dark);
+        // Back wall: straw blasted north drops into the channel behind the platform instead of leaving the level.
+        Box("Sluice back wall (4 m)",new Vector3(42,2,15),new Vector3(16,4,.6f),dark);
+        Label("BOUNCE UP\nCLEAR THE STRAW",new Vector3(42,1.6f,8.4f),0,.18f);
+        var strawItems=new List<PuzzleItem>();
+        var strawX=new[]{39.5f,41.2f,42.9f,44.6f};
+        for(int i=0;i<strawX.Length;i++) {
+            var s=ModelInstance("PZ_StrawBundle",new[]{straw,wood},root,true); s.name="Straw bundle (2 kg)"; s.transform.position=new Vector3(strawX[i],3,11);
+            var srb=s.AddComponent<Rigidbody>(); srb.mass=2; srb.linearDamping=.3f; srb.angularDamping=1;
+            var si=s.AddComponent<PuzzleItem>(); si.key="straw"; strawItems.Add(si);
+            // If blasted out of the level, land on the ground beside the platform (outside the zone) so progress is kept.
+            si.useFallback=true; si.fallbackPosition=new Vector3(35.5f,.1f,9.5f+i*.9f);
+        }
+        var zoneGO=new GameObject("Sluice straw zone"); zoneGO.transform.SetParent(root); zoneGO.transform.position=new Vector3(42,3.6f,11);
+        var clear=zoneGO.AddComponent<ClearZoneCondition>(); clear.key="straw"; clear.size=new Vector3(8,1.2f,5); clear.initialCount=4;
+        var dryChannel=Box("Irrigation channel (dry)",new Vector3(42,.03f,14.3f),new Vector3(32,.03f,1.2f),Mat("Dry soil",new Color(.5f,.42f,.3f)),null,false);
+        var wetChannel=Box("Irrigation channel (flowing)",new Vector3(42,.035f,14.3f),new Vector3(32,.03f,1.2f),Mat("Flowing water",new Color(.2f,.65f,.95f),true),null,false); wetChannel.SetActive(false);
+        var sluice=ModelInstance("PZ_SluiceGate",new[]{wood,metal},root,false); sluice.name="Sluice gate"; sluice.transform.position=new Vector3(42,0,14.3f);
         Box("Pump house",new Vector3(56,1.5f,12),new Vector3(4,3,3),metal);
+        var pumpLight=PointLight("Pump house light",new Vector3(56,3.6f,10)); pumpLight.intensity=0;
+        var ricePuzzle=Puzzle("Puzzle Rice Straw Route","rice_straw","ฟางอุดประตูน้ำ","ดูดพลังเด้งและแรงดัน เด้งขึ้นแท่นประตูน้ำ แล้วเป่าฟางทั้ง 4 มัดออก","น้ำไหลเข้านาแล้ว ต้นข้าวกลับมาเขียว",
+            new Bounds(rc+Vector3.up*3,new Vector3(34,10,30)),null,new MonoBehaviour[]{clear},strawItems.ToArray());
+        var riceReaction=ricePuzzle.gameObject.AddComponent<PuzzleReaction>(); riceReaction.objective=ricePuzzle; riceReaction.duration=2.5f;
+        riceReaction.showWhenSolved=new[]{wetChannel}; riceReaction.hideWhenSolved=new[]{dryChannel};
+        riceReaction.mover=sluice.transform; riceReaction.moveOffset=Vector3.up*1.1f;
+        riceReaction.grow=plantList.ToArray(); riceReaction.growScale=new Vector3(1.2f,2.4f,1.2f);
+        riceReaction.recolor=paddyWater.ToArray(); riceReaction.solvedColor=new Color(.25f,.6f,.85f);
+        riceReaction.lights=new[]{pumpLight}; riceReaction.solvedLightColor=new Color(.5f,1,.6f); riceReaction.solvedIntensity=4;
+        riceReaction.stopWhenSolved=new ParticleSystem[0];
+        ResetPad("Reset pad: Rice straw",new Vector3(36,0,7),ricePuzzle);
+        world.puzzles=new[]{gate,vent,ricePuzzle};
 
         // DEMO END
         Box("Demo end left pillar",new Vector3(56,1.5f,-2.2f),new Vector3(.5f,3,.5f),green);
@@ -322,6 +440,15 @@ public static class OopsPrototypeBuilder {
                     if(!set.Get(prop)) errors.Add("PowerSet missing "+prop);
                 if(set.combinations.Count<2||set.combinations.Count>3) errors.Add("expected 2-3 supported combinations, found "+set.combinations.Count);
             }
+            if(w.puzzles==null || w.puzzles.Length!=3) errors.Add("expected 3 puzzles, found "+(w.puzzles==null?0:w.puzzles.Length));
+            else foreach(var pz in w.puzzles) {
+                if(!pz) { errors.Add("null puzzle entry"); continue; }
+                int conds=0; foreach(var c in pz.conditions) if(c is IPuzzleCondition) conds++;
+                if(conds==0) errors.Add("puzzle without conditions: "+pz.id);
+                if(string.IsNullOrEmpty(pz.titleTh)||string.IsNullOrEmpty(pz.hintTh)) errors.Add("puzzle missing Thai text: "+pz.id);
+                if(!pz.GetComponent<PuzzleReaction>()) errors.Add("puzzle without world reaction: "+pz.id);
+                foreach(var i in pz.items) if(!i||!i.GetComponent<Collider>()&&!i.GetComponentInChildren<Collider>()) errors.Add("puzzle item missing/without collider in "+pz.id);
+            }
             foreach(var m in Object.FindObjectsByType<BlobMagnetic>(FindObjectsSortMode.None))
                 if(!m.GetComponent<Collider>()) errors.Add("magnetic body without collider: "+m.name);
             if(w.sources==null) errors.Add("BlobWorld.sources is null");
@@ -357,6 +484,14 @@ public static class OopsPrototypeBuilder {
         if(!world)throw new System.Exception("BlobWorld not found");
         if(world.GetComponent<OopsRouteTest>())throw new System.Exception("Route test already exists");
         world.gameObject.AddComponent<OopsRouteTest>();
+    }
+    [MenuItem("Tools/OOPS Planet/Run P04 Puzzle Test")]
+    public static void PuzzleTest() {
+        if(!EditorApplication.isPlaying) { Debug.LogError("Enter Play Mode first");return; }
+        var world=Object.FindFirstObjectByType<BlobWorld>();
+        if(!world)throw new System.Exception("BlobWorld not found");
+        if(world.GetComponent<OopsPuzzleTest>())throw new System.Exception("Puzzle test already exists");
+        world.gameObject.AddComponent<OopsPuzzleTest>();
     }
     [MenuItem("Tools/OOPS Planet/Run P03 Power Test")]
     public static void PowerTest() {

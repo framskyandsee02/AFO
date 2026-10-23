@@ -4,6 +4,7 @@ namespace OopsPlanet {
 public class BlobWorld : MonoBehaviour {
     public BlobPlayer player;
     public BlobInteractable[] sources, zones;
+    public PuzzleObjective[] puzzles;
     public Vector3 spawn=new Vector3(0,.1f,0);
     public bool finished,overview;
     public int checkpointIndex;
@@ -60,7 +61,25 @@ public class BlobWorld : MonoBehaviour {
         player.completed=false; player.paused=false; overview=false;
         RestoreSources(true);
         BlobMagnetic.ResetAll();
+        PuzzleItem.ResetAll();
+        if(puzzles!=null) foreach(var pz in puzzles) if(pz) pz.ResetPuzzle(true);
         Respawn();
+    }
+    public int SolvedPuzzles { get { int n=0; if(puzzles!=null) foreach(var pz in puzzles) if(pz && pz.State==PuzzleState.Solved) n++; return n; } }
+    // The puzzle whose area BLOB is standing in (null outside puzzle areas).
+    public PuzzleObjective CurrentPuzzle {
+        get {
+            if(puzzles==null || !player) return null;
+            Vector3 p=player.transform.position+Vector3.up*.5f;
+            foreach(var pz in puzzles) if(pz && pz.area.Contains(p)) return pz;
+            return null;
+        }
+    }
+    // Thai objective panel text; also read by the P04 test to check the UI matches the real puzzle state.
+    public string PuzzlePanelText() {
+        var pz=CurrentPuzzle;
+        string head="ฟื้นฟูโลก "+SolvedPuzzles+" / "+(puzzles!=null?puzzles.Length:0);
+        return pz?head+"\nปริศนา: "+pz.titleTh+"\n"+pz.StatusTh:head+"\nไปที่โรงงานหรือนาข้าวเพื่อแก้ปริศนา";
     }
     // Consumed sources come back on restart, and on respawn when they opt in (avoids softlocks).
     public void RestoreSources(bool all) {
@@ -104,6 +123,16 @@ public class BlobWorld : MonoBehaviour {
         Panel(new Rect(w-244,22,220,110));
         GUI.Label(new Rect(w-228,32,200,28),"CHECKPOINT  "+checkpointIndex+" / "+checkpointCount,body);
         GUI.Label(new Rect(w-228,62,200,50),"TIME "+Mathf.FloorToInt(elapsed)+"s  /  RETRIES "+deaths+"\nTAB: overview",small);
+        if(puzzles!=null && puzzles.Length>0) {
+            var pz=CurrentPuzzle;
+            Panel(new Rect(w-464,142,440,118));
+            GUI.Label(new Rect(w-450,148,415,108),PuzzlePanelText(),small);
+            if(pz && pz.State!=PuzzleState.Locked) {
+                GUI.color=Color.gray; GUI.DrawTexture(new Rect(w-450,248,415,5),white);
+                GUI.color=pz.State==PuzzleState.Solved?new Color(.3f,1,.5f):new Color(1,.8f,.3f);
+                GUI.DrawTexture(new Rect(w-450,248,415*pz.Progress01,5),white); GUI.color=Color.white;
+            }
+        }
         bool hasSources=sources!=null && sources.Length>0;
         if(!overview && hasSources) {
             GUI.Label(new Rect(w/2-12,h/2-16,30,30),"+",title);
@@ -145,7 +174,7 @@ public class BlobWorld : MonoBehaviour {
         Panel(new Rect(w-584,h-112,560,88));
         GUI.Label(new Rect(w-568,h-104,530,72),"WASD move  |  SPACE jump  |  Mouse look\n"+(hasSources?"E hold absorb  |  F / G power  |  Q swap  |  ":"")+"R respawn\nT restart  |  ESC pause  |  TAB overview",small);
         if(!string.IsNullOrEmpty(player.feedback)) {
-            Panel(new Rect(w/2-270,145,540,50)); GUI.Label(new Rect(w/2-253,155,510,35),player.feedback,body);
+            Panel(new Rect(w/2-250,145,500,50)); GUI.Label(new Rect(w/2-238,155,480,35),player.feedback,body);
         }
         if(player.paused || finished) {
             Panel(new Rect(w/2-240,h/2-130,480,250));
