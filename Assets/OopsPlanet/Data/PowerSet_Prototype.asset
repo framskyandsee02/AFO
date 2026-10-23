@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b7e8037bbb161e468698f4017176883, type: 3}
+  m_Name: PowerSet_Prototype
+  m_EditorClassIdentifier: Assembly-CSharp::OopsPlanet.PowerSet
+  powers:
+  - {fileID: 11400000, guid: 14ea976c977031c46a3aac336bdbd8f9, type: 2}
+  - {fileID: 11400000, guid: d62bcded323ffe84fa3756db090ef512, type: 2}
+  - {fileID: 11400000, guid: 6449a0927ae89ae49978aa04ec13fa64, type: 2}
+  combinations:
+  - {fileID: 11400000, guid: a6ecbdac77842004c8ce568a8d8b273a, type: 2}
+  - {fileID: 11400000, guid: 52f6499921e30044b90d8fccc2a8391c, type: 2}
+  table: {fileID: 11400000, guid: 7e30000114cf35f4bb1d58de1f3d37f6, type: 2}

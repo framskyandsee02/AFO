@@ -1,0 +1,5395 @@
+{
+  "items": [
+    {
+      "key": "SOFT_0004.001",
+      "name": "Dike wall S",
+      "pos": [
+        26.0,
+        4.0,
+        -18.0
+      ],
+      "size": [
+        12.0,
+        8.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0008.001",
+      "name": "Cold room base S",
+      "pos": [
+        12.0,
+        0.75,
+        31.5
+      ],
+      "size": [
+        2.0,
+        1.5,
+        1.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 cold room",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cream"
+    },
+    {
+      "key": "SOFT_0010.001",
+      "name": "R3 submerged pump terminal (machine)",
+      "pos": [
+        64.0,
+        0.175,
+        4.0
+      ],
+      "size": [
+        0.6,
+        0.35,
+        0.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 machine",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0012.001",
+      "name": "Sail",
+      "pos": [
+        69.5,
+        4.0,
+        19.0
+      ],
+      "size": [
+        0.4,
+        2.6,
+        0.08
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 sail",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Cream"
+    },
+    {
+      "key": "SOFT_0014.001",
+      "name": "Factory wall E",
+      "pos": [
+        20.0,
+        4.0,
+        41.5
+      ],
+      "size": [
+        0.5,
+        8.0,
+        23.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0018.001",
+      "name": "R3 pond (submerged terminal)",
+      "pos": [
+        64.0,
+        0.2,
+        4.0
+      ],
+      "size": [
+        4.0,
+        0.4,
+        4.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 water",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Water"
+    },
+    {
+      "key": "SOFT_0019.001",
+      "name": "Factory wall E",
+      "pos": [
+        20.0,
+        4.0,
+        61.5
+      ],
+      "size": [
+        0.5,
+        8.0,
+        9.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0020.001",
+      "name": "Storage room door",
+      "pos": [
+        15.0,
+        1.5,
+        41.0
+      ],
+      "size": [
+        0.3,
+        3.0,
+        2.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Crate wood",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Peach"
+    },
+    {
+      "key": "SOFT_0021.001",
+      "name": "Gate door: shortcut_dike",
+      "pos": [
+        31.0,
+        2.2,
+        -15.0
+      ],
+      "size": [
+        0.4,
+        4.4,
+        6.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Hazard yellow",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "GrassLight"
+    },
+    {
+      "key": "SOFT_0022.001",
+      "name": "Full",
+      "pos": [
+        -4.0,
+        0.3,
+        64.5
+      ],
+      "size": [
+        1.0,
+        0.6,
+        0.8
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 src Magnet 80858C",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Metal"
+    },
+    {
+      "key": "SOFT_0023.001",
+      "name": "Pump house",
+      "pos": [
+        69.0,
+        2.5,
+        13.0
+      ],
+      "size": [
+        4.0,
+        5.0,
+        4.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Crate wood",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Peach"
+    },
+    {
+      "key": "SOFT_0024.001",
+      "name": "Hub wall E",
+      "pos": [
+        20.0,
+        4.0,
+        19.0
+      ],
+      "size": [
+        0.5,
+        8.0,
+        2.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0025.001",
+      "name": "Broken conveyor rail (weld me)",
+      "pos": [
+        18.6,
+        0.3,
+        55.0
+      ],
+      "size": [
+        0.6,
+        0.6,
+        2.4
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Rust",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "ComboLock"
+      ],
+      "role": "Coral"
+    },
+    {
+      "key": "SOFT_0027.001",
+      "name": "Street light (machine)",
+      "pos": [
+        18.0,
+        3.25,
+        16.5
+      ],
+      "size": [
+        0.6,
+        0.5,
+        0.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 machine",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0029.001",
+      "name": "R3 rice plot",
+      "pos": [
+        66.0,
+        0.075,
+        -10.0
+      ],
+      "size": [
+        3.4,
+        0.15,
+        4.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 plant seedling",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "LeafLight"
+    },
+    {
+      "key": "SOFT_0032.001",
+      "name": "Crash pit wall N",
+      "pos": [
+        -10.0,
+        1.6,
+        -8.0
+      ],
+      "size": [
+        4.0,
+        3.2,
+        0.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 pit wall",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0038.001",
+      "name": "Windmill post",
+      "pos": [
+        69.5,
+        2.0,
+        19.6
+      ],
+      "size": [
+        0.4,
+        4.0,
+        0.4
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Crate wood",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Peach"
+    },
+    {
+      "key": "SOFT_0039.001",
+      "name": "Part visual",
+      "pos": [
+        10.0,
+        0.7,
+        60.0
+      ],
+      "size": [
+        0.449999928,
+        0.450000018,
+        0.449999928
+      ],
+      "rot": [
+        29.9999981,
+        45.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 ship part",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0040.001",
+      "name": "Part visual",
+      "pos": [
+        42.0,
+        0.7,
+        11.0
+      ],
+      "size": [
+        0.449999928,
+        0.450000018,
+        0.449999928
+      ],
+      "rot": [
+        29.9999981,
+        45.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 ship part",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0041.001",
+      "name": "Lights shortcut wall E",
+      "pos": [
+        17.0,
+        4.0,
+        25.0
+      ],
+      "size": [
+        0.5,
+        8.0,
+        10.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0043.001",
+      "name": "Part visual",
+      "pos": [
+        -16.5,
+        7.6,
+        33.5
+      ],
+      "size": [
+        0.449999928,
+        0.450000018,
+        0.449999928
+      ],
+      "rot": [
+        29.9999981,
+        45.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 ship part",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0044.001",
+      "name": "Hub wall E",
+      "pos": [
+        20.0,
+        4.0,
+        -7.5
+      ],
+      "size": [
+        0.5,
+        8.0,
+        9.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0047.001",
+      "name": "Rice path wall S",
+      "pos": [
+        26.0,
+        4.0,
+        -3.0
+      ],
+      "size": [
+        12.0,
+        8.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "GrassLight"
+    },
+    {
+      "key": "SOFT_0048.001",
+      "name": "Conveyor wall W",
+      "pos": [
+        20.0,
+        4.0,
+        25.0
+      ],
+      "size": [
+        0.5,
+        8.0,
+        10.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0049.001",
+      "name": "F2 walkway (6 m)",
+      "pos": [
+        -17.5,
+        3.0,
+        56.5
+      ],
+      "size": [
+        5.0,
+        6.0,
+        19.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 steel beam",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Metal"
+    },
+    {
+      "key": "SOFT_0050.001",
+      "name": "F2 boiler water tank",
+      "pos": [
+        -12.5,
+        0.3,
+        56.0
+      ],
+      "size": [
+        3.0,
+        0.6,
+        3.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 water",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Water"
+    },
+    {
+      "key": "SOFT_0052.001",
+      "name": "Street light (machine)",
+      "pos": [
+        10.0,
+        3.25,
+        16.5
+      ],
+      "size": [
+        0.6,
+        0.5,
+        0.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 machine",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0056.001",
+      "name": "F1 hatch door",
+      "pos": [
+        -8.0,
+        1.1,
+        44.0
+      ],
+      "size": [
+        1.6,
+        2.2,
+        0.25
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Crate wood",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Peach"
+    },
+    {
+      "key": "SOFT_0059.001",
+      "name": "Canal surface (Bounce + Water skim)",
+      "pos": [
+        56.0,
+        -0.4,
+        0.0
+      ],
+      "size": [
+        8.0,
+        0.2,
+        44.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 water",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WaterSkim"
+      ],
+      "role": "Water"
+    },
+    {
+      "key": "SOFT_0060.001",
+      "name": "Full",
+      "pos": [
+        -9.0,
+        0.45,
+        49.5
+      ],
+      "size": [
+        0.6,
+        0.9,
+        0.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 src Electric D9CC59",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0061.001",
+      "name": "Factory divider",
+      "pos": [
+        -8.0,
+        5.1,
+        44.0
+      ],
+      "size": [
+        1.60000038,
+        5.8,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0062.001",
+      "name": "Turbine housing",
+      "pos": [
+        10.0,
+        4.0,
+        65.4
+      ],
+      "size": [
+        3.6,
+        3.6,
+        0.4
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Metal grey",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Metal"
+    },
+    {
+      "key": "SOFT_0063.001",
+      "name": "Rice east bank",
+      "pos": [
+        66.0,
+        -0.5,
+        0.0
+      ],
+      "size": [
+        12.0,
+        1.0,
+        44.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Paddy soil",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Grass"
+    },
+    {
+      "key": "SOFT_0067.001",
+      "name": "Part visual",
+      "pos": [
+        -17.5,
+        6.7,
+        64.5
+      ],
+      "size": [
+        0.449999928,
+        0.450000018,
+        0.449999928
+      ],
+      "rot": [
+        29.9999981,
+        45.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 ship part",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0069.001",
+      "name": "Blade",
+      "pos": [
+        10.0,
+        4.0,
+        65.1
+      ],
+      "size": [
+        0.5,
+        3.0,
+        0.1
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Hazard yellow",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0070.001",
+      "name": "Roof vine seed",
+      "pos": [
+        69.0,
+        5.2,
+        13.0
+      ],
+      "size": [
+        0.5,
+        0.4,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 plant seedling",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial",
+        "VineBridge"
+      ],
+      "role": "LeafLight"
+    },
+    {
+      "key": "SOFT_0071.001",
+      "name": "Path to Rice",
+      "pos": [
+        26.0,
+        -0.5,
+        0.0
+      ],
+      "size": [
+        12.0,
+        1.0,
+        6.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Hub concrete",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "GrassLight"
+    },
+    {
+      "key": "SOFT_0072.001",
+      "name": "R3 rice plot",
+      "pos": [
+        70.0,
+        0.075,
+        -15.5
+      ],
+      "size": [
+        3.4,
+        0.15,
+        4.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 plant seedling",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "LeafLight"
+    },
+    {
+      "key": "SOFT_0077.001",
+      "name": "R3 rice plot",
+      "pos": [
+        70.0,
+        0.075,
+        -10.0
+      ],
+      "size": [
+        3.4,
+        0.15,
+        4.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 plant seedling",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "LeafLight"
+    },
+    {
+      "key": "SOFT_0080.001",
+      "name": "F2 pipe platform (3 m)",
+      "pos": [
+        -11.5,
+        1.5,
+        63.5
+      ],
+      "size": [
+        3.0,
+        3.0,
+        3.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Metal grey",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Metal"
+    },
+    {
+      "key": "SOFT_0084.001",
+      "name": "Vine step",
+      "pos": [
+        64.75,
+        1.7,
+        13.0
+      ],
+      "size": [
+        0.9,
+        3.4,
+        1.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 vine",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "LeafLight"
+    },
+    {
+      "key": "SOFT_0087.001",
+      "name": "Hub floor",
+      "pos": [
+        0.0,
+        -0.5,
+        0.0
+      ],
+      "size": [
+        40.0,
+        1.0,
+        40.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Hub concrete",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "GrassLight"
+    },
+    {
+      "key": "SOFT_0089.001",
+      "name": "Factory divider",
+      "pos": [
+        -4.6,
+        4.0,
+        44.0
+      ],
+      "size": [
+        5.2,
+        8.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0090.001",
+      "name": "Canal water",
+      "pos": [
+        56.0,
+        -0.65,
+        0.0
+      ],
+      "size": [
+        8.0,
+        0.7,
+        44.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 water",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Water"
+    },
+    {
+      "key": "SOFT_0094.001",
+      "name": "F2 cargo lift motor (machine)",
+      "pos": [
+        -13.5,
+        0.6,
+        45.5
+      ],
+      "size": [
+        1.0,
+        1.2,
+        1.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 machine",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0095.001",
+      "name": "F3 sequence switch 1",
+      "pos": [
+        19.6,
+        2.0,
+        59.5
+      ],
+      "size": [
+        0.3,
+        0.8,
+        0.8
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 pad",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "ElectricSwitch"
+      ],
+      "role": "Cream"
+    },
+    {
+      "key": "SOFT_0096.001",
+      "name": "Factory wall E",
+      "pos": [
+        20.0,
+        6.2,
+        55.0
+      ],
+      "size": [
+        0.5,
+        3.6,
+        4.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0097.001",
+      "name": "Street light post",
+      "pos": [
+        10.0,
+        1.5,
+        16.5
+      ],
+      "size": [
+        0.25,
+        3.0,
+        0.25
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Metal grey",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Metal"
+    },
+    {
+      "key": "SOFT_0098.001",
+      "name": "Reset pad: F1",
+      "pos": [
+        -12.0,
+        0.03,
+        32.0
+      ],
+      "size": [
+        2.0,
+        0.06,
+        2.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Hazard yellow",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer",
+        "PuzzleResetPad"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0100.001",
+      "name": "Street light (machine)",
+      "pos": [
+        14.0,
+        3.25,
+        17.5
+      ],
+      "size": [
+        0.6,
+        0.5,
+        0.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 machine",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0101.001",
+      "name": "Storage switch (round the corner)",
+      "pos": [
+        18.5,
+        1.3,
+        37.2
+      ],
+      "size": [
+        0.6,
+        0.6,
+        0.3
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Hazard yellow",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "ComboLock"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0102.001",
+      "name": "Full",
+      "pos": [
+        48.0,
+        0.45,
+        -4.0
+      ],
+      "size": [
+        0.6,
+        0.9,
+        0.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 src Electric D9CC59",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0103.001",
+      "name": "Storage room S",
+      "pos": [
+        17.5,
+        1.5,
+        38.0
+      ],
+      "size": [
+        5.0,
+        3.0,
+        0.4
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0104.001",
+      "name": "Sail",
+      "pos": [
+        69.5,
+        4.0,
+        19.0
+      ],
+      "size": [
+        0.399999976,
+        2.6,
+        0.08
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        45.0000038
+      ],
+      "active": true,
+      "material": "V2 sail",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Cream"
+    },
+    {
+      "key": "SOFT_0106.001",
+      "name": "Part visual",
+      "pos": [
+        66.0,
+        0.7,
+        -2.0
+      ],
+      "size": [
+        0.449999928,
+        0.450000018,
+        0.449999928
+      ],
+      "rot": [
+        29.9999981,
+        45.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 ship part",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0107.001",
+      "name": "Full",
+      "pos": [
+        70.0,
+        0.45,
+        2.0
+      ],
+      "size": [
+        0.6,
+        0.9,
+        0.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 src Electric D9CC59",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0109.001",
+      "name": "Vine step",
+      "pos": [
+        65.65,
+        2.125,
+        13.0
+      ],
+      "size": [
+        0.9,
+        4.25,
+        1.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 vine",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "LeafLight"
+    },
+    {
+      "key": "SOFT_0111.001",
+      "name": "Electric floor pad",
+      "pos": [
+        10.8,
+        0.06,
+        -10.8
+      ],
+      "size": [
+        1.0,
+        0.12,
+        1.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 pad",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "ElectricSwitch"
+      ],
+      "role": "GrassLight"
+    },
+    {
+      "key": "SOFT_0112.001",
+      "name": "Part visual",
+      "pos": [
+        12.0,
+        0.5,
+        33.0
+      ],
+      "size": [
+        0.449999928,
+        0.450000018,
+        0.449999928
+      ],
+      "rot": [
+        29.9999981,
+        45.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 ship part",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0113.001",
+      "name": "Rice wall E",
+      "pos": [
+        72.0,
+        4.0,
+        0.0
+      ],
+      "size": [
+        0.5,
+        8.0,
+        44.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0114.001",
+      "name": "Ship repair stage",
+      "pos": [
+        10.4,
+        2.0,
+        6.0
+      ],
+      "size": [
+        0.2,
+        1.6,
+        4.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 ship repaired",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Mint"
+    },
+    {
+      "key": "SOFT_0115.001",
+      "name": "Factory floor",
+      "pos": [
+        0.0,
+        -0.5,
+        48.0
+      ],
+      "size": [
+        40.0,
+        1.0,
+        36.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Factory floor",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Path"
+    },
+    {
+      "key": "SOFT_0116.001",
+      "name": "Checkpoint pad 2",
+      "pos": [
+        35.0,
+        0.03,
+        0.0
+      ],
+      "size": [
+        2.0,
+        0.06,
+        4.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Checkpoint green",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0117.001",
+      "name": "Hub wall N",
+      "pos": [
+        18.5,
+        4.0,
+        20.0
+      ],
+      "size": [
+        3.0,
+        8.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0118.001",
+      "name": "Fuse box door",
+      "pos": [
+        -0.6,
+        1.5,
+        62.0
+      ],
+      "size": [
+        0.25,
+        1.2,
+        1.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 machine",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0121.001",
+      "name": "Hub wall E",
+      "pos": [
+        20.0,
+        4.0,
+        7.5
+      ],
+      "size": [
+        0.5,
+        8.0,
+        9.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0122.001",
+      "name": "Rice wall W",
+      "pos": [
+        32.0,
+        4.0,
+        12.5
+      ],
+      "size": [
+        0.5,
+        8.0,
+        19.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0128.001",
+      "name": "F2 steel beam (8 m)",
+      "pos": [
+        -10.0,
+        8.0,
+        58.0
+      ],
+      "size": [
+        20.0,
+        0.4,
+        0.4
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 steel beam",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Metal"
+    },
+    {
+      "key": "SOFT_0129.001",
+      "name": "Part visual",
+      "pos": [
+        17.5,
+        0.7,
+        41.5
+      ],
+      "size": [
+        0.449999928,
+        0.450000018,
+        0.449999928
+      ],
+      "rot": [
+        29.9999981,
+        45.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 ship part",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0130.001",
+      "name": "Rice wall W",
+      "pos": [
+        32.0,
+        4.0,
+        -7.5
+      ],
+      "size": [
+        0.5,
+        8.0,
+        9.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0131.001",
+      "name": "Factory wall W",
+      "pos": [
+        -20.0,
+        4.0,
+        48.0
+      ],
+      "size": [
+        0.5,
+        8.0,
+        36.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0132.001",
+      "name": "Vine step",
+      "pos": [
+        62.0500031,
+        0.425,
+        13.0
+      ],
+      "size": [
+        0.9,
+        0.85,
+        1.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 vine",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "LeafLight"
+    },
+    {
+      "key": "SOFT_0133.001",
+      "name": "Electric floor pad",
+      "pos": [
+        13.2,
+        0.06,
+        -10.8
+      ],
+      "size": [
+        1.0,
+        0.12,
+        1.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 pad",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "ElectricSwitch"
+      ],
+      "role": "GrassLight"
+    },
+    {
+      "key": "SOFT_0137.001",
+      "name": "Kiln yard N",
+      "pos": [
+        46.0,
+        1.5,
+        -14.0
+      ],
+      "size": [
+        8.0,
+        3.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0140.001",
+      "name": "Ship nose",
+      "pos": [
+        8.0,
+        1.3,
+        10.0
+      ],
+      "size": [
+        3.0,
+        2.0,
+        2.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 ship hull",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Coral"
+    },
+    {
+      "key": "SOFT_0141.001",
+      "name": "Gate door: rice",
+      "pos": [
+        26.0,
+        2.2,
+        0.0
+      ],
+      "size": [
+        0.4,
+        4.4,
+        6.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Hazard yellow",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0142.001",
+      "name": "Cold room ice floor",
+      "pos": [
+        12.0,
+        1.35,
+        33.0
+      ],
+      "size": [
+        2.0,
+        0.3,
+        2.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 ice",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Mint"
+    },
+    {
+      "key": "SOFT_0143.001",
+      "name": "Part visual",
+      "pos": [
+        -14.0,
+        0.7,
+        -5.0
+      ],
+      "size": [
+        0.449999928,
+        0.450000018,
+        0.449999928
+      ],
+      "rot": [
+        29.9999981,
+        45.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 ship part",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0145.001",
+      "name": "Factory gate door",
+      "pos": [
+        0.0,
+        2.2,
+        44.0
+      ],
+      "size": [
+        4.0,
+        4.4,
+        0.4
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Hazard yellow",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0146.001",
+      "name": "F1 remote power socket (machine)",
+      "pos": [
+        -17.0,
+        0.5,
+        41.5
+      ],
+      "size": [
+        0.8,
+        1.0,
+        0.8
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 machine",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0149.001",
+      "name": "Cold room base E",
+      "pos": [
+        13.5,
+        0.75,
+        33.0
+      ],
+      "size": [
+        1.0,
+        1.5,
+        4.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 cold room",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cream"
+    },
+    {
+      "key": "SOFT_0150.001",
+      "name": "Part visual",
+      "pos": [
+        66.0,
+        0.7,
+        8.0
+      ],
+      "size": [
+        0.449999928,
+        0.450000018,
+        0.449999928
+      ],
+      "rot": [
+        29.9999981,
+        45.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 ship part",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0151.001",
+      "name": "Lights shortcut wall W",
+      "pos": [
+        11.0,
+        4.0,
+        25.0
+      ],
+      "size": [
+        0.5,
+        8.0,
+        10.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0153.001",
+      "name": "Conveyor shortcut",
+      "pos": [
+        23.0,
+        -0.5,
+        35.0
+      ],
+      "size": [
+        6.0,
+        1.0,
+        46.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 conveyor",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "GrassLight"
+    },
+    {
+      "key": "SOFT_0154.001",
+      "name": "Electric floor pad",
+      "pos": [
+        13.2,
+        0.06,
+        -13.2
+      ],
+      "size": [
+        1.0,
+        0.12,
+        1.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 pad",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "ElectricSwitch"
+      ],
+      "role": "GrassLight"
+    },
+    {
+      "key": "SOFT_0155.001",
+      "name": "F1 hatch latch (wax-sealed rusty bolt)",
+      "pos": [
+        -7.4,
+        1.1,
+        43.75
+      ],
+      "size": [
+        0.35,
+        0.35,
+        0.25
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 wax",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial",
+        "ImpactBreak"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0156.001",
+      "name": "Factory wall S",
+      "pos": [
+        18.5,
+        4.0,
+        30.0
+      ],
+      "size": [
+        3.0,
+        8.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0157.001",
+      "name": "Part visual",
+      "pos": [
+        46.0,
+        0.7,
+        -12.5
+      ],
+      "size": [
+        0.449999928,
+        0.450000018,
+        0.449999928
+      ],
+      "rot": [
+        29.9999981,
+        45.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 ship part",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0158.001",
+      "name": "Pump house parapet",
+      "pos": [
+        67.0,
+        5.45,
+        13.0
+      ],
+      "size": [
+        0.2,
+        0.9,
+        4.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Crate wood",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Peach"
+    },
+    {
+      "key": "SOFT_0160.001",
+      "name": "R3 steam pump feed tank",
+      "pos": [
+        70.0,
+        0.3,
+        7.5
+      ],
+      "size": [
+        2.0,
+        0.6,
+        2.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 water",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Water"
+    },
+    {
+      "key": "SOFT_0161.001",
+      "name": "Street light post",
+      "pos": [
+        18.0,
+        1.5,
+        16.5
+      ],
+      "size": [
+        0.25,
+        3.0,
+        0.25
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Metal grey",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Metal"
+    },
+    {
+      "key": "SOFT_0163.001",
+      "name": "Factory wall S",
+      "pos": [
+        7.0,
+        4.0,
+        30.0
+      ],
+      "size": [
+        8.0,
+        8.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0164.001",
+      "name": "Part visual",
+      "pos": [
+        -1.6,
+        0.6,
+        62.0
+      ],
+      "size": [
+        0.449999928,
+        0.450000018,
+        0.449999928
+      ],
+      "rot": [
+        29.9999981,
+        45.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 ship part",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0166.001",
+      "name": "R3 rice plot",
+      "pos": [
+        66.0,
+        0.075,
+        -15.5
+      ],
+      "size": [
+        3.4,
+        0.15,
+        4.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 plant seedling",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "LeafLight"
+    },
+    {
+      "key": "SOFT_0167.001",
+      "name": "F2 cargo lift platform",
+      "pos": [
+        -17.5,
+        0.15,
+        45.6
+      ],
+      "size": [
+        2.5,
+        0.3,
+        2.4
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Hazard yellow",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "PoweredLift"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0168.001",
+      "name": "Blade",
+      "pos": [
+        10.0,
+        4.0,
+        65.1
+      ],
+      "size": [
+        0.5,
+        3.0,
+        0.1
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        45.0000038
+      ],
+      "active": true,
+      "material": "Hazard yellow",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0171.001",
+      "name": "Blade",
+      "pos": [
+        10.0,
+        4.0,
+        65.1
+      ],
+      "size": [
+        0.5000001,
+        3.000001,
+        0.1
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "active": true,
+      "material": "Hazard yellow",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0174.001",
+      "name": "F1 weight plate",
+      "pos": [
+        -4.0,
+        0.05,
+        39.5
+      ],
+      "size": [
+        2.0,
+        0.1,
+        2.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Hazard yellow",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer",
+        "WeightPlate"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0177.001",
+      "name": "Factory path wall W",
+      "pos": [
+        -3.0,
+        4.0,
+        25.0
+      ],
+      "size": [
+        0.5,
+        8.0,
+        10.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Path"
+    },
+    {
+      "key": "SOFT_0181.001",
+      "name": "Sail",
+      "pos": [
+        69.5,
+        4.0,
+        19.0
+      ],
+      "size": [
+        0.400000125,
+        2.60000038,
+        0.08
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "active": true,
+      "material": "V2 sail",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Cream"
+    },
+    {
+      "key": "SOFT_0184.001",
+      "name": "Hub wall E",
+      "pos": [
+        20.0,
+        6.3,
+        15.0
+      ],
+      "size": [
+        0.5,
+        3.4,
+        6.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0187.001",
+      "name": "Full",
+      "pos": [
+        -18.0,
+        0.3,
+        -11.0
+      ],
+      "size": [
+        1.0,
+        0.6,
+        0.8
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 src Magnet 80858C",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Metal"
+    },
+    {
+      "key": "SOFT_0188.001",
+      "name": "F2 metal wall (climbable)",
+      "pos": [
+        -14.9,
+        3.0,
+        59.0
+      ],
+      "size": [
+        0.2,
+        6.0,
+        4.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Metal grey",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Metal"
+    },
+    {
+      "key": "SOFT_0189.001",
+      "name": "Rice wall S",
+      "pos": [
+        52.0,
+        -2.0,
+        -22.0
+      ],
+      "size": [
+        40.0,
+        20.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0191.001",
+      "name": "R3 irrigation pump (machine)",
+      "pos": [
+        64.0,
+        0.8,
+        18.0
+      ],
+      "size": [
+        1.4,
+        1.6,
+        1.4
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 machine",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0192.001",
+      "name": "Conveyor wall E",
+      "pos": [
+        26.0,
+        4.0,
+        35.0
+      ],
+      "size": [
+        0.5,
+        8.0,
+        46.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0194.001",
+      "name": "Rice path wall N",
+      "pos": [
+        26.0,
+        4.0,
+        3.0
+      ],
+      "size": [
+        12.0,
+        8.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "GrassLight"
+    },
+    {
+      "key": "SOFT_0196.001",
+      "name": "Gate door: shortcut_conveyor",
+      "pos": [
+        20.3,
+        2.2,
+        55.0
+      ],
+      "size": [
+        0.4,
+        4.4,
+        4.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Hazard yellow",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "GrassLight"
+    },
+    {
+      "key": "SOFT_0198.001",
+      "name": "Conveyor wall N",
+      "pos": [
+        23.0,
+        4.0,
+        58.0
+      ],
+      "size": [
+        6.0,
+        8.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0199.001",
+      "name": "Blade",
+      "pos": [
+        10.0,
+        4.0,
+        65.1
+      ],
+      "size": [
+        0.5000001,
+        3.000001,
+        0.1
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        135.0
+      ],
+      "active": true,
+      "material": "Hazard yellow",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0203.001",
+      "name": "F1 gate motor (machine)",
+      "pos": [
+        3.2,
+        0.7,
+        43.0
+      ],
+      "size": [
+        1.2,
+        1.4,
+        1.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 machine",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0205.001",
+      "name": "Hub wall S",
+      "pos": [
+        0.0,
+        4.0,
+        -20.0
+      ],
+      "size": [
+        40.0,
+        8.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0206.001",
+      "name": "Full",
+      "pos": [
+        13.0,
+        0.45,
+        52.0
+      ],
+      "size": [
+        0.6,
+        0.9,
+        0.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 src Electric D9CC59",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0210.001",
+      "name": "Rice drying rack (burns!)",
+      "pos": [
+        46.05,
+        3.7,
+        16.0
+      ],
+      "size": [
+        0.6,
+        1.4,
+        2.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 rice dry",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Mint"
+    },
+    {
+      "key": "SOFT_0211.001",
+      "name": "Hub wall N",
+      "pos": [
+        14.0,
+        6.3,
+        20.0
+      ],
+      "size": [
+        6.0,
+        3.4,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0213.001",
+      "name": "Ship repair stage",
+      "pos": [
+        8.0,
+        3.1,
+        4.0
+      ],
+      "size": [
+        3.0,
+        0.2,
+        1.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 ship repaired",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Mint"
+    },
+    {
+      "key": "SOFT_0214.001",
+      "name": "Hub wall W",
+      "pos": [
+        -20.0,
+        4.0,
+        0.0
+      ],
+      "size": [
+        0.5,
+        8.0,
+        40.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0215.001",
+      "name": "F3 motor bracket",
+      "pos": [
+        16.0,
+        2.5,
+        65.6
+      ],
+      "size": [
+        0.3,
+        5.0,
+        0.3
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Metal grey",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Metal"
+    },
+    {
+      "key": "SOFT_0216.001",
+      "name": "F3 steam feed tank",
+      "pos": [
+        4.0,
+        0.25,
+        64.0
+      ],
+      "size": [
+        2.4,
+        0.5,
+        2.4
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 water",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Water"
+    },
+    {
+      "key": "SOFT_0217.001",
+      "name": "F3 sequence switch 2",
+      "pos": [
+        19.6,
+        2.0,
+        62.0
+      ],
+      "size": [
+        0.3,
+        0.8,
+        0.8
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 pad",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "ElectricSwitch"
+      ],
+      "role": "Cream"
+    },
+    {
+      "key": "SOFT_0220.001",
+      "name": "Electric floor pad",
+      "pos": [
+        10.8,
+        0.06,
+        -13.2
+      ],
+      "size": [
+        1.0,
+        0.12,
+        1.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 pad",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "ElectricSwitch"
+      ],
+      "role": "GrassLight"
+    },
+    {
+      "key": "SOFT_0222.001",
+      "name": "Factory wall N",
+      "pos": [
+        0.0,
+        4.0,
+        66.0
+      ],
+      "size": [
+        40.0,
+        8.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0225.001",
+      "name": "Factory divider",
+      "pos": [
+        0.0,
+        6.2,
+        44.0
+      ],
+      "size": [
+        4.0,
+        3.6,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0226.001",
+      "name": "Reset pad: R1",
+      "pos": [
+        36.0,
+        0.03,
+        6.5
+      ],
+      "size": [
+        2.0,
+        0.06,
+        2.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Hazard yellow",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer",
+        "PuzzleResetPad"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0227.001",
+      "name": "Hub wall E",
+      "pos": [
+        20.0,
+        4.0,
+        -19.0
+      ],
+      "size": [
+        0.5,
+        8.0,
+        2.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0228.001",
+      "name": "Storage room W",
+      "pos": [
+        15.0,
+        1.5,
+        43.0
+      ],
+      "size": [
+        0.4,
+        3.0,
+        2.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0230.001",
+      "name": "Vine step",
+      "pos": [
+        62.9500046,
+        0.85,
+        13.0
+      ],
+      "size": [
+        0.9,
+        1.7,
+        1.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 vine",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "LeafLight"
+    },
+    {
+      "key": "SOFT_0234.001",
+      "name": "R1 sluice back wall",
+      "pos": [
+        42.0,
+        2.5,
+        19.2
+      ],
+      "size": [
+        16.0,
+        5.0,
+        0.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0235.001",
+      "name": "Charcoal kiln (wood)",
+      "pos": [
+        46.0,
+        0.8,
+        -19.5
+      ],
+      "size": [
+        1.6,
+        1.6,
+        1.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Crate wood",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Peach"
+    },
+    {
+      "key": "SOFT_0239.001",
+      "name": "Rice west bank",
+      "pos": [
+        42.0,
+        -0.5,
+        0.0
+      ],
+      "size": [
+        20.0,
+        1.0,
+        44.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Paddy soil",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Grass"
+    },
+    {
+      "key": "SOFT_0240.001",
+      "name": "Crash pit wall N",
+      "pos": [
+        -18.0,
+        1.6,
+        -8.0
+      ],
+      "size": [
+        4.0,
+        3.2,
+        0.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 pit wall",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0241.001",
+      "name": "F3 intake pipe",
+      "pos": [
+        4.0,
+        4.0,
+        65.6
+      ],
+      "size": [
+        1.0,
+        3.0,
+        0.8
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Rust",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Coral"
+    },
+    {
+      "key": "SOFT_0243.001",
+      "name": "R2 vine bridge",
+      "pos": [
+        56.0,
+        -0.1,
+        6.0
+      ],
+      "size": [
+        8.6,
+        0.2,
+        2.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 vine",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "LeafLight"
+    },
+    {
+      "key": "SOFT_0244.001",
+      "name": "Part visual",
+      "pos": [
+        0.0,
+        0.7,
+        46.0
+      ],
+      "size": [
+        0.449999928,
+        0.450000018,
+        0.449999928
+      ],
+      "rot": [
+        29.9999981,
+        45.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 ship part",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0246.001",
+      "name": "Ice block on the beam",
+      "pos": [
+        10.0,
+        8.75,
+        57.0
+      ],
+      "size": [
+        1.1,
+        1.1,
+        1.1
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 ice",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Mint"
+    },
+    {
+      "key": "SOFT_0248.001",
+      "name": "R2 vine seed",
+      "pos": [
+        51.4,
+        0.2,
+        7.3
+      ],
+      "size": [
+        0.5,
+        0.4,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 plant seedling",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial",
+        "VineBridge"
+      ],
+      "role": "LeafLight"
+    },
+    {
+      "key": "SOFT_0249.001",
+      "name": "Lights shortcut path",
+      "pos": [
+        14.0,
+        -0.5,
+        25.0
+      ],
+      "size": [
+        6.0,
+        1.0,
+        10.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Hub concrete",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "GrassLight"
+    },
+    {
+      "key": "SOFT_0253.001",
+      "name": "Part visual",
+      "pos": [
+        16.0,
+        0.7,
+        -12.0
+      ],
+      "size": [
+        0.449999928,
+        0.450000018,
+        0.449999928
+      ],
+      "rot": [
+        29.9999981,
+        45.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 ship part",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0254.001",
+      "name": "Kiln yard W",
+      "pos": [
+        42.0,
+        1.5,
+        -18.0
+      ],
+      "size": [
+        0.5,
+        3.0,
+        8.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0258.001",
+      "name": "R1 sluice platform (3 m)",
+      "pos": [
+        42.0,
+        1.5,
+        16.0
+      ],
+      "size": [
+        9.0,
+        3.0,
+        5.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0259.001",
+      "name": "R3 rice plot",
+      "pos": [
+        62.0,
+        0.075,
+        -10.0
+      ],
+      "size": [
+        3.4,
+        0.15,
+        4.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 plant seedling",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "LeafLight"
+    },
+    {
+      "key": "SOFT_0262.001",
+      "name": "R2 iron lamp post",
+      "pos": [
+        61.5,
+        2.5,
+        -6.0
+      ],
+      "size": [
+        0.3,
+        5.0,
+        0.3
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Metal grey",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Metal"
+    },
+    {
+      "key": "SOFT_0263.001",
+      "name": "Hall partition",
+      "pos": [
+        0.0,
+        4.0,
+        58.0
+      ],
+      "size": [
+        0.5,
+        8.0,
+        16.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0264.001",
+      "name": "Cold room step",
+      "pos": [
+        8.6,
+        0.35,
+        33.0
+      ],
+      "size": [
+        1.0,
+        0.7,
+        1.2
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 cold room",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cream"
+    },
+    {
+      "key": "SOFT_0267.001",
+      "name": "Part visual",
+      "pos": [
+        10.0,
+        0.6,
+        56.0
+      ],
+      "size": [
+        0.449999928,
+        0.450000018,
+        0.449999928
+      ],
+      "rot": [
+        29.9999981,
+        45.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 ship part",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0270.001",
+      "name": "Factory divider",
+      "pos": [
+        11.0,
+        4.0,
+        44.0
+      ],
+      "size": [
+        18.0,
+        8.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0273.001",
+      "name": "Cold room base N",
+      "pos": [
+        12.0,
+        0.75,
+        34.5
+      ],
+      "size": [
+        2.0,
+        1.5,
+        1.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 cold room",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cream"
+    },
+    {
+      "key": "SOFT_0275.001",
+      "name": "Storage corner stub",
+      "pos": [
+        15.0,
+        1.25,
+        36.2
+      ],
+      "size": [
+        4.0,
+        2.5,
+        0.4
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0277.001",
+      "name": "Pump house parapet",
+      "pos": [
+        69.0,
+        5.45,
+        11.0
+      ],
+      "size": [
+        4.0,
+        0.9,
+        0.2
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Crate wood",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Peach"
+    },
+    {
+      "key": "SOFT_0283.001",
+      "name": "F3 sequence switch 3",
+      "pos": [
+        19.6,
+        2.0,
+        64.5
+      ],
+      "size": [
+        0.3,
+        0.8,
+        0.8
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 pad",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "ElectricSwitch"
+      ],
+      "role": "Cream"
+    },
+    {
+      "key": "SOFT_0286.001",
+      "name": "F3 steel beam (8 m)",
+      "pos": [
+        10.0,
+        8.0,
+        57.0
+      ],
+      "size": [
+        16.0,
+        0.4,
+        0.4
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 steel beam",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Metal"
+    },
+    {
+      "key": "SOFT_0287.001",
+      "name": "Full",
+      "pos": [
+        6.0,
+        0.45,
+        32.0
+      ],
+      "size": [
+        0.6,
+        0.9,
+        0.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 src Electric D9CC59",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0289.001",
+      "name": "Factory divider",
+      "pos": [
+        -14.4,
+        4.0,
+        44.0
+      ],
+      "size": [
+        11.2,
+        8.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0291.001",
+      "name": "Street light post",
+      "pos": [
+        14.0,
+        1.5,
+        17.5
+      ],
+      "size": [
+        0.25,
+        3.0,
+        0.25
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Metal grey",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Metal"
+    },
+    {
+      "key": "SOFT_0293.001",
+      "name": "Rice wall W",
+      "pos": [
+        32.0,
+        4.0,
+        -20.0
+      ],
+      "size": [
+        0.5,
+        8.0,
+        4.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0295.001",
+      "name": "Vine step",
+      "pos": [
+        63.8500023,
+        1.2750001,
+        13.0
+      ],
+      "size": [
+        0.9,
+        2.55000019,
+        1.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 vine",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "LeafLight"
+    },
+    {
+      "key": "SOFT_0296.001",
+      "name": "Cold room base W",
+      "pos": [
+        10.5,
+        0.75,
+        33.0
+      ],
+      "size": [
+        1.0,
+        1.5,
+        4.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 cold room",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cream"
+    },
+    {
+      "key": "SOFT_0298.001",
+      "name": "Pump house parapet",
+      "pos": [
+        71.0,
+        5.45,
+        13.0
+      ],
+      "size": [
+        0.2,
+        0.9,
+        4.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Crate wood",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Peach"
+    },
+    {
+      "key": "SOFT_0300.001",
+      "name": "Checkpoint pad 1",
+      "pos": [
+        0.0,
+        0.03,
+        32.0
+      ],
+      "size": [
+        4.0,
+        0.06,
+        2.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Checkpoint green",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0301.001",
+      "name": "Part visual",
+      "pos": [
+        69.8,
+        5.7,
+        12.2
+      ],
+      "size": [
+        0.449999928,
+        0.450000018,
+        0.449999928
+      ],
+      "rot": [
+        29.9999981,
+        45.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 ship part",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0302.001",
+      "name": "Gate door: shortcut_lights",
+      "pos": [
+        14.0,
+        2.3,
+        20.0
+      ],
+      "size": [
+        6.0,
+        4.6,
+        0.4
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Hazard yellow",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "GrassLight"
+    },
+    {
+      "key": "SOFT_0303.001",
+      "name": "Ship scorch",
+      "pos": [
+        8.0,
+        2.95,
+        6.0
+      ],
+      "size": [
+        4.6,
+        0.1,
+        6.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 ship scorched",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Mint"
+    },
+    {
+      "key": "SOFT_0304.001",
+      "name": "Hub wall N",
+      "pos": [
+        7.0,
+        4.0,
+        20.0
+      ],
+      "size": [
+        8.0,
+        8.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0305.001",
+      "name": "Storage room roof",
+      "pos": [
+        17.5,
+        3.1,
+        41.0
+      ],
+      "size": [
+        5.0,
+        0.2,
+        6.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0306.001",
+      "name": "Factory wall S",
+      "pos": [
+        -11.5,
+        4.0,
+        30.0
+      ],
+      "size": [
+        17.0,
+        8.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0307.001",
+      "name": "Full",
+      "pos": [
+        -6.0,
+        0.3,
+        33.0
+      ],
+      "size": [
+        1.0,
+        0.6,
+        0.8
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 src Magnet 80858C",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Metal"
+    },
+    {
+      "key": "SOFT_0308.001",
+      "name": "Full",
+      "pos": [
+        3.5,
+        0.45,
+        2.0
+      ],
+      "size": [
+        0.6,
+        0.9,
+        0.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 src Electric D9CC59",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0312.001",
+      "name": "Storage room W",
+      "pos": [
+        15.0,
+        1.5,
+        39.0
+      ],
+      "size": [
+        0.4,
+        3.0,
+        2.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0313.001",
+      "name": "Conveyor wall S",
+      "pos": [
+        23.0,
+        4.0,
+        12.0
+      ],
+      "size": [
+        6.0,
+        8.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0316.001",
+      "name": "Storage shed (wooden walls)",
+      "pos": [
+        -16.5,
+        3.5,
+        33.5
+      ],
+      "size": [
+        5.0,
+        7.0,
+        5.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Crate wood",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Peach"
+    },
+    {
+      "key": "SOFT_0317.001",
+      "name": "Dike gate transom",
+      "pos": [
+        31.0,
+        6.2,
+        -15.0
+      ],
+      "size": [
+        0.4,
+        3.6,
+        6.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0318.001",
+      "name": "Irrigation channel (flowing)",
+      "pos": [
+        42.0,
+        0.03,
+        20.5
+      ],
+      "size": [
+        18.0,
+        0.03,
+        1.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": false,
+      "material": "Flowing water",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Water"
+    },
+    {
+      "key": "SOFT_0320.001",
+      "name": "F2 boiler",
+      "pos": [
+        -12.5,
+        1.25,
+        59.2
+      ],
+      "size": [
+        2.0,
+        2.5,
+        2.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Rust",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Coral"
+    },
+    {
+      "key": "SOFT_0324.001",
+      "name": "Kiln yard E",
+      "pos": [
+        50.0,
+        1.5,
+        -18.0
+      ],
+      "size": [
+        0.5,
+        3.0,
+        8.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0326.001",
+      "name": "Sail",
+      "pos": [
+        69.5,
+        4.0,
+        19.0
+      ],
+      "size": [
+        0.4000001,
+        2.60000086,
+        0.08
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        135.0
+      ],
+      "active": true,
+      "material": "V2 sail",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Cream"
+    },
+    {
+      "key": "SOFT_0327.001",
+      "name": "Hub wall N",
+      "pos": [
+        -11.5,
+        4.0,
+        20.0
+      ],
+      "size": [
+        17.0,
+        8.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0333.001",
+      "name": "Pump house parapet",
+      "pos": [
+        69.0,
+        5.45,
+        15.0
+      ],
+      "size": [
+        4.0,
+        0.9,
+        0.2
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Crate wood",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Peach"
+    },
+    {
+      "key": "SOFT_0334.001",
+      "name": "Ship repair stage",
+      "pos": [
+        5.6,
+        2.0,
+        6.0
+      ],
+      "size": [
+        0.2,
+        1.6,
+        4.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 ship repaired",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Mint"
+    },
+    {
+      "key": "SOFT_0338.001",
+      "name": "R3 rice plot",
+      "pos": [
+        62.0,
+        0.075,
+        -15.5
+      ],
+      "size": [
+        3.4,
+        0.15,
+        4.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 plant seedling",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "LeafLight"
+    },
+    {
+      "key": "SOFT_0342.001",
+      "name": "Fuse (short-circuit lock)",
+      "pos": [
+        -0.9,
+        1.5,
+        62.0
+      ],
+      "size": [
+        0.2,
+        0.3,
+        0.3
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 wax",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "ComboLock"
+      ],
+      "role": "Yellow"
+    },
+    {
+      "key": "SOFT_0344.001",
+      "name": "F3 turbine motor (machine, high)",
+      "pos": [
+        16.0,
+        5.5,
+        65.3
+      ],
+      "size": [
+        1.0,
+        1.0,
+        0.8
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 machine",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer",
+        "WorldMaterial"
+      ],
+      "role": "Teal"
+    },
+    {
+      "key": "SOFT_0347.001",
+      "name": "Dike wall N",
+      "pos": [
+        26.0,
+        4.0,
+        -12.0
+      ],
+      "size": [
+        12.0,
+        8.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0350.001",
+      "name": "Factory path wall E",
+      "pos": [
+        3.0,
+        4.0,
+        25.0
+      ],
+      "size": [
+        0.5,
+        8.0,
+        10.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Path"
+    },
+    {
+      "key": "SOFT_0351.001",
+      "name": "Ship repair stage",
+      "pos": [
+        8.0,
+        3.1,
+        8.0
+      ],
+      "size": [
+        3.0,
+        0.2,
+        1.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 ship repaired",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer"
+      ],
+      "role": "Mint"
+    },
+    {
+      "key": "SOFT_0352.001",
+      "name": "Path to Factory",
+      "pos": [
+        0.0,
+        -0.5,
+        25.0
+      ],
+      "size": [
+        6.0,
+        1.0,
+        10.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Hub concrete",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Path"
+    },
+    {
+      "key": "SOFT_0355.001",
+      "name": "Rice gate transom",
+      "pos": [
+        26.0,
+        6.2,
+        0.0
+      ],
+      "size": [
+        0.4,
+        3.6,
+        6.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0357.001",
+      "name": "Rice wall N",
+      "pos": [
+        52.0,
+        -2.0,
+        22.0
+      ],
+      "size": [
+        40.0,
+        20.0,
+        0.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Structural charcoal",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0362.001",
+      "name": "Ship body",
+      "pos": [
+        8.0,
+        1.6,
+        6.0
+      ],
+      "size": [
+        4.5,
+        2.6,
+        6.5
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 ship hull",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Coral"
+    },
+    {
+      "key": "SOFT_0363.001",
+      "name": "Dike shortcut",
+      "pos": [
+        26.0,
+        -0.5,
+        -15.0
+      ],
+      "size": [
+        12.0,
+        1.0,
+        6.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Paddy soil",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Grass"
+    },
+    {
+      "key": "SOFT_0365.001",
+      "name": "Crash pit wall E",
+      "pos": [
+        -8.0,
+        1.6,
+        -14.0
+      ],
+      "size": [
+        0.6,
+        3.2,
+        12.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "V2 pit wall",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "Cliff"
+    },
+    {
+      "key": "SOFT_0367.001",
+      "name": "Vine step",
+      "pos": [
+        66.55,
+        2.55000019,
+        13.0
+      ],
+      "size": [
+        0.9,
+        5.10000038,
+        1.6
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": false,
+      "material": "V2 vine",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "BoxCollider",
+        "MeshRenderer"
+      ],
+      "role": "LeafLight"
+    },
+    {
+      "key": "SOFT_0370.001",
+      "name": "Reset pad: H1",
+      "pos": [
+        -17.5,
+        0.03,
+        -14.0
+      ],
+      "size": [
+        2.0,
+        0.06,
+        2.0
+      ],
+      "rot": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "active": true,
+      "material": "Hazard yellow",
+      "types": [
+        "Transform",
+        "MeshFilter",
+        "MeshRenderer",
+        "PuzzleResetPad"
+      ],
+      "role": "Yellow"
+    }
+  ]
+}

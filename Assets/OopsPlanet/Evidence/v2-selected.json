@@ -1,0 +1,63 @@
+{
+    "utc": "2026-10-23T10:13:36.9895472Z",
+    "checks": [
+        {
+            "name": "V2 scene wired (7 main puzzles, ship, 6 powers, journal)",
+            "passed": true,
+            "observed": "main=7 parts=15"
+        },
+        {
+            "name": "Hidden s_hub_pads — Bounce + Electric landing shock on 4 pads",
+            "passed": true,
+            "observed": "state=Solved solvedBy=SwitchGroup:Condition: 4 pads together pos=(12.0, 0.0, -12.0) respawns=0 combo=bounce+electric"
+        },
+        {
+            "name": "Hidden s_hub_lights — Pressure + Electric lightning wind lights 3 street lights",
+            "passed": true,
+            "observed": "state=Solved solvedBy=lights-all pos=(14.0, 0.0, 11.5) respawns=0 combo=pressure+electric"
+        },
+        {
+            "name": "Hidden s_storage — Pressure + Bounce wind ball hits the corner switch",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Storage switch (round the corner) pos=(12.0, 0.0, 37.1) respawns=0 combo=pressure+bounce"
+        },
+        {
+            "name": "Hidden s_fuse — Electric + Heat short circuit melts the fuse",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Fuse (short-circuit lock) pos=(-3.5, 0.0, 62.0) respawns=0 combo=electric+heat"
+        },
+        {
+            "name": "Hidden s_beam_ice — Heat + Magnet induction heats the beam under the ice",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ice-melted pos=(10.0, 0.0, 53.5) respawns=0 combo=heat+magnet"
+        },
+        {
+            "name": "Hidden s_conveyor_weld — Heat + Electric welds the broken conveyor rail",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Broken conveyor rail (weld me) pos=(16.2, 0.0, 55.0) respawns=0 combo=heat+electric"
+        },
+        {
+            "name": "Hidden s_kiln — Heat + Bounce fireball lobbed over the kiln wall",
+            "passed": true,
+            "observed": "state=Solved solvedBy=kiln-lit pos=(46.0, 0.0, -10.5) respawns=0 combo=heat+bounce"
+        },
+        {
+            "name": "Hidden shed roof — Pressure + Magnet nail, then Magnet + Bounce slingshot onto the roof",
+            "passed": true,
+            "observed": "anchors=1 pos=(-16.2, 7.0, 33.5)"
+        },
+        {
+            "name": "Hidden cold room — Bounce + Heat meteor landing melts the ice floor",
+            "passed": true,
+            "observed": "ice consumed=True pos=(12.0, 0.0, 33.0)"
+        },
+        {
+            "name": "Hidden pump roof — Water + Bounce water ball grows the vine stair",
+            "passed": true,
+            "observed": "growth=2 pos=(69.5, 5.0, 12.2)"
+        }
+    ],
+    "passed": 11,
+    "failed": 0,
+    "combosUsed": []
+}

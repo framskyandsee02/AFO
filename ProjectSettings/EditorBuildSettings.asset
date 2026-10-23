@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/WobbleWorks/Scenes/WobbleGreybox01.unity
-    guid: 7b468a236c03ddf42838a78e5e4b95ba
+    path: Assets/OopsPlanet/Scenes/OopsPlanet_Prototype01.unity
+    guid: 1f0d09417ea3aba4a868594a03b21c75
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

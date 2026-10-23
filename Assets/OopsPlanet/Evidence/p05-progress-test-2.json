@@ -1,0 +1,68 @@
+{
+    "utc": "2026-10-23T08:52:01.5240212Z",
+    "session": 2,
+    "checks": [
+        {
+            "name": "New session loads the saved game from disk",
+            "passed": true,
+            "observed": "status=Ok solved=3"
+        },
+        {
+            "name": "World state restored instantly (gate open, Rice open, Hub stage 2, water flowing)",
+            "passed": true,
+            "observed": "riceOpen=1 gateBlend=1 stage=2"
+        },
+        {
+            "name": "Cleared straw is not shown back on the platform",
+            "passed": true,
+            "observed": "strawInZone=0"
+        },
+        {
+            "name": "Settings restored",
+            "passed": true,
+            "observed": "look=0.21 vol=0.6"
+        },
+        {
+            "name": "Loaded progress is usable: walk Hub <-> Rice; no repeat Hub announcement",
+            "passed": true,
+            "observed": "x=10.24 announcements=0"
+        },
+        {
+            "name": "Corrupt save: safe fresh start, file kept as .corrupt.json, player told",
+            "passed": true,
+            "observed": "status=Corrupt backup=True feedback=อ่านเซฟไม่ได้ (Corrupt) — เริ่มเกมใหม่อย่างปลอดภัย"
+        },
+        {
+            "name": "Game still playable after corrupt save",
+            "passed": true,
+            "observed": "moved=2.80"
+        },
+        {
+            "name": "Missing save: fresh start",
+            "passed": true,
+            "observed": "status=Missing"
+        },
+        {
+            "name": "Wrong-version save: fresh start, nothing applied",
+            "passed": true,
+            "observed": "status=WrongVersion"
+        },
+        {
+            "name": "Unknown puzzle id ignored, valid ids applied",
+            "passed": true,
+            "observed": "gate=Solved vent=Active"
+        },
+        {
+            "name": "New game (Restart) clears saved progress",
+            "passed": true,
+            "observed": "solved=0"
+        },
+        {
+            "name": "Player save file untouched by the test",
+            "passed": true,
+            "observed": "before=263@639283238774466348 after=263@639283238774466348 path=C:/Users/PREDATOR/AppData/LocalLow/DefaultCompany/AFO\\oops_save.json"
+        }
+    ],
+    "passed": 12,
+    "failed": 0
+}

@@ -1,0 +1,68 @@
+{
+    "utc": "2026-10-23T08:51:27.1175571Z",
+    "session": 1,
+    "checks": [
+        {
+            "name": "New game: Factory open, Rice Fields locked, Hub stage 0",
+            "passed": true,
+            "observed": "rice=False stage=0"
+        },
+        {
+            "name": "Locked Rice gate blocks the path and tells BLOB why",
+            "passed": true,
+            "observed": "x=19.44 feedback=ทางไปนาข้าว ยังล็อกอยู่ — ต้องแก้: ประตูโรงงาน, กังหันระบายอากาศ"
+        },
+        {
+            "name": "Gate alone does not unlock Rice (needs the whole Factory)",
+            "passed": true,
+            "observed": "rice=False"
+        },
+        {
+            "name": "Factory restored -> Rice gate unlocks and opens",
+            "passed": true,
+            "observed": "open=1.00 feedback=ทางไปนาข้าว เปิดแล้ว! กลับไปที่ฮับเพื่อไปต่อ"
+        },
+        {
+            "name": "Hub shows stage 1: small canopy, label updated",
+            "passed": true,
+            "observed": "stage=1"
+        },
+        {
+            "name": "Progress saved after unlock",
+            "passed": true,
+            "observed": "save={ \"version\": 2, \"solvedPuzzles\": [ \"factory_gate\", \"factory_turbine\" ], \"unlockedZones\": [ \"rice\" ], \"lookSensitivity\": 0.12999999523162843, \"masterVolume\": 1.0, \"ambienceVolume\": 1.0, \"discoveredCombos\": [], \"shipParts\": [], \"installedParts\": [] }"
+        },
+        {
+            "name": "BLOB walks through the opened gate into the Rice Fields",
+            "passed": true,
+            "observed": "x=27.76 checkpoint=2"
+        },
+        {
+            "name": "Returning to the Hub announces the change",
+            "passed": true,
+            "observed": "announcements=1 feedback=ฮับเปลี่ยนไป: ต้นไม้ชีวภาพเริ่มผลิใบ และทางไปนาข้าวเปิดแล้ว"
+        },
+        {
+            "name": "Respawn keeps unlock and solved puzzles (no regression in session)",
+            "passed": true,
+            "observed": "rice=True"
+        },
+        {
+            "name": "All zones restored -> Hub stage 2: full canopy, grass, complete label",
+            "passed": true,
+            "observed": "stage=2"
+        },
+        {
+            "name": "Save on disk has 3 puzzles, rice unlocked and settings",
+            "passed": true,
+            "observed": "status=Ok solved=3 look=0.21 vol=0.6"
+        },
+        {
+            "name": "Player save file untouched by the test",
+            "passed": true,
+            "observed": "before=263@639283238774466348 after=263@639283238774466348 path=C:/Users/PREDATOR/AppData/LocalLow/DefaultCompany/AFO\\oops_save.json"
+        }
+    ],
+    "passed": 12,
+    "failed": 0
+}

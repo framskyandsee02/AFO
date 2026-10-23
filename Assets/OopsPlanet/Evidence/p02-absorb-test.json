@@ -1,0 +1,127 @@
+{
+    "utc": "2026-10-23T08:49:20.0176506Z",
+    "checks": [
+        {
+            "name": "Yard sources found",
+            "passed": true,
+            "observed": "sources=11"
+        },
+        {
+            "name": "Out of range rejected",
+            "passed": true,
+            "observed": "OUT OF RANGE"
+        },
+        {
+            "name": "Invalid aim cannot absorb",
+            "passed": true,
+            "observed": "property=None status=NO ABSORBABLE PROPERTY"
+        },
+        {
+            "name": "Decoy reports not absorbable",
+            "passed": true,
+            "observed": "status=CAN'T ABSORB THIS"
+        },
+        {
+            "name": "Decoy cannot be absorbed",
+            "passed": true,
+            "observed": "property=None"
+        },
+        {
+            "name": "Valid target highlighted with marker",
+            "passed": true,
+            "observed": "target=Absorbable Scrap (Magnet, remains) status=HOLD E TO ABSORB marker=True"
+        },
+        {
+            "name": "Early release cancels absorption",
+            "passed": true,
+            "observed": "property=None progress=0"
+        },
+        {
+            "name": "Hold absorbs Magnet from scrap",
+            "passed": true,
+            "observed": "property=Magnet"
+        },
+        {
+            "name": "Absorbed event carries source + property",
+            "passed": true,
+            "observed": "Absorbable Scrap (Magnet, remains)|Magnet"
+        },
+        {
+            "name": "Remains mode: scrap still absorbable",
+            "passed": true,
+            "observed": "available=True"
+        },
+        {
+            "name": "Movement continues while holding absorb",
+            "passed": true,
+            "observed": "moved=2.10"
+        },
+        {
+            "name": "Absorb Pressure from tank",
+            "passed": true,
+            "observed": "property=Pressure"
+        },
+        {
+            "name": "Remnant mode: tank swaps to empty remnant",
+            "passed": true,
+            "observed": "consumed=True"
+        },
+        {
+            "name": "Consumed remnant is not targetable",
+            "passed": true,
+            "observed": "target=none events=2"
+        },
+        {
+            "name": "Absorb Bounce from tire",
+            "passed": true,
+            "observed": "property=Bounce"
+        },
+        {
+            "name": "Disable mode: tire removed",
+            "passed": true,
+            "observed": "active=False"
+        },
+        {
+            "name": "Max two properties: newest primary, oldest dropped",
+            "passed": true,
+            "observed": "slots=Bounce/Pressure events=3"
+        },
+        {
+            "name": "Power band shows property, body stays BLOB",
+            "passed": true,
+            "observed": "band=RGBA(1.000, 0.420, 0.750, 1.000) body=RGBA(0.697, 0.674, 0.775, 1.000)"
+        },
+        {
+            "name": "Line of sight through wall rejected",
+            "passed": true,
+            "observed": "BLOCKED"
+        },
+        {
+            "name": "Occluded source cannot be absorbed",
+            "passed": true,
+            "observed": "property=Bounce"
+        },
+        {
+            "name": "Respawn clears property and restores sources",
+            "passed": true,
+            "observed": "property=None tank=True tire=True"
+        },
+        {
+            "name": "No absorb state stuck after respawn",
+            "passed": true,
+            "observed": "progress=0"
+        },
+        {
+            "name": "Restored tank absorbable again",
+            "passed": true,
+            "observed": "property=Pressure"
+        },
+        {
+            "name": "Restart restores every source",
+            "passed": true,
+            "observed": "all=True property=None"
+        }
+    ],
+    "passed": 24,
+    "failed": 0
+}

@@ -1,0 +1,150 @@
+{
+    "utc": "2026-10-23T08:48:50.2942039Z",
+    "checks": [
+        {
+            "name": "Spawn is grounded in Hub",
+            "passed": true,
+            "observed": "pos=(0.00, 0.03, 0.00) grounded=True"
+        },
+        {
+            "name": "Hub objective shown",
+            "passed": true,
+            "observed": "HUB — ศูนย์กลาง: ฝึกดูดพลังที่ลาน (กด E ค้าง) แล้วไปฟื้นฟู FACTORY (ทิศเหนือ) — RICE FIELDS ยังล็อก"
+        },
+        {
+            "name": "Traverse to (0.0, 0.0, 10.0)",
+            "passed": true,
+            "observed": "actual=(0.00, 0.03, 9.82)"
+        },
+        {
+            "name": "Third-person camera follows player",
+            "passed": true,
+            "observed": "cam=(0.7, 3.3, 4.2)"
+        },
+        {
+            "name": "Traverse to (0.0, 0.0, 22.0)",
+            "passed": true,
+            "observed": "actual=(0.00, 0.03, 21.91)"
+        },
+        {
+            "name": "Traverse to (0.0, 0.0, 28.0)",
+            "passed": true,
+            "observed": "actual=(0.00, 0.04, 27.78)"
+        },
+        {
+            "name": "Factory checkpoint reached",
+            "passed": true,
+            "observed": "checkpoint=1"
+        },
+        {
+            "name": "Factory objective shown",
+            "passed": true,
+            "observed": "ZONE 01 FACTORY — โรงงาน: เปิดประตูโรงงาน แล้วเป่ากังหันระบายอากาศ"
+        },
+        {
+            "name": "Traverse to (8.0, 0.0, 32.0)",
+            "passed": true,
+            "observed": "actual=(7.83, 0.04, 31.91)"
+        },
+        {
+            "name": "Traverse to (8.0, 0.0, 33.5)",
+            "passed": true,
+            "observed": "actual=(7.98, 0.03, 33.31)"
+        },
+        {
+            "name": "Traverse to (8.0, 0.0, 38.0)",
+            "passed": true,
+            "observed": "actual=(8.00, 1.04, 37.87)"
+        },
+        {
+            "name": "Jump onto 1 m loading dock",
+            "passed": true,
+            "observed": "y=1.04"
+        },
+        {
+            "name": "Traverse to (8.0, 0.0, 32.0)",
+            "passed": true,
+            "observed": "actual=(8.00, 0.03, 32.18)"
+        },
+        {
+            "name": "Traverse to (0.0, 0.0, 30.0)",
+            "passed": true,
+            "observed": "actual=(0.09, 0.03, 30.02)"
+        },
+        {
+            "name": "Traverse to (0.0, 0.0, 18.0)",
+            "passed": true,
+            "observed": "actual=(0.00, 0.03, 18.11)"
+        },
+        {
+            "name": "Traverse to (0.0, 0.0, 0.0)",
+            "passed": true,
+            "observed": "actual=(0.00, 0.04, 0.23)"
+        },
+        {
+            "name": "Rice gate open after Factory restored",
+            "passed": true,
+            "observed": "open=1.00"
+        },
+        {
+            "name": "Traverse to (12.0, 0.0, 0.0)",
+            "passed": true,
+            "observed": "actual=(11.97, 0.04, 0.00)"
+        },
+        {
+            "name": "Traverse to (22.0, 0.0, 0.0)",
+            "passed": true,
+            "observed": "actual=(21.88, 0.03, 0.00)"
+        },
+        {
+            "name": "Traverse to (28.0, 0.0, 0.0)",
+            "passed": true,
+            "observed": "actual=(27.94, 0.19, 0.00)"
+        },
+        {
+            "name": "Rice Fields checkpoint reached",
+            "passed": true,
+            "observed": "checkpoint=2"
+        },
+        {
+            "name": "Rice objective shown",
+            "passed": true,
+            "observed": "ZONE 02 RICE FIELDS — นาข้าว: เคลียร์ฟางที่อุดประตูน้ำ แล้วเดินตามคันนาไปจุดจบ"
+        },
+        {
+            "name": "Traverse to (42.0, 0.0, 0.0)",
+            "passed": true,
+            "observed": "actual=(41.84, 0.18, 0.00)"
+        },
+        {
+            "name": "Traverse to (57.0, 0.0, 0.0)",
+            "passed": true,
+            "observed": "actual=(55.61, 0.19, 0.00)"
+        },
+        {
+            "name": "Demo end completes run",
+            "passed": true,
+            "observed": "finished=True time=29.4"
+        },
+        {
+            "name": "No falls / respawns during route",
+            "passed": true,
+            "observed": "deaths=0"
+        },
+        {
+            "name": "Restart returns to Hub and clears run",
+            "passed": true,
+            "observed": "pos=(0.00, 0.03, 0.00)"
+        }
+    ],
+    "passed": 27,
+    "failed": 0,
+    "completedRoute": true,
+    "diagnostics": [
+        "BEGIN dock jump pos=(7.98, 0.03, 33.31) grounded=True vSync=1 targetFps=240",
+        "JUMP PRESS t=0.000 pos=(7.98, 0.03, 33.31)",
+        "TAKEOFF t=0.022 fps=45 pos=(7.98, 0.19, 33.43) vy=7.16 jumpHeld=True",
+        "LAND t=0.562 fps=35 pos=(7.99, 1.04, 36.40) vy=-3.64 jumpHeld=False",
+        "END dock jump pos=(8.00, 1.04, 37.87) maxY=1.38 frames=64 avgFps=44"
+    ]
+}

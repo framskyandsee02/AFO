@@ -1,0 +1,102 @@
+{
+    "utc": "2026-10-23T10:21:10.2639728Z",
+    "checks": [
+        {
+            "name": "Bundled Noto Sans Thai font drives HUD and all world signs",
+            "passed": true,
+            "observed": "font=NotoSansThai-Variable signs=15"
+        },
+        {
+            "name": "Every absorb status, control hint and objective is shown in Thai",
+            "passed": true,
+            "observed": "objective=HUB — ศูนย์กลาง: ฝึกดูดพลังที่ลาน (กด E ค้าง) แล้วไปฟื้นฟู FACTORY (ทิศเหนือ) — RICE FIELDS ยังล็อก"
+        },
+        {
+            "name": "Volume / ambience / sensitivity settings apply and save",
+            "passed": true,
+            "observed": "vol=0.7 amb=0.5 saved amb=0.5"
+        },
+        {
+            "name": "BLOB blinks on its own",
+            "passed": true,
+            "observed": "blinks=23"
+        },
+        {
+            "name": "Absorb: chirp cue, particle stream, happy face",
+            "passed": true,
+            "observed": "cue=1 bursts=1 mood=Happy"
+        },
+        {
+            "name": "Power shown by shape: Magnet cue part on, others off",
+            "passed": true,
+            "observed": "magnet=True"
+        },
+        {
+            "name": "Refused absorb: 'hm' cue and sad face",
+            "passed": true,
+            "observed": "cue=1 mood=Sad"
+        },
+        {
+            "name": "Source labels: hidden normally, Thai power name in sense mode, none once the tank is used up",
+            "passed": true,
+            "observed": "scrap=แม่เหล็ก hiddenNormally=True"
+        },
+        {
+            "name": "Two powers -> both shape cues visible (Pressure + Magnet)",
+            "passed": true,
+            "observed": "pressure=True"
+        },
+        {
+            "name": "Swap: cue + ring pulse",
+            "passed": true,
+            "observed": "cue=21"
+        },
+        {
+            "name": "Pressure blast: whoosh cue + puff particles",
+            "passed": true,
+            "observed": "cue=4"
+        },
+        {
+            "name": "Bounce: 'wheee' + landing 'pof' cues, stretch then squash",
+            "passed": true,
+            "observed": "launch=5 land=7 squash=-1.00..0.54"
+        },
+        {
+            "name": "Magnet: buzz loop fades in + sparks along the beam",
+            "passed": true,
+            "observed": "vol=0.35 sparks=16"
+        },
+        {
+            "name": "Ambience cross-fades per zone and brightens after restoration",
+            "passed": true,
+            "observed": "hub=1 factory=1 hubAfterLeaving=0 factoryRestored=2"
+        },
+        {
+            "name": "Puzzle solved / zone unlocked: happy trill, fanfare, celebration particles",
+            "passed": true,
+            "observed": "happy=2 unlock=1 bursts=5"
+        },
+        {
+            "name": "Rice plants grow back green (before: dry yellow)",
+            "passed": true,
+            "observed": "color=RGBA(0.300, 0.750, 0.300, 1.000)"
+        },
+        {
+            "name": "Respawn: 'aww' cue and sad face",
+            "passed": true,
+            "observed": "cue=1"
+        },
+        {
+            "name": "No missing / error (pink) materials",
+            "passed": true,
+            "observed": "bad=0 "
+        },
+        {
+            "name": "Asset licence list present (font OFL + self-made art/audio)",
+            "passed": true,
+            "observed": "path=E:/!for WORK/AFO/Assets\\OopsPlanet/ASSET_LICENSES.md"
+        }
+    ],
+    "passed": 19,
+    "failed": 0
+}
