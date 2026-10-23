@@ -8,6 +8,7 @@ namespace OopsPlanet {
 public class OopsPowerTest : MonoBehaviour {
     [System.Serializable] public class Check { public string name;public bool passed;public string observed; }
     [System.Serializable] public class Report { public string utc;public List<Check> checks=new List<Check>();public int passed,failed; }
+    float yaw0, pitch0;
     BlobWorld w; BlobPlayer p; BlobPowers pw; Report report=new Report();
     readonly List<GameObject> aims=new List<GameObject>();
     float maxBodySpeed, minBodyY=999;
@@ -39,6 +40,7 @@ public class OopsPowerTest : MonoBehaviour {
     }
     IEnumerator Start() {
         w=GetComponent<BlobWorld>();p=w.player;pw=p.powers;p.testMode=true;p.paused=false;w.UseSaveSlot("test_run",false);w.Restart();p.testMode=true;
+        yaw0=p.yaw; pitch0=p.pitch;
         report.utc=System.DateTime.UtcNow.ToString("o");
         yield return Wait(.4f);
         var starts=new Dictionary<BlobMagnetic,Vector3>();
@@ -152,6 +154,7 @@ public class OopsPowerTest : MonoBehaviour {
         Finish();
     }
     void Finish() {
+        p.yaw=yaw0; p.pitch=pitch0; // leave the camera as found: tests run back to back in one Play session
         Idle(); p.testMode=false; p.testAim=null;
         foreach(var a in aims) if(a) Destroy(a);
         string path=TestReports.PathFor("p03-power-test.json");

@@ -7,13 +7,18 @@ public class ZoneGate : MonoBehaviour {
     public string zoneId;
     public string zoneNameTh;
     public PuzzleObjective[] requires;
+    public PuzzleObjective[] requiresAnyOf=new PuzzleObjective[0];
+    public int anyCount;
     public Transform door; public Vector3 openOffset=Vector3.up*4.4f;
     public Renderer lamp;
     public float openSeconds=1.5f, hintRadius=4f;
     public bool Unlocked { get; private set; }
     float t, hintCooldown; Vector3 doorStart; bool started; MaterialPropertyBlock mpb;
     void Awake() { if(door) doorStart=door.localPosition; started=true; ApplyLamp(); }
-    public bool RequirementsMet { get { foreach(var r in requires) if(!r || r.State!=PuzzleState.Solved) return false; return true; } }
+    public bool RequirementsMet { get {
+        foreach(var r in requires) if(!r || r.State!=PuzzleState.Solved) return false;
+        int n=0; if(requiresAnyOf!=null) foreach(var r in requiresAnyOf) if(r && r.State==PuzzleState.Solved) n++;
+        return n>=anyCount; } }
     public void Unlock(bool instant) {
         if(!started) Awake();
         Unlocked=true; if(instant) { t=1; Blend(); }
@@ -28,6 +33,7 @@ public class ZoneGate : MonoBehaviour {
             if(w && w.player && Vector3.Distance(w.player.transform.position,transform.position)<hintRadius) {
                 hintCooldown=4;
                 string need=""; foreach(var r in requires) if(r && r.State!=PuzzleState.Solved) need+=(need==""?"":", ")+r.titleTh;
+                if(anyCount>0 && requiresAnyOf!=null) { string any=""; int n=0; foreach(var r in requiresAnyOf) if(r) { if(r.State==PuzzleState.Solved) n++; any+=(any==""?"":" / ")+r.titleTh; } if(n<anyCount) need+=(need==""?"":" และ ")+anyCount+" ใน ("+any+")"; }
                 w.player.Notify(zoneNameTh+" ยังล็อกอยู่ — ต้องแก้: "+need);
             }
         }

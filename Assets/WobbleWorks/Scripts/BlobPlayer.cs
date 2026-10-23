@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 namespace OopsPlanet {
 // OOPS! PLANET powers. Explicit values keep the integers already serialized in scenes/prefabs (legacy 2-4 were retired in P03).
-public enum BlobProperty { None=0, Magnet=1, Pressure=5, Bounce=6 }
+// v2 (Docs/DESIGN_V2_TH.md) adds Water / Electric / Heat; never reuse a number.
+public enum BlobProperty { None=0, Magnet=1, Pressure=5, Bounce=6, Water=7, Electric=8, Heat=9 }
 [RequireComponent(typeof(CharacterController))]
 public class BlobPlayer : MonoBehaviour {
     public BlobWorld world;
@@ -21,7 +22,9 @@ public class BlobPlayer : MonoBehaviour {
     public bool paused, completed;
     public bool testMode;
     public Vector2 testMove;
-    public bool testAbsorb, testAction, testSecondary, testPush, testJump;
+    public bool testAbsorb, testAction, testSecondary, testPush, testJump, testSense;
+    // Movement speed multiplier (sense mode walks slower).
+    public float speedScale=1;
     public Transform testAim;
     public Vector3 velocity, externalVelocity;
     public float yaw, pitch=19f;
@@ -48,6 +51,11 @@ public class BlobPlayer : MonoBehaviour {
     public event System.Action<float> Landed;           // downward speed at touch-down
     public event System.Action SlotsChanged, Swapped;
     public event System.Action<string> AbsorbRefused;   // held E on a target that cannot be absorbed (status code)
+    public event System.Action<ControllerColliderHit> ColliderHit;   // v2: Bounce + Magnet clings to metal walls
+    // v2 Bounce + Magnet: while clinging BLOB climbs the wall instead of falling (BlobElementPowers decides when).
+    public bool clinging;
+    public float climbSpeed=4f;
+    void OnControllerColliderHit(ControllerColliderHit hit) { ColliderHit?.Invoke(hit); }
     // Extra squash/stretch from BlobExpression, multiplied into the power shape.
     public Vector3 extraShape=Vector3.one;
     bool refusedLatched;
@@ -74,6 +82,9 @@ public class BlobPlayer : MonoBehaviour {
             case BlobProperty.Magnet:return new Color(.95f,.22f,.22f);
             case BlobProperty.Pressure:return new Color(.25f,.55f,1f);
             case BlobProperty.Bounce:return new Color(1f,.42f,.75f);
+            case BlobProperty.Water:return new Color(.15f,.85f,.85f);
+            case BlobProperty.Electric:return new Color(1f,.9f,.2f);
+            case BlobProperty.Heat:return new Color(1f,.45f,.1f);
             default:return new Color(.63f,.73f,.78f);
         }
     }
@@ -142,7 +153,7 @@ public class BlobPlayer : MonoBehaviour {
     }
     public void Teleport(Vector3 pos) {
         cc.enabled=false; transform.position=pos; cc.enabled=true;
-        velocity=Vector3.zero; externalVelocity=Vector3.zero; jumpBuffer=0; bounceCharge=0; wasJump=false;
+        velocity=Vector3.zero; externalVelocity=Vector3.zero; jumpBuffer=0; bounceCharge=0; wasJump=false; clinging=false;
         bounceAirborne=false; rebounds=0; absorbProgress=0; heldTarget=null; probeGrounded=false;
         Physics.SyncTransforms();
     }
@@ -171,7 +182,8 @@ public class BlobPlayer : MonoBehaviour {
         bool absorb=testMode?testAbsorb:k!=null&&k.eKey.isPressed;
         if(!testMode && k!=null) {
             input=new Vector2((k.dKey.isPressed?1:0)-(k.aKey.isPressed?1:0),(k.wKey.isPressed?1:0)-(k.sKey.isPressed?1:0));
-            if(m!=null && (Cursor.lockState==CursorLockMode.Locked||m.rightButton.isPressed)) {
+            // Free-look while the cursor is not captured uses the middle button (right button = sense mode, v2).
+            if(m!=null && (Cursor.lockState==CursorLockMode.Locked||m.middleButton.isPressed)) {
                 Vector2 delta=m.delta.ReadValue(); yaw+=delta.x*lookSensitivity; pitch=Mathf.Clamp(pitch-delta.y*lookSensitivity,-35,65);
             }
         }
@@ -181,7 +193,7 @@ public class BlobPlayer : MonoBehaviour {
         jumpBuffer=jumpDown?.12f:Mathf.Max(0,jumpBuffer-Time.deltaTime);
         UpdateJumpAndBounce(jump,jumpUp);
         bool groundedBefore=Grounded; float fallSpeed=-velocity.y;
-        CollisionFlags flags=cc.Move((moveWorld*speed+externalVelocity+Vector3.up*velocity.y)*Time.deltaTime);
+        CollisionFlags flags=cc.Move((moveWorld*speed*speedScale+externalVelocity+Vector3.up*velocity.y)*Time.deltaTime);
         if((flags&CollisionFlags.Above)!=0 && velocity.y>0) velocity.y=0;
         ProbeGround();
         if(Grounded && !groundedBefore) OnLanded(fallSpeed,jump);
@@ -212,6 +224,7 @@ public class BlobPlayer : MonoBehaviour {
     }
     void UpdateJumpAndBounce(bool jump,bool jumpUp) {
         var d=Has(BlobProperty.Bounce)&&powers?powers.Def(BlobProperty.Bounce):null;
+        if(clinging) { velocity.y=climbSpeed; return; }
         if(d) {
             if(jump && Grounded) bounceCharge=Mathf.Clamp01(bounceCharge+Time.deltaTime/d.chargeSeconds);
             if(jumpUp && coyote>0) {
@@ -276,8 +289,9 @@ public class BlobPlayer : MonoBehaviour {
     void UpdateTargetCue() {
         bool valid=target && targetStatus==Absorbable;
         if(targetMarker) {
-            targetMarker.SetActive(target);
-            if(target) {
+            // v2: the [E] icon only appears on a valid, in-range target (seamless absorbables).
+            targetMarker.SetActive(valid);
+            if(valid) {
                 var b=target.indicator?target.indicator.bounds:new Bounds(target.AimPoint,Vector3.one);
                 targetMarker.transform.position=b.center+Vector3.up*(b.extents.y+.45f);
                 targetMarker.transform.rotation=view.transform.rotation;

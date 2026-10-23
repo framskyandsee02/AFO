@@ -1,5 +1,5 @@
 {
-    "utc": "2026-10-23T06:22:19.0043795Z",
+    "utc": "2026-10-23T08:51:27.1175571Z",
     "session": 1,
     "checks": [
         {
@@ -30,12 +30,12 @@
         {
             "name": "Progress saved after unlock",
             "passed": true,
-            "observed": "save={ \"version\": 1, \"solvedPuzzles\": [ \"factory_gate\", \"factory_turbine\" ], \"unlockedZones\": [ \"rice\" ], \"lookSensitivity\": 0.12999999523162843, \"masterVolume\": 1.0, \"ambienceVolume\": 1.0 }"
+            "observed": "save={ \"version\": 2, \"solvedPuzzles\": [ \"factory_gate\", \"factory_turbine\" ], \"unlockedZones\": [ \"rice\" ], \"lookSensitivity\": 0.12999999523162843, \"masterVolume\": 1.0, \"ambienceVolume\": 1.0, \"discoveredCombos\": [], \"shipParts\": [], \"installedParts\": [] }"
         },
         {
             "name": "BLOB walks through the opened gate into the Rice Fields",
             "passed": true,
-            "observed": "x=27.77 checkpoint=2"
+            "observed": "x=27.76 checkpoint=2"
         },
         {
             "name": "Returning to the Hub announces the change",

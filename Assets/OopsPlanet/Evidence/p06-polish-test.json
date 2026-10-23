@@ -1,10 +1,10 @@
 {
-    "utc": "2026-10-23T06:21:40.5512912Z",
+    "utc": "2026-10-23T10:21:10.2639728Z",
     "checks": [
         {
             "name": "Bundled Noto Sans Thai font drives HUD and all world signs",
             "passed": true,
-            "observed": "font=NotoSansThai-Variable signs=22"
+            "observed": "font=NotoSansThai-Variable signs=15"
         },
         {
             "name": "Every absorb status, control hint and objective is shown in Thai",
@@ -19,7 +19,7 @@
         {
             "name": "BLOB blinks on its own",
             "passed": true,
-            "observed": "blinks=2"
+            "observed": "blinks=23"
         },
         {
             "name": "Absorb: chirp cue, particle stream, happy face",
@@ -37,9 +37,9 @@
             "observed": "cue=1 mood=Sad"
         },
         {
-            "name": "Source labels: Thai power name shown, hidden once the tank is used up",
+            "name": "Source labels: hidden normally, Thai power name in sense mode, none once the tank is used up",
             "passed": true,
-            "observed": "scrap=แม่เหล็ก"
+            "observed": "scrap=แม่เหล็ก hiddenNormally=True"
         },
         {
             "name": "Two powers -> both shape cues visible (Pressure + Magnet)",
@@ -49,22 +49,22 @@
         {
             "name": "Swap: cue + ring pulse",
             "passed": true,
-            "observed": "cue=1"
+            "observed": "cue=21"
         },
         {
             "name": "Pressure blast: whoosh cue + puff particles",
             "passed": true,
-            "observed": "cue=1"
+            "observed": "cue=4"
         },
         {
             "name": "Bounce: 'wheee' + landing 'pof' cues, stretch then squash",
             "passed": true,
-            "observed": "launch=1 land=2 squash=-1.00..0.54"
+            "observed": "launch=5 land=7 squash=-1.00..0.54"
         },
         {
             "name": "Magnet: buzz loop fades in + sparks along the beam",
             "passed": true,
-            "observed": "vol=0.35 sparks=17"
+            "observed": "vol=0.35 sparks=16"
         },
         {
             "name": "Ambience cross-fades per zone and brightens after restoration",

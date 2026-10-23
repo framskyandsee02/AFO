@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 namespace OopsPlanet {
 public enum PuzzleState { Locked, Active, Solved }
+// All: every condition must hold (prototype puzzles). Any: one condition is enough - each condition is one solution (v2).
+public enum ConditionMode { All, Any }
 // A condition a PuzzleObjective waits for (socket filled, turbine spinning, zone cleared...).
 public interface IPuzzleCondition {
     bool IsMet { get; }
@@ -21,7 +23,15 @@ public class PuzzleObjective : MonoBehaviour {
     public MonoBehaviour[] conditions;
     [Tooltip("Movable pieces returned to their start by the reset pad / restart.")]
     public PuzzleItem[] items;
+    [Tooltip("v2: world materials put back by the reset pad / restart (burned straw, melted latch...).")]
+    public WorldMaterial[] materials=new WorldMaterial[0];
+    [Tooltip("v2: hidden spot (ship part / shortcut); not counted in 'restore the world x/7'.")]
+    public bool isSecret;
     public float holdSeconds=.5f;
+    public ConditionMode mode=ConditionMode.All;
+    [Tooltip("Which condition solved it (Any mode): type + object name. Used by tests and the power journal.")]
+    public string solvedBy="";
+    string metBy="";
     [Tooltip("Where the restoration celebration plays.")]
     public Vector3 celebratePoint;
     public int solvedCount;
@@ -51,8 +61,13 @@ public class PuzzleObjective : MonoBehaviour {
         if(State==PuzzleState.Solved) return;
         RefreshLock();
         if(State!=PuzzleState.Active) { metFor=0; return; }
-        bool met=true; int n=0;
-        foreach(var c in Conditions()) { met&=c.IsMet; n++; }
+        bool met=mode==ConditionMode.All; int n=0; metBy="";
+        foreach(var c in Conditions()) {
+            n++; bool ok=c.IsMet;
+            if(mode==ConditionMode.All) met&=ok;
+            else if(ok && !met) { met=true; metBy=Describe(c); }
+        }
+        if(mode==ConditionMode.All && met) metBy="all";
         metFor=met&&n>0?metFor+Time.deltaTime:0;
         if(metFor>=holdSeconds) Solve();
     }
@@ -61,7 +76,7 @@ public class PuzzleObjective : MonoBehaviour {
     public void Solve() => Solve(false);
     public void Solve(bool fromSave) {
         if(State==PuzzleState.Solved) return;
-        State=PuzzleState.Solved; solvedCount++; LastSolveFromSave=fromSave;
+        State=PuzzleState.Solved; solvedCount++; LastSolveFromSave=fromSave; solvedBy=fromSave?"save":(metBy==""?"api":metBy);
         if(audioSource && !fromSave) audioSource.PlayOneShot(ProcAudio.Jingle(),.8f);
         Debug.Log("OOPS_PUZZLE_SOLVED "+id+(fromSave?" (from save)":""));
         if(fromSave) foreach(var i in items) if(i && i.useFallback) i.PlaceAtFallback();
@@ -71,11 +86,14 @@ public class PuzzleObjective : MonoBehaviour {
     public void ResetPuzzle(bool full) {
         if(State==PuzzleState.Solved && !full) return;
         foreach(var i in items) if(i) i.ResetToStart();
+        if(materials!=null) foreach(var m in materials) if(m) m.ResetState();
         foreach(var c in Conditions()) c.ResetCondition();
         metFor=0;
-        if(full) { State=PuzzleState.Active; solvedCount=0; RefreshLock(); }
+        if(full) { solvedBy=""; State=PuzzleState.Active; solvedCount=0; RefreshLock(); }
         WasReset?.Invoke(this);
     }
+    static string Describe(IPuzzleCondition c) { var mb=c as MonoBehaviour; var msc=c as MaterialStateCondition;
+        return msc&&!string.IsNullOrEmpty(msc.label)?msc.label:(mb?mb.GetType().Name+":"+mb.name:c.GetType().Name); }
     public string StatusTh {
         get {
             switch(State) {

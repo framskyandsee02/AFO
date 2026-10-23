@@ -6,13 +6,17 @@ namespace OopsPlanet {
 // Not persisted (by design for the prototype): BLOB position/checkpoint, held powers, loose object positions.
 [System.Serializable]
 public class SaveData {
-    public const int CurrentVersion=1;
+    // v2 (design v2): + discovered combo cells, ship parts collected / installed. Shortcuts are ZoneGates (unlockedZones).
+    public const int CurrentVersion=2;
     public int version=CurrentVersion;
     public List<string> solvedPuzzles=new List<string>();
     public List<string> unlockedZones=new List<string>();
     public float lookSensitivity=.13f;
     public float masterVolume=1f;
     public float ambienceVolume=1f;
+    public List<string> discoveredCombos=new List<string>();
+    public List<string> shipParts=new List<string>();
+    public List<string> installedParts=new List<string>();
 }
 // JSON save in Application.persistentDataPath/<slot>.json. Writes go through a temp file so a crash mid-write
 // cannot leave a half-written save. A missing, corrupt or wrong-version file never throws: the game starts
@@ -31,7 +35,11 @@ public static class SaveSystem {
             if(!string.IsNullOrWhiteSpace(json)) parsed=JsonUtility.FromJson<SaveData>(json);
         } catch(System.Exception e) { Debug.LogWarning("OOPS_SAVE corrupt ("+e.GetType().Name+"): "+path); }
         if(parsed==null) { KeepCorrupt(path); return LoadStatus.Corrupt; }
+        if(parsed.version==1) { parsed.version=SaveData.CurrentVersion; Debug.Log("OOPS_SAVE migrated v1 -> v"+SaveData.CurrentVersion); }   // v1 had no v2 lists: they start empty
         if(parsed.version!=SaveData.CurrentVersion) { Debug.LogWarning("OOPS_SAVE version "+parsed.version+" != "+SaveData.CurrentVersion+": starting fresh"); return LoadStatus.WrongVersion; }
+        if(parsed.discoveredCombos==null) parsed.discoveredCombos=new List<string>();
+        if(parsed.shipParts==null) parsed.shipParts=new List<string>();
+        if(parsed.installedParts==null) parsed.installedParts=new List<string>();
         if(parsed.solvedPuzzles==null) parsed.solvedPuzzles=new List<string>();
         if(parsed.unlockedZones==null) parsed.unlockedZones=new List<string>();
         parsed.lookSensitivity=Mathf.Clamp(parsed.lookSensitivity<=0?.13f:parsed.lookSensitivity,.02f,1f);

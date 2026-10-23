@@ -6,13 +6,28 @@ namespace OopsPlanet {
 // P01 route test: drives BLOB with the real CharacterController from Hub -> Factory -> Hub -> Rice Fields -> demo end.
 public class OopsRouteTest : MonoBehaviour {
     [System.Serializable] public class Check { public string name;public bool passed;public string observed; }
-    [System.Serializable] public class Report { public string utc;public List<Check> checks=new List<Check>();public int passed,failed;public bool completedRoute; }
+    [System.Serializable] public class Report { public string utc;public List<Check> checks=new List<Check>();public int passed,failed;public bool completedRoute;public List<string> diagnostics=new List<string>(); }
     BlobWorld w; BlobPlayer p; Report report=new Report();
     void CheckThat(string name,bool pass,string observed) {
         report.checks.Add(new Check{name=name,passed=pass,observed=observed});
         if(pass)report.passed++;else report.failed++;
         Debug.Log("OOPS_TEST "+(pass?"PASS ":"FAIL ")+name+" | "+observed);
     }
+    // Dock-jump diagnostics: logs take-off / landing (time, fps, position, jump input) while sampling.
+    bool sampling, wasGrounded; float sampleStart, maxY; int frames;
+    void Diag(string line) { report.diagnostics.Add(line); Debug.Log("OOPS_DIAG "+line); }
+    void Update() {
+        if(!sampling || !p) return;
+        frames++; maxY=Mathf.Max(maxY,p.transform.position.y);
+        bool g=p.Grounded;
+        if(g!=wasGrounded) Diag((g?"LAND":"TAKEOFF")+" t="+(Time.time-sampleStart).ToString("F3")+" fps="+(1f/Mathf.Max(Time.deltaTime,1e-5f)).ToString("F0")
+            +" pos="+p.transform.position.ToString("F2")+" vy="+p.velocity.y.ToString("F2")+" jumpHeld="+p.testJump);
+        wasGrounded=g;
+    }
+    void StartSampling(string label) { sampling=true; sampleStart=Time.time; frames=0; maxY=p.transform.position.y; wasGrounded=p.Grounded;
+        Diag("BEGIN "+label+" pos="+p.transform.position.ToString("F2")+" grounded="+p.Grounded+" vSync="+QualitySettings.vSyncCount+" targetFps="+Application.targetFrameRate); }
+    void StopSampling(string label) { float dt=Time.time-sampleStart; sampling=false;
+        Diag("END "+label+" pos="+p.transform.position.ToString("F2")+" maxY="+maxY.ToString("F2")+" frames="+frames+" avgFps="+(dt>0?frames/dt:0).ToString("F0")); }
     IEnumerator Wait(float seconds) { float until=Time.time+seconds;while(Time.time<until)yield return null; }
     IEnumerator To(Vector3 goal,bool jump=false,float timeout=10f) {
         p.testJump=jump;
@@ -42,9 +57,23 @@ public class OopsRouteTest : MonoBehaviour {
         CheckThat("Factory checkpoint reached",w.checkpointIndex==1,"checkpoint="+w.checkpointIndex);
         CheckThat("Factory objective shown",w.objective.Contains("FACTORY"),w.objective);
         yield return To(new Vector3(8,0,32));
-        p.testJump=true;yield return Wait(.12f);
-        yield return To(new Vector3(8,0,38),true,4);
+        yield return To(new Vector3(8,0,33.5f));
+        StartSampling("dock jump");
+        // Jump while walking at the dock; if BLOB lands short of it, press jump again (release in the air, press on
+        // the ground) so the result does not depend on frame rate.
+        float jumpUntil=Time.time+4;
+        while(Time.time<jumpUntil && p.transform.position.y<.9f) {
+            Vector3 d=new Vector3(8,0,38)-p.transform.position; d.y=0;
+            p.testMove=new Vector2(d.x,d.z).normalized;
+            bool press=p.Grounded;
+            if(press && !p.testJump) Diag("JUMP PRESS t="+(Time.time-sampleStart).ToString("F3")+" pos="+p.transform.position.ToString("F2"));
+            p.testJump=press;
+            yield return null;
+        }
+        p.testJump=false;
+        yield return To(new Vector3(8,0,38),false,4);
         yield return Wait(.6f);
+        StopSampling("dock jump");
         CheckThat("Jump onto 1 m loading dock",p.transform.position.y>.9f,"y="+p.transform.position.y.ToString("F2"));
         yield return To(new Vector3(8,0,32));
         yield return To(new Vector3(0,0,30));

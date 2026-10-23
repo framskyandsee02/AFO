@@ -7,6 +7,8 @@ public class PowerSet : ScriptableObject {
     public const int MaxActive=2;
     public List<PowerDefinition> powers=new List<PowerDefinition>();
     public List<CombinationDefinition> combinations=new List<CombinationDefinition>();
+    [Tooltip("v2 ordered verb x element table (30 cells). Runtime effects are wired in stage C.")]
+    public ComboTable table;
     public PowerDefinition Get(BlobProperty p) {
         foreach(var d in powers) if(d && d.property==p) return d;
         return null;

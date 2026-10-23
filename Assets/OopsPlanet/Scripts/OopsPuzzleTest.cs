@@ -8,6 +8,7 @@ namespace OopsPlanet {
 public class OopsPuzzleTest : MonoBehaviour {
     [System.Serializable] public class Check { public string name;public bool passed;public string observed; }
     [System.Serializable] public class Report { public string utc;public List<Check> checks=new List<Check>();public int passed,failed;public bool allSolved;public List<string> diagnostics=new List<string>(); }
+    float yaw0, pitch0;
     void Diag(string line) { report.diagnostics.Add(line); Debug.Log("OOPS_P04_DIAG "+line); }
     BlobWorld w; BlobPlayer p; BlobPowers pw; Report report=new Report();
     readonly List<GameObject> aims=new List<GameObject>();
@@ -42,6 +43,7 @@ public class OopsPuzzleTest : MonoBehaviour {
     static string V(Vector3 v) => v.ToString("F2");
     IEnumerator Start() {
         w=GetComponent<BlobWorld>();p=w.player;pw=p.powers;p.testMode=true;p.paused=false;w.UseSaveSlot("test_run",false);w.Restart();p.testMode=true;
+        yaw0=p.yaw; pitch0=p.pitch;
         report.utc=System.DateTime.UtcNow.ToString("o");
         yield return Wait(.5f);
         var gate=Puzzle("factory_gate"); var vent=Puzzle("factory_turbine"); var rice=Puzzle("rice_straw");
@@ -173,6 +175,7 @@ public class OopsPuzzleTest : MonoBehaviour {
         Finish();
     }
     void Finish() {
+        p.yaw=yaw0; p.pitch=pitch0; // leave the camera as found: tests run back to back in one Play session
         p.testMove=Vector2.zero;p.testJump=false;p.testAction=false;p.testSecondary=false;p.testAbsorb=false;p.testMode=false;p.testAim=null;
         foreach(var a in aims) if(a) Destroy(a);
         string path=TestReports.PathFor("p04-puzzle-test.json");

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 namespace OopsPlanet {
-public enum Cue { Absorb, Swap, Refused, BounceLaunch, Rebound, Land, PressureWhoosh, Combo, Respawn, Happy, Unlock, Blink, UiClick }
+public enum Cue { Absorb, Swap, Refused, BounceLaunch, Rebound, Land, PressureWhoosh, Combo, Respawn, Happy, Unlock, Blink, UiClick, Curious }
 public enum Ambience { Hub, HubRestored, Factory, FactoryRestored, Rice, RiceRestored }
 // All game audio is generated in code (no third-party audio files, so no licence questions).
 // BLOB never speaks: its "voice" is short pitched chirps whose contour carries the emotion.
@@ -37,6 +37,7 @@ public static class ProcAudio {
             case Cue.Happy: return Make("Happy trill",.6f,t=>Mathf.Sin(t*2*Mathf.PI*((int)(t*14)%2==0?740:988))*.2f*Env(t,.6f));
             case Cue.Unlock: return Make("Unlock fanfare",1.1f,t=>{ float[] n={392,523.3f,659.3f,784}; int k=Mathf.Min(3,(int)(t/.22f)); return (Mathf.Sin(t*2*Mathf.PI*n[k])+.4f*Mathf.Sin(t*4*Mathf.PI*n[k]))*.14f*Mathf.Exp(-(t-k*.22f)*4); });
             case Cue.Blink: return Chirp("Blink tick",1400,1600,.03f,.04f);
+            case Cue.Curious: return Chirp("Curious hm",260,430,.24f,.16f);
             default: return Chirp("UI click",900,700,.05f,.15f);
         }
     }

@@ -189,13 +189,75 @@ public static class OopsPrototypeBuilder {
         pr2.lights=new Light[0]; pr2.showWhenSolved=new GameObject[0]; pr2.hideWhenSolved=new GameObject[0]; pr2.stopWhenSolved=new ParticleSystem[0]; pr2.grow=new Transform[0];
         // Thai power names floating over every absorbable source (shape-independent cue, not colour only).
         foreach(var s in sources) {
-            string n=s.property==BlobProperty.Magnet?"แม่เหล็ก":s.property==BlobProperty.Pressure?"แรงดัน":"เด้ง";
+            string n=s.property==BlobProperty.Magnet?"แม่เหล็ก":s.property==BlobProperty.Pressure?"แรงดัน":s.property==BlobProperty.Bounce?"เด้ง":
+                s.property==BlobProperty.Water?"น้ำ":s.property==BlobProperty.Electric?"ไฟฟ้า":"ความร้อน";
             var b=s.indicator.bounds;
             var lg=new GameObject("Power label "+n); lg.transform.SetParent(s.transform); lg.transform.position=new Vector3(b.center.x,b.max.y+.55f,b.center.z);
             var tm=lg.AddComponent<TextMesh>(); tm.text=n; tm.font=uiFont; tm.fontSize=64; tm.characterSize=.035f; tm.anchor=TextAnchor.MiddleCenter; tm.color=BlobPlayer.PropertyColor(s.property);
             lg.GetComponent<Renderer>().sharedMaterial=uiFont.material;
             lg.AddComponent<FaceCamera>(); s.powerLabel=lg;
+            // v2: no permanent labels - the name only shows in sense mode (AbsorbableVisual owns it).
+            lg.SetActive(false);
+            if(!s.GetComponent<AbsorbableVisual>()) s.gameObject.AddComponent<AbsorbableVisual>().source=s;
+            // Sources are prefab instances: record the override or the reference is lost when the scene saves.
+            PrefabUtility.RecordPrefabInstancePropertyModifications(s);
         }
+    }
+    // ---------- v2 stage B: Element Lab (dev only, unreachable on foot; tests teleport in) ----------
+    // Greybox primitives only - placeholder shapes, not final art (models need the user's references first).
+    public static readonly Vector3 LabCenter=new Vector3(-60,0,-60);
+    static WorldMaterial Matter(string name,MaterialKind kind,Vector3 pos,Vector3 size,Material mat,bool critical=false) {
+        var go=Box(name,pos+Vector3.up*size.y/2,size,mat);
+        var m=go.AddComponent<WorldMaterial>(); m.kind=kind; m.critical=critical; return m;
+    }
+    static void ElementLab(GameObject absScrap) {
+        var c=LabCenter;
+        Floor("Element Lab floor",c,30,30,grey);
+        Walls("Element Lab",c,30,30,"");
+        Label("ELEMENT LAB (dev)\nห้องทดลองธาตุ",c+new Vector3(0,3,14.4f),0,.3f);
+        var strawM=Mat("Lab straw",new Color(.86f,.74f,.38f)); var iceM=Mat("Lab ice",new Color(.7f,.9f,1));
+        var waxM=Mat("Lab wax",new Color(.95f,.88f,.7f)); var mudM=Mat("Lab mud",new Color(.35f,.25f,.15f));
+        var plantM=Mat("Lab plant",new Color(.45f,.5f,.3f)); var waterM=Mat("Lab water",new Color(.2f,.45f,.75f));
+        var machineM=Mat("Lab machine",new Color(.3f,.32f,.4f));
+        var lab=new GameObject("Element lab parts").transform; lab.SetParent(root);
+        WorldMaterial M(string n,MaterialKind k,Vector3 local,Vector3 size,Material mat,bool crit=false) { var m=Matter(n,k,c+local,size,mat,crit); m.transform.SetParent(lab); return m; }
+        // Fire row: 4 straws .95 m apart (within 3 m of the first), a 5th 4 m from the first (spread limit).
+        for(int i=0;i<5;i++) M("Lab straw fire "+i,MaterialKind.Straw,new Vector3(i<4?-10+i*.95f:-6,0,10),Vector3.one*.8f,strawM);
+        // Wet straw and puzzle-critical straw, each beside a normal straw.
+        M("Lab straw wet neighbour",MaterialKind.Straw,new Vector3(-10,0,6),Vector3.one*.8f,strawM);
+        M("Lab straw wet",MaterialKind.Straw,new Vector3(-9,0,6),Vector3.one*.8f,strawM);
+        M("Lab straw critical neighbour",MaterialKind.Straw,new Vector3(-10,0,3),Vector3.one*.8f,strawM);
+        M("Lab straw critical",MaterialKind.Straw,new Vector3(-9,0,3),Vector3.one*.8f,strawM,true);
+        // Ice, wax latch, mud (two), plant.
+        M("Lab ice",MaterialKind.Ice,new Vector3(-4,0,10),new Vector3(1.2f,1.2f,1.2f),iceM);
+        M("Lab wax latch",MaterialKind.Wax,new Vector3(-2,0,10),new Vector3(.6f,1,.4f),waxM);
+        M("Lab mud dry",MaterialKind.Mud,new Vector3(0,0,10),new Vector3(1.5f,.4f,1.5f),mudM);
+        M("Lab mud wash",MaterialKind.Mud,new Vector3(2,0,10),new Vector3(1.5f,.4f,1.5f),mudM);
+        M("Lab plant",MaterialKind.Plant,new Vector3(4,0,10),new Vector3(.4f,.8f,.4f),plantM,true);
+        // Metal chain (touching bars) to a machine.
+        for(int i=0;i<4;i++) M("Lab metal bar "+i,MaterialKind.Metal,new Vector3(-10+i*1.5f,0,-2),new Vector3(1.4f,.3f,.3f),metal);
+        M("Lab machine A (via metal)",MaterialKind.Machine,new Vector3(-4.4f,0,-2),new Vector3(1,1.2f,1),machineM,true);
+        M("Lab machine far (not touching)",MaterialKind.Machine,new Vector3(-1,0,-2),new Vector3(1,1.2f,1),machineM,true);
+        // Puddle with a machine standing in it.
+        M("Lab puddle",MaterialKind.WaterBody,new Vector3(4,0,-2),new Vector3(4,.1f,3),waterM);
+        M("Lab machine B (in water)",MaterialKind.Machine,new Vector3(5.2f,.1f,-2),new Vector3(1,1.2f,1),machineM,true);
+        // Steam pool (walkable) for the heat + water lift.
+        M("Lab steam pool",MaterialKind.WaterBody,new Vector3(8,0,-9),new Vector3(4,.1f,4),waterM);
+        // Any-mode puzzle: melt the ice door OR power the lift motor (two solutions, one objective).
+        var doorIce=M("Lab any: ice door",MaterialKind.Ice,new Vector3(-6,0,-9),new Vector3(2,2,.5f),iceM);
+        var motor=M("Lab any: lift motor",MaterialKind.Machine,new Vector3(-2,0,-9),new Vector3(1,1,1),machineM,true);
+        var melt=new GameObject("Lab any: melt condition").AddComponent<MaterialStateCondition>(); melt.transform.SetParent(lab);
+        melt.label="melt-ice"; melt.goal=MaterialGoal.Melted; melt.targets=new[]{doorIce};
+        var power=new GameObject("Lab any: power condition").AddComponent<MaterialStateCondition>(); power.transform.SetParent(lab);
+        power.label="power-motor"; power.goal=MaterialGoal.Powered; power.targets=new[]{motor};
+        var any=Puzzle("Puzzle Lab Any (dev)","lab_any","ประตูน้ำแข็ง (ห้องทดลอง)","ละลายน้ำแข็ง หรือจ่ายไฟให้มอเตอร์","ผ่านแล้ว",
+            new Bounds(c+new Vector3(-4,2,-9),new Vector3(10,6,6)),null,new MonoBehaviour[]{melt,power},new PuzzleItem[0]);
+        any.mode=ConditionMode.Any; any.transform.SetParent(lab);
+        // Absorbables for sense range (10 m and 14 m from the sense spot) and a Deplete source that regenerates.
+        var near=PlaceSource(absScrap,"Lab source near (10 m)",c+new Vector3(10,0,0)); near.transform.SetParent(lab);
+        var far=PlaceSource(absScrap,"Lab source far (14 m)",c+new Vector3(-14,0,0)); far.transform.SetParent(lab);
+        var dep=PlaceSource(absScrap,"Lab source deplete (regen 20 s)",c+new Vector3(0,0,-4)); dep.transform.SetParent(lab);
+        dep.onAbsorbed=AbsorbResult.Deplete; dep.regenSeconds=20;
     }
     static Material ParticleMat() {
         string path=Root+"/Materials/VFX particle.mat";
@@ -208,9 +270,25 @@ public static class OopsPrototypeBuilder {
         Transform Find(string n) { foreach(var t in visual.GetComponentsInChildren<Transform>(true)) if(t.name==n) return t; throw new System.Exception("BLOB part missing: "+n); }
         var ex=playerGO.AddComponent<BlobExpression>(); ex.player=player;
         ex.eyes=new[]{Find("BLOB_Eye_L"),Find("BLOB_Eye_R")}; ex.pupils=new[]{Find("BLOB_Pupil_L"),Find("BLOB_Pupil_R")}; ex.mouth=Find("BLOB_Mouth");
+        foreach(var t in visual.GetComponentsInChildren<Transform>(true)) if(t.name=="BLOB_Drip") ex.antenna=t;
+        // v2 sense mode (hold right mouse): its own post FX volume, faded in by BlobSense.
+        var sense=playerGO.AddComponent<BlobSense>();
+        var sv=new GameObject("Sense FX volume").AddComponent<Volume>(); sv.isGlobal=true; sv.priority=1; sv.weight=0; sv.sharedProfile=SenseProfile();
+        sense.senseVolume=sv;
         var fb=playerGO.AddComponent<BlobFeedback>(); fb.player=player; fb.powers=powers; fb.world=world; fb.expression=ex;
         AudioSource Src() { var a=playerGO.AddComponent<AudioSource>(); a.spatialBlend=0; a.playOnAwake=false; return a; }
         fb.voice=Src(); fb.sfx=Src(); fb.magnetLoop=Src();
+    }
+    static VolumeProfile SenseProfile() {
+        string path=Root+"/Settings/OOPS_SenseFX.asset";
+        Directory.CreateDirectory(Root+"/Settings"); AssetDatabase.Refresh();
+        var profile=AssetDatabase.LoadAssetAtPath<VolumeProfile>(path); if(profile) return profile;
+        profile=ScriptableObject.CreateInstance<VolumeProfile>(); AssetDatabase.CreateAsset(profile,path);
+        T Add<T>() where T:VolumeComponent { var c=profile.Add<T>(true); c.name=typeof(T).Name; AssetDatabase.AddObjectToAsset(c,profile); return c; }
+        var ca=Add<ColorAdjustments>(); ca.postExposure.Override(-.8f); ca.saturation.Override(-45);
+        var v=Add<Vignette>(); v.intensity.Override(.45f); v.color.Override(new Color(.05f,.1f,.2f));
+        EditorUtility.SetDirty(profile); AssetDatabase.SaveAssets();
+        return profile;
     }
     static void Lighting(Camera cam) {
         RenderSettings.ambientMode=UnityEngine.Rendering.AmbientMode.Trilight;
@@ -297,6 +375,9 @@ public static class OopsPrototypeBuilder {
         var dash=DataAsset<CombinationDefinition>("Combo_PressureBounce",c=>{ c.a=BlobProperty.Pressure;c.b=BlobProperty.Bounce;c.effect=ComboEffect.PressureDash;
             c.nameTh="พุ่งแรงดัน";c.nameEn="Pressure Dash";c.howTh="เด้งขึ้นแล้วกดแรงดันกลางอากาศเพื่อพุ่งไปข้างหน้า";c.speed=10;c.lift=2; });
         var set=DataAsset<PowerSet>("PowerSet_Prototype",s=>{ s.powers.AddRange(new[]{magnet,pressure,bounce}); s.combinations.AddRange(new[]{cannon,dash}); });
+        // v2: the full 30-cell ordered combo table (Docs/DESIGN_V2_TH.md §4).
+        var table=DataAsset<ComboTable>("ComboTable_V2",t=>t.cells=ComboTableDefaults.Create());
+        if(set.table!=table) { set.table=table; EditorUtility.SetDirty(set); }
         AssetDatabase.SaveAssets();
         return set;
     }
@@ -369,8 +450,8 @@ public static class OopsPrototypeBuilder {
         // P02 absorption yard (west half of the Hub): one source per AbsorbResult mode, an occluded source and a non-absorbable decoy.
         Label("ลานฝึกดูดพลัง\nเล็ง + กด E ค้าง",new Vector3(-8.5f,2.6f,1.5f),0,.22f);
         PlaceSource(absScrap,"Absorbable Scrap (Magnet, remains)",new Vector3(-5,0,5),20);
-        PlaceSource(absTank,"Absorbable Tank (Pressure, remnant)",new Vector3(-10,0,5));
-        PlaceSource(absTire,"Absorbable Tire (Bounce, disables)",new Vector3(-10,0,-1),90);
+        PlaceSource(absTank,"Absorbable Tank (Pressure, remnant)",new Vector3(-10,0,5)).regenSeconds=20;
+        PlaceSource(absTire,"Absorbable Tire (Bounce, disables)",new Vector3(-10,0,-1),90).regenSeconds=20;
         Box("Line of sight test wall",new Vector3(-7.5f,1.25f,9),new Vector3(5,2.5f,.4f),dark);
         PlaceSource(absScrap,"Absorbable Scrap (occluded)",new Vector3(-7.5f,0,11.5f));
         Place(crateP,new Vector3(-3.5f,0,2)).name="Decoy Crate (not absorbable)";
@@ -528,6 +609,7 @@ public static class OopsPrototypeBuilder {
         hub.labelComplete="HUB — ฟื้นฟูครบทุกโซนแล้ว! ไปที่ DEMO END ปลายนาข้าว";
         hubZone.label=hub.labelLocked;
         world.hub=hub;
+        ElementLab(absScrap);
         Polish(world,gate,vent,ricePuzzle,plantList,metal,rust,dark,hazard,wood,straw);
 
         // DEMO END
@@ -537,6 +619,7 @@ public static class OopsPrototypeBuilder {
         Label("จุดจบเดโม DEMO END",new Vector3(55.6f,2.2f,0),90,.3f,new Color(.3f,1,.5f));
         Zone("Demo end",BlobInteraction.Exit,new Vector3(56.5f,1.5f,0),new Vector3(2,3,4));
 
+        world.gameObject.AddComponent<SteamSystem>().world=world;
         world.sources=sources.ToArray();world.zones=zones.ToArray();
         var cameraGO=new GameObject("Main Camera");cameraGO.tag="MainCamera";cameraGO.AddComponent<AudioListener>();
         var cam=cameraGO.AddComponent<Camera>();cam.fieldOfView=65;cam.farClipPlane=250;cam.nearClipPlane=.08f;
@@ -620,6 +703,20 @@ public static class OopsPrototypeBuilder {
                 if(s.onAbsorbed==AbsorbResult.Remnant && !s.remnantVisual) errors.Add("remnant source without remnant visual: "+s.name);
             }
             if(!Physics.Raycast(w.spawn+Vector3.up,Vector3.down,3)) errors.Add("spawn has no ground below");
+            // v2 stage B
+            var tbl=w.player && w.player.powers && w.player.powers.set?w.player.powers.set.table:null;
+            if(!tbl || tbl.cells.Count!=30) errors.Add("ComboTable_V2 missing or not 30 cells");
+            if(w.sources!=null) foreach(var s in w.sources) if(s) {
+                if(!s.GetComponent<AbsorbableVisual>()) errors.Add("source without AbsorbableVisual: "+s.name);
+                if(!s.powerLabel) errors.Add("source without power label: "+s.name);
+                else if(s.powerLabel.activeSelf) errors.Add("permanent power label: "+s.name);
+            }
+            var bs=w.player?w.player.GetComponent<BlobSense>():null;
+            if(!bs || !bs.senseVolume || !bs.senseVolume.sharedProfile) errors.Add("BlobSense / sense volume not wired");
+            var bex=w.player?w.player.GetComponent<BlobExpression>():null;
+            if(bex && !bex.antenna) errors.Add("BLOB antenna (BLOB_Drip) not wired");
+            var steam=w.GetComponent<SteamSystem>(); if(!steam || steam.world!=w) errors.Add("SteamSystem not wired");
+            foreach(var pz in w.puzzles) if(pz && pz.mode!=ConditionMode.All) errors.Add("prototype puzzle changed mode: "+pz.id);
             int exits=0,areas=0,checkpoints=0;
             foreach(var z in w.zones) {
                 if(!z) { errors.Add("null zone entry"); continue; }
@@ -651,6 +748,13 @@ public static class OopsPrototypeBuilder {
         var world=Object.FindFirstObjectByType<BlobWorld>();
         if(!world || world.GetComponent<OopsBuildTestRunner>()) return;
         world.gameObject.AddComponent<OopsBuildTestRunner>().steps=new[]{"route","absorb","power","puzzle"};
+    }
+    [MenuItem("Tools/OOPS Planet/Run Stage B Element Lab Test")]
+    public static void ElementLabTest() {
+        if(!EditorApplication.isPlaying) { Debug.LogError("Enter Play Mode first");return; }
+        var world=Object.FindFirstObjectByType<BlobWorld>();
+        if(!world || world.GetComponent<OopsElementLabTest>()) return;
+        world.gameObject.AddComponent<OopsElementLabTest>();
     }
     [MenuItem("Tools/OOPS Planet/Run P06 Polish Test")]
     public static void PolishTest() {

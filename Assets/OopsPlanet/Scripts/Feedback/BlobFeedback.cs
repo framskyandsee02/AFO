@@ -5,7 +5,8 @@ public class BlobFeedback : MonoBehaviour {
     public BlobPlayer player; public BlobPowers powers; public BlobWorld world; public BlobExpression expression;
     public AudioSource voice, sfx, magnetLoop;
     public int[] cueCounts=new int[System.Enum.GetValues(typeof(Cue)).Length];
-    float nextSpark;
+    float nextSpark, nextCurious;
+    BlobInteractable lastNearest; BlobSense sense;
     void Start() {
         player.Absorbed+=(src,prop)=>{ Play(Cue.Absorb,voice); Mood(BlobExpression.Mood.Happy,1);
             Vfx(k=>k.Burst(src.AimPoint,BlobPlayer.PropertyColor(prop),24,6,.12f,.45f,player.transform.position+Vector3.up*.7f-src.AimPoint,25)); };
@@ -27,9 +28,13 @@ public class BlobFeedback : MonoBehaviour {
                 Play(Cue.Happy,voice); Mood(BlobExpression.Mood.Happy,2.5f);
                 Vfx(k=>k.Burst(o.celebratePoint,new Color(.5f,1,.4f),70,7,.18f,1.2f)); Vfx(k=>k.Burst(o.celebratePoint,new Color(1,.9f,.35f),40,5,.12f,1f)); };
         }
+        sense=player.GetComponent<BlobSense>();
         if(magnetLoop) { magnetLoop.clip=ProcAudio.MagnetBuzz(); magnetLoop.loop=true; magnetLoop.volume=0; magnetLoop.Play(); }
     }
     void Update() {
+        // Soft curious "hm?" when BLOB walks up to an absorbable it has not just noticed.
+        if(sense && sense.nearest && sense.nearestDistance<4f && sense.nearest!=lastNearest && Time.time>nextCurious) { Play(Cue.Curious,voice); nextCurious=Time.time+6; }
+        if(sense) lastNearest=sense.nearest && sense.nearestDistance<4f?sense.nearest:lastNearest;
         bool magnet=powers && powers.held;
         if(magnetLoop) magnetLoop.volume=Mathf.MoveTowards(magnetLoop.volume,magnet?.35f:0,Time.deltaTime*3);
         if(magnet && Time.time>nextSpark) {

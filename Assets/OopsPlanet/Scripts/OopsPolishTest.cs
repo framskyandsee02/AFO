@@ -9,6 +9,7 @@ namespace OopsPlanet {
 public class OopsPolishTest : MonoBehaviour {
     [System.Serializable] public class Check { public string name;public bool passed;public string observed; }
     [System.Serializable] public class Report { public string utc;public List<Check> checks=new List<Check>();public int passed,failed; }
+    float yaw0, pitch0;
     BlobWorld w; BlobPlayer p; BlobPowers pw; BlobFeedback fb; BlobExpression ex; Report report=new Report();
     readonly List<GameObject> aims=new List<GameObject>();
     void CheckThat(string name,bool pass,string observed) {
@@ -25,6 +26,7 @@ public class OopsPolishTest : MonoBehaviour {
     bool CueOn(string part) { foreach(var r in p.visual.GetComponentsInChildren<Renderer>(true)) if(r.name.Contains(part)) return r.gameObject.activeSelf; return false; }
     IEnumerator Start() {
         w=GetComponent<BlobWorld>(); p=w.player; pw=p.powers; fb=p.GetComponent<BlobFeedback>(); ex=p.GetComponent<BlobExpression>();
+        yaw0=p.yaw; pitch0=p.pitch;
         p.testMode=true; p.paused=false; w.UseSaveSlot("test_run",false); w.Restart(); p.testMode=true;
         report.utc=System.DateTime.UtcNow.ToString("o");
         yield return Wait(.5f);
@@ -59,8 +61,12 @@ public class OopsPolishTest : MonoBehaviour {
         CheckThat("Refused absorb: 'hm' cue and sad face",fb.Count(Cue.Refused)>=1 && moodRefused==BlobExpression.Mood.Sad,"cue="+fb.Count(Cue.Refused)+" mood="+moodRefused);
         // Remnant hides the power label.
         yield return To(new Vector3(-6,0,1)); Aim(tank.AimPoint); yield return Wait(.3f); p.testAbsorb=true; yield return Wait(1.1f); p.testAbsorb=false; yield return null;
-        CheckThat("Source labels: Thai power name shown, hidden once the tank is used up",scrap.powerLabel && scrap.powerLabel.activeSelf && Thai(scrap.powerLabel.GetComponent<TextMesh>().text) && tank.powerLabel && !tank.powerLabel.activeSelf,
-            "scrap="+(scrap.powerLabel?scrap.powerLabel.GetComponent<TextMesh>().text:"none"));
+        // v2: labels are hidden until sense mode, then show the Thai name; a used-up source never shows one.
+        bool hiddenNormally=scrap.powerLabel && !scrap.powerLabel.activeSelf;
+        p.testSense=true; yield return Wait(.3f);
+        CheckThat("Source labels: hidden normally, Thai power name in sense mode, none once the tank is used up",hiddenNormally && scrap.powerLabel.activeSelf && Thai(scrap.powerLabel.GetComponent<TextMesh>().text) && tank.powerLabel && !tank.powerLabel.activeSelf,
+            "scrap="+(scrap.powerLabel?scrap.powerLabel.GetComponent<TextMesh>().text:"none")+" hiddenNormally="+hiddenNormally);
+        p.testSense=false; yield return Wait(.3f);
         CheckThat("Two powers -> both shape cues visible (Pressure + Magnet)",CueOn("Cue_Pressure") && CueOn("Cue_Magnet") && !CueOn("Cue_Bounce"),"pressure="+CueOn("Cue_Pressure"));
         // Swap.
         int swap=fb.Count(Cue.Swap); bursts=VfxKit.Instance.bursts; p.SwapProperties(); yield return null;
@@ -111,6 +117,7 @@ public class OopsPolishTest : MonoBehaviour {
         Finish();
     }
     void Finish() {
+        p.yaw=yaw0; p.pitch=pitch0; // leave the camera as found: tests run back to back in one Play session
         p.testMove=Vector2.zero; p.testAction=false; p.testAbsorb=false; p.testJump=false; p.testMode=false; p.testAim=null;
         foreach(var a in aims) if(a) Destroy(a);
         w.Restart();

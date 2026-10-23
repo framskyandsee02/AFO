@@ -19,3 +19,4 @@ MonoBehaviour:
   combinations:
   - {fileID: 11400000, guid: a6ecbdac77842004c8ce568a8d8b273a, type: 2}
   - {fileID: 11400000, guid: 52f6499921e30044b90d8fccc2a8391c, type: 2}
+  table: {fileID: 11400000, guid: 7e30000114cf35f4bb1d58de1f3d37f6, type: 2}
