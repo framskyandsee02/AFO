@@ -22,7 +22,7 @@ public class OopsPerfSample : MonoBehaviour {
             report.samples.Add(new Sample{view=v.name,frames=ms.Count,avgMs=sum/ms.Count,p95Ms=ms[Mathf.Min(ms.Count-1,(int)(ms.Count*.95f))],maxMs=ms[ms.Count-1]});
         }
         p.testMode=false;
-        string path=Path.Combine(Application.dataPath,"OopsPlanet/Evidence/perf-"+label+".json");
+        string path=TestReports.PathFor("perf-"+label+".json");
         File.WriteAllText(path,JsonUtility.ToJson(report,true));
         Debug.Log("OOPS_PERF_DONE "+label+" report="+path);
     }

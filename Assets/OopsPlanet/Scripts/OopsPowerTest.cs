@@ -154,7 +154,7 @@ public class OopsPowerTest : MonoBehaviour {
     void Finish() {
         Idle(); p.testMode=false; p.testAim=null;
         foreach(var a in aims) if(a) Destroy(a);
-        string path=Path.Combine(Application.dataPath,"OopsPlanet/Evidence/p03-power-test.json");
+        string path=TestReports.PathFor("p03-power-test.json");
         Directory.CreateDirectory(Path.GetDirectoryName(path));File.WriteAllText(path,JsonUtility.ToJson(report,true));
         Debug.Log("OOPS_P03_DONE passed="+report.passed+" failed="+report.failed+" report="+path);
     }

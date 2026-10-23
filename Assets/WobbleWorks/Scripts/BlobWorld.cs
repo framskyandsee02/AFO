@@ -19,7 +19,10 @@ public class BlobWorld : MonoBehaviour {
     bool resetting;
     GUIStyle title,body,small;
     Texture2D white;
-    void Awake() { checkpoint=spawn; }
+    // Frame cap (P07): vSync is on in the Quality settings; this cap applies where vSync is not active
+    // (driver forces it off, headless/batch runs) so the game never free-runs at thousands of fps.
+    public const int MaxFrameRate=240;
+    void Awake() { checkpoint=spawn; if(Application.targetFrameRate<=0) Application.targetFrameRate=MaxFrameRate; }
     void Update() {
         // Pause menu closed with ESC instead of "เล่นต่อ": still persist the settings that were changed.
         if(player && !player.paused && uiLook>=0) { ApplySettings(uiLook,uiVolume,uiAmbience); uiLook=-1; confirmNewGame=false; }
@@ -88,6 +91,8 @@ public class BlobWorld : MonoBehaviour {
     void Start() {
         Hook();
         if(autoLoad) LoadFromSlot(saveSlot); else RefreshProgress(true,false);
+        // Built-player smoke tests: OopsPlanet.exe -oopsAutoTest route,puzzle,... (see OopsBuildTestRunner).
+        if(OopsBuildTestRunner.Requested(out var steps)) gameObject.AddComponent<OopsBuildTestRunner>().steps=steps;
     }
     void Hook() {
         if(hooked || puzzles==null) return; hooked=true;

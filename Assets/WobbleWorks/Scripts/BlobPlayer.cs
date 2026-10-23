@@ -55,7 +55,18 @@ public class BlobPlayer : MonoBehaviour {
     TextMesh markerText;
     BlobInteractable lastCuedTarget;
     bool hasPowerBand;
-    public bool Grounded => cc && cc.isGrounded;
+    // CharacterController.isGrounded only reports contact when the last Move pushed into the ground; at very high
+    // frame rates that per-frame push becomes sub-millimetre and the flag drops out (P07: 0.26% grounded at 14k fps).
+    // A short sphere probe under the feet (only while not moving up) keeps grounding stable at any frame rate.
+    public bool Grounded => cc && (cc.isGrounded || probeGrounded);
+    bool probeGrounded;
+    const float GroundProbeDepth=.1f;   // probe reaches ~6 cm below the feet (the controller rests ~skinWidth above ground)
+    void ProbeGround() {
+        if(velocity.y>.01f) { probeGrounded=false; return; }
+        float r=cc.radius*.9f;
+        Vector3 c=transform.position+Vector3.up*(r+cc.skinWidth-GroundProbeDepth);
+        probeGrounded=Physics.CheckSphere(c,r,~(1<<2),QueryTriggerInteraction.Ignore);
+    }
     public CharacterController Controller => cc;
     public bool Has(BlobProperty p) => p!=BlobProperty.None && (property==p || secondary==p);
     public static Color PropertyColor(BlobProperty p) {
@@ -132,7 +143,7 @@ public class BlobPlayer : MonoBehaviour {
     public void Teleport(Vector3 pos) {
         cc.enabled=false; transform.position=pos; cc.enabled=true;
         velocity=Vector3.zero; externalVelocity=Vector3.zero; jumpBuffer=0; bounceCharge=0; wasJump=false;
-        bounceAirborne=false; rebounds=0; absorbProgress=0; heldTarget=null;
+        bounceAirborne=false; rebounds=0; absorbProgress=0; heldTarget=null; probeGrounded=false;
         Physics.SyncTransforms();
     }
     public void AimAt(Transform point) {
@@ -172,6 +183,7 @@ public class BlobPlayer : MonoBehaviour {
         bool groundedBefore=Grounded; float fallSpeed=-velocity.y;
         CollisionFlags flags=cc.Move((moveWorld*speed+externalVelocity+Vector3.up*velocity.y)*Time.deltaTime);
         if((flags&CollisionFlags.Above)!=0 && velocity.y>0) velocity.y=0;
+        ProbeGround();
         if(Grounded && !groundedBefore) OnLanded(fallSpeed,jump);
         externalVelocity=Vector3.MoveTowards(externalVelocity,Vector3.zero,(Grounded?40:12)*Time.deltaTime);
         if(Grounded && lastAirTime>.35f) { lastAirTime=0; if(audioSource)audioSource.PlayOneShot(tones[0],.25f); }

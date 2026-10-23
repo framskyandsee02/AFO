@@ -1,5 +1,5 @@
 {
-    "utc": "2026-10-23T03:33:30.6659453Z",
+    "utc": "2026-10-23T06:21:40.5512912Z",
     "checks": [
         {
             "name": "Bundled Noto Sans Thai font drives HUD and all world signs",
@@ -59,12 +59,12 @@
         {
             "name": "Bounce: 'wheee' + landing 'pof' cues, stretch then squash",
             "passed": true,
-            "observed": "launch=1 land=2 squash=-1.00..0.52"
+            "observed": "launch=1 land=2 squash=-1.00..0.54"
         },
         {
             "name": "Magnet: buzz loop fades in + sparks along the beam",
             "passed": true,
-            "observed": "vol=0.35 sparks=16"
+            "observed": "vol=0.35 sparks=17"
         },
         {
             "name": "Ambience cross-fades per zone and brightens after restoration",

@@ -645,6 +645,13 @@ public static class OopsPrototypeBuilder {
         if(world.GetComponent<OopsRouteTest>())throw new System.Exception("Route test already exists");
         world.gameObject.AddComponent<OopsRouteTest>();
     }
+    [MenuItem("Tools/OOPS Planet/Run P01-P04 Play Tests (sequence)")]
+    public static void RunSequence() {
+        if(!EditorApplication.isPlaying) { Debug.LogError("Enter Play Mode first");return; }
+        var world=Object.FindFirstObjectByType<BlobWorld>();
+        if(!world || world.GetComponent<OopsBuildTestRunner>()) return;
+        world.gameObject.AddComponent<OopsBuildTestRunner>().steps=new[]{"route","absorb","power","puzzle"};
+    }
     [MenuItem("Tools/OOPS Planet/Run P06 Polish Test")]
     public static void PolishTest() {
         if(!EditorApplication.isPlaying) { Debug.LogError("Enter Play Mode first");return; }

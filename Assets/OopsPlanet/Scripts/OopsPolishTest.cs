@@ -114,7 +114,7 @@ public class OopsPolishTest : MonoBehaviour {
         p.testMove=Vector2.zero; p.testAction=false; p.testAbsorb=false; p.testJump=false; p.testMode=false; p.testAim=null;
         foreach(var a in aims) if(a) Destroy(a);
         w.Restart();
-        string path=Path.Combine(Application.dataPath,"OopsPlanet/Evidence/p06-polish-test.json");
+        string path=TestReports.PathFor("p06-polish-test.json");
         File.WriteAllText(path,JsonUtility.ToJson(report,true));
         Debug.Log("OOPS_P06_DONE passed="+report.passed+" failed="+report.failed+" report="+path);
     }

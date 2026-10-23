@@ -1,5 +1,5 @@
 {
-    "utc": "2026-10-23T03:36:30.7733868Z",
+    "utc": "2026-10-23T06:19:47.3222082Z",
     "checks": [
         {
             "name": "Power data loaded (3 powers, 2 combos)",
@@ -64,7 +64,7 @@
         {
             "name": "Pressure cooldown blocks an immediate second blast",
             "passed": true,
-            "observed": "blasts=1 cd=0.24"
+            "observed": "blasts=1 cd=0.25"
         },
         {
             "name": "Pressure works again after cooldown",
@@ -74,7 +74,7 @@
         {
             "name": "Charged Bounce reaches the 3.5 m ledge (normal jump is 1.4 m)",
             "passed": true,
-            "observed": "y=3.51 peak=5.60"
+            "observed": "y=3.52 peak=5.60"
         },
         {
             "name": "Bounce rebounds decay and settle (no infinite bounce)",

@@ -112,7 +112,7 @@ public class OopsProgressTest : MonoBehaviour {
     }
     void Finish() {
         p.testMove=Vector2.zero; p.testMode=false; p.testAim=null;
-        string path=Path.Combine(Application.dataPath,"OopsPlanet/Evidence/p05-progress-test-"+session+".json");
+        string path=TestReports.PathFor("p05-progress-test-"+session+".json");
         Directory.CreateDirectory(Path.GetDirectoryName(path));File.WriteAllText(path,JsonUtility.ToJson(report,true));
         Debug.Log("OOPS_P05_DONE session="+session+" passed="+report.passed+" failed="+report.failed+" report="+path);
     }

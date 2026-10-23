@@ -175,7 +175,7 @@ public class OopsPuzzleTest : MonoBehaviour {
     void Finish() {
         p.testMove=Vector2.zero;p.testJump=false;p.testAction=false;p.testSecondary=false;p.testAbsorb=false;p.testMode=false;p.testAim=null;
         foreach(var a in aims) if(a) Destroy(a);
-        string path=Path.Combine(Application.dataPath,"OopsPlanet/Evidence/p04-puzzle-test.json");
+        string path=TestReports.PathFor("p04-puzzle-test.json");
         Directory.CreateDirectory(Path.GetDirectoryName(path));File.WriteAllText(path,JsonUtility.ToJson(report,true));
         Debug.Log("OOPS_P04_DONE passed="+report.passed+" failed="+report.failed+" allSolved="+report.allSolved+" report="+path);
     }

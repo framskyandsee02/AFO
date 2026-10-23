@@ -116,7 +116,7 @@ public class OopsAbsorbTest : MonoBehaviour {
     void Finish() {
         p.testMove=Vector2.zero;p.testAbsorb=false;p.testMode=false;p.testAim=null;
         foreach(var a in aims) if(a) Destroy(a);
-        string path=Path.Combine(Application.dataPath,"OopsPlanet/Evidence/p02-absorb-test.json");
+        string path=TestReports.PathFor("p02-absorb-test.json");
         Directory.CreateDirectory(Path.GetDirectoryName(path));File.WriteAllText(path,JsonUtility.ToJson(report,true));
         Debug.Log("OOPS_P02_DONE passed="+report.passed+" failed="+report.failed+" report="+path);
     }

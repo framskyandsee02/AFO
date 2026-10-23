@@ -1,5 +1,5 @@
 {
-    "utc": "2026-10-23T03:38:20.1981155Z",
+    "utc": "2026-10-23T06:22:19.0043795Z",
     "session": 1,
     "checks": [
         {
@@ -35,7 +35,7 @@
         {
             "name": "BLOB walks through the opened gate into the Rice Fields",
             "passed": true,
-            "observed": "x=27.79 checkpoint=2"
+            "observed": "x=27.77 checkpoint=2"
         },
         {
             "name": "Returning to the Hub announces the change",
@@ -60,7 +60,7 @@
         {
             "name": "Player save file untouched by the test",
             "passed": true,
-            "observed": "before=absent after=absent path=C:/Users/PREDATOR/AppData/LocalLow/DefaultCompany/AFO\\oops_save.json"
+            "observed": "before=263@639283238774466348 after=263@639283238774466348 path=C:/Users/PREDATOR/AppData/LocalLow/DefaultCompany/AFO\\oops_save.json"
         }
     ],
     "passed": 12,

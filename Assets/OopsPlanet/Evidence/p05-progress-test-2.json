@@ -1,5 +1,5 @@
 {
-    "utc": "2026-10-23T03:38:43.6586140Z",
+    "utc": "2026-10-23T06:22:42.4046473Z",
     "session": 2,
     "checks": [
         {
@@ -25,7 +25,7 @@
         {
             "name": "Loaded progress is usable: walk Hub <-> Rice; no repeat Hub announcement",
             "passed": true,
-            "observed": "x=10.21 announcements=0"
+            "observed": "x=10.22 announcements=0"
         },
         {
             "name": "Corrupt save: safe fresh start, file kept as .corrupt.json, player told",
@@ -60,7 +60,7 @@
         {
             "name": "Player save file untouched by the test",
             "passed": true,
-            "observed": "before=absent after=absent path=C:/Users/PREDATOR/AppData/LocalLow/DefaultCompany/AFO\\oops_save.json"
+            "observed": "before=263@639283238774466348 after=263@639283238774466348 path=C:/Users/PREDATOR/AppData/LocalLow/DefaultCompany/AFO\\oops_save.json"
         }
     ],
     "passed": 12,

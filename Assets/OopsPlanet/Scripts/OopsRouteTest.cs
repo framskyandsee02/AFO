@@ -72,7 +72,7 @@ public class OopsRouteTest : MonoBehaviour {
     }
     void Finish() {
         p.testMove=Vector2.zero;p.testJump=false;p.testMode=false;
-        string path=Path.Combine(Application.dataPath,"OopsPlanet/Evidence/p01-route-test.json");
+        string path=TestReports.PathFor("p01-route-test.json");
         Directory.CreateDirectory(Path.GetDirectoryName(path));File.WriteAllText(path,JsonUtility.ToJson(report,true));
         Debug.Log("OOPS_ROUTETEST_DONE passed="+report.passed+" failed="+report.failed+" completed="+report.completedRoute+" report="+path);
     }
