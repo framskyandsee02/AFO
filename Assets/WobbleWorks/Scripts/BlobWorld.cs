@@ -21,6 +21,8 @@ public class BlobWorld : MonoBehaviour {
     Texture2D white;
     void Awake() { checkpoint=spawn; }
     void Update() {
+        // Pause menu closed with ESC instead of "เล่นต่อ": still persist the settings that were changed.
+        if(player && !player.paused && uiLook>=0) { ApplySettings(uiLook,uiVolume,uiAmbience); uiLook=-1; confirmNewGame=false; }
         if(!player || player.paused || finished) return;
         elapsed+=Time.deltaTime;
         Vector3 p=player.transform.position;
@@ -30,7 +32,7 @@ public class BlobWorld : MonoBehaviour {
                 case BlobInteraction.Checkpoint:
                     if(zone.index>checkpointIndex) {
                         checkpointIndex=zone.index; checkpoint=zone.respawn;
-                        player.Notify("CHECKPOINT "+zone.index+" SAVED",3);
+                        player.Notify("บันทึกจุดเช็กพอยต์ "+zone.index+" แล้ว",3);
                     }
                     break;
                 case BlobInteraction.Area:
@@ -38,7 +40,7 @@ public class BlobWorld : MonoBehaviour {
                     break;
                 case BlobInteraction.Exit:
                     if(finished) break;
-                    finished=true; player.completed=true; player.Notify("DEMO COMPLETE",4);
+                    finished=true; player.completed=true; player.Notify("จบเดโม! ยอดเยี่ยมมาก",4);
                     Cursor.lockState=CursorLockMode.None; Cursor.visible=true;
                     Debug.Log("OOPS_LEVEL_COMPLETE time="+elapsed+" deaths="+deaths);
                     break;
@@ -46,14 +48,16 @@ public class BlobWorld : MonoBehaviour {
         }
     }
     public void RecordProperty(BlobProperty p) { if(p!=BlobProperty.None) propertyMask|=1<<(int)p; }
+    public event System.Action Respawned;
+    public event System.Action<ZoneGate> ZoneUnlocked;
     public void Respawn() {
         if(resetting)return; resetting=true;
         player.Teleport(checkpoint);
         player.ClearProperties();
         if(player.powers) player.powers.ResetState();
         RestoreSources(false);
-        deaths++; player.Notify("RESPAWN — CHECKPOINT RESTORED");
-        resetting=false;
+        deaths++; player.Notify("กลับมาที่จุดเช็กพอยต์แล้ว");
+        resetting=false; Respawned?.Invoke();
     }
     // Restart = new game: the level and all progress are reset and the cleared progress is saved.
     public void Restart() { ResetLevel(); Save(); }
@@ -92,7 +96,7 @@ public class BlobWorld : MonoBehaviour {
     // Unlock zones whose requirements are now met, update the Hub, optionally save.
     public void RefreshProgress(bool instant,bool save) {
         if(zoneGates!=null) foreach(var g in zoneGates)
-            if(g && !g.Unlocked && g.RequirementsMet) { g.Unlock(instant); if(!instant && player) player.Notify(g.zoneNameTh+" เปิดแล้ว! กลับไปที่ฮับเพื่อไปต่อ",4); }
+            if(g && !g.Unlocked && g.RequirementsMet) { g.Unlock(instant); if(!instant) { if(player) player.Notify(g.zoneNameTh+" เปิดแล้ว! กลับไปที่ฮับเพื่อไปต่อ",4); ZoneUnlocked?.Invoke(g); } }
         if(hub) hub.Refresh(instant);
         if(save) Save();
     }
@@ -101,7 +105,7 @@ public class BlobWorld : MonoBehaviour {
         var d=new SaveData();
         if(puzzles!=null) foreach(var pz in puzzles) if(pz && pz.State==PuzzleState.Solved) d.solvedPuzzles.Add(pz.id);
         if(zoneGates!=null) foreach(var g in zoneGates) if(g && g.Unlocked) d.unlockedZones.Add(g.zoneId);
-        d.lookSensitivity=player?player.lookSensitivity:.13f; d.masterVolume=AudioListener.volume;
+        d.lookSensitivity=player?player.lookSensitivity:.13f; d.masterVolume=AudioListener.volume; d.ambienceVolume=ambience?ambience.ambienceVolume:1;
         return d;
     }
     public bool Save() { saves++; return SaveSystem.Save(saveSlot,Snapshot()); }
@@ -115,6 +119,7 @@ public class BlobWorld : MonoBehaviour {
         if(zoneGates!=null) foreach(var g in zoneGates) if(g && (data.unlockedZones.Contains(g.zoneId)||g.RequirementsMet)) g.Unlock(true);
         if(player) player.lookSensitivity=data.lookSensitivity;
         AudioListener.volume=data.masterVolume;
+        if(ambience) ambience.ambienceVolume=data.ambienceVolume;
         loading=false;
         RefreshProgress(true,false);
         if(player && (lastLoadStatus==SaveSystem.LoadStatus.Corrupt||lastLoadStatus==SaveSystem.LoadStatus.WrongVersion))
@@ -122,9 +127,11 @@ public class BlobWorld : MonoBehaviour {
         Debug.Log("OOPS_SAVE load "+slot+" status="+lastLoadStatus+" solved="+SolvedPuzzles);
         return lastLoadStatus;
     }
-    public void ApplySettings(float look,float volume) {
+    public void ApplySettings(float look,float volume) => ApplySettings(look,volume,ambience?ambience.ambienceVolume:1);
+    public void ApplySettings(float look,float volume,float ambienceVolume) {
         if(player) player.lookSensitivity=Mathf.Clamp(look,.02f,1f);
         AudioListener.volume=Mathf.Clamp01(volume);
+        if(ambience) ambience.ambienceVolume=Mathf.Clamp01(ambienceVolume);
         Save();
     }
     public int SolvedPuzzles { get { int n=0; if(puzzles!=null) foreach(var pz in puzzles) if(pz && pz.State==PuzzleState.Solved) n++; return n; } }
@@ -156,100 +163,153 @@ public class BlobWorld : MonoBehaviour {
         hudProperties.Sort();
         return hudProperties;
     }
+    // ---- Thai UI (P06) ----
+    // All HUD text uses the bundled Noto Sans Thai (SIL OFL 1.1, Assets/OopsPlanet/Fonts); no OS fonts.
+    [Header("UI")]
+    public Font uiFont;
+    public ZoneAmbience ambience;
+    GUIStyle buttonStyle;
+    bool confirmNewGame;
+    float uiLook=-1, uiVolume, uiAmbience;
     void EnsureStyles() {
         if(title!=null)return;
         white=Texture2D.whiteTexture;
-        // Thai-capable OS font (Windows ships Leelawadee UI / Tahoma); falls back to the default font elsewhere.
-        var thai=Font.CreateDynamicFontFromOSFont(new[]{"Leelawadee UI","Tahoma","Arial"},16);
-        title=new GUIStyle(GUI.skin.label){font=thai,fontSize=24,fontStyle=FontStyle.Bold,wordWrap=true};
+        title=new GUIStyle(GUI.skin.label){font=uiFont,fontSize=26,fontStyle=FontStyle.Bold,wordWrap=true};
         title.normal.textColor=Color.white;
-        body=new GUIStyle(GUI.skin.label){font=thai,fontSize=16,wordWrap=true}; body.normal.textColor=new Color(.88f,.94f,.98f);
-        small=new GUIStyle(body){fontSize=13};
+        body=new GUIStyle(GUI.skin.label){font=uiFont,fontSize=19,wordWrap=true}; body.normal.textColor=new Color(.9f,.95f,.98f);
+        small=new GUIStyle(body){fontSize=16};
+        buttonStyle=new GUIStyle(GUI.skin.button){font=uiFont,fontSize=18};
     }
     void Panel(Rect r) {
-        GUI.color=new Color(.025f,.045f,.065f,.92f); GUI.DrawTexture(r,white); GUI.color=Color.white;
+        GUI.color=new Color(.02f,.035f,.055f,.88f); GUI.DrawTexture(r,white); GUI.color=Color.white;
     }
     string SlotLine(string slot,string key,BlobProperty prop) {
         if(prop==BlobProperty.None) return slot+" ["+key+"]: ว่าง";
         var d=player.powers?player.powers.Def(prop):null;
         return slot+" ["+key+"]: "+player.NameTh(prop)+(d?"  —  "+d.hintTh:"");
     }
+    // Thai text for BLOB's absorb target status (the status codes themselves stay stable for tests).
+    public string StatusTh() {
+        switch(player.targetStatus) {
+            case BlobPlayer.Absorbable: return "กด E ค้างเพื่อดูดซับพลัง"+(player.target?player.NameTh(player.target.property):"");
+            case BlobPlayer.NotAbsorbable: return "ดูดซับไม่ได้ — วัตถุนี้ไม่มีพลัง";
+            case "OUT OF RANGE": return "ไกลเกินไป — เดินเข้าไปใกล้อีกนิด";
+            case "AIM AT TARGET": return "เล็งให้ตรงเป้า";
+            case "BLOCKED": return "มีสิ่งกีดขวาง — หามุมใหม่";
+            default: return "เล็งไปที่วัตถุที่มีพลังเพื่อดูดซับ";
+        }
+    }
+    public const string ControlsTh="WASD เดิน  •  SPACE กระโดด / ค้างเพื่อเด้ง  •  เมาส์ มอง\nE ค้าง ดูดซับ  •  F พลังหลัก  •  G พลังเสริม  •  Q สลับพลัง\nR กลับจุดเช็กพอยต์  •  ESC หยุดเกม / ตั้งค่า  •  TAB มุมมองรวม";
     void OnGUI() {
         if(!player)return; EnsureStyles();
         float scale=Mathf.Min(Screen.width/1440f,Screen.height/900f);
         GUI.matrix=Matrix4x4.TRS(Vector3.zero,Quaternion.identity,Vector3.one*scale);
         float w=Screen.width/scale,h=Screen.height/scale;
-        Panel(new Rect(24,22,650,100));
-        GUI.Label(new Rect(40,30,620,35),levelTitle,title);
-        GUI.Label(new Rect(40,70,620,45),objective,body);
-        Panel(new Rect(w-244,22,220,110));
-        GUI.Label(new Rect(w-228,32,200,28),"CHECKPOINT  "+checkpointIndex+" / "+checkpointCount,body);
-        GUI.Label(new Rect(w-228,62,200,50),"TIME "+Mathf.FloorToInt(elapsed)+"s  /  RETRIES "+deaths+"\nTAB: overview",small);
+        Panel(new Rect(24,22,720,112));
+        GUI.Label(new Rect(40,28,690,38),levelTitle,title);
+        GUI.Label(new Rect(40,70,690,62),objective,body);
+        Panel(new Rect(w-264,22,240,112));
+        GUI.Label(new Rect(w-248,30,220,28),"จุดเช็กพอยต์  "+checkpointIndex+" / "+checkpointCount,body);
+        GUI.Label(new Rect(w-248,62,220,70),"เวลา "+Mathf.FloorToInt(elapsed)+" วิ  •  รีสปอน "+Mathf.Max(0,deaths)+"\nTAB: มุมมองรวม",small);
         if(puzzles!=null && puzzles.Length>0) {
             var pz=CurrentPuzzle;
-            Panel(new Rect(w-464,142,440,118));
-            GUI.Label(new Rect(w-450,148,415,108),PuzzlePanelText(),small);
+            Panel(new Rect(w-484,146,460,128));
+            GUI.Label(new Rect(w-470,152,435,112),PuzzlePanelText(),small);
             if(pz && pz.State!=PuzzleState.Locked) {
-                GUI.color=Color.gray; GUI.DrawTexture(new Rect(w-450,248,415,5),white);
+                GUI.color=Color.gray; GUI.DrawTexture(new Rect(w-470,262,435,6),white);
                 GUI.color=pz.State==PuzzleState.Solved?new Color(.3f,1,.5f):new Color(1,.8f,.3f);
-                GUI.DrawTexture(new Rect(w-450,248,415*pz.Progress01,5),white); GUI.color=Color.white;
+                GUI.DrawTexture(new Rect(w-470,262,435*pz.Progress01,6),white); GUI.color=Color.white;
             }
         }
         bool hasSources=sources!=null && sources.Length>0;
-        if(!overview && hasSources) {
-            GUI.Label(new Rect(w/2-12,h/2-16,30,30),"+",title);
+        bool menu=player.paused||finished;
+        if(!overview && hasSources && !menu) {
+            GUI.Label(new Rect(w/2-12,h/2-18,30,34),"+",title);
             // Status panel sits below the crosshair so it never covers the world-space target marker above the source.
-            Panel(new Rect(w/2-200,h/2+40,400,64));
-            GUI.Label(new Rect(w/2-188,h/2+45,380,24),player.targetStatus,body);
-            GUI.color=Color.gray; GUI.DrawTexture(new Rect(w/2-184,h/2+77,368,6),white);
+            Panel(new Rect(w/2-230,h/2+40,460,70));
+            GUI.color=player.targetStatus==BlobPlayer.Absorbable?new Color(1,.95f,.6f):Color.white;
+            GUI.Label(new Rect(w/2-216,h/2+45,435,30),StatusTh(),body);
+            GUI.color=Color.gray; GUI.DrawTexture(new Rect(w/2-214,h/2+84,428,7),white);
             GUI.color=player.target?BlobPlayer.PropertyColor(player.target.property):Color.white;
-            GUI.DrawTexture(new Rect(w/2-184,h/2+77,368*Mathf.Clamp01(player.absorbProgress),6),white); GUI.color=Color.white;
+            GUI.DrawTexture(new Rect(w/2-214,h/2+84,428*Mathf.Clamp01(player.absorbProgress),7),white); GUI.color=Color.white;
         }
         if(hasSources) {
             // Thai power panel: primary / secondary slots, the active combination and the swap key.
-            Panel(new Rect(24,h-208,640,184));
-            GUI.Label(new Rect(40,h-200,600,26),"พลังที่ใช้งาน (สูงสุด "+PowerSet.MaxActive+")",body);
+            Panel(new Rect(24,h-222,700,198));
+            GUI.Label(new Rect(40,h-214,330,28),"พลังที่ใช้งาน (สูงสุด "+PowerSet.MaxActive+")",body);
             var props=HudProperties();
             for(int i=0;i<props.Count;i++) {
                 bool primary=player.property==props[i], second=player.secondary==props[i];
                 GUI.color=primary?BlobPlayer.PropertyColor(props[i]):second?Color.Lerp(BlobPlayer.PropertyColor(props[i]),Color.gray,.5f):new Color(.35f,.39f,.43f);
-                GUI.DrawTexture(new Rect(330+i*105,h-190,95,primary?6:3),white);
+                GUI.DrawTexture(new Rect(360+i*115,h-206,105,primary?7:3),white);
                 GUI.color=Color.white;
-                GUI.Label(new Rect(330+i*105,h-182,100,22),player.NameTh(props[i])+(primary?" (หลัก)":second?" (เสริม)":""),small);
+                GUI.Label(new Rect(360+i*115,h-198,112,26),player.NameTh(props[i])+(primary?" (หลัก)":second?" (เสริม)":""),small);
             }
-            GUI.Label(new Rect(40,h-158,610,24),SlotLine("พลังหลัก","F",player.property),small);
-            GUI.Label(new Rect(40,h-134,610,24),SlotLine("พลังเสริม","G",player.secondary),small);
+            GUI.Label(new Rect(40,h-168,670,26),SlotLine("พลังหลัก","F",player.property),small);
+            GUI.Label(new Rect(40,h-142,670,26),SlotLine("พลังเสริม","G",player.secondary),small);
             var combo=player.powers?player.powers.ActiveCombo:null;
             string comboLine=player.secondary==BlobProperty.None?"คอมโบ: ต้องมี 2 พลัง":
                 combo?"คอมโบ: "+combo.nameTh+"  —  "+combo.howTh:"คอมโบ: คู่นี้ผสมกันไม่ได้ (ใช้แยกกัน)";
             GUI.color=combo?new Color(1,.9f,.5f):Color.white;
-            GUI.Label(new Rect(40,h-108,610,24),comboLine,small);
+            GUI.Label(new Rect(40,h-116,670,26),comboLine,small);
             GUI.color=Color.white;
             if(player.Has(BlobProperty.Pressure) && player.powers) {
                 float cd=player.powers.PressureCooldown01;
-                GUI.Label(new Rect(40,h-82,160,22),cd>0?"แรงดัน: ชาร์จ":"แรงดัน: พร้อม",small);
-                GUI.color=Color.gray; GUI.DrawTexture(new Rect(170,h-72,200,5),white);
-                GUI.color=BlobPlayer.PropertyColor(BlobProperty.Pressure); GUI.DrawTexture(new Rect(170,h-72,200*(1-cd),5),white); GUI.color=Color.white;
+                GUI.Label(new Rect(40,h-88,170,24),cd>0?"แรงดัน: กำลังชาร์จ":"แรงดัน: พร้อมใช้",small);
+                GUI.color=Color.gray; GUI.DrawTexture(new Rect(200,h-76,220,6),white);
+                GUI.color=BlobPlayer.PropertyColor(BlobProperty.Pressure); GUI.DrawTexture(new Rect(200,h-76,220*(1-cd),6),white); GUI.color=Color.white;
             }
-            GUI.Label(new Rect(40,h-56,610,24),"Q: สลับพลังหลัก/เสริม  •  ดูดพลังใหม่: พลังเก่าสุดจะถูกทิ้ง",small);
+            GUI.Label(new Rect(40,h-60,670,26),"Q: สลับพลังหลัก/เสริม  •  ดูดพลังใหม่ พลังที่เก่าที่สุดจะหลุด",small);
         }
-        Panel(new Rect(w-584,h-112,560,88));
-        GUI.Label(new Rect(w-568,h-104,530,72),"WASD move  |  SPACE jump  |  Mouse look\n"+(hasSources?"E hold absorb  |  F / G power  |  Q swap  |  ":"")+"R respawn\nT restart  |  ESC pause  |  TAB overview",small);
+        Panel(new Rect(w-664,h-124,640,100));
+        GUI.Label(new Rect(w-650,h-118,620,92),hasSources?ControlsTh:"WASD เดิน  •  SPACE กระโดด  •  เมาส์ มอง\nR กลับจุดเช็กพอยต์  •  ESC หยุดเกม / ตั้งค่า  •  TAB มุมมองรวม",small);
         if(!string.IsNullOrEmpty(player.feedback)) {
-            Panel(new Rect(w/2-250,145,500,50)); GUI.Label(new Rect(w/2-238,155,480,35),player.feedback,body);
+            Panel(new Rect(w/2-260,146,520,54)); GUI.Label(new Rect(w/2-246,154,495,42),player.feedback,body);
         }
-        if(player.paused || finished) {
-            Panel(new Rect(w/2-240,h/2-130,480,250));
-            GUI.Label(new Rect(w/2-214,h/2-110,440,40),finished?"DEMO COMPLETE":"PAUSED",title);
-            GUI.Label(new Rect(w/2-214,h/2-62,420,65),finished?"Demo route complete.\nTime: "+Mathf.FloorToInt(elapsed)+"s / retries: "+deaths:"Click Resume, then use the mouse to aim.\nAbsorb up to two properties.",body);
-            if(GUI.Button(new Rect(w/2-210,h/2+20,200,42),finished?"REPLAY LEVEL":"RESUME")) {
-                if(finished)Restart(); player.Resume();
-            }
-            if(GUI.Button(new Rect(w/2+10,h/2+20,200,42),"RESTART LEVEL")) { Restart();player.Resume(); }
-        } else if(!player.testMode && Cursor.lockState!=CursorLockMode.Locked) {
-            GUI.Label(new Rect(w/2-235,h/2+120,500,35),"CLICK THE GAME VIEW TO CAPTURE THE MOUSE",body);
+        if(finished) FinishedMenu(w,h);
+        else if(player.paused) PauseMenu(w,h);
+        else if(!player.testMode && Cursor.lockState!=CursorLockMode.Locked) {
+            Panel(new Rect(w/2-260,h/2+128,520,40));
+            GUI.Label(new Rect(w/2-246,h/2+133,495,32),"คลิกที่หน้าจอเกมเพื่อควบคุมกล้องด้วยเมาส์",body);
         }
         GUI.matrix=Matrix4x4.identity;
+    }
+    void PauseMenu(float w,float h) {
+        if(uiLook<0) { uiLook=player.lookSensitivity; uiVolume=AudioListener.volume; uiAmbience=ambience?ambience.ambienceVolume:1; }
+        Rect r=new Rect(w/2-300,h/2-250,600,500); Panel(r);
+        GUI.Label(new Rect(r.x+30,r.y+18,540,40),"หยุดเกมชั่วคราว",title);
+        if(GUI.Button(new Rect(r.x+30,r.y+70,540,44),"เล่นต่อ",buttonStyle)) { CloseMenu(); return; }
+        if(GUI.Button(new Rect(r.x+30,r.y+122,540,44),"กลับจุดเช็กพอยต์ล่าสุด (ลองใหม่)",buttonStyle)) { Respawn(); CloseMenu(); return; }
+        if(GUI.Button(new Rect(r.x+30,r.y+174,540,44),confirmNewGame?"กดอีกครั้งเพื่อยืนยัน: ล้างความคืบหน้าทั้งหมด":"เริ่มเกมใหม่",buttonStyle)) {
+            if(confirmNewGame) { Restart(); CloseMenu(); return; }
+            confirmNewGame=true;
+        }
+        GUI.Label(new Rect(r.x+30,r.y+236,540,30),"ตั้งค่า (บันทึกอัตโนมัติ)",body);
+        uiVolume=Slider(r.x+30,r.y+272,"ระดับเสียงรวม",uiVolume,0,1);
+        uiAmbience=Slider(r.x+30,r.y+322,"เสียงบรรยากาศ",uiAmbience,0,1);
+        uiLook=Slider(r.x+30,r.y+372,"ความไวเมาส์",uiLook,.03f,.4f);
+        AudioListener.volume=uiVolume; player.lookSensitivity=uiLook; if(ambience) ambience.ambienceVolume=uiAmbience;
+        GUI.Label(new Rect(r.x+30,r.y+426,540,60),"พลังแต่ละแบบมีชิ้นส่วนบนตัว BLOB ต่างกัน: เกือกม้า = แม่เหล็ก, วาล์ว = แรงดัน, สปริง = เด้ง",small);
+    }
+    float Slider(float x,float y,string label,float value,float min,float max) {
+        GUI.Label(new Rect(x,y,200,30),label,small);
+        float v=GUI.HorizontalSlider(new Rect(x+210,y+10,260,20),value,min,max);
+        GUI.Label(new Rect(x+480,y,70,30),Mathf.RoundToInt((v-min)/(max-min)*100)+"%",small);
+        return v;
+    }
+    void CloseMenu() {
+        confirmNewGame=false;
+        if(uiLook>=0) ApplySettings(uiLook,uiVolume,uiAmbience);
+        uiLook=-1;
+        player.Resume();
+    }
+    void FinishedMenu(float w,float h) {
+        Rect r=new Rect(w/2-280,h/2-150,560,300); Panel(r);
+        GUI.Label(new Rect(r.x+30,r.y+20,500,40),"จบเดโมแล้ว!",title);
+        GUI.Label(new Rect(r.x+30,r.y+72,500,110),"ใช้เวลา "+Mathf.FloorToInt(elapsed)+" วินาที  •  รีสปอน "+Mathf.Max(0,deaths)+" ครั้ง\nฟื้นฟูโลก "+SolvedPuzzles+" / "+(puzzles!=null?puzzles.Length:0)+"\nขอบคุณที่ช่วย BLOB ซ่อมดาว OOPS!",body);
+        if(GUI.Button(new Rect(r.x+30,r.y+210,500,48),confirmNewGame?"กดอีกครั้งเพื่อยืนยัน: เริ่มเกมใหม่":"เล่นใหม่ตั้งแต่ต้น",buttonStyle)) {
+            if(confirmNewGame) { confirmNewGame=false; Restart(); player.Resume(); } else confirmNewGame=true;
+        }
     }
 }
 }

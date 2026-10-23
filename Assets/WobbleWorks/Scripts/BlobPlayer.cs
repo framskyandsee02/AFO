@@ -42,6 +42,15 @@ public class BlobPlayer : MonoBehaviour {
     public string feedback="";
     // Raised after a successful absorb: the source absorbed and the property BLOB gained.
     public event System.Action<BlobInteractable,BlobProperty> Absorbed;
+    // Feedback hooks (audio / VFX / expressions subscribe; gameplay does not depend on them).
+    public event System.Action<bool> Launched;          // true = Bounce launch, false = normal jump
+    public event System.Action Rebounded;
+    public event System.Action<float> Landed;           // downward speed at touch-down
+    public event System.Action SlotsChanged, Swapped;
+    public event System.Action<string> AbsorbRefused;   // held E on a target that cannot be absorbed (status code)
+    // Extra squash/stretch from BlobExpression, multiplied into the power shape.
+    public Vector3 extraShape=Vector3.one;
+    bool refusedLatched;
     public GameObject targetMarker;
     TextMesh markerText;
     BlobInteractable lastCuedTarget;
@@ -108,6 +117,7 @@ public class BlobPlayer : MonoBehaviour {
     public void SwapProperties() {
         if(secondary==BlobProperty.None) { Notify("ต้องมี 2 พลังจึงจะสลับได้"); return; }
         (property,secondary)=(secondary,property);
+        Swapped?.Invoke();
         OnPropertiesChanged();
         Notify("สลับพลัง: หลัก = "+NameTh(property)+", เสริม = "+NameTh(secondary),3);
     }
@@ -115,6 +125,7 @@ public class BlobPlayer : MonoBehaviour {
     // Test / tool hook: set both slots directly.
     public void SetProperties(BlobProperty primary,BlobProperty second) { property=primary; secondary=second==primary?BlobProperty.None:second; OnPropertiesChanged(); }
     void OnPropertiesChanged() {
+        SlotsChanged?.Invoke();
         bounceCharge=0;
         if(powers && !Has(BlobProperty.Magnet)) powers.Release();
     }
@@ -140,7 +151,6 @@ public class BlobPlayer : MonoBehaviour {
         if(paused || completed) { absorbProgress=0; heldTarget=null; if(beam)beam.enabled=false; return; }
         if(!testMode && k!=null) {
             if(k.rKey.wasPressedThisFrame) world.Respawn();
-            if(k.tKey.wasPressedThisFrame) world.Restart();
             if(k.tabKey.wasPressedThisFrame) world.overview=!world.overview;
         }
         Vector2 input=testMode?testMove:Vector2.zero;
@@ -166,7 +176,8 @@ public class BlobPlayer : MonoBehaviour {
         externalVelocity=Vector3.MoveTowards(externalVelocity,Vector3.zero,(Grounded?40:12)*Time.deltaTime);
         if(Grounded && lastAirTime>.35f) { lastAirTime=0; if(audioSource)audioSource.PlayOneShot(tones[0],.25f); }
         if(!Grounded) lastAirTime+=Time.deltaTime;
-        if(moveWorld.sqrMagnitude>.01f) visual.rotation=Quaternion.Slerp(visual.rotation,Quaternion.LookRotation(moveWorld),Time.deltaTime*12);
+        if(moveWorld.sqrMagnitude>.01f) visual.rotation=Quaternion.Slerp(visual.rotation,Quaternion.LookRotation(moveWorld)*Quaternion.Euler(Grounded?7:0,0,0),Time.deltaTime*12);
+        else visual.rotation=Quaternion.Slerp(visual.rotation,Quaternion.Euler(0,visual.eulerAngles.y,0),Time.deltaTime*8);
         if(transform.position.y<-8) world.Respawn();
         UpdateAbsorb(absorb);
         UpdateMorph();
@@ -177,10 +188,11 @@ public class BlobPlayer : MonoBehaviour {
     // with a decaying factor (<1) and a hard cap on rebounds, so bouncing always settles.
     // Called on the frame Move() first reports ground contact, with the downward speed just before landing.
     void OnLanded(float impact,bool jump) {
+        Landed?.Invoke(impact);
         if(!bounceAirborne) return;
         var d=Has(BlobProperty.Bounce)&&powers?powers.Def(BlobProperty.Bounce):null;
         if(d && rebounds<d.maxRebounds && impact>=d.reboundMinImpact && !jump) {
-            velocity.y=impact*d.rebound; rebounds++; coyote=0;
+            velocity.y=impact*d.rebound; rebounds++; coyote=0; Rebounded?.Invoke();
             if(audioSource) audioSource.PlayOneShot(tones[2],.35f);
             return;
         }
@@ -192,11 +204,11 @@ public class BlobPlayer : MonoBehaviour {
             if(jump && Grounded) bounceCharge=Mathf.Clamp01(bounceCharge+Time.deltaTime/d.chargeSeconds);
             if(jumpUp && coyote>0) {
                 velocity.y=Mathf.Lerp(d.minLaunch,d.maxLaunch,bounceCharge); coyote=0; jumpBuffer=0;
-                bounceAirborne=true; rebounds=0; bounceCharge=0;
+                bounceAirborne=true; rebounds=0; bounceCharge=0; Launched?.Invoke(true);
                 Notify("เด้ง!",2);
             } else if(!Grounded && !jump) bounceCharge=0;
         } else if(jumpBuffer>0 && coyote>0) {
-            velocity.y=jumpSpeed; jumpBuffer=0; coyote=0;
+            velocity.y=jumpSpeed; jumpBuffer=0; coyote=0; Launched?.Invoke(false);
         }
         if(Grounded && velocity.y<0) velocity.y=-2;
         velocity.y-=gravity*Time.deltaTime;
@@ -226,7 +238,8 @@ public class BlobPlayer : MonoBehaviour {
             targetStatus=NotAbsorbable;
         else targetStatus="NO ABSORBABLE PROPERTY";
         UpdateTargetCue();
-        if(!held)absorbLatched=false;
+        if(!held) { absorbLatched=false; refusedLatched=false; }
+        else if(!refusedLatched && target && targetStatus!=Absorbable) { refusedLatched=true; AbsorbRefused?.Invoke(targetStatus); }
         if(absorbLatched) { if(beam)beam.enabled=false; return; }
         if(!held || target==null || targetStatus!=Absorbable) { absorbProgress=0; heldTarget=null; }
         else {
@@ -270,7 +283,7 @@ public class BlobPlayer : MonoBehaviour {
         Vector3 shape=Vector3.one;
         if(Has(BlobProperty.Bounce)) shape=new Vector3(1+.35f*bounceCharge,1-.5f*bounceCharge,1+.35f*bounceCharge);
         if(property==BlobProperty.Pressure && powers) shape*=1.04f+.08f*powers.PressureCooldown01;
-        visual.localScale=Vector3.Lerp(visual.localScale,Vector3.Scale(baseVisualScale,shape),t);
+        visual.localScale=Vector3.Lerp(visual.localScale,Vector3.Scale(Vector3.Scale(baseVisualScale,shape),extraShape),t);
         Color c=PropertyColor(property);
         foreach(var r in visualRenderers) {
             string n=r.name;
@@ -284,7 +297,7 @@ public class BlobPlayer : MonoBehaviour {
             bool band=n.Contains("PowerBand"), body=n.Contains("Body")||n.Contains("Drip");
             if(!band&&!body) continue;
             // The band carries the primary property colour; the body keeps most of BLOB's own colour.
-            Color col=band||!hasPowerBand?c:Color.Lerp(PropertyColor(BlobProperty.None),c,.3f);
+            Color col=band||!hasPowerBand?c:Color.Lerp(PropertyColor(BlobProperty.None),c,.18f);
             r.GetPropertyBlock(mpb); mpb.SetColor("_BaseColor",col); r.SetPropertyBlock(mpb);
         }
     }

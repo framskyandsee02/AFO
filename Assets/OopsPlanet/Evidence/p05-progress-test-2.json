@@ -1,5 +1,5 @@
 {
-    "utc": "2026-10-23T03:06:12.5954801Z",
+    "utc": "2026-10-23T03:38:43.6586140Z",
     "session": 2,
     "checks": [
         {
@@ -25,7 +25,7 @@
         {
             "name": "Loaded progress is usable: walk Hub <-> Rice; no repeat Hub announcement",
             "passed": true,
-            "observed": "x=10.24 announcements=0"
+            "observed": "x=10.21 announcements=0"
         },
         {
             "name": "Corrupt save: safe fresh start, file kept as .corrupt.json, player told",
@@ -35,7 +35,7 @@
         {
             "name": "Game still playable after corrupt save",
             "passed": true,
-            "observed": "moved=2.76"
+            "observed": "moved=2.77"
         },
         {
             "name": "Missing save: fresh start",

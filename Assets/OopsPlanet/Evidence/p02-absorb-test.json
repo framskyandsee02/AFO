@@ -1,5 +1,5 @@
 {
-    "utc": "2026-10-23T03:08:54.2376275Z",
+    "utc": "2026-10-23T03:37:10.7491786Z",
     "checks": [
         {
             "name": "Yard sources found",
@@ -54,7 +54,7 @@
         {
             "name": "Movement continues while holding absorb",
             "passed": true,
-            "observed": "moved=1.98"
+            "observed": "moved=1.96"
         },
         {
             "name": "Absorb Pressure from tank",
@@ -89,7 +89,7 @@
         {
             "name": "Power band shows property, body stays BLOB",
             "passed": true,
-            "observed": "band=RGBA(1.000, 0.420, 0.750, 1.000) body=RGBA(0.741, 0.637, 0.771, 1.000)"
+            "observed": "band=RGBA(1.000, 0.420, 0.750, 1.000) body=RGBA(0.697, 0.674, 0.775, 1.000)"
         },
         {
             "name": "Line of sight through wall rejected",

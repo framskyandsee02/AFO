@@ -18,6 +18,8 @@ public class BlobPowers : MonoBehaviour {
     public bool dashUsed;
     public int blasts, cannons, dashes;
     public string lastCombo="";
+    public event System.Action<Vector3,Vector3> Blasted;   // origin, direction
+    public event System.Action<ComboEffect> ComboUsed;
     BlobPlayer p;
     LineRenderer magnetLine;
     LineRenderer[] blastLines;
@@ -131,18 +133,19 @@ public class BlobPowers : MonoBehaviour {
         }
         blastUntil=Time.time+.2f;
         p.Notify("แรงดัน!",2);
+        Blasted?.Invoke(Origin,dir);
     }
     void MagnetCannon(CombinationDefinition combo) {
         var body=held.Body; Release();
         body.linearVelocity=Aim*combo.speed+Vector3.up*combo.lift;
-        cannons++; lastCombo=combo.nameTh; blastUntil=Time.time+.2f;
+        cannons++; lastCombo=combo.nameTh; blastUntil=Time.time+.2f; ComboUsed?.Invoke(combo.effect);
         p.Notify("คอมโบ: "+combo.nameTh+"!",4);
     }
     void PressureDash(CombinationDefinition combo) {
         Vector3 flat=Vector3.ProjectOnPlane(Aim,Vector3.up).normalized;
         p.externalVelocity=flat*combo.speed;
         p.velocity.y=Mathf.Max(p.velocity.y,combo.lift);
-        dashUsed=true; dashes++; lastCombo=combo.nameTh; blastUntil=Time.time+.2f;
+        dashUsed=true; dashes++; lastCombo=combo.nameTh; blastUntil=Time.time+.2f; ComboUsed?.Invoke(combo.effect);
         p.Notify("คอมโบ: "+combo.nameTh+"!",4);
     }
     void UpdateVisuals() {

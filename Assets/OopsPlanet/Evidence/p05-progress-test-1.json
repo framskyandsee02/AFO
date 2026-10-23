@@ -1,5 +1,5 @@
 {
-    "utc": "2026-10-23T03:05:41.2735471Z",
+    "utc": "2026-10-23T03:38:20.1981155Z",
     "session": 1,
     "checks": [
         {
@@ -30,7 +30,7 @@
         {
             "name": "Progress saved after unlock",
             "passed": true,
-            "observed": "save={ \"version\": 1, \"solvedPuzzles\": [ \"factory_gate\", \"factory_turbine\" ], \"unlockedZones\": [ \"rice\" ], \"lookSensitivity\": 0.12999999523162843, \"masterVolume\": 1.0 }"
+            "observed": "save={ \"version\": 1, \"solvedPuzzles\": [ \"factory_gate\", \"factory_turbine\" ], \"unlockedZones\": [ \"rice\" ], \"lookSensitivity\": 0.12999999523162843, \"masterVolume\": 1.0, \"ambienceVolume\": 1.0 }"
         },
         {
             "name": "BLOB walks through the opened gate into the Rice Fields",

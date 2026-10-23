@@ -1,5 +1,5 @@
 {
-    "utc": "2026-10-23T03:09:20.7636215Z",
+    "utc": "2026-10-23T03:37:38.4179383Z",
     "checks": [
         {
             "name": "Spawn is grounded in Hub",
@@ -14,22 +14,22 @@
         {
             "name": "Traverse to (0.0, 0.0, 10.0)",
             "passed": true,
-            "observed": "actual=(0.00, 0.03, 9.76)"
+            "observed": "actual=(0.00, 0.03, 9.81)"
         },
         {
             "name": "Third-person camera follows player",
             "passed": true,
-            "observed": "cam=(0.7, 3.3, 4.2)"
+            "observed": "cam=(0.7, 3.3, 4.3)"
         },
         {
             "name": "Traverse to (0.0, 0.0, 22.0)",
             "passed": true,
-            "observed": "actual=(0.00, 0.03, 21.77)"
+            "observed": "actual=(0.00, 0.04, 21.76)"
         },
         {
             "name": "Traverse to (0.0, 0.0, 28.0)",
             "passed": true,
-            "observed": "actual=(0.00, 0.03, 27.76)"
+            "observed": "actual=(0.00, 0.03, 27.77)"
         },
         {
             "name": "Factory checkpoint reached",
@@ -44,7 +44,7 @@
         {
             "name": "Traverse to (8.0, 0.0, 32.0)",
             "passed": true,
-            "observed": "actual=(7.79, 0.03, 31.89)"
+            "observed": "actual=(7.78, 0.04, 31.89)"
         },
         {
             "name": "Traverse to (8.0, 0.0, 38.0)",
@@ -59,22 +59,22 @@
         {
             "name": "Traverse to (8.0, 0.0, 32.0)",
             "passed": true,
-            "observed": "actual=(8.00, 0.03, 32.24)"
+            "observed": "actual=(8.00, 0.03, 32.22)"
         },
         {
             "name": "Traverse to (0.0, 0.0, 30.0)",
             "passed": true,
-            "observed": "actual=(0.24, 0.03, 30.07)"
+            "observed": "actual=(0.21, 0.03, 30.06)"
         },
         {
             "name": "Traverse to (0.0, 0.0, 18.0)",
             "passed": true,
-            "observed": "actual=(0.00, 0.03, 18.24)"
+            "observed": "actual=(0.00, 0.03, 18.25)"
         },
         {
             "name": "Traverse to (0.0, 0.0, 0.0)",
             "passed": true,
-            "observed": "actual=(0.00, 0.03, 0.21)"
+            "observed": "actual=(0.00, 0.03, 0.23)"
         },
         {
             "name": "Rice gate open after Factory restored",
@@ -84,7 +84,7 @@
         {
             "name": "Traverse to (12.0, 0.0, 0.0)",
             "passed": true,
-            "observed": "actual=(11.77, 0.03, 0.00)"
+            "observed": "actual=(11.76, 0.04, 0.00)"
         },
         {
             "name": "Traverse to (22.0, 0.0, 0.0)",
@@ -94,7 +94,7 @@
         {
             "name": "Traverse to (28.0, 0.0, 0.0)",
             "passed": true,
-            "observed": "actual=(27.77, 0.18, 0.00)"
+            "observed": "actual=(27.77, 0.19, 0.00)"
         },
         {
             "name": "Rice Fields checkpoint reached",
@@ -109,7 +109,7 @@
         {
             "name": "Traverse to (42.0, 0.0, 0.0)",
             "passed": true,
-            "observed": "actual=(41.76, 0.19, 0.00)"
+            "observed": "actual=(41.75, 0.18, 0.00)"
         },
         {
             "name": "Traverse to (57.0, 0.0, 0.0)",

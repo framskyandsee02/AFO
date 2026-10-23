@@ -12,6 +12,7 @@ public class SaveData {
     public List<string> unlockedZones=new List<string>();
     public float lookSensitivity=.13f;
     public float masterVolume=1f;
+    public float ambienceVolume=1f;
 }
 // JSON save in Application.persistentDataPath/<slot>.json. Writes go through a temp file so a crash mid-write
 // cannot leave a half-written save. A missing, corrupt or wrong-version file never throws: the game starts
@@ -35,6 +36,7 @@ public static class SaveSystem {
         if(parsed.unlockedZones==null) parsed.unlockedZones=new List<string>();
         parsed.lookSensitivity=Mathf.Clamp(parsed.lookSensitivity<=0?.13f:parsed.lookSensitivity,.02f,1f);
         parsed.masterVolume=Mathf.Clamp01(parsed.masterVolume);
+        parsed.ambienceVolume=Mathf.Clamp01(parsed.ambienceVolume);
         data=parsed;
         return LoadStatus.Ok;
     }

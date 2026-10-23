@@ -17,6 +17,7 @@ public class BlobInteractable : MonoBehaviour {
     public GameObject fullVisual, remnantVisual;
     public bool restoreOnRespawn=true;
     public bool consumed;
+    public GameObject powerLabel;
     public Vector3 AimPoint => indicator && indicator.gameObject.activeInHierarchy ? indicator.bounds.center : transform.position;
     public bool Available => kind==BlobInteraction.Source && isActiveAndEnabled && !consumed && property!=BlobProperty.None;
     public bool Contains(Vector3 point) => new Bounds(transform.position,size).Contains(point);
@@ -27,7 +28,7 @@ public class BlobInteractable : MonoBehaviour {
         switch(onAbsorbed) {
             case AbsorbResult.Disable: consumed=true; gameObject.SetActive(false); break;
             case AbsorbResult.Remnant:
-                consumed=true;
+                consumed=true; if(powerLabel) powerLabel.SetActive(false);
                 if(fullVisual) fullVisual.SetActive(false);
                 if(remnantVisual) remnantVisual.SetActive(true);
                 break;
@@ -38,6 +39,7 @@ public class BlobInteractable : MonoBehaviour {
         if(onAbsorbed==AbsorbResult.Disable) gameObject.SetActive(true);
         if(fullVisual) fullVisual.SetActive(true);
         if(remnantVisual) remnantVisual.SetActive(false);
+        if(powerLabel) powerLabel.SetActive(true);
         Highlight(false);
     }
     void OnDrawGizmosSelected() {

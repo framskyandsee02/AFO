@@ -22,6 +22,8 @@ public class PuzzleObjective : MonoBehaviour {
     [Tooltip("Movable pieces returned to their start by the reset pad / restart.")]
     public PuzzleItem[] items;
     public float holdSeconds=.5f;
+    [Tooltip("Where the restoration celebration plays.")]
+    public Vector3 celebratePoint;
     public int solvedCount;
     public event System.Action<PuzzleObjective> Solved, WasReset;
     public PuzzleState State { get; private set; }

@@ -22,22 +22,4 @@ public class PuzzleResetPad : MonoBehaviour {
         }
     }
 }
-// Procedurally generated cues (no external audio assets / licences needed).
-public static class ProcAudio {
-    static AudioClip jingle, hum;
-    static AudioClip Make(string name,float seconds,System.Func<float,float> f) {
-        int n=Mathf.CeilToInt(44100*seconds); var data=new float[n];
-        for(int i=0;i<n;i++) data[i]=f(i/44100f);
-        var c=AudioClip.Create(name,n,1,44100,false); c.SetData(data,0); return c;
-    }
-    public static AudioClip Jingle() {
-        if(jingle) return jingle;
-        float[] notes={523.3f,659.3f,784f,1046.5f};
-        return jingle=Make("Puzzle solved",1f,t=>{ int k=Mathf.Min(3,(int)(t/.2f)); float lt=t-k*.2f; return Mathf.Sin(t*notes[k]*Mathf.PI*2)*.2f*Mathf.Exp(-lt*6); });
-    }
-    public static AudioClip Hum() {
-        if(hum) return hum;
-        return hum=Make("Turbine hum",1f,t=>(Mathf.Sin(t*110*Mathf.PI*2)*.6f+Mathf.Sin(t*220*Mathf.PI*2)*.3f)*.3f);
-    }
-}
 }
