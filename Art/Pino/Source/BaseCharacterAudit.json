@@ -1,0 +1,97 @@
+{
+  "blender": "5.2.3 LTS",
+  "file": "C:\\Users\\Pc\\Documents\\GitHub\\AFO\\Art\\Pino\\Pino.blend",
+  "scene": "Pino Studio",
+  "meshes": [
+    {
+      "name": "Pino.Body | blue jelly",
+      "vertices": 6050,
+      "faces": 6144,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "materials": [
+        "Pino | azure jelly → mint"
+      ],
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_mode": "XYZ",
+      "rotation": [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "shape_keys": [],
+      "armature": null
+    },
+    {
+      "name": "Pino.Eye.Left | cocoa button",
+      "vertices": 610,
+      "faces": 640,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "materials": [
+        "Pino | warm cocoa eyes"
+      ],
+      "location": [
+        -0.08244746923446655,
+        -0.2218187302350998,
+        0.3388386368751526
+      ],
+      "rotation_mode": "QUATERNION",
+      "rotation": [
+        0.8424111604690552,
+        0.5222158432006836,
+        -0.13279330730438232,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "shape_keys": [],
+      "armature": null
+    },
+    {
+      "name": "Pino.Eye.Right | cocoa button",
+      "vertices": 610,
+      "faces": 640,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "materials": [
+        "Pino | warm cocoa eyes"
+      ],
+      "location": [
+        0.05730554088950157,
+        -0.2342459112405777,
+        0.32275739312171936
+      ],
+      "rotation_mode": "QUATERNION",
+      "rotation": [
+        0.8302699327468872,
+        0.5497159957885742,
+        0.09200062602758408,
+        -0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "shape_keys": [],
+      "armature": null
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "base_source": "Art/Pino/Pino.blend",
+  "unity_version": "6000.3.25f1",
+  "pipeline": "URP 17.3.0",
+  "technique": "FBX blend shapes + additive surface-attached eye targets + separate form accessories",
+  "heart": "Absent, preserving the user-requested heartless base.",
+  "meshes": [
+    {
+      "name": "Pino.Body | blue jelly",
+      "vertices": 6050,
+      "faces": 6144,
+      "shape_keys": [
+        "Basis",
+        "Spring",
+        "SpringCompress",
+        "SpringStretch",
+        "Magnet",
+        "Gas",
+        "Liquid",
+        "LiquidFlow",
+        "Absorb",
+        "Idle",
+        "Land"
+      ],
+      "uv_layers": [
+        "UVMap"
+      ],
+      "manifold": true
+    },
+    {
+      "name": "Pino.Eye.Left | cocoa button",
+      "vertices": 610,
+      "faces": 640,
+      "shape_keys": [
+        "Basis",
+        "Spring",
+        "SpringCompress",
+        "SpringStretch",
+        "Magnet",
+        "Gas",
+        "Liquid",
+        "LiquidFlow",
+        "Absorb",
+        "Idle",
+        "Land"
+      ],
+      "uv_layers": [
+        "UVMap"
+      ],
+      "manifold": true
+    },
+    {
+      "name": "Pino.Eye.Right | cocoa button",
+      "vertices": 610,
+      "faces": 640,
+      "shape_keys": [
+        "Basis",
+        "Spring",
+        "SpringCompress",
+        "SpringStretch",
+        "Magnet",
+        "Gas",
+        "Liquid",
+        "LiquidFlow",
+        "Absorb",
+        "Idle",
+        "Land"
+      ],
+      "uv_layers": [
+        "UVMap"
+      ],
+      "manifold": true
+    },
+    {
+      "name": "Pino.SpringCoil",
+      "vertices": 2700,
+      "faces": 2690,
+      "shape_keys": [
+        "Basis",
+        "SpringCompress",
+        "SpringStretch"
+      ],
+      "uv_layers": [],
+      "manifold": true
+    },
+    {
+      "name": "Pino.Magnet",
+      "vertices": 832,
+      "faces": 818,
+      "shape_keys": [],
+      "uv_layers": [],
+      "manifold": true
+    }
+  ],
+  "spring_proof": {
+    "Spring": {
+      "height_m": 0.634399950504303,
+      "geometry_changes": true
+    },
+    "SpringCompressed": {
+      "height_m": 0.2727919816970825,
+      "geometry_changes": true
+    },
+    "SpringStretched": {
+      "height_m": 0.9198799133300781,
+      "geometry_changes": true
+    },
+    "passed": true
+  }
+}

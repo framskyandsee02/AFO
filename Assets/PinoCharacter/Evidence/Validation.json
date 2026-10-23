@@ -1,0 +1,444 @@
+{
+    "generatedUtc": "2026-10-23T11:18:49.7544002Z",
+    "unityVersion": "6000.3.25f1",
+    "prefab": "Assets/PinoCharacter/Prefabs/PinoCharacter.prefab",
+    "passed": 87,
+    "failed": 0,
+    "checks": [
+        {
+            "name": "Character prefab exists",
+            "passed": true,
+            "details": "Assets/PinoCharacter/Prefabs/PinoCharacter.prefab"
+        },
+        {
+            "name": "Prefab has morph controller",
+            "passed": true,
+            "details": "PinoCharacter"
+        },
+        {
+            "name": "Imported body is skinned morph mesh",
+            "passed": true,
+            "details": "Blend shapes must not become static meshes"
+        },
+        {
+            "name": "Two original eye meshes retained",
+            "passed": true,
+            "details": "count=2"
+        },
+        {
+            "name": "Readable morph mesh: Pino.Body | blue jelly",
+            "passed": true,
+            "details": "Importer Read/Write enabled"
+        },
+        {
+            "name": "Morph imported: Pino.Body | blue jelly/Magnet",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Body | blue jelly/Spring",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Body | blue jelly/SpringCompress",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Body | blue jelly/SpringStretch",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Body | blue jelly/Gas",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Body | blue jelly/Liquid",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Body | blue jelly/LiquidFlow",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Body | blue jelly/Absorb",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Body | blue jelly/Idle",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Body | blue jelly/Land",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Readable morph mesh: Pino.Eye.Left | cocoa button",
+            "passed": true,
+            "details": "Importer Read/Write enabled"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Left | cocoa button/Magnet",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Left | cocoa button/Spring",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Left | cocoa button/SpringCompress",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Left | cocoa button/SpringStretch",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Left | cocoa button/Gas",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Left | cocoa button/Liquid",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Left | cocoa button/LiquidFlow",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Left | cocoa button/Absorb",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Left | cocoa button/Idle",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Left | cocoa button/Land",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Readable morph mesh: Pino.Eye.Right | cocoa button",
+            "passed": true,
+            "details": "Importer Read/Write enabled"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Right | cocoa button/Magnet",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Right | cocoa button/Spring",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Right | cocoa button/SpringCompress",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Right | cocoa button/SpringStretch",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Right | cocoa button/Gas",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Right | cocoa button/Liquid",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Right | cocoa button/LiquidFlow",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Right | cocoa button/Absorb",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Right | cocoa button/Idle",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Morph imported: Pino.Eye.Right | cocoa button/Land",
+            "passed": true,
+            "details": "FBX blend shape"
+        },
+        {
+            "name": "Normal import has correct metre scale and up axis",
+            "passed": true,
+            "details": "height=0.5199999"
+        },
+        {
+            "name": "Normal body rests at the character origin",
+            "passed": true,
+            "details": "minimumY=0"
+        },
+        {
+            "name": "Character face points toward Unity forward +Z",
+            "passed": true,
+            "details": "eyesZ=0.228027, bodyCenterZ=-4.470348E-08"
+        },
+        {
+            "name": "Spring changes real geometry",
+            "passed": true,
+            "details": "maxVertexDelta=0.1915308"
+        },
+        {
+            "name": "Eye follows surface: Spring/Pino.Eye.Left | cocoa button",
+            "passed": true,
+            "details": "surfaceGapMetres=0.002468659"
+        },
+        {
+            "name": "Eye follows surface: Spring/Pino.Eye.Right | cocoa button",
+            "passed": true,
+            "details": "surfaceGapMetres=0.002320875"
+        },
+        {
+            "name": "Spring compression changes height",
+            "passed": true,
+            "details": "base=0.6343999, compressed=0.272792"
+        },
+        {
+            "name": "Eye follows surface: Spring compressed/Pino.Eye.Left | cocoa button",
+            "passed": true,
+            "details": "surfaceGapMetres=0.002412987"
+        },
+        {
+            "name": "Eye follows surface: Spring compressed/Pino.Eye.Right | cocoa button",
+            "passed": true,
+            "details": "surfaceGapMetres=0.002239586"
+        },
+        {
+            "name": "Spring extension changes height",
+            "passed": true,
+            "details": "base=0.6343999, stretched=0.9198799"
+        },
+        {
+            "name": "Eye follows surface: Spring stretched/Pino.Eye.Left | cocoa button",
+            "passed": true,
+            "details": "surfaceGapMetres=0.002418544"
+        },
+        {
+            "name": "Eye follows surface: Spring stretched/Pino.Eye.Right | cocoa button",
+            "passed": true,
+            "details": "surfaceGapMetres=0.002297634"
+        },
+        {
+            "name": "Magnet changes real geometry",
+            "passed": true,
+            "details": "maxVertexDelta=0.05199996"
+        },
+        {
+            "name": "Eye follows surface: Magnet/Pino.Eye.Left | cocoa button",
+            "passed": true,
+            "details": "surfaceGapMetres=0.002167648"
+        },
+        {
+            "name": "Eye follows surface: Magnet/Pino.Eye.Right | cocoa button",
+            "passed": true,
+            "details": "surfaceGapMetres=0.002086721"
+        },
+        {
+            "name": "Gas changes real geometry",
+            "passed": true,
+            "details": "maxVertexDelta=0.1664"
+        },
+        {
+            "name": "Eye follows surface: Gas/Pino.Eye.Left | cocoa button",
+            "passed": true,
+            "details": "surfaceGapMetres=0.002205389"
+        },
+        {
+            "name": "Eye follows surface: Gas/Pino.Eye.Right | cocoa button",
+            "passed": true,
+            "details": "surfaceGapMetres=0.00210792"
+        },
+        {
+            "name": "Liquid changes real geometry",
+            "passed": true,
+            "details": "maxVertexDelta=0.182"
+        },
+        {
+            "name": "Eye follows surface: Liquid/Pino.Eye.Left | cocoa button",
+            "passed": true,
+            "details": "surfaceGapMetres=0.002179975"
+        },
+        {
+            "name": "Eye follows surface: Liquid/Pino.Eye.Right | cocoa button",
+            "passed": true,
+            "details": "surfaceGapMetres=0.002094167"
+        },
+        {
+            "name": "Liquid flow flattens real mesh",
+            "passed": true,
+            "details": "base=0.338, flow=0.1092"
+        },
+        {
+            "name": "Eye follows surface: Liquid flattened/Pino.Eye.Left | cocoa button",
+            "passed": true,
+            "details": "surfaceGapMetres=0.0020876"
+        },
+        {
+            "name": "Eye follows surface: Liquid flattened/Pino.Eye.Right | cocoa button",
+            "passed": true,
+            "details": "surfaceGapMetres=0.002052305"
+        },
+        {
+            "name": "Interrupted transition is continuous",
+            "passed": true,
+            "details": "snapDelta=0"
+        },
+        {
+            "name": "Repeated morphs restore exact Normal mesh",
+            "passed": true,
+            "details": "maxResidual=0"
+        },
+        {
+            "name": "Morphing does not resize character root",
+            "passed": true,
+            "details": "Geometry and facial morphs own deformation"
+        },
+        {
+            "name": "Named weight API changes geometry in normalized units",
+            "passed": true,
+            "details": "Gas override=.5 (not 50)"
+        },
+        {
+            "name": "ReturnToNormal clears manual shape overrides",
+            "passed": true,
+            "details": "No lingering Gas override"
+        },
+        {
+            "name": "Gas appearance profile supports transparency",
+            "passed": true,
+            "details": "Material and opacity are authored assets"
+        },
+        {
+            "name": "Character material API applies authored profile",
+            "passed": true,
+            "details": "Pino_GasJelly"
+        },
+        {
+            "name": "Paused presentation freezes transition",
+            "passed": true,
+            "details": "weight=0.104"
+        },
+        {
+            "name": "Transition resumes after pause",
+            "passed": true,
+            "details": "Spring=1"
+        },
+        {
+            "name": "Absorption reaction deforms geometry",
+            "passed": true,
+            "details": "Absorb=0.6"
+        },
+        {
+            "name": "Landing reaction deforms geometry",
+            "passed": true,
+            "details": "Land=0.2768355"
+        },
+        {
+            "name": "Idle is a geometry animation",
+            "passed": true,
+            "details": "Idle=0.1827955"
+        },
+        {
+            "name": "Ability-specific parts imported",
+            "passed": true,
+            "details": "magnet=1, spring=1"
+        },
+        {
+            "name": "Normal hides special parts",
+            "passed": true,
+            "details": "No unwanted attachments"
+        },
+        {
+            "name": "Magnet shows only magnetic parts",
+            "passed": true,
+            "details": "Renderer visibility"
+        },
+        {
+            "name": "Spring shows only coil parts",
+            "passed": true,
+            "details": "Renderer visibility"
+        },
+        {
+            "name": "Saved Spring compression survives reload and Tick(0)",
+            "passed": true,
+            "details": "SpringCompress=1"
+        },
+        {
+            "name": "Saved Liquid flow survives reload and Tick(0)",
+            "passed": true,
+            "details": "LiquidFlow=1"
+        },
+        {
+            "name": "Saved Gas body remains visible with restored transparency",
+            "passed": true,
+            "details": "enabled=True, alpha=0.64"
+        },
+        {
+            "name": "Adapter reads existing Spring state",
+            "passed": true,
+            "details": "form=Spring, compression=0.73"
+        },
+        {
+            "name": "Adapter leaves gameplay state unchanged",
+            "passed": true,
+            "details": "No ability, movement, velocity or input writes"
+        },
+        {
+            "name": "Adapter copies orientation without legacy scale",
+            "passed": true,
+            "details": "Separate sibling visual"
+        },
+        {
+            "name": "Legacy meshes hidden while Pino is active",
+            "passed": true,
+            "details": "Captured renderer states"
+        },
+        {
+            "name": "Adapter respects committed Liquid clearance state",
+            "passed": true,
+            "details": "flattened=true drives LiquidFlow"
+        },
+        {
+            "name": "Adapter returns to Normal on None",
+            "passed": true,
+            "details": "Respawn-compatible state mapping"
+        },
+        {
+            "name": "Legacy renderer states restored exactly",
+            "passed": true,
+            "details": "Previously disabled renderers stay disabled"
+        }
+    ]
+}
