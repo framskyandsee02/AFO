@@ -1,25 +1,29 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 namespace OopsPlanet {
-public enum BlobProperty { None, Magnet, Spring, Gas, Liquid }
+// OOPS! PLANET powers. Explicit values keep the integers already serialized in scenes/prefabs (legacy 2-4 were retired in P03).
+public enum BlobProperty { None=0, Magnet=1, Pressure=5, Bounce=6 }
 [RequireComponent(typeof(CharacterController))]
 public class BlobPlayer : MonoBehaviour {
     public BlobWorld world;
     public Camera view;
     public Transform visual;
+    public BlobPowers powers;
     public float speed=5.5f, jumpSpeed=7.6f, gravity=20f, absorbRange=8f, absorbSeconds=.8f, aimDegrees=9f;
-    public float springMin=9f, springMax=18f, springChargeSeconds=1f;
-    public float morphSeconds=.4f, magnetRange=8f, magnetAcceleration=18f;
-    public BlobProperty property;
+    public float morphSeconds=.4f;
+    // Two active properties at most: the newest absorb becomes primary (F), the previous primary moves to secondary (G).
+    public BlobProperty property, secondary;
     public BlobInteractable target;
     public string targetStatus="AIM AT A PROPERTY SOURCE";
-    public float absorbProgress, springCharge;
-    public bool flattened, paused, completed;
+    public float absorbProgress, bounceCharge;
+    public bool bounceAirborne;
+    public int rebounds;
+    public bool paused, completed;
     public bool testMode;
     public Vector2 testMove;
-    public bool testAbsorb, testAction, testJump;
+    public bool testAbsorb, testAction, testSecondary, testPush, testJump;
     public Transform testAim;
-    public Vector3 velocity;
+    public Vector3 velocity, externalVelocity;
     public float yaw, pitch=19f;
     public Vector3 moveWorld;
     CharacterController cc;
@@ -35,23 +39,41 @@ public class BlobPlayer : MonoBehaviour {
     AudioClip[] tones;
     float feedbackUntil;
     public string feedback="";
+    // Raised after a successful absorb: the source absorbed and the property BLOB gained.
+    public event System.Action<BlobInteractable,BlobProperty> Absorbed;
+    public GameObject targetMarker;
+    TextMesh markerText;
+    BlobInteractable lastCuedTarget;
+    bool hasPowerBand;
     public bool Grounded => cc && cc.isGrounded;
     public CharacterController Controller => cc;
+    public bool Has(BlobProperty p) => p!=BlobProperty.None && (property==p || secondary==p);
     public static Color PropertyColor(BlobProperty p) {
         switch(p) {
             case BlobProperty.Magnet:return new Color(.95f,.22f,.22f);
-            case BlobProperty.Spring:return new Color(1f,.76f,.12f);
-            case BlobProperty.Gas:return new Color(.69f,.46f,.98f);
-            case BlobProperty.Liquid:return new Color(.12f,.83f,.94f);
+            case BlobProperty.Pressure:return new Color(.25f,.55f,1f);
+            case BlobProperty.Bounce:return new Color(1f,.42f,.75f);
             default:return new Color(.63f,.73f,.78f);
         }
+    }
+    public string NameTh(BlobProperty p) {
+        var d=powers?powers.Def(p):null;
+        return d?d.nameTh:p==BlobProperty.None?"ว่าง":p.ToString();
     }
     void Awake() {
         previousBackground=Application.runInBackground; Application.runInBackground=true;
         cc=GetComponent<CharacterController>();
         cc.height=1.3f; cc.radius=.36f; cc.center=Vector3.up*.65f;
         cc.stepOffset=.22f; cc.slopeLimit=48; cc.skinWidth=.035f;
-        visualRenderers=visual.GetComponentsInChildren<Renderer>();
+        if(!powers) powers=GetComponent<BlobPowers>();
+        visualRenderers=visual.GetComponentsInChildren<Renderer>(true);
+        foreach(var r in visualRenderers) if(r.name.Contains("PowerBand")) hasPowerBand=true;
+        targetMarker=new GameObject("Absorb target marker");
+        markerText=targetMarker.AddComponent<TextMesh>();
+        markerText.font=Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        markerText.GetComponent<Renderer>().sharedMaterial=markerText.font.material;
+        markerText.fontSize=64; markerText.characterSize=.06f; markerText.anchor=TextAnchor.MiddleCenter; markerText.fontStyle=FontStyle.Bold;
+        targetMarker.SetActive(false);
         baseVisualScale=visual.localScale; mpb=new MaterialPropertyBlock();
         beam=GetComponent<LineRenderer>();
         audioSource=GetComponent<AudioSource>();
@@ -61,29 +83,44 @@ public class BlobPlayer : MonoBehaviour {
             for(int j=0;j<count;j++) { float t=j/44100f; data[j]=Mathf.Sin(t*(330+i*110)*Mathf.PI*2)*.15f*Mathf.Sin(j/(float)count*Mathf.PI); }
             tones[i]=AudioClip.Create("BLOB cue "+i,count,1,44100,false); tones[i].SetData(data,0);
         }
-        SetProperty(BlobProperty.None,false);
+        ClearProperties();
         Teleport(world.spawn);
     }
     void OnEnable() { if(mpb==null)mpb=new MaterialPropertyBlock(); }
     void OnDisable() { Cursor.lockState=CursorLockMode.None; Cursor.visible=true; }
-    void OnDestroy() { Application.runInBackground=previousBackground; if(tones!=null) foreach(var t in tones) if(t) Destroy(t); }
+    void OnDestroy() { Application.runInBackground=previousBackground; if(tones!=null) foreach(var t in tones) if(t) Destroy(t); if(targetMarker) Destroy(targetMarker); }
     public void Notify(string text,int tone=0) {
         feedback=text; feedbackUntil=Time.time+3;
         if(audioSource && tones!=null) audioSource.PlayOneShot(tones[Mathf.Clamp(tone,0,4)],.7f);
     }
-    public bool SetProperty(BlobProperty next,bool sound=true) {
-        if(property==BlobProperty.Liquid && flattened && next!=BlobProperty.Liquid && !CanStand()) {
-            targetStatus="NO CLEARANCE TO CHANGE FORM"; return false;
-        }
-        property=next; springCharge=0; wasJump=false;
-        if(next!=BlobProperty.Liquid) SetFlat(false);
-        if(sound) Notify(next.ToString().ToUpper()+" ABSORBED",1+(int)next%4);
+    // Absorb result: newest is primary, previous primary becomes secondary, an older secondary is dropped (max 2).
+    public bool AddProperty(BlobProperty next) {
+        if(next==BlobProperty.None) return false;
+        if(property==next) { Notify("มีพลัง"+NameTh(next)+"อยู่แล้ว"); return true; }
+        if(secondary==next) { SwapProperties(); return true; }
+        BlobProperty dropped=secondary;
+        secondary=property; property=next;
+        OnPropertiesChanged();
+        Notify("ดูดซับ"+NameTh(next)+"แล้ว"+(dropped!=BlobProperty.None?" (ทิ้ง"+NameTh(dropped)+")":""),1+(int)next%4);
         return true;
+    }
+    public void SwapProperties() {
+        if(secondary==BlobProperty.None) { Notify("ต้องมี 2 พลังจึงจะสลับได้"); return; }
+        (property,secondary)=(secondary,property);
+        OnPropertiesChanged();
+        Notify("สลับพลัง: หลัก = "+NameTh(property)+", เสริม = "+NameTh(secondary),3);
+    }
+    public void ClearProperties() { property=BlobProperty.None; secondary=BlobProperty.None; OnPropertiesChanged(); }
+    // Test / tool hook: set both slots directly.
+    public void SetProperties(BlobProperty primary,BlobProperty second) { property=primary; secondary=second==primary?BlobProperty.None:second; OnPropertiesChanged(); }
+    void OnPropertiesChanged() {
+        bounceCharge=0;
+        if(powers && !Has(BlobProperty.Magnet)) powers.Release();
     }
     public void Teleport(Vector3 pos) {
         cc.enabled=false; transform.position=pos; cc.enabled=true;
-        velocity=Vector3.zero; jumpBuffer=0; springCharge=0; wasJump=false;
-        absorbProgress=0; heldTarget=null;
+        velocity=Vector3.zero; externalVelocity=Vector3.zero; jumpBuffer=0; bounceCharge=0; wasJump=false;
+        bounceAirborne=false; rebounds=0; absorbProgress=0; heldTarget=null;
         Physics.SyncTransforms();
     }
     public void AimAt(Transform point) {
@@ -109,7 +146,6 @@ public class BlobPlayer : MonoBehaviour {
         bool jump=testMode?testJump:k!=null && k.spaceKey.isPressed;
         bool jumpDown=jump&&!wasJump;
         bool jumpUp=!jump&&wasJump;
-        bool action=testMode?testAction:k!=null&&k.fKey.isPressed;
         bool absorb=testMode?testAbsorb:k!=null&&k.eKey.isPressed;
         if(!testMode && k!=null) {
             input=new Vector2((k.dKey.isPressed?1:0)-(k.aKey.isPressed?1:0),(k.wKey.isPressed?1:0)-(k.sKey.isPressed?1:0));
@@ -121,25 +157,12 @@ public class BlobPlayer : MonoBehaviour {
         moveWorld=testMode?new Vector3(input.x,0,input.y):Quaternion.Euler(0,yaw,0)*new Vector3(input.x,0,input.y);
         if(Grounded) coyote=.12f; else coyote-=Time.deltaTime;
         jumpBuffer=jumpDown?.12f:Mathf.Max(0,jumpBuffer-Time.deltaTime);
-        if(property==BlobProperty.Liquid) SetFlat(action || (flattened&&!CanStand()));
-        else if(flattened && CanStand()) SetFlat(false);
-        if(property==BlobProperty.Spring) {
-            if(jump && Grounded) springCharge=Mathf.Clamp01(springCharge+Time.deltaTime/springChargeSeconds);
-            if(jumpUp && coyote>0 && springCharge>0) {
-                velocity.y=Mathf.Lerp(springMin,springMax,springCharge); coyote=0; Notify("SPRING RELEASE",2); springCharge=0;
-            } else if(!Grounded && !jump) springCharge=0;
-        } else if(jumpBuffer>0 && coyote>0 && !flattened) {
-            velocity.y=jumpSpeed; jumpBuffer=0; coyote=0;
-        }
-        float g=property==BlobProperty.Gas?4f:gravity;
-        if(Grounded && velocity.y<0) velocity.y=-2;
-        if(property==BlobProperty.Gas && world.InGasVent(transform.position) && jump)
-            velocity.y=Mathf.MoveTowards(velocity.y,3.5f,Time.deltaTime*12);
-        else velocity.y-=g*Time.deltaTime;
-        if(property==BlobProperty.Gas) velocity.y=Mathf.Max(velocity.y,-2.5f);
-        float actualSpeed=flattened?3.5f:speed;
-        CollisionFlags flags=cc.Move((moveWorld*actualSpeed+Vector3.up*velocity.y)*Time.deltaTime);
+        UpdateJumpAndBounce(jump,jumpUp);
+        bool groundedBefore=Grounded; float fallSpeed=-velocity.y;
+        CollisionFlags flags=cc.Move((moveWorld*speed+externalVelocity+Vector3.up*velocity.y)*Time.deltaTime);
         if((flags&CollisionFlags.Above)!=0 && velocity.y>0) velocity.y=0;
+        if(Grounded && !groundedBefore) OnLanded(fallSpeed,jump);
+        externalVelocity=Vector3.MoveTowards(externalVelocity,Vector3.zero,(Grounded?40:12)*Time.deltaTime);
         if(Grounded && lastAirTime>.35f) { lastAirTime=0; if(audioSource)audioSource.PlayOneShot(tones[0],.25f); }
         if(!Grounded) lastAirTime+=Time.deltaTime;
         if(moveWorld.sqrMagnitude>.01f) visual.rotation=Quaternion.Slerp(visual.rotation,Quaternion.LookRotation(moveWorld),Time.deltaTime*12);
@@ -149,83 +172,125 @@ public class BlobPlayer : MonoBehaviour {
         wasJump=jump;
         if(Time.time>feedbackUntil) feedback="";
     }
-    void FixedUpdate() {
-        if(!world || paused||completed) return;
-        bool action=testMode?testAction:Keyboard.current!=null&&Keyboard.current.fKey.isPressed;
-        if(property!=BlobProperty.Magnet || !action) return;
-        var body=world.crate;
-        if(!body) return;
-        Vector3 origin=transform.position+Vector3.up*.65f;
-        Vector3 delta=body.worldCenterOfMass-origin;
-        if(delta.magnitude>magnetRange) return;
-        if(Physics.Linecast(origin,body.worldCenterOfMass,out RaycastHit hit,~(1<<2),QueryTriggerInteraction.Ignore) && hit.rigidbody!=body) return;
-        Vector3 desired=origin+new Vector3(delta.x,0,delta.z).normalized*1.8f;
-        desired.y=body.worldCenterOfMass.y;
-        Vector3 force=(desired-body.worldCenterOfMass)*magnetAcceleration-body.linearVelocity*7f;
-        force.y=0; body.AddForce(Vector3.ClampMagnitude(force,65),ForceMode.Acceleration);
+    // Normal jump, or with Bounce: hold SPACE on the ground to charge, release to launch; landings rebound
+    // with a decaying factor (<1) and a hard cap on rebounds, so bouncing always settles.
+    // Called on the frame Move() first reports ground contact, with the downward speed just before landing.
+    void OnLanded(float impact,bool jump) {
+        if(!bounceAirborne) return;
+        var d=Has(BlobProperty.Bounce)&&powers?powers.Def(BlobProperty.Bounce):null;
+        if(d && rebounds<d.maxRebounds && impact>=d.reboundMinImpact && !jump) {
+            velocity.y=impact*d.rebound; rebounds++; coyote=0;
+            if(audioSource) audioSource.PlayOneShot(tones[2],.35f);
+            return;
+        }
+        bounceAirborne=false; rebounds=0;
     }
+    void UpdateJumpAndBounce(bool jump,bool jumpUp) {
+        var d=Has(BlobProperty.Bounce)&&powers?powers.Def(BlobProperty.Bounce):null;
+        if(d) {
+            if(jump && Grounded) bounceCharge=Mathf.Clamp01(bounceCharge+Time.deltaTime/d.chargeSeconds);
+            if(jumpUp && coyote>0) {
+                velocity.y=Mathf.Lerp(d.minLaunch,d.maxLaunch,bounceCharge); coyote=0; jumpBuffer=0;
+                bounceAirborne=true; rebounds=0; bounceCharge=0;
+                Notify("เด้ง!",2);
+            } else if(!Grounded && !jump) bounceCharge=0;
+        } else if(jumpBuffer>0 && coyote>0) {
+            velocity.y=jumpSpeed; jumpBuffer=0; coyote=0;
+        }
+        if(Grounded && velocity.y<0) velocity.y=-2;
+        velocity.y-=gravity*Time.deltaTime;
+    }
+    public const string Absorbable="HOLD E TO ABSORB", NotAbsorbable="CAN'T ABSORB THIS";
     public string EvaluateTarget(BlobInteractable candidate,Vector3 aimOrigin,Vector3 aimDirection) {
-        Vector3 origin=transform.position+Vector3.up*.8f;
-        if(Vector3.Distance(origin,candidate.transform.position)>absorbRange) return "OUT OF RANGE";
-        if(Vector3.Angle(aimDirection,candidate.transform.position-aimOrigin)>aimDegrees) return "AIM AT TARGET";
-        if(Physics.Linecast(origin,candidate.transform.position,out RaycastHit hit,~(1<<2),QueryTriggerInteraction.Ignore) && hit.collider.GetComponentInParent<BlobInteractable>()!=candidate) return "BLOCKED";
-        return "HOLD E TO ABSORB";
+        if(!candidate || !candidate.Available) return NotAbsorbable;
+        Vector3 origin=transform.position+Vector3.up*.8f, point=candidate.AimPoint;
+        if(Vector3.Distance(origin,point)>absorbRange) return "OUT OF RANGE";
+        if(Vector3.Angle(aimDirection,point-aimOrigin)>aimDegrees) return "AIM AT TARGET";
+        if(Physics.Linecast(origin,point,out RaycastHit hit,~(1<<2),QueryTriggerInteraction.Ignore) && hit.collider.GetComponentInParent<BlobInteractable>()!=candidate) return "BLOCKED";
+        return Absorbable;
     }
     void UpdateAbsorb(bool held) {
         if(!view) return;
         Vector3 rayOrigin=view.transform.position, rayDir=view.transform.forward;
         target=null; float best=aimDegrees;
         foreach(var source in world.sources) {
-            float angle=Vector3.Angle(rayDir,source.transform.position-rayOrigin);
+            if(!source || !source.Available) continue;
+            float angle=Vector3.Angle(rayDir,source.AimPoint-rayOrigin);
             if(angle<best) { best=angle; target=source; }
         }
-        foreach(var s in world.sources) s.Highlight(s==target);
-        targetStatus=target?EvaluateTarget(target,rayOrigin,rayDir):"NO ABSORBABLE PROPERTY";
+        foreach(var s in world.sources) if(s) s.Highlight(s==target);
+        if(target) targetStatus=EvaluateTarget(target,rayOrigin,rayDir);
+        // Aiming straight at a non-absorbable object (not the floor) says so explicitly.
+        else if(Physics.Raycast(rayOrigin,rayDir,out RaycastHit hit,absorbRange+6,~(1<<2),QueryTriggerInteraction.Ignore) && hit.normal.y<.7f && !hit.collider.GetComponentInParent<BlobInteractable>())
+            targetStatus=NotAbsorbable;
+        else targetStatus="NO ABSORBABLE PROPERTY";
+        UpdateTargetCue();
         if(!held)absorbLatched=false;
         if(absorbLatched) { if(beam)beam.enabled=false; return; }
-        if(!held || target==null || targetStatus!="HOLD E TO ABSORB") { absorbProgress=0; heldTarget=null; }
+        if(!held || target==null || targetStatus!=Absorbable) { absorbProgress=0; heldTarget=null; }
         else {
             if(heldTarget!=target) { heldTarget=target; absorbProgress=0; }
             absorbProgress+=Time.deltaTime/absorbSeconds;
             if(absorbProgress>=1) {
-                if(SetProperty(target.property)) { world.RecordProperty(property); absorbLatched=true; }
+                var source=target;
+                if(AddProperty(source.property)) {
+                    world.RecordProperty(source.property); absorbLatched=true;
+                    source.Absorb(); Absorbed?.Invoke(source,source.property);
+                    if(!source.Available) { target=null; UpdateTargetCue(); }
+                }
                 absorbProgress=0; heldTarget=null;
             }
         }
         if(beam) {
-            beam.enabled=held && absorbProgress>0;
-            if(beam.enabled) { beam.SetPosition(0,transform.position+Vector3.up*.65f); beam.SetPosition(1,target.transform.position); beam.startColor=beam.endColor=PropertyColor(target.property); }
+            beam.enabled=held && absorbProgress>0 && target;
+            if(beam.enabled) { beam.SetPosition(0,transform.position+Vector3.up*.65f); beam.SetPosition(1,target.AimPoint); beam.startColor=beam.endColor=PropertyColor(target.property); }
         }
     }
-    public bool CanStand() {
-        var hits=Physics.OverlapCapsule(transform.position+Vector3.up*.4f,transform.position+Vector3.up*1.02f,.32f,~(1<<2),QueryTriggerInteraction.Ignore);
-        return hits.Length==0;
+    // Aim feedback: floating [E] marker over the targeted source plus a short cue when a new valid target is acquired.
+    void UpdateTargetCue() {
+        bool valid=target && targetStatus==Absorbable;
+        if(targetMarker) {
+            targetMarker.SetActive(target);
+            if(target) {
+                var b=target.indicator?target.indicator.bounds:new Bounds(target.AimPoint,Vector3.one);
+                targetMarker.transform.position=b.center+Vector3.up*(b.extents.y+.45f);
+                targetMarker.transform.rotation=view.transform.rotation;
+                markerText.text=valid?"[ E ]":"[ - ]";
+                markerText.color=valid?PropertyColor(target.property):new Color(.6f,.6f,.6f);
+            }
+        }
+        if(valid && target!=lastCuedTarget && audioSource && !testMode) audioSource.PlayOneShot(tones[0],.3f);
+        lastCuedTarget=valid?target:null;
     }
-    void SetFlat(bool on) {
-        if(flattened==on) return; flattened=on;
-        cc.height=on?.32f:1.3f; cc.center=Vector3.up*(on?.16f:.65f); cc.stepOffset=on?.08f:.22f;
-        cc.radius=on?.15f:.36f;
-    }
+    // Shape + parts show the powers without relying on colour: Cue_* parts appear for each held power,
+    // Bounce squashes while charging, Pressure puffs up while its blast recharges.
     void UpdateMorph() {
         float t=1-Mathf.Exp(-Time.deltaTime*5/Mathf.Max(.1f,morphSeconds));
         Vector3 shape=Vector3.one;
-        switch(property) {
-            case BlobProperty.Spring:shape=new Vector3(1+.4f*springCharge,1-.65f*springCharge,1+.4f*springCharge);break;
-            case BlobProperty.Gas:shape=Vector3.one*(1.15f+.05f*Mathf.Sin(Time.time*3));break;
-            case BlobProperty.Liquid:shape=flattened?new Vector3(1.1f,.22f,1.3f):new Vector3(1.1f,.8f,1.1f);break;
-        }
+        if(Has(BlobProperty.Bounce)) shape=new Vector3(1+.35f*bounceCharge,1-.5f*bounceCharge,1+.35f*bounceCharge);
+        if(property==BlobProperty.Pressure && powers) shape*=1.04f+.08f*powers.PressureCooldown01;
         visual.localScale=Vector3.Lerp(visual.localScale,Vector3.Scale(baseVisualScale,shape),t);
         Color c=PropertyColor(property);
         foreach(var r in visualRenderers) {
-            if(!r.name.Contains("Body")&&!r.name.Contains("Orbit")) continue;
-            r.GetPropertyBlock(mpb); mpb.SetColor("_BaseColor",c); r.SetPropertyBlock(mpb);
-            if(r.name.Contains("Orbit"))r.transform.localRotation=Quaternion.AngleAxis(Time.time*45,Vector3.up);
+            string n=r.name;
+            if(n.Contains("Cue_")) {
+                var cue=n.Contains("Magnet")?BlobProperty.Magnet:n.Contains("Pressure")?BlobProperty.Pressure:n.Contains("Bounce")?BlobProperty.Bounce:BlobProperty.None;
+                bool on=Has(cue);
+                if(r.gameObject.activeSelf!=on) r.gameObject.SetActive(on);
+                if(on) { r.GetPropertyBlock(mpb); mpb.SetColor("_BaseColor",PropertyColor(cue)); r.SetPropertyBlock(mpb); }
+                continue;
+            }
+            bool band=n.Contains("PowerBand"), body=n.Contains("Body")||n.Contains("Drip");
+            if(!band&&!body) continue;
+            // The band carries the primary property colour; the body keeps most of BLOB's own colour.
+            Color col=band||!hasPowerBand?c:Color.Lerp(PropertyColor(BlobProperty.None),c,.3f);
+            r.GetPropertyBlock(mpb); mpb.SetColor("_BaseColor",col); r.SetPropertyBlock(mpb);
         }
     }
     void LateUpdate() {
         if(!view || !world) return;
         if(world.overview) { view.transform.position=world.overviewPosition; view.transform.LookAt(world.overviewTarget); return; }
-        Vector3 pivot=transform.position+Vector3.up*(flattened?.24f:1.4f);
+        Vector3 pivot=transform.position+Vector3.up*1.4f;
         Quaternion rot=Quaternion.Euler(pitch,yaw,0);
         Vector3 wanted=pivot-rot*Vector3.forward*5.8f+rot*Vector3.right*.65f;
         Vector3 delta=wanted-pivot;

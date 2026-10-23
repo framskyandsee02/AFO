@@ -1,26 +1,18 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+using System.Collections.Generic;
 namespace OopsPlanet {
 public class BlobWorld : MonoBehaviour {
     public BlobPlayer player;
     public BlobInteractable[] sources, zones;
-    public Rigidbody crate;
-    public Vector3 crateStart,spawn=new Vector3(0,.1f,0);
-    public GameObject bridge;
-    public Transform plate;
-    public Renderer plateLamp;
-    public bool bridgeOpen,finished,overview;
+    public Vector3 spawn=new Vector3(0,.1f,0);
+    public bool finished,overview;
     public int checkpointIndex;
     public int propertyMask;
-    public bool pipePassed;
-    // legacyRoute: the original linear Wobble Greybox 01 route (crate/plate/bridge, four-property exit).
-    public bool legacyRoute=true;
-    public string levelTitle="WOBBLE WORKS / GREYBOX 01";
-    public int checkpointCount=3;
-    public Vector3 overviewPosition=new Vector3(54,68,32),overviewTarget=new Vector3(0,3,57);
+    public string levelTitle="OOPS! PLANET";
+    public int checkpointCount=2;
+    public Vector3 overviewPosition=new Vector3(22,70,-40),overviewTarget=new Vector3(22,0,18);
     public Vector3 checkpoint;
-    public float plateHold;
-    public string objective="01  MOVE / JUMP  —  Follow the numbered route";
+    public string objective="";
     public int deaths;
     public float elapsed;
     bool resetting;
@@ -31,25 +23,6 @@ public class BlobWorld : MonoBehaviour {
         if(!player || player.paused || finished) return;
         elapsed+=Time.deltaTime;
         Vector3 p=player.transform.position;
-        float z=p.z;
-        if(legacyRoute) objective=z<14?"01  MOVE / JUMP — Cross the two-metre gap":
-            z<26?"02  ABSORB — Aim at the source, hold E":
-            z<48?"03  MAGNET — Hold F to pull the marked cube onto the red plate":
-            z<62?"04  SPRING — Hold SPACE to compress, release + move forward":
-            z<82?"05  GAS — Absorb GAS, enter the shaft, hold SPACE to rise":
-            z<105?"06  LIQUID — Absorb LIQUID, hold F through the low tunnel":
-            "EXIT — Reach the green finish marker";
-        if(legacyRoute && crate && !bridgeOpen) {
-            Vector3 d=crate.position-plate.position;
-            bool inside=Mathf.Abs(d.x)<.95f && Mathf.Abs(d.z)<.95f && Mathf.Abs(d.y)<1.5f;
-            plateHold=inside?plateHold+Time.deltaTime:0;
-            if(plateHold>.4f) {
-                bridgeOpen=true; bridge.SetActive(true);
-                if(plateLamp)plateLamp.material.color=new Color(.2f,1,.45f);
-                player.Notify("PLATE LOCKED — BRIDGE OPEN",3);
-            }
-        }
-        if(crate && crate.position.y<-6) ResetCrate();
         foreach(var zone in zones) {
             if(!zone.Contains(p+Vector3.up*.2f)) continue;
             switch(zone.kind) {
@@ -59,62 +32,66 @@ public class BlobWorld : MonoBehaviour {
                         player.Notify("CHECKPOINT "+zone.index+" SAVED",3);
                     }
                     break;
-                case BlobInteraction.Pipe:
-                    if(player.property==BlobProperty.Liquid && player.flattened && p.z>101) pipePassed=true;
-                    break;
                 case BlobInteraction.Area:
-                    if(!legacyRoute) objective=zone.label;
+                    objective=zone.label;
                     break;
                 case BlobInteraction.Exit:
                     if(finished) break;
-                    if(!legacyRoute || (pipePassed && propertyMask==30 && bridgeOpen)) {
-                        finished=true; player.completed=true; player.Notify("GREYBOX COMPLETE",4);
-                        Cursor.lockState=CursorLockMode.None; Cursor.visible=true;
-                        Debug.Log((legacyRoute?"WOBBLE":"OOPS")+"_LEVEL_COMPLETE time="+elapsed+" deaths="+deaths);
-                    } else player.Notify("Complete the four property stations first");
-                    break;
-                case BlobInteraction.Reset:
-                    if(!player.testMode && Keyboard.current!=null && Keyboard.current.qKey.wasPressedThisFrame) ResetCrate();
+                    finished=true; player.completed=true; player.Notify("DEMO COMPLETE",4);
+                    Cursor.lockState=CursorLockMode.None; Cursor.visible=true;
+                    Debug.Log("OOPS_LEVEL_COMPLETE time="+elapsed+" deaths="+deaths);
                     break;
             }
         }
     }
-    public bool InGasVent(Vector3 p) {
-        foreach(var z in zones) if(z.kind==BlobInteraction.GasVent && z.Contains(p+Vector3.up*.5f))return true;
-        return false;
-    }
     public void RecordProperty(BlobProperty p) { if(p!=BlobProperty.None) propertyMask|=1<<(int)p; }
-    public void ResetCrate() {
-        if(!crate) return;
-        crate.position=crateStart; crate.rotation=Quaternion.identity;
-        crate.linearVelocity=Vector3.zero; crate.angularVelocity=Vector3.zero; plateHold=0;
-        Physics.SyncTransforms();
-    }
     public void Respawn() {
         if(resetting)return; resetting=true;
-        player.Teleport(checkpoint); player.flattened=false;
-        player.Controller.height=1.3f; player.Controller.radius=.36f; player.Controller.center=Vector3.up*.65f; player.Controller.stepOffset=.22f;
-        player.SetProperty(BlobProperty.None,false);
-        ResetCrate(); deaths++; player.Notify("RESPAWN — CHECKPOINT RESTORED");
+        player.Teleport(checkpoint);
+        player.ClearProperties();
+        if(player.powers) player.powers.ResetState();
+        RestoreSources(false);
+        deaths++; player.Notify("RESPAWN — CHECKPOINT RESTORED");
         resetting=false;
     }
     public void Restart() {
-        checkpoint=spawn; checkpointIndex=0; bridgeOpen=false; if(bridge)bridge.SetActive(false);
-        propertyMask=0; pipePassed=false; finished=false; elapsed=0; deaths=-1;
+        checkpoint=spawn; checkpointIndex=0;
+        propertyMask=0; finished=false; elapsed=0; deaths=-1;
         player.completed=false; player.paused=false; overview=false;
-        if(plateLamp)plateLamp.material.color=BlobPlayer.PropertyColor(BlobProperty.Magnet);
+        RestoreSources(true);
+        BlobMagnetic.ResetAll();
         Respawn();
+    }
+    // Consumed sources come back on restart, and on respawn when they opt in (avoids softlocks).
+    public void RestoreSources(bool all) {
+        if(sources==null) return;
+        foreach(var s in sources) if(s && s.kind==BlobInteraction.Source && (all||s.restoreOnRespawn)) s.Restore();
+    }
+    List<BlobProperty> hudProperties;
+    List<BlobProperty> HudProperties() {
+        if(hudProperties!=null) return hudProperties;
+        hudProperties=new List<BlobProperty>();
+        foreach(var s in sources) if(s && s.property!=BlobProperty.None && !hudProperties.Contains(s.property)) hudProperties.Add(s.property);
+        hudProperties.Sort();
+        return hudProperties;
     }
     void EnsureStyles() {
         if(title!=null)return;
         white=Texture2D.whiteTexture;
-        title=new GUIStyle(GUI.skin.label){fontSize=24,fontStyle=FontStyle.Bold,wordWrap=true};
+        // Thai-capable OS font (Windows ships Leelawadee UI / Tahoma); falls back to the default font elsewhere.
+        var thai=Font.CreateDynamicFontFromOSFont(new[]{"Leelawadee UI","Tahoma","Arial"},16);
+        title=new GUIStyle(GUI.skin.label){font=thai,fontSize=24,fontStyle=FontStyle.Bold,wordWrap=true};
         title.normal.textColor=Color.white;
-        body=new GUIStyle(GUI.skin.label){fontSize=16,wordWrap=true}; body.normal.textColor=new Color(.88f,.94f,.98f);
+        body=new GUIStyle(GUI.skin.label){font=thai,fontSize=16,wordWrap=true}; body.normal.textColor=new Color(.88f,.94f,.98f);
         small=new GUIStyle(body){fontSize=13};
     }
     void Panel(Rect r) {
         GUI.color=new Color(.025f,.045f,.065f,.92f); GUI.DrawTexture(r,white); GUI.color=Color.white;
+    }
+    string SlotLine(string slot,string key,BlobProperty prop) {
+        if(prop==BlobProperty.None) return slot+" ["+key+"]: ว่าง";
+        var d=player.powers?player.powers.Def(prop):null;
+        return slot+" ["+key+"]: "+player.NameTh(prop)+(d?"  —  "+d.hintTh:"");
     }
     void OnGUI() {
         if(!player)return; EnsureStyles();
@@ -130,41 +107,56 @@ public class BlobWorld : MonoBehaviour {
         bool hasSources=sources!=null && sources.Length>0;
         if(!overview && hasSources) {
             GUI.Label(new Rect(w/2-12,h/2-16,30,30),"+",title);
-            Panel(new Rect(w/2-200,h/2-100,400,64));
-            GUI.Label(new Rect(w/2-188,h/2-95,380,24),player.targetStatus,body);
-            GUI.color=Color.gray; GUI.DrawTexture(new Rect(w/2-184,h/2-63,368,6),white);
+            // Status panel sits below the crosshair so it never covers the world-space target marker above the source.
+            Panel(new Rect(w/2-200,h/2+40,400,64));
+            GUI.Label(new Rect(w/2-188,h/2+45,380,24),player.targetStatus,body);
+            GUI.color=Color.gray; GUI.DrawTexture(new Rect(w/2-184,h/2+77,368,6),white);
             GUI.color=player.target?BlobPlayer.PropertyColor(player.target.property):Color.white;
-            GUI.DrawTexture(new Rect(w/2-184,h/2-63,368*Mathf.Clamp01(player.absorbProgress),6),white); GUI.color=Color.white;
+            GUI.DrawTexture(new Rect(w/2-184,h/2+77,368*Mathf.Clamp01(player.absorbProgress),6),white); GUI.color=Color.white;
         }
         if(hasSources) {
-        Panel(new Rect(24,h-148,560,124));
-        GUI.Label(new Rect(40,h-140,520,26),"ONE ACTIVE PROPERTY — "+player.property.ToString().ToUpper(),body);
-        for(int i=1;i<=4;i++) {
-            GUI.color=(int)player.property==i?BlobPlayer.PropertyColor((BlobProperty)i):new Color(.35f,.39f,.43f);
-            GUI.DrawTexture(new Rect(40+(i-1)*132,h-105,120,4),white);
-            GUI.Label(new Rect(40+(i-1)*132,h-95,125,25),((BlobProperty)i).ToString().ToUpper(),small);
-        }
-        GUI.color=Color.white;
-        string ability=player.property==BlobProperty.Magnet?"F: pull marked crate":player.property==BlobProperty.Spring?"Hold SPACE / release: launch  "+Mathf.RoundToInt(player.springCharge*100)+"%":
-            player.property==BlobProperty.Gas?"SPACE in purple shaft: rise / gentle fall":player.property==BlobProperty.Liquid?"Hold F: flatten / release outside tunnel":"Aim + hold E to acquire a property";
-        GUI.Label(new Rect(40,h-65,520,32),ability,small);
+            // Thai power panel: primary / secondary slots, the active combination and the swap key.
+            Panel(new Rect(24,h-208,640,184));
+            GUI.Label(new Rect(40,h-200,600,26),"พลังที่ใช้งาน (สูงสุด "+PowerSet.MaxActive+")",body);
+            var props=HudProperties();
+            for(int i=0;i<props.Count;i++) {
+                bool primary=player.property==props[i], second=player.secondary==props[i];
+                GUI.color=primary?BlobPlayer.PropertyColor(props[i]):second?Color.Lerp(BlobPlayer.PropertyColor(props[i]),Color.gray,.5f):new Color(.35f,.39f,.43f);
+                GUI.DrawTexture(new Rect(330+i*105,h-190,95,primary?6:3),white);
+                GUI.color=Color.white;
+                GUI.Label(new Rect(330+i*105,h-182,100,22),player.NameTh(props[i])+(primary?" (หลัก)":second?" (เสริม)":""),small);
+            }
+            GUI.Label(new Rect(40,h-158,610,24),SlotLine("พลังหลัก","F",player.property),small);
+            GUI.Label(new Rect(40,h-134,610,24),SlotLine("พลังเสริม","G",player.secondary),small);
+            var combo=player.powers?player.powers.ActiveCombo:null;
+            string comboLine=player.secondary==BlobProperty.None?"คอมโบ: ต้องมี 2 พลัง":
+                combo?"คอมโบ: "+combo.nameTh+"  —  "+combo.howTh:"คอมโบ: คู่นี้ผสมกันไม่ได้ (ใช้แยกกัน)";
+            GUI.color=combo?new Color(1,.9f,.5f):Color.white;
+            GUI.Label(new Rect(40,h-108,610,24),comboLine,small);
+            GUI.color=Color.white;
+            if(player.Has(BlobProperty.Pressure) && player.powers) {
+                float cd=player.powers.PressureCooldown01;
+                GUI.Label(new Rect(40,h-82,160,22),cd>0?"แรงดัน: ชาร์จ":"แรงดัน: พร้อม",small);
+                GUI.color=Color.gray; GUI.DrawTexture(new Rect(170,h-72,200,5),white);
+                GUI.color=BlobPlayer.PropertyColor(BlobProperty.Pressure); GUI.DrawTexture(new Rect(170,h-72,200*(1-cd),5),white); GUI.color=Color.white;
+            }
+            GUI.Label(new Rect(40,h-56,610,24),"Q: สลับพลังหลัก/เสริม  •  ดูดพลังใหม่: พลังเก่าสุดจะถูกทิ้ง",small);
         }
         Panel(new Rect(w-584,h-112,560,88));
-        GUI.Label(new Rect(w-568,h-104,530,72),hasSources?"WASD move  |  SPACE jump  |  Mouse look\nE hold absorb  |  F property action  |  R respawn\nT restart level  |  ESC pause  |  Q near console: reset crate":
-            "WASD move  |  SPACE jump  |  Mouse look\nR respawn  |  T restart  |  ESC pause  |  TAB overview",small);
+        GUI.Label(new Rect(w-568,h-104,530,72),"WASD move  |  SPACE jump  |  Mouse look\n"+(hasSources?"E hold absorb  |  F / G power  |  Q swap  |  ":"")+"R respawn\nT restart  |  ESC pause  |  TAB overview",small);
         if(!string.IsNullOrEmpty(player.feedback)) {
             Panel(new Rect(w/2-270,145,540,50)); GUI.Label(new Rect(w/2-253,155,510,35),player.feedback,body);
         }
         if(player.paused || finished) {
             Panel(new Rect(w/2-240,h/2-130,480,250));
-            GUI.Label(new Rect(w/2-214,h/2-110,440,40),finished?(legacyRoute?"GREYBOX COMPLETE":"DEMO COMPLETE"):"PAUSED",title);
-            GUI.Label(new Rect(w/2-214,h/2-62,420,65),finished?(legacyRoute?"Four properties. One connected route.":"Demo route complete.")+"\nTime: "+Mathf.FloorToInt(elapsed)+"s / retries: "+deaths:"Click Resume, then use the mouse to aim.\nAbsorb a new property to replace the old one.",body);
+            GUI.Label(new Rect(w/2-214,h/2-110,440,40),finished?"DEMO COMPLETE":"PAUSED",title);
+            GUI.Label(new Rect(w/2-214,h/2-62,420,65),finished?"Demo route complete.\nTime: "+Mathf.FloorToInt(elapsed)+"s / retries: "+deaths:"Click Resume, then use the mouse to aim.\nAbsorb up to two properties.",body);
             if(GUI.Button(new Rect(w/2-210,h/2+20,200,42),finished?"REPLAY LEVEL":"RESUME")) {
                 if(finished)Restart(); player.Resume();
             }
             if(GUI.Button(new Rect(w/2+10,h/2+20,200,42),"RESTART LEVEL")) { Restart();player.Resume(); }
         } else if(!player.testMode && Cursor.lockState!=CursorLockMode.Locked) {
-            GUI.Label(new Rect(w/2-235,h-205,500,35),"CLICK THE GAME VIEW TO CAPTURE THE MOUSE",body);
+            GUI.Label(new Rect(w/2-235,h/2+120,500,35),"CLICK THE GAME VIEW TO CAPTURE THE MOUSE",body);
         }
         GUI.matrix=Matrix4x4.identity;
     }

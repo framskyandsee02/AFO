@@ -3,7 +3,7 @@
 # (or: blender -b <file>.blend --python export_to_unity.py).
 # Exports to Assets/OopsPlanet/Models:
 #   - objects named BLOB_*  -> one combined BLOB_Greybox.fbx (hierarchy kept, pivots at feet)
-#   - objects named PROP_*  -> one FBX per prop, exported at the world origin
+#   - objects named PROP_* / ABS_* (absorbable) -> one FBX per prop, exported at the world origin
 # Conventions: 1 Blender unit = 1 m, Z-up, character faces -Y, prop origin = bottom centre.
 import bpy, os
 
@@ -22,7 +22,7 @@ blob = [o for o in meshes if o.name.startswith("BLOB_")]
 if blob:
     select_only(blob)
     bpy.ops.export_scene.fbx(filepath=os.path.join(OUT, "BLOB_Greybox.fbx"), **FBX)
-for o in [o for o in meshes if o.name.startswith("PROP_")]:
+for o in [o for o in meshes if o.name.startswith(("PROP_", "ABS_"))]:
     loc = o.location.copy(); o.location = (0, 0, 0); select_only([o])
     bpy.ops.export_scene.fbx(filepath=os.path.join(OUT, o.name + ".fbx"), **FBX)
     o.location = loc
