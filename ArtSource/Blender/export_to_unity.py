@@ -3,6 +3,7 @@
 # (or: blender -b <file>.blend --python export_to_unity.py).
 # Exports to Assets/OopsPlanet/Models:
 #   - objects named BLOB_*  -> one combined BLOB_Greybox.fbx (hierarchy kept, pivots at feet)
+#   - objects named HUB_*   -> one combined HUB_Landmark.fbx (stage parts toggled in Unity)
 #   - objects named PROP_* / ABS_* (absorbable) / PZ_* (puzzle) -> one FBX per prop, exported at the world origin
 # Conventions: 1 Blender unit = 1 m, Z-up, character faces -Y, prop origin = bottom centre.
 import bpy, os
@@ -18,10 +19,11 @@ def select_only(objs):
 
 os.makedirs(OUT, exist_ok=True)
 meshes = [o for o in bpy.context.scene.objects if o.type == 'MESH']
-blob = [o for o in meshes if o.name.startswith("BLOB_")]
-if blob:
-    select_only(blob)
-    bpy.ops.export_scene.fbx(filepath=os.path.join(OUT, "BLOB_Greybox.fbx"), **FBX)
+for prefix, fbx in (("BLOB_", "BLOB_Greybox.fbx"), ("HUB_", "HUB_Landmark.fbx")):
+    group = [o for o in meshes if o.name.startswith(prefix)]
+    if group:
+        select_only(group)
+        bpy.ops.export_scene.fbx(filepath=os.path.join(OUT, fbx), **FBX)
 for o in [o for o in meshes if o.name.startswith(("PROP_", "ABS_", "PZ_"))]:
     loc = o.location.copy(); o.location = (0, 0, 0); select_only([o])
     bpy.ops.export_scene.fbx(filepath=os.path.join(OUT, o.name + ".fbx"), **FBX)

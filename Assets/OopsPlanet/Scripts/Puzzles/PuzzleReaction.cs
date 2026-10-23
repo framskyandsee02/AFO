@@ -24,8 +24,10 @@ public class PuzzleReaction : MonoBehaviour {
         growStart=new Vector3[grow.Length];
         for(int i=0;i<grow.Length;i++) growStart[i]=grow[i].localScale;
         mpb=new MaterialPropertyBlock();
-        if(objective) { objective.Solved+=_=>Apply(); objective.WasReset+=o=>{ if(o.State!=PuzzleState.Solved) Revert(); }; }
+        if(objective) { objective.Solved+=o=>{ Apply(); if(o.LastSolveFromSave) Snap(); }; objective.WasReset+=o=>{ if(o.State!=PuzzleState.Solved) Revert(); }; }
     }
+    // Jump straight to the solved look (loading a save).
+    public void Snap() { if(!IsApplied) return; t=1; Blend(1); }
     public void Apply() {
         IsApplied=true;
         foreach(var g in showWhenSolved) if(g) g.SetActive(true);

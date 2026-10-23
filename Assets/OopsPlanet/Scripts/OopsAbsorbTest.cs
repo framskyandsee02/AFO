@@ -37,7 +37,7 @@ public class OopsAbsorbTest : MonoBehaviour {
     IEnumerator Hold(float seconds) { p.testAbsorb=true; yield return Wait(seconds); p.testAbsorb=false; yield return null; }
     BlobInteractable Find(string prefix) { foreach(var s in w.sources) if(s.name.StartsWith(prefix)) return s; return null; }
     IEnumerator Start() {
-        w=GetComponent<BlobWorld>();p=w.player;p.testMode=true;p.paused=false;w.Restart();p.testMode=true;
+        w=GetComponent<BlobWorld>();p=w.player;p.testMode=true;p.paused=false;w.UseSaveSlot("test_run",false);w.Restart();p.testMode=true;
         report.utc=System.DateTime.UtcNow.ToString("o");
         p.Absorbed+=(s,prop)=>events.Add(s.name+"|"+prop);
         var scrap=Find("Absorbable Scrap (Magnet");var tank=Find("Absorbable Tank");var tire=Find("Absorbable Tire");var hidden=Find("Absorbable Scrap (occluded)");

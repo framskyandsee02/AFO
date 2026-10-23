@@ -238,13 +238,28 @@ public static class OopsPrototypeBuilder {
         // HUB (spawn at origin; exits north to Factory, east to Rice Fields)
         Floor("Hub floor",Vector3.zero,30,30,grey);
         Walls("Hub",Vector3.zero,30,30,"ne");
-        Cylinder("Hub landmark placeholder",new Vector3(-6,2.5f,-6),1.2f,5,glow);
+        // P05 Hub landmark: one bio-core tree whose parts/materials show the restoration stage.
+        var bark=Mat("Tree bark",new Color(.42f,.3f,.2f)); var leaves=Mat("Tree leaves",new Color(.3f,.68f,.32f)); var stone=Mat("Planter stone",new Color(.45f,.45f,.47f));
+        var tree=ModelInstance("HUB_Landmark",new[]{bark},root,false); tree.name="Hub landmark: bio-core tree"; tree.transform.position=new Vector3(-6,0,-6);
+        Renderer treeTrunk=null, treeCore=null; GameObject canopySmall=null, canopyFull=null;
+        foreach(var r in tree.GetComponentsInChildren<Renderer>(true)) {
+            string n=r.name;
+            if(n.Contains("Planter")) { r.sharedMaterial=stone; r.gameObject.AddComponent<BoxCollider>(); }
+            else if(n.Contains("Trunk")) { treeTrunk=r; r.gameObject.AddComponent<BoxCollider>(); }
+            else if(n.Contains("Core")) { r.sharedMaterial=glow; treeCore=r; }
+            else if(n.Contains("Canopy_Small")) { r.sharedMaterial=leaves; canopySmall=r.gameObject; }
+            else if(n.Contains("Canopy_Full")) { r.sharedMaterial=leaves; canopyFull=r.gameObject; }
+        }
+        var grass=Mat("Hub grass",new Color(.35f,.7f,.3f)); var grassPatches=new List<GameObject>();
+        foreach(var g in new[]{new Vector3(-10,0,-11),new Vector3(-2,0,-11),new Vector3(-11,0,-2),new Vector3(9,0,10),new Vector3(-9,0,11),new Vector3(10,0,-1.5f)})
+            grassPatches.Add(Box("Hub grass patch",g+Vector3.up*.015f,new Vector3(3,.03f,2.4f),grass,null,false));
+        var hubLight=PointLight("Hub light",new Vector3(0,9,0)); hubLight.color=new Color(1,.92f,.8f); hubLight.intensity=1.5f; hubLight.range=26;
         Label("FACTORY >>",new Vector3(0,2.6f,14.4f),0,.3f);
         Label("RICE FIELDS >>",new Vector3(14.4f,2.6f,0),90,.3f);
         Label("OOPS! PLANET\nHUB",new Vector3(0,3.2f,-14.4f),180,.35f);
-        Zone("Area Hub",BlobInteraction.Area,new Vector3(0,2,0),new Vector3(30,6,30),"HUB — ศูนย์กลาง: ฝึกดูดพลังที่ลาน (กด E ค้าง) แล้วไป FACTORY (ทิศเหนือ) หรือ RICE FIELDS (ทิศตะวันออก)");
+        var hubZone=Zone("Area Hub",BlobInteraction.Area,new Vector3(0,2,0),new Vector3(30,6,30),"HUB — ศูนย์กลาง: ฝึกดูดพลังที่ลาน (กด E ค้าง) แล้วไป FACTORY (ทิศเหนือ) หรือ RICE FIELDS (ทิศตะวันออก)");
         // P02 absorption yard (west half of the Hub): one source per AbsorbResult mode, an occluded source and a non-absorbable decoy.
-        Label("ABSORPTION YARD\nAIM + HOLD E",new Vector3(-8,2.8f,-2.5f),0,.22f);
+        Label("ABSORPTION YARD\nAIM + HOLD E",new Vector3(-8,2.8f,-1f),0,.22f);
         PlaceSource(absScrap,"Absorbable Scrap (Magnet, remains)",new Vector3(-5,0,5),20);
         PlaceSource(absTank,"Absorbable Tank (Pressure, remnant)",new Vector3(-10,0,5));
         PlaceSource(absTire,"Absorbable Tire (Bounce, disables)",new Vector3(-10,0,-1),90);
@@ -292,6 +307,8 @@ public static class OopsPrototypeBuilder {
         foreach(float x in new[]{-2.3f,2.3f}) Box("Gate post collider",new Vector3(x,3.5f,42),new Vector3(.6f,7,.7f),metal,frame.transform).GetComponent<Renderer>().enabled=false;
         var door=ModelInstance("PZ_FactoryGate_Door",new[]{dark,hazard},root,true); door.name="Factory gate door"; door.transform.position=new Vector3(0,0,42);
         var gateLamp=Ball("Gate lamp",new Vector3(0,7.5f,41.5f),.45f,redLamp);
+        // Transom fills the gap between the 4.2 m door and the lintel so Bounce cannot slip over a closed door.
+        Box("Factory gate transom",new Vector3(0,5.2f,42.25f),new Vector3(4,2.1f,.3f),dark);
         var socket=ModelInstance("PZ_Socket",new[]{dark,hazard},root,true); socket.name="Counterweight socket"; socket.transform.position=new Vector3(3.6f,0,39.8f);
         var socketLamp=Ball("Socket lamp",new Vector3(3.6f,1.6f,41.3f),.3f,redLamp);
         var sock=socket.AddComponent<ItemSocket>(); sock.key="counterweight"; sock.lamp=socketLamp.GetComponent<Renderer>();
@@ -379,6 +396,29 @@ public static class OopsPrototypeBuilder {
         ResetPad("Reset pad: Rice straw",new Vector3(36,0,7),ricePuzzle);
         world.puzzles=new[]{gate,vent,ricePuzzle};
 
+        // P05 zone unlock: Rice Fields open once the whole Factory is restored (gate + turbine).
+        var riceFrame=ModelInstance("PZ_FactoryGate_Frame",new[]{metal,hazard},root,false); riceFrame.name="Rice gate frame";
+        riceFrame.transform.SetPositionAndRotation(new Vector3(20,0,0),Quaternion.Euler(0,90,0));
+        foreach(float z in new[]{-2.3f,2.3f}) Box("Rice gate post collider",new Vector3(20,3.5f,z),new Vector3(.7f,7,.6f),metal,riceFrame.transform).GetComponent<Renderer>().enabled=false;
+        var riceDoor=ModelInstance("PZ_FactoryGate_Door",new[]{dark,hazard},root,true); riceDoor.name="Rice gate door";
+        riceDoor.transform.SetPositionAndRotation(new Vector3(20,0,0),Quaternion.Euler(0,90,0));
+        Box("Rice gate transom",new Vector3(20.25f,5.2f,0),new Vector3(.3f,2.1f,4),dark);
+        var riceLamp=Ball("Rice gate lamp",new Vector3(19.5f,7.5f,0),.45f,redLamp);
+        Label("RICE FIELDS\nRESTORE THE FACTORY",new Vector3(19.4f,2.2f,0),90,.16f);
+        var riceGate=new GameObject("Zone gate: Rice Fields").AddComponent<ZoneGate>(); riceGate.transform.SetParent(root); riceGate.transform.position=new Vector3(19,0,0);
+        riceGate.world=world; riceGate.zoneId="rice"; riceGate.zoneNameTh="ทางไปนาข้าว"; riceGate.requires=new[]{gate,vent};
+        riceGate.door=riceDoor.transform; riceGate.openOffset=Vector3.up*4.4f; riceGate.lamp=riceLamp.GetComponent<Renderer>();
+        world.zoneGates=new[]{riceGate};
+        var hub=new GameObject("Hub progress").AddComponent<HubProgress>(); hub.transform.SetParent(root);
+        hub.world=world; hub.stage1Requires=new[]{gate,vent}; hub.stage2Requires=new[]{gate,vent,ricePuzzle};
+        hub.canopySmall=canopySmall; hub.canopyFull=canopyFull; hub.stage2Extras=grassPatches.ToArray();
+        hub.trunk=treeTrunk; hub.core=treeCore; hub.hubLight=hubLight; hub.riceGate=riceGate; hub.hubAreaZone=hubZone;
+        hub.labelLocked="HUB — ศูนย์กลาง: ฝึกดูดพลังที่ลาน (กด E ค้าง) แล้วไปฟื้นฟู FACTORY (ทิศเหนือ) — RICE FIELDS ยังล็อก";
+        hub.labelUnlocked="HUB — ทางไป RICE FIELDS (ทิศตะวันออก) เปิดแล้ว! ไปฟื้นฟูนาข้าวต่อ";
+        hub.labelComplete="HUB — ฟื้นฟูครบทุกโซนแล้ว! ไปที่ DEMO END ปลายนาข้าว";
+        hubZone.label=hub.labelLocked;
+        world.hub=hub;
+
         // DEMO END
         Box("Demo end left pillar",new Vector3(56,1.5f,-2.2f),new Vector3(.5f,3,.5f),green);
         Box("Demo end right pillar",new Vector3(56,1.5f,2.2f),new Vector3(.5f,3,.5f),green);
@@ -449,6 +489,9 @@ public static class OopsPrototypeBuilder {
                 if(!pz.GetComponent<PuzzleReaction>()) errors.Add("puzzle without world reaction: "+pz.id);
                 foreach(var i in pz.items) if(!i||!i.GetComponent<Collider>()&&!i.GetComponentInChildren<Collider>()) errors.Add("puzzle item missing/without collider in "+pz.id);
             }
+            if(w.zoneGates==null || w.zoneGates.Length==0) errors.Add("no zone gates");
+            else foreach(var g in w.zoneGates) if(!g || !g.door || g.requires==null || g.requires.Length==0 || !g.world) errors.Add("zone gate not wired: "+(g?g.name:"null"));
+            if(!w.hub || !w.hub.canopySmall || !w.hub.canopyFull || !w.hub.trunk || !w.hub.hubAreaZone) errors.Add("hub progress not wired");
             foreach(var m in Object.FindObjectsByType<BlobMagnetic>(FindObjectsSortMode.None))
                 if(!m.GetComponent<Collider>()) errors.Add("magnetic body without collider: "+m.name);
             if(w.sources==null) errors.Add("BlobWorld.sources is null");
@@ -484,6 +527,17 @@ public static class OopsPrototypeBuilder {
         if(!world)throw new System.Exception("BlobWorld not found");
         if(world.GetComponent<OopsRouteTest>())throw new System.Exception("Route test already exists");
         world.gameObject.AddComponent<OopsRouteTest>();
+    }
+    [MenuItem("Tools/OOPS Planet/Run P05 Progress Test (1: play + save)")]
+    public static void ProgressTest1() => AddTest(1);
+    [MenuItem("Tools/OOPS Planet/Run P05 Progress Test (2: after restarting Play Mode)")]
+    public static void ProgressTest2() => AddTest(2);
+    static void AddTest(int session) {
+        if(!EditorApplication.isPlaying) { Debug.LogError("Enter Play Mode first");return; }
+        var world=Object.FindFirstObjectByType<BlobWorld>();
+        if(!world)throw new System.Exception("BlobWorld not found");
+        if(world.GetComponent<OopsProgressTest>())throw new System.Exception("Progress test already exists");
+        world.gameObject.AddComponent<OopsProgressTest>().session=session;
     }
     [MenuItem("Tools/OOPS Planet/Run P04 Puzzle Test")]
     public static void PuzzleTest() {

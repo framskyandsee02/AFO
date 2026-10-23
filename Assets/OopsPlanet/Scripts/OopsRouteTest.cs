@@ -28,7 +28,7 @@ public class OopsRouteTest : MonoBehaviour {
         CheckThat("Traverse to "+goal.ToString("F1"),dist<.5f || w.finished,"actual="+p.transform.position.ToString("F2"));
     }
     IEnumerator Start() {
-        w=GetComponent<BlobWorld>();p=w.player;p.testMode=true;p.paused=false;w.Restart();p.testMode=true;
+        w=GetComponent<BlobWorld>();p=w.player;p.testMode=true;p.paused=false;w.UseSaveSlot("test_run",false);w.Restart();p.testMode=true;
         report.utc=System.DateTime.UtcNow.ToString("o");
         yield return Wait(.5f);
         CheckThat("Spawn is grounded in Hub",p.Grounded && p.transform.position.magnitude<1,"pos="+p.transform.position.ToString("F2")+" grounded="+p.Grounded);
@@ -50,6 +50,11 @@ public class OopsRouteTest : MonoBehaviour {
         yield return To(new Vector3(0,0,30));
         yield return To(new Vector3(0,0,18));
         yield return To(new Vector3(0,0,0));
+        // P05 gating: Rice Fields open after the Factory is restored. The route test unlocks it through the
+        // puzzle API (the real puzzle solutions are covered by the P04 test).
+        foreach(var id in new[]{"factory_gate","factory_turbine"}) w.FindPuzzle(id).Solve();
+        yield return Wait(2f);
+        CheckThat("Rice gate open after Factory restored",w.zoneGates[0].Unlocked && w.zoneGates[0].Open01>=1,"open="+w.zoneGates[0].Open01.ToString("F2"));
         yield return To(new Vector3(12,0,0));
         yield return To(new Vector3(22,0,0));
         yield return To(new Vector3(28,0,0));

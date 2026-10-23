@@ -38,7 +38,7 @@ public class OopsPowerTest : MonoBehaviour {
         foreach(var m in BlobMagnetic.All) { maxBodySpeed=Mathf.Max(maxBodySpeed,m.Body.linearVelocity.magnitude); minBodyY=Mathf.Min(minBodyY,m.transform.position.y); }
     }
     IEnumerator Start() {
-        w=GetComponent<BlobWorld>();p=w.player;pw=p.powers;p.testMode=true;p.paused=false;w.Restart();p.testMode=true;
+        w=GetComponent<BlobWorld>();p=w.player;pw=p.powers;p.testMode=true;p.paused=false;w.UseSaveSlot("test_run",false);w.Restart();p.testMode=true;
         report.utc=System.DateTime.UtcNow.ToString("o");
         yield return Wait(.4f);
         var starts=new Dictionary<BlobMagnetic,Vector3>();

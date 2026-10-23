@@ -1,5 +1,5 @@
 {
-    "utc": "2026-10-23T02:52:13.9052929Z",
+    "utc": "2026-10-23T03:06:49.7404007Z",
     "checks": [
         {
             "name": "Three puzzles registered",
@@ -39,7 +39,7 @@
         {
             "name": "Reset pad returns the misplaced counterweight",
             "passed": true,
-            "observed": "dragged=0.83 resets=1"
+            "observed": "dragged=0.81 resets=1"
         },
         {
             "name": "No softlock: stranded counterweight recovered by reset pad",
@@ -54,12 +54,12 @@
         {
             "name": "Factory Gate solved with Magnet (main solution)",
             "passed": true,
-            "observed": "held=True weight=(3.52, 0.16, 39.91) socket=1"
+            "observed": "held=True weight=(3.61, 0.16, 39.95) socket=1"
         },
         {
             "name": "Gate door opened and lamp turned green",
             "passed": true,
-            "observed": "doorY=4.24"
+            "observed": "doorY=4.36"
         },
         {
             "name": "Turbine unlocks after the gate",
@@ -79,7 +79,7 @@
         {
             "name": "Walked through the opened gate into the turbine room",
             "passed": true,
-            "observed": "pos=(5.81, 0.04, 49.35)"
+            "observed": "pos=(5.82, 0.03, 49.36)"
         },
         {
             "name": "Objective UI shows the turbine puzzle",
@@ -109,7 +109,7 @@
         {
             "name": "Bounce reaches the 3 m sluice platform",
             "passed": true,
-            "observed": "pos=(41.85, 3.04, 9.42)"
+            "observed": "pos=(41.82, 3.04, 9.41)"
         },
         {
             "name": "Rice Straw Route solved with Bounce + Pressure",
@@ -151,11 +151,11 @@
     "failed": 0,
     "allSolved": true,
     "diagnostics": [
-        "before blasts: player=(41.85, 3.04, 9.42) grounded=True slots=Pressure/Bounce zone=(38.00, 3.00, 8.50)..(46.00, 4.20, 13.50) | #0(39.50, 3.30, 11.00)[in] v=0.0  #1(41.20, 3.30, 11.00)[in] v=0.0  #2(42.90, 3.30, 11.00)[in] v=0.0  #3(44.60, 3.30, 11.00)[in] v=0.0  ",
-        "blast 0: target #0 player=(41.85, 3.04, 9.42) grounded=True camFwd=(-0.82, -0.34, 0.46) dist=2.17 coneAngle=15.2 cdBefore=0.00 realBlast=1 targetMoved=3.71 feedback=แรงดัน! | #0(36.81, 0.94, 11.99)[out] v=6.3  #1(41.20, 3.30, 11.00)[in] v=0.0  #2(42.90, 3.30, 11.00)[in] v=0.0  #3(44.60, 3.30, 11.00)[in] v=0.0  ",
-        "blast 1: target #1 player=(41.85, 3.04, 9.42) grounded=True camFwd=(-0.43, -0.39, 0.82) dist=1.29 coneAngle=27.2 cdBefore=0.00 realBlast=1 targetMoved=2.07 feedback=แรงดัน! | #0(36.72, 0.60, 12.07)[out] v=0.0  #1(40.27, 3.31, 12.85)[in] v=0.0  #2(42.90, 3.30, 11.00)[in] v=0.0  #3(44.60, 3.30, 11.00)[in] v=0.0  ",
-        "blast 2: target #1 player=(41.85, 3.04, 9.42) grounded=True camFwd=(-0.46, -0.31, 0.83) dist=3.28 coneAngle=17.8 cdBefore=0.00 realBlast=1 targetMoved=3.25 feedback=แรงดัน! | #0(36.44, 0.31, 13.46)[out] v=0.0  #1(39.40, 0.31, 13.80)[out] v=0.4  #2(42.90, 3.30, 11.00)[in] v=0.0  #3(44.60, 3.30, 11.00)[in] v=0.0  ",
-        "blast 3: target #2 player=(41.85, 3.04, 9.42) grounded=True camFwd=(0.44, -0.38, 0.81) dist=1.37 coneAngle=15.2 cdBefore=0.00 realBlast=1 targetMoved=2.11 feedback=แรงดัน! | #0(36.44, 0.31, 13.46)[out] v=0.0  #1(39.40, 0.31, 13.80)[out] v=0.0  #2(43.88, 3.30, 12.87)[in] v=0.0  #3(45.39, 3.30, 12.51)[in] v=0.0  ",
-        "blast 4: target #2 player=(41.85, 3.04, 9.42) grounded=True camFwd=(0.43, -0.30, 0.85) dist=3.44 coneAngle=13.9 cdBefore=0.00 realBlast=1 targetMoved=3.17 feedback=แรงดัน! | #0(36.44, 0.31, 13.46)[out] v=0.0  #1(39.40, 0.31, 13.80)[out] v=0.0  #2(44.60, 0.40, 13.91)[out] v=0.7  #3(45.93, 0.92, 14.03)[out] v=5.5  "
+        "before blasts: player=(41.82, 3.04, 9.41) grounded=True slots=Pressure/Bounce zone=(38.00, 3.00, 8.50)..(46.00, 4.20, 13.50) | #0(39.50, 3.30, 11.00)[in] v=0.0  #1(41.20, 3.30, 11.00)[in] v=0.0  #2(42.90, 3.30, 11.00)[in] v=0.0  #3(44.60, 3.30, 11.00)[in] v=0.0  ",
+        "blast 0: target #0 player=(41.82, 3.04, 9.41) grounded=True camFwd=(-0.81, -0.34, 0.47) dist=2.16 coneAngle=15.3 cdBefore=0.00 realBlast=1 targetMoved=3.48 feedback=แรงดัน! | #0(36.89, 1.22, 11.98)[out] v=6.0  #1(41.20, 3.30, 11.00)[in] v=0.0  #2(42.90, 3.30, 11.00)[in] v=0.0  #3(44.60, 3.30, 11.00)[in] v=0.0  ",
+        "blast 1: target #1 player=(41.82, 3.04, 9.41) grounded=True camFwd=(-0.41, -0.39, 0.82) dist=1.30 coneAngle=27.4 cdBefore=0.00 realBlast=1 targetMoved=2.11 feedback=แรงดัน! | #0(36.25, 0.31, 13.49)[out] v=0.0  #1(40.31, 3.35, 12.91)[in] v=0.8  #2(42.90, 3.30, 11.00)[in] v=0.0  #3(44.60, 3.30, 11.00)[in] v=0.0  ",
+        "blast 2: target #1 player=(41.82, 3.04, 9.41) grounded=True camFwd=(-0.44, -0.30, 0.85) dist=3.26 coneAngle=17.4 cdBefore=0.00 realBlast=1 targetMoved=3.33 feedback=แรงดัน! | #0(36.25, 0.31, 13.49)[out] v=0.0  #1(39.50, 0.22, 13.81)[out] v=6.3  #2(42.90, 3.30, 11.00)[in] v=0.0  #3(44.60, 3.30, 11.00)[in] v=0.0  ",
+        "blast 3: target #2 player=(41.82, 3.04, 9.41) grounded=True camFwd=(0.45, -0.38, 0.81) dist=1.38 coneAngle=15.0 cdBefore=0.00 realBlast=1 targetMoved=2.11 feedback=แรงดัน! | #0(36.25, 0.31, 13.49)[out] v=0.0  #1(39.50, 0.31, 13.81)[out] v=0.0  #2(43.90, 3.30, 12.86)[in] v=0.0  #3(45.41, 3.30, 12.50)[in] v=0.0  ",
+        "blast 4: target #2 player=(41.82, 3.04, 9.41) grounded=True camFwd=(0.43, -0.30, 0.85) dist=3.46 coneAngle=13.9 cdBefore=0.00 realBlast=1 targetMoved=3.17 feedback=แรงดัน! | #0(36.25, 0.31, 13.49)[out] v=0.0  #1(39.50, 0.31, 13.81)[out] v=0.0  #2(44.61, 0.40, 13.91)[out] v=2.8  #3(45.91, 0.87, 14.11)[out] v=5.6  "
     ]
 }

@@ -1,5 +1,5 @@
 {
-    "utc": "2026-10-23T02:54:11.6699443Z",
+    "utc": "2026-10-23T03:08:15.5087473Z",
     "checks": [
         {
             "name": "Power data loaded (3 powers, 2 combos)",
@@ -64,7 +64,7 @@
         {
             "name": "Pressure cooldown blocks an immediate second blast",
             "passed": true,
-            "observed": "blasts=1 cd=0.24"
+            "observed": "blasts=1 cd=0.26"
         },
         {
             "name": "Pressure works again after cooldown",
@@ -74,7 +74,7 @@
         {
             "name": "Charged Bounce reaches the 3.5 m ledge (normal jump is 1.4 m)",
             "passed": true,
-            "observed": "y=3.51 peak=5.59"
+            "observed": "y=3.50 peak=5.61"
         },
         {
             "name": "Bounce rebounds decay and settle (no infinite bounce)",
@@ -84,7 +84,7 @@
         {
             "name": "Bounce height stays within tuned limit",
             "passed": true,
-            "observed": "peak=5.59"
+            "observed": "peak=5.61"
         },
         {
             "name": "Magnet + Pressure resolves to a combo",
@@ -94,7 +94,7 @@
         {
             "name": "Magnet Cannon launches the held cube",
             "passed": true,
-            "observed": "held=True speed=12.1 dist=6.4"
+            "observed": "held=True speed=13.6 dist=6.4"
         },
         {
             "name": "Pressure + Bounce resolves to a combo",
@@ -109,7 +109,7 @@
         {
             "name": "Pressure Dash in the air moves BLOB forward",
             "passed": true,
-            "observed": "dashes=1 horizontal=4.31"
+            "observed": "dashes=1 horizontal=4.17"
         },
         {
             "name": "Magnet + Bounce is not combined, BLOB says so",

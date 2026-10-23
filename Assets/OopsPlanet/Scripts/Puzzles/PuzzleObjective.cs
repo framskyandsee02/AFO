@@ -54,11 +54,15 @@ public class PuzzleObjective : MonoBehaviour {
         metFor=met&&n>0?metFor+Time.deltaTime:0;
         if(metFor>=holdSeconds) Solve();
     }
-    public void Solve() {
+    // fromSave: restoring a saved game (no jingle; world reactions snap to their solved look).
+    public bool LastSolveFromSave { get; private set; }
+    public void Solve() => Solve(false);
+    public void Solve(bool fromSave) {
         if(State==PuzzleState.Solved) return;
-        State=PuzzleState.Solved; solvedCount++;
-        if(audioSource) audioSource.PlayOneShot(ProcAudio.Jingle(),.8f);
-        Debug.Log("OOPS_PUZZLE_SOLVED "+id);
+        State=PuzzleState.Solved; solvedCount++; LastSolveFromSave=fromSave;
+        if(audioSource && !fromSave) audioSource.PlayOneShot(ProcAudio.Jingle(),.8f);
+        Debug.Log("OOPS_PUZZLE_SOLVED "+id+(fromSave?" (from save)":""));
+        if(fromSave) foreach(var i in items) if(i && i.useFallback) i.PlaceAtFallback();
         Solved?.Invoke(this);
     }
     // Retry path: put movable pieces back. A full reset (level restart) also un-solves the puzzle.

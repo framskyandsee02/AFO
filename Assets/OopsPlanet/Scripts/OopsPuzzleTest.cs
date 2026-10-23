@@ -41,7 +41,7 @@ public class OopsPuzzleTest : MonoBehaviour {
     PuzzleResetPad Pad(PuzzleObjective target) { foreach(var pad in Object.FindObjectsByType<PuzzleResetPad>(FindObjectsSortMode.None)) if(pad.target==target) return pad; return null; }
     static string V(Vector3 v) => v.ToString("F2");
     IEnumerator Start() {
-        w=GetComponent<BlobWorld>();p=w.player;pw=p.powers;p.testMode=true;p.paused=false;w.Restart();p.testMode=true;
+        w=GetComponent<BlobWorld>();p=w.player;pw=p.powers;p.testMode=true;p.paused=false;w.UseSaveSlot("test_run",false);w.Restart();p.testMode=true;
         report.utc=System.DateTime.UtcNow.ToString("o");
         yield return Wait(.5f);
         var gate=Puzzle("factory_gate"); var vent=Puzzle("factory_turbine"); var rice=Puzzle("rice_straw");

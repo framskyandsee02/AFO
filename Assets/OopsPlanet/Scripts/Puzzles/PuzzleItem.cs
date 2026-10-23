@@ -23,6 +23,8 @@ public class PuzzleItem : MonoBehaviour {
     }
     public Vector3 Center => Body?Body.worldCenterOfMass:transform.position;
     public void ResetToStart() => PlaceAt(startPos,startRot);
+    // Used when a solved puzzle is restored from a save, so cleared pieces are not shown back in the goal zone.
+    public void PlaceAtFallback() => PlaceAt(fallbackPosition,startRot);
     void PlaceAt(Vector3 pos,Quaternion rot) {
         if(Body) { Body.position=pos; Body.rotation=rot; Body.linearVelocity=Vector3.zero; Body.angularVelocity=Vector3.zero; }
         transform.SetPositionAndRotation(pos,rot);

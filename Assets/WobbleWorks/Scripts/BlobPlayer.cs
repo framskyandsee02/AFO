@@ -29,7 +29,8 @@ public class BlobPlayer : MonoBehaviour {
     CharacterController cc;
     bool wasJump, absorbLatched;
     bool previousBackground;
-    float coyote, jumpBuffer, lastAirTime, lookSensitivity=.13f;
+    float coyote, jumpBuffer, lastAirTime;
+    public float lookSensitivity=.13f;
     BlobInteractable heldTarget;
     Renderer[] visualRenderers;
     Vector3 baseVisualScale;

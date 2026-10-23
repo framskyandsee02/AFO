@@ -55,7 +55,9 @@ public class BlobWorld : MonoBehaviour {
         deaths++; player.Notify("RESPAWN — CHECKPOINT RESTORED");
         resetting=false;
     }
-    public void Restart() {
+    // Restart = new game: the level and all progress are reset and the cleared progress is saved.
+    public void Restart() { ResetLevel(); Save(); }
+    void ResetLevel() {
         checkpoint=spawn; checkpointIndex=0;
         propertyMask=0; finished=false; elapsed=0; deaths=-1;
         player.completed=false; player.paused=false; overview=false;
@@ -63,7 +65,67 @@ public class BlobWorld : MonoBehaviour {
         BlobMagnetic.ResetAll();
         PuzzleItem.ResetAll();
         if(puzzles!=null) foreach(var pz in puzzles) if(pz) pz.ResetPuzzle(true);
+        if(zoneGates!=null) foreach(var g in zoneGates) if(g) g.Lock();
+        if(hub) hub.Refresh(true);
         Respawn();
+    }
+
+    // ---- Progression + persistence (P05) ----
+    // Single scene by design: Hub, Factory and Rice Fields are one small contiguous greybox, so zones are
+    // gated with ZoneGates instead of scene loading (no load hitches, one place to test, simple save state).
+    [Header("Progress / save")]
+    public string saveSlot=SaveSystem.DefaultSlot;
+    public bool autoLoad=true;
+    public ZoneGate[] zoneGates;
+    public HubProgress hub;
+    public SaveSystem.LoadStatus lastLoadStatus;
+    public int saves;
+    bool loading, hooked;
+    void Start() {
+        Hook();
+        if(autoLoad) LoadFromSlot(saveSlot); else RefreshProgress(true,false);
+    }
+    void Hook() {
+        if(hooked || puzzles==null) return; hooked=true;
+        foreach(var pz in puzzles) if(pz) pz.Solved+=o=>{ if(!loading) RefreshProgress(false,true); };
+    }
+    // Unlock zones whose requirements are now met, update the Hub, optionally save.
+    public void RefreshProgress(bool instant,bool save) {
+        if(zoneGates!=null) foreach(var g in zoneGates)
+            if(g && !g.Unlocked && g.RequirementsMet) { g.Unlock(instant); if(!instant && player) player.Notify(g.zoneNameTh+" เปิดแล้ว! กลับไปที่ฮับเพื่อไปต่อ",4); }
+        if(hub) hub.Refresh(instant);
+        if(save) Save();
+    }
+    public PuzzleObjective FindPuzzle(string id) { if(puzzles!=null) foreach(var pz in puzzles) if(pz && pz.id==id) return pz; return null; }
+    public SaveData Snapshot() {
+        var d=new SaveData();
+        if(puzzles!=null) foreach(var pz in puzzles) if(pz && pz.State==PuzzleState.Solved) d.solvedPuzzles.Add(pz.id);
+        if(zoneGates!=null) foreach(var g in zoneGates) if(g && g.Unlocked) d.unlockedZones.Add(g.zoneId);
+        d.lookSensitivity=player?player.lookSensitivity:.13f; d.masterVolume=AudioListener.volume;
+        return d;
+    }
+    public bool Save() { saves++; return SaveSystem.Save(saveSlot,Snapshot()); }
+    // Switch save slot (tests use their own slot so the player's save is never touched).
+    public void UseSaveSlot(string slot,bool loadNow) { if(loadNow) LoadFromSlot(slot); else saveSlot=slot; }
+    public SaveSystem.LoadStatus LoadFromSlot(string slot) {
+        Hook(); saveSlot=slot; loading=true;
+        ResetLevel();
+        lastLoadStatus=SaveSystem.Load(slot,out var data);
+        foreach(var id in data.solvedPuzzles) { var pz=FindPuzzle(id); if(pz) pz.Solve(true); else Debug.LogWarning("OOPS_SAVE unknown puzzle id ignored: "+id); }
+        if(zoneGates!=null) foreach(var g in zoneGates) if(g && (data.unlockedZones.Contains(g.zoneId)||g.RequirementsMet)) g.Unlock(true);
+        if(player) player.lookSensitivity=data.lookSensitivity;
+        AudioListener.volume=data.masterVolume;
+        loading=false;
+        RefreshProgress(true,false);
+        if(player && (lastLoadStatus==SaveSystem.LoadStatus.Corrupt||lastLoadStatus==SaveSystem.LoadStatus.WrongVersion))
+            player.Notify("อ่านเซฟไม่ได้ ("+lastLoadStatus+") — เริ่มเกมใหม่อย่างปลอดภัย");
+        Debug.Log("OOPS_SAVE load "+slot+" status="+lastLoadStatus+" solved="+SolvedPuzzles);
+        return lastLoadStatus;
+    }
+    public void ApplySettings(float look,float volume) {
+        if(player) player.lookSensitivity=Mathf.Clamp(look,.02f,1f);
+        AudioListener.volume=Mathf.Clamp01(volume);
+        Save();
     }
     public int SolvedPuzzles { get { int n=0; if(puzzles!=null) foreach(var pz in puzzles) if(pz && pz.State==PuzzleState.Solved) n++; return n; } }
     // The puzzle whose area BLOB is standing in (null outside puzzle areas).
