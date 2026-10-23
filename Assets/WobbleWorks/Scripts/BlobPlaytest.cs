@@ -2,11 +2,11 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-namespace WobbleWorks {
-public class WobPlaytest : MonoBehaviour {
+namespace OopsPlanet {
+public class BlobPlaytest : MonoBehaviour {
     [System.Serializable] public class Check { public string name;public bool passed;public string observed; }
     [System.Serializable] public class Report { public string utc;public List<Check> checks=new List<Check>();public int passed,failed;public bool completedRoute; }
-    WobWorld w; WobPlayer p; Report report=new Report();bool routeOk=true;
+    BlobWorld w; BlobPlayer p; Report report=new Report();bool routeOk=true;
     void CheckThat(string name,bool pass,string observed) {
         report.checks.Add(new Check{name=name,passed=pass,observed=observed});
         if(pass)report.passed++;else report.failed++;
@@ -27,41 +27,41 @@ public class WobPlaytest : MonoBehaviour {
         if(!ok)routeOk=false;
         CheckThat("Traverse to "+goal.ToString("F1"),ok,"actual="+p.transform.position.ToString("F2"));
     }
-    WobInteractable Source(WobProperty type) {
+    BlobInteractable Source(BlobProperty type) {
         foreach(var s in w.sources) if(s.property==type && !s.name.Contains("Occluded") && !s.name.Contains("Tutorial"))return s;
         return null;
     }
-    IEnumerator Absorb(WobInteractable source,float seconds=1.1f) {
+    IEnumerator Absorb(BlobInteractable source,float seconds=1.1f) {
         p.testMove=Vector2.zero;p.testJump=false;p.testAction=false;p.testAbsorb=false;
         p.testAim=source.transform;p.AimAt(source.transform);
         yield return Wait(.25f);
         p.testAbsorb=true;yield return Wait(seconds);p.testAbsorb=false;yield return null;
     }
     IEnumerator Start() {
-        w=GetComponent<WobWorld>();p=w.player;p.testMode=true;p.paused=false;w.Restart();p.testMode=true;
+        w=GetComponent<BlobWorld>();p=w.player;p.testMode=true;p.paused=false;w.Restart();p.testMode=true;
         report.utc=System.DateTime.UtcNow.ToString("o");
         yield return Wait(.5f);
-        var magnet=Source(WobProperty.Magnet);
+        var magnet=Source(BlobProperty.Magnet);
         string status=p.EvaluateTarget(magnet,p.view.transform.position,(magnet.transform.position-p.view.transform.position).normalized);
         CheckThat("Absorb out of range rejected",status=="OUT OF RANGE",status);
         p.yaw=180;p.testAim=null;yield return Wait(.25f);
         p.testAbsorb=true;yield return Wait(1f);p.testAbsorb=false;
-        CheckThat("Invalid aim cannot acquire a property",p.property==WobProperty.None && p.target==null,"property="+p.property+" target="+p.target);
+        CheckThat("Invalid aim cannot acquire a property",p.property==BlobProperty.None && p.target==null,"property="+p.property+" target="+p.target);
         p.yaw=0;yield return Wait(.1f);
         yield return To(new Vector3(0,0,4.7f));
         yield return To(new Vector3(0,0,11),true);
         p.testJump=false;yield return Wait(.4f);
         CheckThat("Jump crossed training gap",p.transform.position.z>8&&p.transform.position.y>-.2f,p.transform.position.ToString("F2"));
         yield return To(new Vector3(0,0,18));
-        WobInteractable tutorial=null,blocked=null;
+        BlobInteractable tutorial=null,blocked=null;
         foreach(var s in w.sources) { if(s.name.Contains("Tutorial"))tutorial=s;if(s.name.Contains("Occluded"))blocked=s; }
         status=p.EvaluateTarget(blocked,p.view.transform.position,(blocked.transform.position-p.view.transform.position).normalized);
         CheckThat("Line of sight obstruction rejected",status=="BLOCKED",status);
         yield return Absorb(tutorial,.25f);
         p.testAbsorb=false;yield return Wait(.2f);
-        CheckThat("Early release cancels absorption",p.property==WobProperty.None && p.absorbProgress==0,"property="+p.property+" progress="+p.absorbProgress);
+        CheckThat("Early release cancels absorption",p.property==BlobProperty.None && p.absorbProgress==0,"property="+p.property+" progress="+p.absorbProgress);
         yield return Absorb(tutorial);
-        CheckThat("Hold completes magnet acquisition",p.property==WobProperty.Magnet,"property="+p.property);
+        CheckThat("Hold completes magnet acquisition",p.property==BlobProperty.Magnet,"property="+p.property);
         // Real movement during the real absorption hold.
         p.testAim=tutorial.transform;p.testAbsorb=true;p.testMove=Vector2.right;
         Vector3 before=p.transform.position;yield return Wait(.35f);p.testMove=Vector2.zero;p.testAbsorb=false;
@@ -79,8 +79,8 @@ public class WobPlaytest : MonoBehaviour {
         yield return To(new Vector3(0,0,50));
         yield return Wait(.3f);
         CheckThat("First checkpoint reached",w.checkpointIndex==1,"checkpoint="+w.checkpointIndex);
-        yield return Absorb(Source(WobProperty.Spring));
-        CheckThat("New absorption replaces prior property",p.property==WobProperty.Spring,"property="+p.property);
+        yield return Absorb(Source(BlobProperty.Spring));
+        CheckThat("New absorption replaces prior property",p.property==BlobProperty.Spring,"property="+p.property);
         Vector3 still=w.crate.position;p.testAction=true;yield return Wait(.5f);p.testAction=false;
         CheckThat("Previous magnet stops after replacement",Vector3.Distance(still,w.crate.position)<.25f,"crate drift="+Vector3.Distance(still,w.crate.position));
         yield return To(new Vector3(0,0,57));
@@ -93,8 +93,8 @@ public class WobPlaytest : MonoBehaviour {
         CheckThat("Second checkpoint reached",w.checkpointIndex==2,"checkpoint="+w.checkpointIndex);
         if(p.transform.position.y<4) {routeOk=false;Finish();yield break;}
         yield return To(new Vector3(0,5,69));
-        yield return Absorb(Source(WobProperty.Gas));
-        CheckThat("Gas acquisition",p.property==WobProperty.Gas,"property="+p.property);
+        yield return Absorb(Source(BlobProperty.Gas));
+        CheckThat("Gas acquisition",p.property==BlobProperty.Gas,"property="+p.property);
         yield return To(new Vector3(0,5,78));
         p.testJump=true;float until=Time.time+5;
         while(p.transform.position.y<11.25f&&Time.time<until)yield return null;
@@ -103,8 +103,8 @@ public class WobPlaytest : MonoBehaviour {
         p.testJump=false;yield return Wait(1.5f);
         yield return To(new Vector3(0,11,88));
         CheckThat("Third checkpoint reached",w.checkpointIndex==3,"checkpoint="+w.checkpointIndex);
-        yield return Absorb(Source(WobProperty.Liquid));
-        CheckThat("Liquid acquisition",p.property==WobProperty.Liquid,"property="+p.property);
+        yield return Absorb(Source(BlobProperty.Liquid));
+        CheckThat("Liquid acquisition",p.property==BlobProperty.Liquid,"property="+p.property);
         yield return To(new Vector3(0,11,94));
         p.testAction=false;
         p.testAim=null;p.testMove=Vector2.up;yield return Wait(1f);p.testMove=Vector2.zero;
@@ -115,17 +115,17 @@ public class WobPlaytest : MonoBehaviour {
         CheckThat("Liquid flattens in designed pipe",p.flattened&&p.Controller.height<.4f,"height="+p.Controller.height);
         p.testAction=false;yield return Wait(.25f);
         CheckThat("Unsafe expansion inside pipe prevented",p.flattened,"flat="+p.flattened);
-        bool replaced=p.SetProperty(WobProperty.Magnet,false);
-        CheckThat("Unsafe replacement inside pipe rejected",!replaced&&p.property==WobProperty.Liquid,"property="+p.property);
+        bool replaced=p.SetProperty(BlobProperty.Magnet,false);
+        CheckThat("Unsafe replacement inside pipe rejected",!replaced&&p.property==BlobProperty.Liquid,"property="+p.property);
         yield return To(new Vector3(0,11,108),false,true,5);
         p.testAction=false;yield return Wait(.5f);
         CheckThat("Clearance restores normal collider",!p.flattened&&p.Controller.height>1,"height="+p.Controller.height);
         CheckThat("Pipe traversal records progression",w.pipePassed,"pipePassed="+w.pipePassed);
         // Checkpoint recovery is intentional teleport; route traversals above use controller movement.
         w.Respawn();yield return Wait(.3f);
-        CheckThat("Respawn returns to safe checkpoint",Vector3.Distance(p.transform.position,w.checkpoint)<.3f && p.property==WobProperty.None,"pos="+p.transform.position+" property="+p.property);
+        CheckThat("Respawn returns to safe checkpoint",Vector3.Distance(p.transform.position,w.checkpoint)<.3f && p.property==BlobProperty.None,"pos="+p.transform.position+" property="+p.property);
         yield return To(new Vector3(0,11,88));
-        yield return Absorb(Source(WobProperty.Liquid));
+        yield return Absorb(Source(BlobProperty.Liquid));
         yield return To(new Vector3(0,11,94));
         yield return To(new Vector3(0,11,108),false,true,6);
         p.testAction=false;

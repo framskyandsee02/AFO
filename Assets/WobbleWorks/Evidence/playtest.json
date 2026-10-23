@@ -1,5 +1,5 @@
 {
-    "utc": "2026-10-22T15:37:44.2527148Z",
+    "utc": "2026-10-22T22:24:38.7672140Z",
     "checks": [
         {
             "name": "Absorb out of range rejected",
@@ -14,22 +14,22 @@
         {
             "name": "Traverse to (0.0, 0.0, 4.7)",
             "passed": true,
-            "observed": "actual=(0.00, 0.03, 4.49)"
+            "observed": "actual=(0.00, 0.03, 4.53)"
         },
         {
             "name": "Traverse to (0.0, 0.0, 11.0)",
             "passed": true,
-            "observed": "actual=(0.00, 0.03, 10.83)"
+            "observed": "actual=(0.00, 0.03, 10.79)"
         },
         {
             "name": "Jump crossed training gap",
             "passed": true,
-            "observed": "(0.00, 0.03, 10.83)"
+            "observed": "(0.00, 0.03, 10.79)"
         },
         {
             "name": "Traverse to (0.0, 0.0, 18.0)",
             "passed": true,
-            "observed": "actual=(0.00, 0.03, 17.81)"
+            "observed": "actual=(0.00, 0.03, 17.82)"
         },
         {
             "name": "Line of sight obstruction rejected",
@@ -49,17 +49,17 @@
         {
             "name": "Movement continues during absorption",
             "passed": true,
-            "observed": "distance=1.99"
+            "observed": "distance=1.94"
         },
         {
             "name": "Traverse to (0.0, 0.0, 18.0)",
             "passed": true,
-            "observed": "actual=(0.14, 0.03, 17.99)"
+            "observed": "actual=(0.18, 0.03, 17.98)"
         },
         {
             "name": "Traverse to (0.0, 0.0, 28.0)",
             "passed": true,
-            "observed": "actual=(0.00, 0.03, 27.84)"
+            "observed": "actual=(0.00, 0.03, 27.81)"
         },
         {
             "name": "Traverse to (0.0, 0.0, 34.0)",
@@ -74,22 +74,22 @@
         {
             "name": "Magnet moves designated physics cube",
             "passed": true,
-            "observed": "(2.54, 0.60, 35.08)"
+            "observed": "(2.54, 0.60, 35.07)"
         },
         {
             "name": "Crate pressure plate opens bridge",
             "passed": true,
-            "observed": "plate=0.4083442 crate=(2.54, 0.60, 35.08)"
+            "observed": "plate=0.4063945 crate=(2.54, 0.60, 35.07)"
         },
         {
             "name": "Traverse to (0.0, 0.0, 40.0)",
             "passed": true,
-            "observed": "actual=(0.16, 0.03, 39.87)"
+            "observed": "actual=(0.16, 0.03, 39.88)"
         },
         {
             "name": "Traverse to (0.0, 0.0, 50.0)",
             "passed": true,
-            "observed": "actual=(0.00, 0.09, 49.80)"
+            "observed": "actual=(0.00, 0.09, 49.79)"
         },
         {
             "name": "First checkpoint reached",
@@ -109,7 +109,7 @@
         {
             "name": "Traverse to (0.0, 0.0, 57.0)",
             "passed": true,
-            "observed": "actual=(0.00, 0.08, 56.79)"
+            "observed": "actual=(0.00, 0.09, 56.82)"
         },
         {
             "name": "Spring charge is accumulated",
@@ -119,12 +119,12 @@
         {
             "name": "Traverse to (0.0, 5.0, 65.0)",
             "passed": true,
-            "observed": "actual=(0.00, 5.10, 64.81)"
+            "observed": "actual=(0.00, 5.10, 64.84)"
         },
         {
             "name": "Spring reaches raised landing",
             "passed": true,
-            "observed": "position=(0.00, 5.10, 64.81)"
+            "observed": "position=(0.00, 5.10, 64.84)"
         },
         {
             "name": "Second checkpoint reached",
@@ -134,7 +134,7 @@
         {
             "name": "Traverse to (0.0, 5.0, 69.0)",
             "passed": true,
-            "observed": "actual=(0.00, 5.04, 68.78)"
+            "observed": "actual=(0.00, 5.04, 68.80)"
         },
         {
             "name": "Gas acquisition",
@@ -144,22 +144,22 @@
         {
             "name": "Traverse to (0.0, 5.0, 78.0)",
             "passed": true,
-            "observed": "actual=(0.00, 5.04, 77.83)"
+            "observed": "actual=(0.00, 5.04, 77.81)"
         },
         {
             "name": "Gas rises inside designated shaft",
             "passed": true,
-            "observed": "height=11.28104"
+            "observed": "height=11.27271"
         },
         {
             "name": "Traverse to (0.0, 11.0, 84.0)",
             "passed": true,
-            "observed": "actual=(0.00, 11.43, 83.82)"
+            "observed": "actual=(0.00, 11.43, 83.79)"
         },
         {
             "name": "Traverse to (0.0, 11.0, 88.0)",
             "passed": true,
-            "observed": "actual=(0.00, 11.10, 87.83)"
+            "observed": "actual=(0.00, 11.10, 87.82)"
         },
         {
             "name": "Third checkpoint reached",
@@ -174,7 +174,7 @@
         {
             "name": "Traverse to (0.0, 11.0, 94.0)",
             "passed": true,
-            "observed": "actual=(0.00, 11.04, 93.83)"
+            "observed": "actual=(0.00, 11.04, 93.78)"
         },
         {
             "name": "Normal silhouette cannot enter low pipe",
@@ -224,12 +224,12 @@
         {
             "name": "Traverse to (0.0, 11.0, 88.0)",
             "passed": true,
-            "observed": "actual=(0.00, 11.10, 87.80)"
+            "observed": "actual=(0.00, 11.10, 87.83)"
         },
         {
             "name": "Traverse to (0.0, 11.0, 94.0)",
             "passed": true,
-            "observed": "actual=(0.00, 11.04, 93.81)"
+            "observed": "actual=(0.00, 11.04, 93.83)"
         },
         {
             "name": "Traverse to (0.0, 11.0, 108.0)",
@@ -239,7 +239,7 @@
         {
             "name": "Traverse to (0.0, 11.0, 114.0)",
             "passed": true,
-            "observed": "actual=(0.00, 11.04, 113.04)"
+            "observed": "actual=(0.00, 11.04, 113.03)"
         },
         {
             "name": "Full level completes via exit",

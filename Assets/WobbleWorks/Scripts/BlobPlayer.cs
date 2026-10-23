@@ -1,17 +1,17 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-namespace WobbleWorks {
-public enum WobProperty { None, Magnet, Spring, Gas, Liquid }
+namespace OopsPlanet {
+public enum BlobProperty { None, Magnet, Spring, Gas, Liquid }
 [RequireComponent(typeof(CharacterController))]
-public class WobPlayer : MonoBehaviour {
-    public WobWorld world;
+public class BlobPlayer : MonoBehaviour {
+    public BlobWorld world;
     public Camera view;
     public Transform visual;
     public float speed=5.5f, jumpSpeed=7.6f, gravity=20f, absorbRange=8f, absorbSeconds=.8f, aimDegrees=9f;
     public float springMin=9f, springMax=18f, springChargeSeconds=1f;
     public float morphSeconds=.4f, magnetRange=8f, magnetAcceleration=18f;
-    public WobProperty property;
-    public WobInteractable target;
+    public BlobProperty property;
+    public BlobInteractable target;
     public string targetStatus="AIM AT A PROPERTY SOURCE";
     public float absorbProgress, springCharge;
     public bool flattened, paused, completed;
@@ -26,7 +26,7 @@ public class WobPlayer : MonoBehaviour {
     bool wasJump, absorbLatched;
     bool previousBackground;
     float coyote, jumpBuffer, lastAirTime, lookSensitivity=.13f;
-    WobInteractable heldTarget;
+    BlobInteractable heldTarget;
     Renderer[] visualRenderers;
     Vector3 baseVisualScale;
     MaterialPropertyBlock mpb;
@@ -37,12 +37,12 @@ public class WobPlayer : MonoBehaviour {
     public string feedback="";
     public bool Grounded => cc && cc.isGrounded;
     public CharacterController Controller => cc;
-    public static Color PropertyColor(WobProperty p) {
+    public static Color PropertyColor(BlobProperty p) {
         switch(p) {
-            case WobProperty.Magnet:return new Color(.95f,.22f,.22f);
-            case WobProperty.Spring:return new Color(1f,.76f,.12f);
-            case WobProperty.Gas:return new Color(.69f,.46f,.98f);
-            case WobProperty.Liquid:return new Color(.12f,.83f,.94f);
+            case BlobProperty.Magnet:return new Color(.95f,.22f,.22f);
+            case BlobProperty.Spring:return new Color(1f,.76f,.12f);
+            case BlobProperty.Gas:return new Color(.69f,.46f,.98f);
+            case BlobProperty.Liquid:return new Color(.12f,.83f,.94f);
             default:return new Color(.63f,.73f,.78f);
         }
     }
@@ -59,9 +59,9 @@ public class WobPlayer : MonoBehaviour {
         for(int i=0;i<tones.Length;i++) {
             int count=6615; float[] data=new float[count];
             for(int j=0;j<count;j++) { float t=j/44100f; data[j]=Mathf.Sin(t*(330+i*110)*Mathf.PI*2)*.15f*Mathf.Sin(j/(float)count*Mathf.PI); }
-            tones[i]=AudioClip.Create("WOB cue "+i,count,1,44100,false); tones[i].SetData(data,0);
+            tones[i]=AudioClip.Create("BLOB cue "+i,count,1,44100,false); tones[i].SetData(data,0);
         }
-        SetProperty(WobProperty.None,false);
+        SetProperty(BlobProperty.None,false);
         Teleport(world.spawn);
     }
     void OnEnable() { if(mpb==null)mpb=new MaterialPropertyBlock(); }
@@ -71,12 +71,12 @@ public class WobPlayer : MonoBehaviour {
         feedback=text; feedbackUntil=Time.time+3;
         if(audioSource && tones!=null) audioSource.PlayOneShot(tones[Mathf.Clamp(tone,0,4)],.7f);
     }
-    public bool SetProperty(WobProperty next,bool sound=true) {
-        if(property==WobProperty.Liquid && flattened && next!=WobProperty.Liquid && !CanStand()) {
+    public bool SetProperty(BlobProperty next,bool sound=true) {
+        if(property==BlobProperty.Liquid && flattened && next!=BlobProperty.Liquid && !CanStand()) {
             targetStatus="NO CLEARANCE TO CHANGE FORM"; return false;
         }
         property=next; springCharge=0; wasJump=false;
-        if(next!=WobProperty.Liquid) SetFlat(false);
+        if(next!=BlobProperty.Liquid) SetFlat(false);
         if(sound) Notify(next.ToString().ToUpper()+" ABSORBED",1+(int)next%4);
         return true;
     }
@@ -121,9 +121,9 @@ public class WobPlayer : MonoBehaviour {
         moveWorld=testMode?new Vector3(input.x,0,input.y):Quaternion.Euler(0,yaw,0)*new Vector3(input.x,0,input.y);
         if(Grounded) coyote=.12f; else coyote-=Time.deltaTime;
         jumpBuffer=jumpDown?.12f:Mathf.Max(0,jumpBuffer-Time.deltaTime);
-        if(property==WobProperty.Liquid) SetFlat(action || (flattened&&!CanStand()));
+        if(property==BlobProperty.Liquid) SetFlat(action || (flattened&&!CanStand()));
         else if(flattened && CanStand()) SetFlat(false);
-        if(property==WobProperty.Spring) {
+        if(property==BlobProperty.Spring) {
             if(jump && Grounded) springCharge=Mathf.Clamp01(springCharge+Time.deltaTime/springChargeSeconds);
             if(jumpUp && coyote>0 && springCharge>0) {
                 velocity.y=Mathf.Lerp(springMin,springMax,springCharge); coyote=0; Notify("SPRING RELEASE",2); springCharge=0;
@@ -131,12 +131,12 @@ public class WobPlayer : MonoBehaviour {
         } else if(jumpBuffer>0 && coyote>0 && !flattened) {
             velocity.y=jumpSpeed; jumpBuffer=0; coyote=0;
         }
-        float g=property==WobProperty.Gas?4f:gravity;
+        float g=property==BlobProperty.Gas?4f:gravity;
         if(Grounded && velocity.y<0) velocity.y=-2;
-        if(property==WobProperty.Gas && world.InGasVent(transform.position) && jump)
+        if(property==BlobProperty.Gas && world.InGasVent(transform.position) && jump)
             velocity.y=Mathf.MoveTowards(velocity.y,3.5f,Time.deltaTime*12);
         else velocity.y-=g*Time.deltaTime;
-        if(property==WobProperty.Gas) velocity.y=Mathf.Max(velocity.y,-2.5f);
+        if(property==BlobProperty.Gas) velocity.y=Mathf.Max(velocity.y,-2.5f);
         float actualSpeed=flattened?3.5f:speed;
         CollisionFlags flags=cc.Move((moveWorld*actualSpeed+Vector3.up*velocity.y)*Time.deltaTime);
         if((flags&CollisionFlags.Above)!=0 && velocity.y>0) velocity.y=0;
@@ -152,8 +152,9 @@ public class WobPlayer : MonoBehaviour {
     void FixedUpdate() {
         if(!world || paused||completed) return;
         bool action=testMode?testAction:Keyboard.current!=null&&Keyboard.current.fKey.isPressed;
-        if(property!=WobProperty.Magnet || !action) return;
+        if(property!=BlobProperty.Magnet || !action) return;
         var body=world.crate;
+        if(!body) return;
         Vector3 origin=transform.position+Vector3.up*.65f;
         Vector3 delta=body.worldCenterOfMass-origin;
         if(delta.magnitude>magnetRange) return;
@@ -163,11 +164,11 @@ public class WobPlayer : MonoBehaviour {
         Vector3 force=(desired-body.worldCenterOfMass)*magnetAcceleration-body.linearVelocity*7f;
         force.y=0; body.AddForce(Vector3.ClampMagnitude(force,65),ForceMode.Acceleration);
     }
-    public string EvaluateTarget(WobInteractable candidate,Vector3 aimOrigin,Vector3 aimDirection) {
+    public string EvaluateTarget(BlobInteractable candidate,Vector3 aimOrigin,Vector3 aimDirection) {
         Vector3 origin=transform.position+Vector3.up*.8f;
         if(Vector3.Distance(origin,candidate.transform.position)>absorbRange) return "OUT OF RANGE";
         if(Vector3.Angle(aimDirection,candidate.transform.position-aimOrigin)>aimDegrees) return "AIM AT TARGET";
-        if(Physics.Linecast(origin,candidate.transform.position,out RaycastHit hit,~(1<<2),QueryTriggerInteraction.Ignore) && hit.collider.GetComponentInParent<WobInteractable>()!=candidate) return "BLOCKED";
+        if(Physics.Linecast(origin,candidate.transform.position,out RaycastHit hit,~(1<<2),QueryTriggerInteraction.Ignore) && hit.collider.GetComponentInParent<BlobInteractable>()!=candidate) return "BLOCKED";
         return "HOLD E TO ABSORB";
     }
     void UpdateAbsorb(bool held) {
@@ -209,9 +210,9 @@ public class WobPlayer : MonoBehaviour {
         float t=1-Mathf.Exp(-Time.deltaTime*5/Mathf.Max(.1f,morphSeconds));
         Vector3 shape=Vector3.one;
         switch(property) {
-            case WobProperty.Spring:shape=new Vector3(1+.4f*springCharge,1-.65f*springCharge,1+.4f*springCharge);break;
-            case WobProperty.Gas:shape=Vector3.one*(1.15f+.05f*Mathf.Sin(Time.time*3));break;
-            case WobProperty.Liquid:shape=flattened?new Vector3(1.1f,.22f,1.3f):new Vector3(1.1f,.8f,1.1f);break;
+            case BlobProperty.Spring:shape=new Vector3(1+.4f*springCharge,1-.65f*springCharge,1+.4f*springCharge);break;
+            case BlobProperty.Gas:shape=Vector3.one*(1.15f+.05f*Mathf.Sin(Time.time*3));break;
+            case BlobProperty.Liquid:shape=flattened?new Vector3(1.1f,.22f,1.3f):new Vector3(1.1f,.8f,1.1f);break;
         }
         visual.localScale=Vector3.Lerp(visual.localScale,Vector3.Scale(baseVisualScale,shape),t);
         Color c=PropertyColor(property);
@@ -223,7 +224,7 @@ public class WobPlayer : MonoBehaviour {
     }
     void LateUpdate() {
         if(!view || !world) return;
-        if(world.overview) { view.transform.position=new Vector3(54,68,32); view.transform.LookAt(new Vector3(0,3,57)); return; }
+        if(world.overview) { view.transform.position=world.overviewPosition; view.transform.LookAt(world.overviewTarget); return; }
         Vector3 pivot=transform.position+Vector3.up*(flattened?.24f:1.4f);
         Quaternion rot=Quaternion.Euler(pitch,yaw,0);
         Vector3 wanted=pivot-rot*Vector3.forward*5.8f+rot*Vector3.right*.65f;

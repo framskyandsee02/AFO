@@ -5,11 +5,11 @@ using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.IO;
-namespace WobbleWorks.Editor {
-public static class WobGreyboxBuilder {
+namespace OopsPlanet.Editor {
+public static class BlobGreyboxBuilder {
     static Transform root;
     static Material grey,dark,light,red,yellow,purple,cyan,green,white,black,glow;
-    static List<WobInteractable> sources,zones;
+    static List<BlobInteractable> sources,zones;
     static Material Mat(string name,Color color,bool emission=false) {
         Shader shader=Shader.Find("Universal Render Pipeline/Lit");
         if(!shader)throw new System.Exception("URP Lit shader unavailable");
@@ -57,21 +57,21 @@ public static class WobGreyboxBuilder {
             }
         }
     }
-    static Material PowerMat(WobProperty p) => p==WobProperty.Magnet?red:p==WobProperty.Spring?yellow:p==WobProperty.Gas?purple:cyan;
-    static WobInteractable Source(string name,WobProperty property,Vector3 pos) {
+    static Material PowerMat(BlobProperty p) => p==BlobProperty.Magnet?red:p==BlobProperty.Spring?yellow:p==BlobProperty.Gas?purple:cyan;
+    static BlobInteractable Source(string name,BlobProperty property,Vector3 pos) {
         Box(name+" pedestal",pos-Vector3.up*.65f,new Vector3(1.4f,.5f,1.4f),dark);
         var go=Ball(name,pos,.85f,PowerMat(property));
-        var s=go.AddComponent<WobInteractable>();s.kind=WobInteraction.Source;s.property=property;s.indicator=go.GetComponent<Renderer>();
+        var s=go.AddComponent<BlobInteractable>();s.kind=BlobInteraction.Source;s.property=property;s.indicator=go.GetComponent<Renderer>();
         sources.Add(s);
-        Label(property.ToString().ToUpper()+"\nHOLD E",pos+Vector3.up*1.1f,.14f,WobPlayer.PropertyColor(property));
+        Label(property.ToString().ToUpper()+"\nHOLD E",pos+Vector3.up*1.1f,.14f,BlobPlayer.PropertyColor(property));
         return s;
     }
-    static WobInteractable Zone(string name,WobInteraction kind,Vector3 pos,Vector3 size) {
+    static BlobInteractable Zone(string name,BlobInteraction kind,Vector3 pos,Vector3 size) {
         var go=new GameObject(name);go.transform.SetParent(root);go.transform.position=pos;
-        var z=go.AddComponent<WobInteractable>();z.kind=kind;z.size=size;zones.Add(z);return z;
+        var z=go.AddComponent<BlobInteractable>();z.kind=kind;z.size=size;zones.Add(z);return z;
     }
     static void Checkpoint(int index,Vector3 p) {
-        var z=Zone("Checkpoint "+index,WobInteraction.Checkpoint,p+Vector3.up,new Vector3(5,3,3));z.index=index;z.respawn=p+Vector3.up*.1f;
+        var z=Zone("Checkpoint "+index,BlobInteraction.Checkpoint,p+Vector3.up,new Vector3(5,3,3));z.index=index;z.respawn=p+Vector3.up*.1f;
         Box("Checkpoint pad "+index,p+Vector3.up*.03f,new Vector3(4,.06f,2),green);
         Box("Checkpoint mast",p+new Vector3(-2,1,0),new Vector3(.12f,2,.12f),dark);
         Box("Checkpoint flag",p+new Vector3(-1.5f,1.7f,0),new Vector3(1,.5f,.08f),green);
@@ -80,7 +80,7 @@ public static class WobGreyboxBuilder {
     static void ConsoleAt(Vector3 p) {
         Box("Reset console",p+Vector3.up*.5f,new Vector3(.7f,1,.7f),dark);
         Ball("Reset button",p+new Vector3(0,1,0),.25f,red);
-        Zone("Reset console range",WobInteraction.Reset,p+Vector3.up,new Vector3(4,3,4));
+        Zone("Reset console range",BlobInteraction.Reset,p+Vector3.up,new Vector3(4,3,4));
         Label("Q / RESET CUBE",p+Vector3.up*1.6f,.12f);
     }
     [MenuItem("Tools/Wobble Works/Create Greybox 01")]
@@ -96,26 +96,26 @@ public static class WobGreyboxBuilder {
         AssetDatabase.ImportAsset("Assets/WobbleWorks/Models/WOB_Greybox.obj",ImportAssetOptions.ForceSynchronousImport);
         var scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
         root=new GameObject("WOBBLE GREYBOX 01").transform;
-        sources=new List<WobInteractable>();zones=new List<WobInteractable>();
+        sources=new List<BlobInteractable>();zones=new List<BlobInteractable>();
         grey=Mat("Blockout concrete",new Color(.43f,.48f,.53f));dark=Mat("Structural charcoal",new Color(.15f,.20f,.25f));
         light=Mat("Grid lines",new Color(.59f,.65f,.69f));white=Mat("Eye white",new Color(.95f,.98f,1));black=Mat("Pupils",new Color(.02f,.025f,.035f));
-        red=Mat("MAGNET red",WobPlayer.PropertyColor(WobProperty.Magnet),true);
-        yellow=Mat("SPRING yellow",WobPlayer.PropertyColor(WobProperty.Spring),true);
-        purple=Mat("GAS purple",WobPlayer.PropertyColor(WobProperty.Gas),true);
-        cyan=Mat("LIQUID cyan",WobPlayer.PropertyColor(WobProperty.Liquid),true);
+        red=Mat("MAGNET red",BlobPlayer.PropertyColor(BlobProperty.Magnet),true);
+        yellow=Mat("SPRING yellow",BlobPlayer.PropertyColor(BlobProperty.Spring),true);
+        purple=Mat("GAS purple",BlobPlayer.PropertyColor(BlobProperty.Gas),true);
+        cyan=Mat("LIQUID cyan",BlobPlayer.PropertyColor(BlobProperty.Liquid),true);
         green=Mat("Checkpoint green",new Color(.17f,.8f,.38f),true);glow=Mat("WOB glowing core",new Color(1,.7f,.2f),true);
-        var manager=new GameObject("Wobble Runtime");var world=manager.AddComponent<WobWorld>();
+        var manager=new GameObject("Wobble Runtime");var world=manager.AddComponent<BlobWorld>();
         Floor("01 Arrival",0,12,0,12);
         Floor("Jump landing",11,6,0,12);
         Floor("02 Absorption lab",20,12);
         Floor("03 Magnet room",34,16);
-        Source("Tutorial source",WobProperty.Magnet,new Vector3(-3,1,20));
-        Source("Occluded source",WobProperty.Magnet,new Vector3(4,1,22));
+        Source("Tutorial source",BlobProperty.Magnet,new Vector3(-3,1,20));
+        Source("Occluded source",BlobProperty.Magnet,new Vector3(4,1,22));
         Box("Line of sight test wall",new Vector3(3,1.25f,20),new Vector3(4.5f,2.5f,.4f),dark);
-        Source("Magnet source",WobProperty.Magnet,new Vector3(-4,1,29));
+        Source("Magnet source",BlobProperty.Magnet,new Vector3(-4,1,29));
         Label("01 / MOVE + JUMP\nWASD + SPACE",new Vector3(0,3,4),.26f);
         Label("02 / ABSORPTION LAB\nAIM + HOLD E",new Vector3(0,3.5f,24),.25f);
-        Label("03 / MAGNET\nPULL THE CUBE TO THE PLATE",new Vector3(0,3.6f,39),.24f,WobPlayer.PropertyColor(WobProperty.Magnet));
+        Label("03 / MAGNET\nPULL THE CUBE TO THE PLATE",new Vector3(0,3.6f,39),.24f,BlobPlayer.PropertyColor(BlobProperty.Magnet));
         var crate=Box("Designated Magnetic Cube",new Vector3(-3,.65f,34),Vector3.one*1.2f,dark);
         var rb=crate.AddComponent<Rigidbody>();rb.mass=2;rb.linearDamping=1;rb.angularDamping=3;rb.constraints=RigidbodyConstraints.FreezeRotation;
         rb.interpolation=RigidbodyInterpolation.Interpolate;rb.collisionDetectionMode=CollisionDetectionMode.ContinuousDynamic;
@@ -128,16 +128,16 @@ public static class WobGreyboxBuilder {
         Label("PLATE OPENS BRIDGE",new Vector3(0,2.4f,43),.17f);
         ConsoleAt(new Vector3(5,0,32));
         Floor("04 Spring chamber",54,12);
-        Source("Spring source",WobProperty.Spring,new Vector3(-4,1,52));
+        Source("Spring source",BlobProperty.Spring,new Vector3(-4,1,52));
         Checkpoint(1,new Vector3(0,0,50));
-        Label("04 / SPRING\nHOLD SPACE / RELEASE",new Vector3(0,3.5f,58),.26f,WobPlayer.PropertyColor(WobProperty.Spring));
+        Label("04 / SPRING\nHOLD SPACE / RELEASE",new Vector3(0,3.5f,58),.26f,BlobPlayer.PropertyColor(BlobProperty.Spring));
         Box("Spring launch marking",new Vector3(0,.025f,57),new Vector3(3,.05f,2),yellow);
         Floor("Spring upper landing",65,10,5);
         Checkpoint(2,new Vector3(0,5,65));
         Floor("05 Gas approach",76,12,5);
-        Source("Gas source",WobProperty.Gas,new Vector3(-3,6,71));
-        Label("05 / GAS\nSPACE IN THE SHAFT TO RISE",new Vector3(0,9,74),.24f,WobPlayer.PropertyColor(WobProperty.Gas));
-        Zone("Designated gas updraft",WobInteraction.GasVent,new Vector3(0,9,78),new Vector3(4.2f,8,6.2f));
+        Source("Gas source",BlobProperty.Gas,new Vector3(-3,6,71));
+        Label("05 / GAS\nSPACE IN THE SHAFT TO RISE",new Vector3(0,9,74),.24f,BlobPlayer.PropertyColor(BlobProperty.Gas));
+        Zone("Designated gas updraft",BlobInteraction.GasVent,new Vector3(0,9,78),new Vector3(4.2f,8,6.2f));
         Box("Vent west wall",new Vector3(-2.3f,9,78),new Vector3(.4f,8,6.4f),dark);
         Box("Vent east wall",new Vector3(2.3f,9,78),new Vector3(.4f,8,6.4f),dark);
         Box("Vent entry lintel",new Vector3(0,10.3f,74.9f),new Vector3(4.2f,5.4f,.3f),grey);
@@ -148,13 +148,13 @@ public static class WobGreyboxBuilder {
         }
         Floor("06 Liquid approach",88,14,11);
         Checkpoint(3,new Vector3(0,11,87));
-        Source("Liquid source",WobProperty.Liquid,new Vector3(-3,12,91));
-        Label("06 / LIQUID\nHOLD F TO FLATTEN",new Vector3(0,14.5f,94),.26f,WobPlayer.PropertyColor(WobProperty.Liquid));
+        Source("Liquid source",BlobProperty.Liquid,new Vector3(-3,12,91));
+        Label("06 / LIQUID\nHOLD F TO FLATTEN",new Vector3(0,14.5f,94),.26f,BlobPlayer.PropertyColor(BlobProperty.Liquid));
         Floor("Narrow pipe floor",100,10,11,2.1f);
         Box("Pipe west side",new Vector3(-1.2f,12.6f,100),new Vector3(.3f,3.2f,10),dark);
         Box("Pipe east side",new Vector3(1.2f,12.6f,100),new Vector3(.3f,3.2f,10),dark);
         Box("Pipe roof — 0.52m clearance",new Vector3(0,12.87f,100),new Vector3(2.7f,2.7f,10),grey);
-        Zone("Designated liquid clearance",WobInteraction.Pipe,new Vector3(0,11.4f,100),new Vector3(2.1f,1.1f,10));
+        Zone("Designated liquid clearance",BlobInteraction.Pipe,new Vector3(0,11.4f,100),new Vector3(2.1f,1.1f,10));
         for(float z=95;z<=105;z+=2) {
             Box("Pipe cyan floor strip",new Vector3(0,11.015f,z),new Vector3(1.7f,.02f,.1f),cyan);
         }
@@ -163,7 +163,7 @@ public static class WobGreyboxBuilder {
         Box("Exit right pillar",new Vector3(2,12.5f,114),new Vector3(.5f,3,.5f),green);
         Box("Exit lintel",new Vector3(0,14,114),new Vector3(4.5f,.5f,.5f),green);
         Label("EXIT",new Vector3(0,13.1f,114),.5f,new Color(.3f,1,.5f));
-        Zone("Level complete",WobInteraction.Exit,new Vector3(0,12,114),new Vector3(4,3,2));
+        Zone("Level complete",BlobInteraction.Exit,new Vector3(0,12,114),new Vector3(4,3,2));
         ConsoleAt(new Vector3(5,11,109));
         world.sources=sources.ToArray();world.zones=zones.ToArray();
         var cameraGO=new GameObject("Main Camera");cameraGO.tag="MainCamera";cameraGO.AddComponent<AudioListener>();
@@ -183,7 +183,7 @@ public static class WobGreyboxBuilder {
         var beam=playerGO.AddComponent<LineRenderer>();beam.sharedMaterial=Mat("Absorption stream",new Color(.3f,.85f,1),true);
         beam.positionCount=2;beam.startWidth=.055f;beam.endWidth=.02f;beam.enabled=false;
         playerGO.AddComponent<AudioSource>().spatialBlend=0;
-        var player=playerGO.AddComponent<WobPlayer>();player.world=world;player.view=cam;player.visual=visual.transform;world.player=player;
+        var player=playerGO.AddComponent<BlobPlayer>();player.world=world;player.view=cam;player.visual=visual.transform;world.player=player;
         playerGO.transform.position=world.spawn;
         cam.transform.position=new Vector3(.65f,3.3f,-5.5f);cam.transform.LookAt(new Vector3(0,1.2f,2));
         var sun=new GameObject("Directional Light").AddComponent<Light>();sun.type=LightType.Directional;sun.intensity=1.6f;sun.shadows=LightShadows.Soft;sun.transform.rotation=Quaternion.Euler(48,-32,0);
@@ -199,14 +199,14 @@ public static class WobGreyboxBuilder {
     [MenuItem("Tools/Wobble Works/Run Playtest")]
     public static void Test() {
         if(!EditorApplication.isPlaying) { Debug.LogError("Enter Play Mode first");return; }
-        var world=Object.FindFirstObjectByType<WobWorld>();
-        if(!world)throw new System.Exception("WobWorld not found");
-        if(world.GetComponent<WobPlaytest>())throw new System.Exception("Playtest already exists");
-        world.gameObject.AddComponent<WobPlaytest>();
+        var world=Object.FindFirstObjectByType<BlobWorld>();
+        if(!world)throw new System.Exception("BlobWorld not found");
+        if(world.GetComponent<BlobPlaytest>())throw new System.Exception("Playtest already exists");
+        world.gameObject.AddComponent<BlobPlaytest>();
     }
     [MenuItem("Tools/Wobble Works/Show Overview")]
     public static void Overview() {
-        var world=Object.FindFirstObjectByType<WobWorld>();
+        var world=Object.FindFirstObjectByType<BlobWorld>();
         if(world)world.overview=true;
     }
 }
