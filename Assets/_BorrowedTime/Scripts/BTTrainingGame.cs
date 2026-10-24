@@ -26,7 +26,7 @@ public class BTTrainingGame : MonoBehaviour {
     Texture2D panel,accent,dim;
     protected virtual void Start() {
         BTJourney.NewJourney();
-        audioSource=gameObject.AddComponent<AudioSource>();
+        InitializeAudio();
         if(!GetComponent<BTPresentation>()) gameObject.AddComponent<BTPresentation>();
         SetStage(0); Cursor.lockState=CursorLockMode.None; Cursor.visible=true;
     }
@@ -39,6 +39,7 @@ public class BTTrainingGame : MonoBehaviour {
         roboLine=lines[next]; if(next>0) PlayTone(720);
     }
     protected virtual void Update() {
+        if(BorrowedTime.Menu.GamePauseMenu.BlocksInputFor(player))return;
         if(stage==0 && Keyboard.current!=null && Keyboard.current.enterKey.wasPressedThisFrame) Begin();
         if(player.paused) return;
         if(completed && advanceToCity && Time.time>=transitionAt) { advanceToCity=false; BTJourney.LoadCity(player.energy); return; }
@@ -101,6 +102,10 @@ public class BTTrainingGame : MonoBehaviour {
         for(int i=0;i<count;i++) samples[i]=Mathf.Sin(i*frequency*6.283185f/22050)*Mathf.Sin(Mathf.PI*i/count)*.1f;
         var clip=AudioClip.Create("Robo chirp",count,1,22050,false); clip.SetData(samples,0); audioSource.PlayOneShot(clip); Destroy(clip,1);
     }
+    protected void InitializeAudio(){
+        audioSource=gameObject.AddComponent<AudioSource>();
+        if(!GetComponent<BorrowedTime.Menu.MenuAudioBus>())gameObject.AddComponent<BorrowedTime.Menu.MenuAudioBus>();
+    }
     Texture2D Solid(Color c) { var t=new Texture2D(1,1); t.SetPixel(0,0,c); t.Apply(); return t; }
     void InitUI() {
         if(title!=null) return;
@@ -113,6 +118,7 @@ public class BTTrainingGame : MonoBehaviour {
     void Box(Rect r,Texture2D t) { GUI.DrawTexture(r,t); }
     void Label(Rect r,string s,GUIStyle style) { GUI.Label(r,s,style); }
     protected virtual void OnGUI() {
+        if(BorrowedTime.Menu.GamePauseMenu.IsPausedFor(player))return;
         if(player.hideHud) return;
         InitUI(); GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1440f,Screen.height/900f,1));
         Box(new Rect(24,24,490,128),panel); Box(new Rect(24,24,5,128),accent);

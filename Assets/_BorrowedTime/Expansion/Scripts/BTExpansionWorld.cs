@@ -82,11 +82,13 @@ public class BTExpansionWorld : MonoBehaviour {
  public void Refresh(){foreach(var p in puzzles){if(p.restoration)p.restoration.SetActive(p.solved);for(int i=0;i<p.lamps.Length;i++)if(p.lamps[i])p.lamps[i].sharedMaterial=p.lampMaterials[p.valves[i%3]];}}
  void Start(){Refresh();}
  void Update(){
+  if(game && BorrowedTime.Menu.GamePauseMenu.BlocksInputFor(game.player))return;
   if(journalOpen&&!game.player.paused){journalOpen=false;Cursor.lockState=CursorLockMode.Locked;Cursor.visible=false;}
   foreach(var p in puzzles){if(p.gate)p.gate.localPosition=Vector3.MoveTowards(p.gate.localPosition,p.gateClosed+Vector3.up*(p.solved?4:0),Time.deltaTime*2);for(int i=0;i<p.hands.Length;i++)if(p.hands[i])p.hands[i].localRotation=Quaternion.Euler(0,0,p.valves[i%3]*120);}
  }
  void Init(){if(body!=null)return;body=new GUIStyle(GUI.skin.label){font=font,fontSize=18,wordWrap=true};heading=new GUIStyle(body){fontSize=27,fontStyle=FontStyle.Bold};small=new GUIStyle(body){fontSize=15};button=new GUIStyle(GUI.skin.button){font=font,fontSize=19,wordWrap=true};}
  void OnGUI(){
+  if(game && BorrowedTime.Menu.GamePauseMenu.IsPausedFor(game.player))return;
   if(!game||!game.player||game.player.hideHud)return;Init();GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1440f,Screen.height/900f,1));GUI.depth=-30;
   if(journalOpen){
    GUI.color=new Color(.04f,.08f,.10f,.98f);GUI.DrawTexture(new Rect(110,170,1220,525),Texture2D.whiteTexture);GUI.color=Color.white;

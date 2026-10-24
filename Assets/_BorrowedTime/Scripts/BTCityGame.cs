@@ -22,7 +22,7 @@ public class BTCityGame : BTTrainingGame {
     GUIStyle heading,text,tiny,large;
     Texture2D background,bar,shade;
     protected override void Start() {
-        audioSource=gameObject.AddComponent<AudioSource>();
+        InitializeAudio();
         if(!GetComponent<BTPresentation>()) gameObject.AddComponent<BTPresentation>();
         hasMiracleSeed=BTJourney.HasMiracleSeed;
         player.energy=BTJourney.FromTraining?BTJourney.CarriedEnergy:50;
@@ -35,6 +35,7 @@ public class BTCityGame : BTTrainingGame {
         stage=1; lastStage=-1; SetGoal(); Cursor.lockState=CursorLockMode.Locked; Cursor.visible=false;
     }
     protected override void Update() {
+        if(BorrowedTime.Menu.GamePauseMenu.BlocksInputFor(player))return;
         var k=Keyboard.current;
         if(stage==0 && k!=null && k.enterKey.wasPressedThisFrame) Begin();
         if(noteOpen && Time.frameCount>noteOpenedFrame && k!=null && (k.fKey.wasPressedThisFrame || k.enterKey.wasPressedThisFrame || k.escapeKey.wasPressedThisFrame)) CloseNote();
@@ -150,6 +151,7 @@ public class BTCityGame : BTTrainingGame {
     void Panel(Rect r) { GUI.DrawTexture(r,background); }
     void Label(Rect r,string s,GUIStyle style) { GUI.Label(r,s,style); }
     protected override void OnGUI() {
+        if(BorrowedTime.Menu.GamePauseMenu.IsPausedFor(player))return;
         if(player.hideHud) return; Init(); GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1440f,Screen.height/900f,1));
         Panel(new Rect(24,24,650,132)); GUI.DrawTexture(new Rect(24,24,5,132),bar);
         Label(new Rect(44,35,605,34),"02 / THE FORGOTTEN CITY",heading);

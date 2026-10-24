@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
     <ui:Style src="BorrowedMainMenu.uss" />
     <ui:Style src="GreenGlassMenu.uss" />
-    <ui:VisualElement name="menu-root" class="menu-root" picking-mode="Ignore">
+    <ui:VisualElement name="menu-root" class="menu-root with-continue" picking-mode="Ignore">
         <ui:VisualElement name="foreground-foliage" class="foreground-foliage" picking-mode="Ignore" />
         <ui:VisualElement name="falling-leaves" class="falling-leaves" picking-mode="Ignore" />
         <ui:VisualElement name="menu-column" class="menu-column" picking-mode="Ignore">
@@ -11,6 +11,7 @@
             </ui:VisualElement>
             <ui:VisualElement class="menu-buttons" picking-mode="Ignore">
                 <ui:Button name="play-button" text="Play" class="botanical-button play-button" />
+                <ui:Button name="continue-button" text="Continue" class="botanical-button" />
                 <ui:Button name="setting-button" text="Settings" class="botanical-button" />
                 <ui:Button name="quit-button" text="Exit" class="botanical-button" />
             </ui:VisualElement>

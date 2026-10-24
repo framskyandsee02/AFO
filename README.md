@@ -19,6 +19,9 @@ git lfs pull
 **Assets/Scenes/BorrowedTimeMainMenu.unity** เป็นฉากเริ่มต้นใน Build Settings
 กด Play ในเมนูเพื่อเข้า **Assets/_BorrowedTime/Scenes/TrainingArea.unity**
 หน้าเมนูมีตัวละครนอนบนหญ้า ลืมตาเมื่อชี้ปุ่ม เพลงพื้นหลัง และเสียงปุ่ม/ชื่อเกม
+ปุ่ม **Continue** เล่นต่อจากเซฟเดิมได้ และจะเปิดใช้งานเมื่อมีเซฟที่ถูกต้อง
+ระหว่างเล่นกด **Esc** เพื่อพักเกม เลือก **Resume / Settings / Quit**
+Quit ในเมนูพักจะบันทึกแล้วกลับเมนูหลัก ส่วน Exit ในเมนูหลักจะออกจากเกม
 ปรับระดับเสียงได้ใน Settings ใช้ URP 17.3, Input System 1.20 และ Cinemachine 3.1.7
 การเปิดครั้งแรกต้องให้ Unity resolve packages ตาม Packages/manifest.json
 

@@ -19,6 +19,7 @@ namespace BorrowedTime.Menu
             labels = new[] {
                 root.Q<Label>("title-borrowed"), root.Q<Label>("title-time"),
                 root.Q("play-button").Q<Label>("reference-button-label"),
+                root.Q("continue-button").Q<Label>("reference-button-label"),
                 root.Q("setting-button").Q<Label>("reference-button-label"),
                 root.Q("quit-button").Q<Label>("reference-button-label")
             };

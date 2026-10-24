@@ -1,0 +1,78 @@
+{
+    "completed": true,
+    "success": true,
+    "checks": [
+        {
+            "name": "Continue is disabled when no saved game exists",
+            "passed": true
+        },
+        {
+            "name": "Malformed saves cannot start a Continue load",
+            "passed": true
+        },
+        {
+            "name": "The existing game writes a valid Continue save",
+            "passed": true
+        },
+        {
+            "name": "Escape opens a real pause with frozen time and an unlocked cursor",
+            "passed": true
+        },
+        {
+            "name": "Game time and player position remain frozen while the pause UI runs",
+            "passed": true
+        },
+        {
+            "name": "The pause menu shows Resume",
+            "passed": true
+        },
+        {
+            "name": "Settings opens over the frozen game",
+            "passed": true
+        },
+        {
+            "name": "Pause Settings changes the actual master audio volume",
+            "passed": true
+        },
+        {
+            "name": "Pause Settings controls the gameplay effects audio source",
+            "passed": true
+        },
+        {
+            "name": "Escape from Settings returns to the pause menu",
+            "passed": true
+        },
+        {
+            "name": "Resume restores gameplay, time and cursor lock",
+            "passed": true
+        },
+        {
+            "name": "Resume restores the time scale that existed before pausing",
+            "passed": true
+        },
+        {
+            "name": "Quit returns to the main menu without leaving time frozen",
+            "passed": true
+        },
+        {
+            "name": "Continue is enabled after Quit saves progress",
+            "passed": true
+        },
+        {
+            "name": "Continue restores the saved gameplay scene, energy and checkpoint",
+            "passed": true
+        },
+        {
+            "name": "Unloading a paused scene restores time for the next scene",
+            "passed": true
+        },
+        {
+            "name": "ForgottenCity uses the same working pause menu",
+            "passed": true
+        },
+        {
+            "name": "FactoryInterior uses the same working pause menu",
+            "passed": true
+        }
+    ]
+}

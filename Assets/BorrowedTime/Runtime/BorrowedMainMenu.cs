@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using Cursor = UnityEngine.Cursor;
 
 namespace BorrowedTime.Menu
 {
@@ -13,8 +14,9 @@ namespace BorrowedTime.Menu
         public string playSceneName = "TrainingArea";
         [Tooltip("Use the painted corner foliage overlay; disable for a clear overhead 3D meadow.")]
         public bool showForegroundFoliage = true;
+        [System.NonSerialized] public GamePauseMenu pauseOwner;
         VisualElement root, overlay;
-        Button play, setting, quit, back;
+        Button play, continueButton, setting, quit, back;
         Toggle mute, fullscreen;
         DropdownField resolution;
         Label status;
@@ -36,16 +38,29 @@ namespace BorrowedTime.Menu
         }
         void Awake()
         {
+            if(pauseOwner)return;
+            Time.timeScale=1; Cursor.lockState=CursorLockMode.None; Cursor.visible=true;
             if (!Application.isEditor && PlayerPrefs.HasKey("BorrowedTime.Display.Width"))
                 Screen.SetResolution(Mathf.Max(640, PlayerPrefs.GetInt("BorrowedTime.Display.Width")), Mathf.Max(480, PlayerPrefs.GetInt("BorrowedTime.Display.Height")), PlayerPrefs.GetInt("BorrowedTime.Display.Fullscreen", 1) != 0 ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed);
         }
         void OnEnable()
         {
             root = GetComponent<UIDocument>().rootVisualElement.Q("menu-root");
+            root.EnableInClassList("pause-mode", pauseOwner != null);
+            root.EnableInClassList("with-continue", pauseOwner == null);
+            if(pauseOwner)
+            {
+                root.Q<Label>("title-borrowed").text="Paused";
+                root.Q<Label>("title-time").text="Borrowed Time";
+                root.Q<Button>("play-button").text="Resume";
+                root.Q<Button>("quit-button").text="Quit";
+                root.Q("continue-button").style.display=DisplayStyle.None;
+            }
             InstallArtwork(root);
             root.Q("foreground-foliage").style.display = showForegroundFoliage ? DisplayStyle.Flex : DisplayStyle.None;
             overlay = root.Q("settings-overlay"); status = root.Q<Label>("menu-status");
             play = root.Q<Button>("play-button"); setting = root.Q<Button>("setting-button"); quit = root.Q<Button>("quit-button"); back = root.Q<Button>("back-button");
+            continueButton=root.Q<Button>("continue-button");continueButton.clicked+=ContinueSavedGame;RefreshContinueState();
             play.clicked += Play; setting.clicked += OpenSettings; back.clicked += CloseSettings; quit.clicked += Quit;
             rows = new[] { new VolumeRow(root, "master", MenuAudioChannel.Master), new VolumeRow(root, "music", MenuAudioChannel.Music), new VolumeRow(root, "effects", MenuAudioChannel.Effects) };
             mute = root.Q<Toggle>("mute-toggle"); fullscreen = root.Q<Toggle>("fullscreen-toggle"); resolution = root.Q<DropdownField>("resolution-dropdown");
@@ -59,11 +74,13 @@ namespace BorrowedTime.Menu
             fullscreen.SetValueWithoutNotify(Screen.fullScreen);
             resolution.RegisterValueChangedCallback(ResolutionChanged); fullscreen.RegisterValueChangedCallback(FullscreenChanged);
             root.RegisterCallback<KeyDownEvent>(KeyDown); SettingsVisible = false; overlay.AddToClassList("hidden"); root.RemoveFromClassList("settings-open");
+            if(pauseOwner)status.text="Quit saves your progress and returns to the main menu.";
         }
         void OnDisable()
         {
             if (root == null) return;
             play.clicked -= Play; setting.clicked -= OpenSettings; back.clicked -= CloseSettings; quit.clicked -= Quit;
+            continueButton.clicked-=ContinueSavedGame;
             foreach (var row in rows) row.Release(); MenuAudioSettings.Changed -= SyncAudio;
             mute.UnregisterValueChangedCallback(MuteChanged); resolution.UnregisterValueChangedCallback(ResolutionChanged); fullscreen.UnregisterValueChangedCallback(FullscreenChanged);
             root.UnregisterCallback<KeyDownEvent>(KeyDown); PlayerPrefs.Save();
@@ -73,7 +90,7 @@ namespace BorrowedTime.Menu
             var leaves = root.Q("falling-leaves"); if (leaves.Q<FallingLeavesLayer>() == null) leaves.Add(new FallingLeavesLayer());
             var title = root.Q("game-title");
             if (title.Q<ReferenceGlassSurface>() == null) title.Insert(0, new ReferenceGlassSurface(true));
-            string[] names = { "play-button", "setting-button", "quit-button" };
+            string[] names = { "play-button", "continue-button", "setting-button", "quit-button" };
             foreach (string name in names)
             {
                 var button = root.Q<Button>(name);
@@ -106,15 +123,30 @@ namespace BorrowedTime.Menu
             PlayerPrefs.SetInt("BorrowedTime.Display.Width", size.x); PlayerPrefs.SetInt("BorrowedTime.Display.Height", size.y); PlayerPrefs.SetInt("BorrowedTime.Display.Fullscreen", fullscreen.value ? 1 : 0); PlayerPrefs.Save();
         }
         void OpenSettings() { SettingsVisible = true; root.AddToClassList("settings-open"); overlay.RemoveFromClassList("hidden"); root.Q<SliderInt>("master-volume").Focus(); }
-        void CloseSettings() { SettingsVisible = false; overlay.AddToClassList("hidden"); root.RemoveFromClassList("settings-open"); PlayerPrefs.Save(); setting.Focus(); }
-        void KeyDown(KeyDownEvent e) { if (SettingsVisible && e.keyCode == KeyCode.Escape) { CloseSettings(); e.StopPropagation(); } }
+        public void CloseSettings() { SettingsVisible = false; overlay.AddToClassList("hidden"); root.RemoveFromClassList("settings-open"); PlayerPrefs.Save(); setting.Focus(); }
+        void KeyDown(KeyDownEvent e) { if (!pauseOwner && SettingsVisible && e.keyCode == KeyCode.Escape) { CloseSettings(); e.StopPropagation(); } }
+        public void RefreshContinueState()
+        {
+            if(continueButton==null)return;
+            bool available=!pauseOwner&&BTSaveGame.CanContinue;
+            continueButton.SetEnabled(available);
+            continueButton.tooltip=available?"Resume from the last saved checkpoint.":"No valid saved game is available yet.";
+        }
+        void ContinueSavedGame()
+        {
+            if(pauseOwner)return;
+            if(!BTSaveGame.Continue()){status.text="No valid saved game is available.";RefreshContinueState();}
+        }
         void Play()
         {
+            if(pauseOwner){pauseOwner.Resume();return;}
             if (!Application.CanStreamedLevelBeLoaded(playSceneName)) { status.text = "Choose a gameplay scene in the menu Inspector and Build Settings."; return; }
+            BTSaveGame.CancelPendingContinue();BTJourney.NewJourney();Time.timeScale=1;
             PlayerPrefs.Save(); SceneManager.LoadScene(playSceneName);
         }
         void Quit()
         {
+            if(pauseOwner){pauseOwner.QuitToMenu();return;}
             PlayerPrefs.Save();
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
@@ -122,7 +154,7 @@ namespace BorrowedTime.Menu
             Application.Quit();
 #endif
         }
-        void OnApplicationFocus(bool focused) { if (!focused) PlayerPrefs.Save(); }
+        void OnApplicationFocus(bool focused) { if (!focused) PlayerPrefs.Save(); else RefreshContinueState(); }
         void OnApplicationPause(bool paused) { if (paused) PlayerPrefs.Save(); }
         void OnApplicationQuit() => PlayerPrefs.Save();
     }

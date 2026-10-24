@@ -46,6 +46,7 @@ namespace BorrowedTime.Menu
         {
             ReleaseButtons(); menuDocument = document;
         }
+        internal static void UseDocument(UIDocument document) { if(active)active.SetDocument(document); }
 
         void BindButtons()
         {
@@ -53,7 +54,7 @@ namespace BorrowedTime.Menu
             var root = menuDocument.rootVisualElement;
             if (root == boundRoot && buttons.Count > 0) return;
             ReleaseButtons(); boundRoot = root;
-            foreach (string name in new[] { "play-button", "setting-button", "quit-button", "back-button" })
+            foreach (string name in new[] { "play-button", "continue-button", "setting-button", "quit-button", "back-button" })
             {
                 var button = root.Q<Button>(name);
                 if (button == null) continue;

@@ -28,7 +28,7 @@ public class BTFactoryGame : BTTrainingGame {
     GUIStyle heading,factoryBody,factorySmall,large;
     Texture2D factoryPanel,tint,shade;
     protected override void Start() {
-        audioSource=gameObject.AddComponent<AudioSource>();
+        InitializeAudio();
         if(!GetComponent<BTPresentation>()) gameObject.AddComponent<BTPresentation>();
         entryHadSeed=BTJourney.HasMiracleSeed; entryEnergy=BTJourney.FromCity?BTJourney.CarriedEnergy:50;
         hasMiracleSeed=entryHadSeed; player.energy=entryEnergy; advanceToCity=false;
@@ -38,6 +38,7 @@ public class BTFactoryGame : BTTrainingGame {
     }
     public override void Begin() { stage=1; lastStage=-1; Goal(); Cursor.lockState=CursorLockMode.Locked; Cursor.visible=false; }
     protected override void Update() {
+        if(BorrowedTime.Menu.GamePauseMenu.BlocksInputFor(player))return;
         if(stage==0 && Keyboard.current!=null && Keyboard.current.enterKey.wasPressedThisFrame) Begin();
         if(stage==0 || player.paused) return;
         if(robo) {
@@ -174,6 +175,7 @@ public class BTFactoryGame : BTTrainingGame {
     }
     void DrawFactoryPanel(Rect r){GUI.DrawTexture(r,factoryPanel);} void Label(Rect r,string s,GUIStyle style){GUI.Label(r,s,style);}
     protected override void OnGUI() {
+        if(BorrowedTime.Menu.GamePauseMenu.IsPausedFor(player))return;
         if(player.hideHud)return; InitUI();GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1440f,Screen.height/900f,1));
         DrawFactoryPanel(new Rect(24,24,650,132));GUI.DrawTexture(new Rect(24,24,5,132),tint);
         Label(new Rect(44,35,600,34),"03 / THE LAST SEED",heading);Label(new Rect(44,73,600,30),"โรงงานแห่งต้นตอ  •  หยุดมลพิษ ก่อนคืนชีวิต",factorySmall);

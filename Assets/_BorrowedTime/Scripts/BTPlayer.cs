@@ -20,6 +20,7 @@ public class BTPlayer : MonoBehaviour {
     [System.NonSerialized] public System.Func<FrameInput> inputOverride;
     void Awake() {
         Controller=GetComponent<CharacterController>(); checkpoint=transform.position;
+        BorrowedTime.Menu.GamePauseMenu.Attach(this);
     }
     void Start() { UpdateCamera(true); }
     public void Message(string s) { feedback=s; feedbackUntil=Time.unscaledTime+3.2f; }
@@ -41,9 +42,9 @@ public class BTPlayer : MonoBehaviour {
         return f;
     }
     void Update() {
+        if(BorrowedTime.Menu.GamePauseMenu.BlocksInputFor(this)) { CurrentInput=default; if(beam)beam.enabled=false; ClearTarget(); return; }
         var k=Keyboard.current;
         if(inputOverride==null && k!=null) {
-            if(k.escapeKey.wasPressedThisFrame && game.stage>0) { paused=!paused; Cursor.lockState=paused?CursorLockMode.None:CursorLockMode.Locked; Cursor.visible=paused; }
             if(k.tabKey.wasPressedThisFrame && !paused && game.stage>0) overview=!overview;
             if(k.jKey.wasPressedThisFrame && game.stage>0) {var w=game.GetComponent<BTExpansionWorld>();if(w)w.ToggleJournal();}
             if(k.hKey.wasPressedThisFrame && !paused) {var w=game.GetComponent<BTExpansionWorld>();if(!w||!w.TryHint())game.ShowHint();}
@@ -83,6 +84,7 @@ public class BTPlayer : MonoBehaviour {
         if(f.interact) {var w=game.GetComponent<BTExpansionWorld>();if(!w||!w.TryInteract())game.Interact();BTSaveGame.Request(game);}
     }
     void LateUpdate() {
+        if(BorrowedTime.Menu.GamePauseMenu.IsPausedFor(this))return;
         if(overview) {
             view.transform.position=game.mapCameraPosition; view.transform.LookAt(game.mapCameraTarget); view.orthographic=true; view.orthographicSize=game.mapCameraSize;
         } else if(!game.completed) UpdateCamera(false);

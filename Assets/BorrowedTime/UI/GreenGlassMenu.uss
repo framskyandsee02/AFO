@@ -36,3 +36,14 @@
 .portrait .glass-title-word { font-size: 76px; }
 .portrait .glass-title-time { font-size: 92px; }
 .portrait .botanical-button, .portrait .play-button { height: 125px; font-size: 43px; padding: 0 52px; max-height: 125px; }
+.with-continue .botanical-button { height: 116px; min-height: 68px; }
+.botanical-button:disabled { opacity: 0.42; }
+.portrait.with-continue .botanical-button { height: 108px; max-height: 108px; }
+.pause-mode { background-color: rgba(6, 24, 21, 0.76); }
+.pause-mode .foreground-foliage, .pause-mode .falling-leaves { display: none; }
+.pause-mode .menu-column { left: 50%; top: 50%; right: auto; translate: -50% -50%; width: 560px; max-width: 90%; height: 680px; max-height: 94%; }
+.pause-mode .game-title { height: 180px; padding: 18px; }
+.pause-mode .glass-title-word { font-size: 82px; }
+.pause-mode .glass-title-time { font-size: 34px; margin-top: 0; }
+.pause-mode .botanical-button { height: 115px; min-height: 65px; max-height: 115px; font-size: 44px; }
+.pause-mode .menu-status { font-size: 19px; margin-top: 12px; color: rgb(225, 240, 216); }

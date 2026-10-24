@@ -61,7 +61,7 @@ namespace BorrowedTime.Editor
                     var root = menu.GetComponent<UIDocument>().rootVisualElement.Q("menu-root");
                     if (float.IsNaN(root.layout.width) || root.layout.width < 10 || Time.frameCount < 5) return;
                     CheckResult(root.Q("game-title").worldBound.yMax <= root.Q("play-button").worldBound.yMin + 1, "Title is above Play");
-                    CheckResult(root.Q("menu-column").Query<Button>().ToList().Count == 3 && new[] { "play-button", "setting-button", "quit-button" }.Select(n => root.Q<Button>(n).text).SequenceEqual(new[] { "Play", "Settings", "Exit" }), "Exactly three main actions with the reference labels");
+                    CheckResult(root.Q("menu-column").Query<Button>().ToList().Count == 4 && new[] { "play-button", "continue-button", "setting-button", "quit-button" }.Select(n => root.Q<Button>(n).text).SequenceEqual(new[] { "Play", "Continue", "Settings", "Exit" }), "Four main actions include Continue with the reference labels");
                     CheckResult(root.Q<Label>("title-borrowed").text.ToUpperInvariant() == "BORROWED" && root.Q<Label>("title-time").text.ToUpperInvariant() == "TIME", "Live game title is BORROWED TIME");
                     Submit(root.Q<Button>("setting-button")); CheckResult(menu.SettingsVisible, "Setting opens the actual settings panel");
                     root.Q<IntegerField>("master-number").value = -20; CheckResult(MenuAudioSettings.Get(MenuAudioChannel.Master) == 0 && root.Q<SliderInt>("master-volume").value == 0, "Volume clamps negative input");
@@ -93,9 +93,9 @@ namespace BorrowedTime.Editor
                     var size = Sizes[sizeIndex];
                     if (!settingsPhase)
                     {
-                        var title = root.Q("game-title"); var buttons = new[] { "play-button", "setting-button", "quit-button" }.Select(n => root.Q<Button>(n)).ToArray();
+                        var title = root.Q("game-title"); var buttons = new[] { "play-button", "continue-button", "setting-button", "quit-button" }.Select(n => root.Q<Button>(n)).ToArray();
                         bool fit = Contains(bounds, column.worldBound) && buttons.All(b => Contains(bounds, b.worldBound));
-                        bool ordered = title.worldBound.yMax <= buttons[0].worldBound.yMin + 2 && buttons[0].worldBound.yMax <= buttons[1].worldBound.yMin + 2 && buttons[1].worldBound.yMax <= buttons[2].worldBound.yMin + 2;
+                        bool ordered = title.worldBound.yMax <= buttons[0].worldBound.yMin + 2 && Enumerable.Range(0,buttons.Length-1).All(i=>buttons[i].worldBound.yMax<=buttons[i+1].worldBound.yMin+2);
                         bool right = column.worldBound.center.x > bounds.width * .68f;
                         bool textFits = buttons.All(b => b.MeasureTextSize(b.text, 0, VisualElement.MeasureMode.Undefined, 0, VisualElement.MeasureMode.Undefined).x < b.layout.width * .62f);
                         textFits &= new[] { "title-borrowed", "title-time" }.Select(n => root.Q<Label>(n)).All(l => Contains(title.worldBound, l.worldBound) && l.MeasureTextSize(l.text, 0, VisualElement.MeasureMode.Undefined, 0, VisualElement.MeasureMode.Undefined).x <= l.layout.width + 2);

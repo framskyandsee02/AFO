@@ -59,7 +59,7 @@ namespace BorrowedTime.Menu
             if (root == boundRoot && buttons.Count > 0) return;
             ReleaseButtons();
             boundRoot = root;
-            foreach (string name in new[] { "play-button", "setting-button", "quit-button", "back-button" })
+            foreach (string name in new[] { "play-button", "continue-button", "setting-button", "quit-button", "back-button" })
             {
                 var button = root.Q<Button>(name);
                 if (button == null) continue;

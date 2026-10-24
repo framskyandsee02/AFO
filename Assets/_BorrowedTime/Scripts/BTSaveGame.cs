@@ -14,8 +14,41 @@ public static class BTSaveGame {
     static bool pendingSceneReady;
     static BTSaveData pending;static float requested=-1;
     public static float SavedUntil;public static string Notice="";
-    public static string PathName => Path.Combine(Application.persistentDataPath,"borrowed-time-v21.json");
+#if UNITY_EDITOR
+    public static string TestPathOverride;
+#endif
+    public static string PathName {
+        get {
+#if UNITY_EDITOR
+            if(!string.IsNullOrEmpty(TestPathOverride))return TestPathOverride;
+#endif
+            return Path.Combine(Application.persistentDataPath,"borrowed-time-v21.json");
+        }
+    }
     public static bool Exists => File.Exists(PathName);
+    public static bool CanContinue => pending==null && TryRead(out _);
+    public static void CancelPendingContinue(){pending=null;pendingSceneReady=false;requested=-1;SceneManager.sceneLoaded-=ContinueSceneLoaded;}
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetSession(){pending=null;pendingSceneReady=false;requested=-1;SavedUntil=0;Notice="";SceneManager.sceneLoaded-=ContinueSceneLoaded;
+#if UNITY_EDITOR
+        TestPathOverride=null;
+#endif
+    }
+    static bool Finite(float value)=>!float.IsNaN(value)&&!float.IsInfinity(value);
+    static bool TryRead(out BTSaveData data){
+        data=null;
+        try{
+            if(!Exists)return false;
+            var d=JsonUtility.FromJson<BTSaveData>(File.ReadAllText(PathName));
+            if(d==null||d.version!=1||d.stage<1||d.stage>32||d.targets==null||!Finite(d.energy)||!Finite(d.checkpoint.x)||!Finite(d.checkpoint.y)||!Finite(d.checkpoint.z))return false;
+            if(d.scene!=BTJourney.TrainingPath&&d.scene!=BTJourney.CityPath&&d.scene!=BTJourney.FactoryPath)return false;
+            if(!Application.CanStreamedLevelBeLoaded(d.scene))return false;
+            foreach(var target in d.targets)if(target==null||string.IsNullOrEmpty(target.path)||!Finite(target.life))return false;
+            if(d.scene==BTJourney.CityPath&&(d.flags==null||d.flags.Length<6))return false;
+            if(d.scene==BTJourney.FactoryPath&&(d.flags==null||d.flags.Length<9||d.valves==null||d.valves.Length<3||d.lifts==null||d.lifts.Length<2))return false;
+            data=d;return true;
+        }catch{return false;}
+    }
     public static void Request(BTTrainingGame g){if(g && g.player && g.player.inputOverride==null && !(g is BTFunPrototypeGame))requested=Time.unscaledTime+.8f;}
     public static void Tick(BTTrainingGame g){
         if(pending!=null && pendingSceneReady && SceneManager.GetActiveScene().path==pending.scene){var data=pending;pending=null;pendingSceneReady=false;Restore(g,data);requested=-1;}
@@ -30,7 +63,7 @@ public static class BTSaveGame {
             for(int i=0;i<targets.Length;i++)d.targets[i]=new BTTargetSave{path=Key(targets[i].transform),age=targets[i].age,life=targets[i].life,stressed=targets[i].pollutionStress};
             var c=g as BTCityGame;if(c)d.flags=new[]{c.waterRestored,c.gardenRestored,c.optionalRestored,c.observedRelapse,c.factoryOpen,c.optionalWatered};
             var f=g as BTFactoryGame;if(f){d.flags=new[]{f.entryOpen,f.transportRestored,f.conveyorOpen,f.pressureBalanced,f.powerLatched,f.pollutionStopped,f.waterFlowRestored,f.seedPlanted,f.nurseryRestored};d.valves=(bool[])f.valvesClosed.Clone();d.lifts=new[]{f.freightLift.platform.position.y,f.coreLift.platform.position.y};}
-            Directory.CreateDirectory(Application.persistentDataPath);File.WriteAllText(PathName+".tmp",JsonUtility.ToJson(d,true));File.Copy(PathName+".tmp",PathName,true);
+            Directory.CreateDirectory(Path.GetDirectoryName(PathName));File.WriteAllText(PathName+".tmp",JsonUtility.ToJson(d,true));File.Copy(PathName+".tmp",PathName,true);
             Notice="บันทึกแล้ว • C เล่นต่อจากเมนูพัก";SavedUntil=Time.unscaledTime+3;
         }catch(Exception e){Notice="บันทึกไม่สำเร็จ: "+e.Message;SavedUntil=Time.unscaledTime+5;Debug.LogWarning(Notice);}
     }
@@ -39,8 +72,8 @@ public static class BTSaveGame {
     }
     public static bool Continue(){
         if(pending!=null)return false;
-        try{if(!Exists)return false;var d=JsonUtility.FromJson<BTSaveData>(File.ReadAllText(PathName));
-            if(d==null||d.version!=1||(d.scene!=BTJourney.TrainingPath&&d.scene!=BTJourney.CityPath&&d.scene!=BTJourney.FactoryPath))return false;
+        try{if(!TryRead(out var d))return false;
+            Time.timeScale=1;
             pending=d;pendingSceneReady=false;requested=-1;SceneManager.sceneLoaded-=ContinueSceneLoaded;SceneManager.sceneLoaded+=ContinueSceneLoaded;SceneManager.LoadSceneAsync(d.scene);return true;
         }catch(Exception e){pending=null;pendingSceneReady=false;SceneManager.sceneLoaded-=ContinueSceneLoaded;Debug.LogWarning("Save could not be loaded: "+e.Message);return false;}
     }

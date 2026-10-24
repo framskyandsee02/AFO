@@ -23,6 +23,7 @@ public class BTPresentation : MonoBehaviour {
         if(++openingPage>=opening.Length){briefingComplete=true;return true;}return false;
     }
     void Update(){
+        if(game && BorrowedTime.Menu.GamePauseMenu.IsPausedFor(game.player))return;
         if(!game)return;
         BTSaveGame.Tick(game);
         var factory=game as BTFactoryGame;
@@ -35,6 +36,7 @@ public class BTPresentation : MonoBehaviour {
     }
     bool Button(Rect r,string label){return GUI.Button(r,label,buttonStyle);}
     void OnGUI(){
+        if(game && BorrowedTime.Menu.GamePauseMenu.IsPausedFor(game.player))return;
         if(!game || !game.player || game.player.hideHud)return;
         if(textStyle==null){textStyle=new GUIStyle(GUI.skin.label){font=game.uiFont,fontSize=17,wordWrap=true};headingStyle=new GUIStyle(textStyle){fontSize=24,fontStyle=FontStyle.Bold};buttonStyle=new GUIStyle(GUI.skin.button){font=game.uiFont,fontSize=20};}
         GUI.depth=-5;GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1440f,Screen.height/900f,1));
