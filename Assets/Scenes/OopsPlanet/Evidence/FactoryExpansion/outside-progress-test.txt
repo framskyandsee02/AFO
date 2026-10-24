@@ -1,4 +1,0 @@
-PASS rice requires f1 and (f2 or f3): f1_gate = False
-PASS rice requires f1 and (f2 or f3): f1_gate,f2_boiler = True
-PASS rice requires f1 and (f2 or f3): f1_gate,f3_turbine = True
-PASS rice requires f1 and (f2 or f3): f2_boiler,f3_turbine = False

@@ -6,14 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/OopsPlanet/Scenes/OopsPlanet_Prototype01.unity
-    guid: 1f0d09417ea3aba4a868594a03b21c75
-  - enabled: 1
-    path: Assets/Scenes/OopsPlanet/Scenes/OopsPlanet_V2.unity
-    guid: 7cc0a3fdffe9bba429c8132a8c568bc6
-  - enabled: 1
-    path: Assets/Scenes/OopsPlanet/Scenes/OopsPlanet_Factory.unity
-    guid: 02b6237b9680ff5448cc6e94b0b7be84
+    path: Assets/Scenes/MainScene.unity
+    guid: 54b3aa147e6646a4cae8c3c6d277e668
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

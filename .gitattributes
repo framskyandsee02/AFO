@@ -1,5 +1,7 @@
 * text=auto
 *.cs text eol=lf
+*.py text eol=lf
+*.shader text eol=lf
 *.unity text eol=lf
 *.prefab text eol=lf
 *.asset text eol=lf
@@ -7,10 +9,10 @@
 *.mat text eol=lf
 *.anim text eol=lf
 *.controller text eol=lf
-*.psd filter=lfs diff=lfs merge=lfs -text
-*.psb filter=lfs diff=lfs merge=lfs -text
 *.fbx filter=lfs diff=lfs merge=lfs -text
 *.blend filter=lfs diff=lfs merge=lfs -text
+*.psd filter=lfs diff=lfs merge=lfs -text
+*.psb filter=lfs diff=lfs merge=lfs -text
 *.wav filter=lfs diff=lfs merge=lfs -text
 *.mp4 filter=lfs diff=lfs merge=lfs -text
 *.mov filter=lfs diff=lfs merge=lfs -text
