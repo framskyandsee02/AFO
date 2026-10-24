@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using OopsPlanet;
 using UnityEngine.SceneManagement;
 
 namespace WobbleWorks.Characters.Editor
@@ -64,7 +65,7 @@ namespace WobbleWorks.Characters.Editor
                     foreach (string shape in Shapes)
                         Require(FindShape(renderer.sharedMesh, shape) >= 0, "Morph imported: " + renderer.name + "/" + shape, "FBX blend shape", report);
                 }
-                controller.SetMorphForm(WobProperty.None);
+                controller.SetMorphForm(BlobProperty.None);
                 controller.Tick(0f);
                 Vector3[] basis = WorldVertices(body);
                 Vector3 rootScale = instance.transform.localScale;
@@ -77,7 +78,7 @@ namespace WobbleWorks.Characters.Editor
                 Require(eyeCenterZ > bodyCenterZ + .02f, "Character face points toward Unity forward +Z", "eyesZ=" + eyeCenterZ + ", bodyCenterZ=" + bodyCenterZ, report);
 
                 // Prove Spring first, then the remaining forms, using baked geometry.
-                controller.SetMorphForm(WobProperty.Spring);
+                controller.SetMorphForm(BlobProperty.Bounce);
                 controller.Tick(0f);
                 Vector3[] spring = WorldVertices(body);
                 Require(MaxDistance(basis, spring) > .001f, "Spring changes real geometry", "maxVertexDelta=" + MaxDistance(basis, spring), report);
@@ -95,7 +96,7 @@ namespace WobbleWorks.Characters.Editor
                 Require(Height(stretched) > springHeight * 1.04f, "Spring extension changes height", "base=" + springHeight + ", stretched=" + Height(stretched), report);
                 CheckAttachments(body, eyes, "Spring stretched", report);
 
-                foreach (WobProperty form in new[] { WobProperty.Magnet, WobProperty.Gas, WobProperty.Liquid })
+                foreach (BlobProperty form in new[] { BlobProperty.Magnet, BlobProperty.Pressure, BlobProperty.Water })
                 {
                     controller.SetMorphForm(form);
                     controller.Tick(0f);
@@ -103,7 +104,7 @@ namespace WobbleWorks.Characters.Editor
                     Require(MaxDistance(basis, vertices) > .001f, form + " changes real geometry", "maxVertexDelta=" + MaxDistance(basis, vertices), report);
                     CheckAttachments(body, eyes, form.ToString(), report);
                 }
-                controller.SetMorphForm(WobProperty.Liquid);
+                controller.SetMorphForm(BlobProperty.Water);
                 controller.Tick(0f);
                 float liquidHeight = Height(WorldVertices(body));
                 controller.SetLiquidFlow(1f);
@@ -112,17 +113,17 @@ namespace WobbleWorks.Characters.Editor
                 CheckAttachments(body, eyes, "Liquid flattened", report);
 
                 // Retarget midway without snapping, then prove exact reversible geometry.
-                controller.SetMorphForm(WobProperty.None);
-                controller.BlendToMorphForm(WobProperty.Spring, 1f);
+                controller.SetMorphForm(BlobProperty.None);
+                controller.BlendToMorphForm(BlobProperty.Bounce, 1f);
                 controller.Tick(.35f);
                 Vector3[] beforeInterrupt = WorldVertices(body);
-                controller.BlendToMorphForm(WobProperty.Gas, .4f);
+                controller.BlendToMorphForm(BlobProperty.Pressure, .4f);
                 Vector3[] afterInterrupt = WorldVertices(body);
                 Require(MaxDistance(beforeInterrupt, afterInterrupt) < .00001f, "Interrupted transition is continuous", "snapDelta=" + MaxDistance(beforeInterrupt, afterInterrupt), report);
                 controller.Tick(.5f);
                 for (int i = 0; i < 12; i++)
                 {
-                    controller.BlendToMorphForm((WobProperty)(i % 4 + 1), .12f);
+                    controller.BlendToMorphForm(new[] { BlobProperty.Magnet, BlobProperty.Bounce, BlobProperty.Pressure, BlobProperty.Water }[i % 4], .12f);
                     controller.Tick(.05f);
                     controller.ReturnToNormal(.08f);
                     controller.Tick(.1f);
@@ -139,10 +140,10 @@ namespace WobbleWorks.Characters.Editor
                 Require(gasProfile && gasProfile.material && gasProfile.opacity < 1f, "Gas appearance profile supports transparency", "Material and opacity are authored assets", report);
                 controller.SetCharacterMaterial(gasProfile);
                 Require(body.sharedMaterial == gasProfile.material, "Character material API applies authored profile", body.sharedMaterial ? body.sharedMaterial.name : "missing", report);
-                controller.SetMorphForm(WobProperty.None);
+                controller.SetMorphForm(BlobProperty.None);
 
-                controller.SetMorphForm(WobProperty.None);
-                controller.BlendToMorphForm(WobProperty.Spring, 1f);
+                controller.SetMorphForm(BlobProperty.None);
+                controller.BlendToMorphForm(BlobProperty.Bounce, 1f);
                 controller.Tick(.2f);
                 float pausedWeight = controller.GetMorphWeight("Spring");
                 controller.SetVisualPaused(true);
@@ -152,16 +153,16 @@ namespace WobbleWorks.Characters.Editor
                 controller.Tick(1f);
                 Require(controller.GetMorphWeight("Spring") > .999f, "Transition resumes after pause", "Spring=" + controller.GetMorphWeight("Spring"), report);
 
-                controller.SetMorphForm(WobProperty.None);
+                controller.SetMorphForm(BlobProperty.None);
                 controller.SetAbsorptionProgress(.6f);
                 controller.Tick(.05f);
                 Require(controller.GetMorphWeight("Absorb") > .001f, "Absorption reaction deforms geometry", "Absorb=" + controller.GetMorphWeight("Absorb"), report);
                 controller.SetAbsorptionProgress(0f);
-                controller.SetMorphForm(WobProperty.None);
+                controller.SetMorphForm(BlobProperty.None);
                 controller.PlayLandingReaction(1f);
                 controller.Tick(.025f);
                 Require(controller.GetMorphWeight("Land") > .001f, "Landing reaction deforms geometry", "Land=" + controller.GetMorphWeight("Land"), report);
-                controller.SetMorphForm(WobProperty.None);
+                controller.SetMorphForm(BlobProperty.None);
                 controller.IdleEnabled = true;
                 controller.Tick(.17f);
                 Require(controller.GetMorphWeight("Idle") > .0001f, "Idle is a geometry animation", "Idle=" + controller.GetMorphWeight("Idle"), report);
@@ -195,13 +196,13 @@ namespace WobbleWorks.Characters.Editor
             Renderer[] magnets = all.Where(r => r.name.IndexOf("Magnet", StringComparison.OrdinalIgnoreCase) >= 0).ToArray();
             Renderer[] springs = all.Where(r => r.name.IndexOf("SpringCoil", StringComparison.OrdinalIgnoreCase) >= 0).ToArray();
             Require(magnets.Length > 0 && springs.Length > 0, "Ability-specific parts imported", "magnet=" + magnets.Length + ", spring=" + springs.Length, report);
-            controller.SetMorphForm(WobProperty.None); controller.Tick(0f);
+            controller.SetMorphForm(BlobProperty.None); controller.Tick(0f);
             Require(magnets.All(r => !r.enabled) && springs.All(r => !r.enabled), "Normal hides special parts", "No unwanted attachments", report);
-            controller.SetMorphForm(WobProperty.Magnet); controller.Tick(0f);
+            controller.SetMorphForm(BlobProperty.Magnet); controller.Tick(0f);
             Require(magnets.Any(r => r.enabled) && springs.All(r => !r.enabled), "Magnet shows only magnetic parts", "Renderer visibility", report);
-            controller.SetMorphForm(WobProperty.Spring); controller.Tick(0f);
+            controller.SetMorphForm(BlobProperty.Bounce); controller.Tick(0f);
             Require(springs.Any(r => r.enabled) && magnets.All(r => !r.enabled), "Spring shows only coil parts", "Renderer visibility", report);
-            controller.SetMorphForm(WobProperty.None); controller.Tick(0f);
+            controller.SetMorphForm(BlobProperty.None); controller.Tick(0f);
         }
 
         static void CheckSavedPreviewPersistence(PinoMorphController controller, GameObject instance, Report report)
@@ -213,29 +214,29 @@ namespace WobbleWorks.Characters.Editor
             controller.Tick(2f); // Finish transient reactions; only the authored preview should persist.
             try
             {
-                controller.SetMorphForm(WobProperty.Spring);
+                controller.SetMorphForm(BlobProperty.Bounce);
                 controller.SetSpringCompression(1f);
                 controller.Tick(0f);
                 PrefabUtility.SaveAsPrefabAsset(instance, path);
                 loaded = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(path), instance.scene);
                 var reloaded = loaded.GetComponent<PinoMorphController>();
                 reloaded.Tick(0f);
-                Require(reloaded.TargetForm == WobProperty.Spring && reloaded.GetMorphWeight("SpringCompress") > .999f,
+                Require(reloaded.TargetForm == BlobProperty.Bounce && reloaded.GetMorphWeight("SpringCompress") > .999f,
                     "Saved Spring compression survives reload and Tick(0)", "SpringCompress=" + reloaded.GetMorphWeight("SpringCompress"), report);
                 UnityEngine.Object.DestroyImmediate(loaded); loaded = null;
 
-                controller.SetMorphForm(WobProperty.Liquid);
+                controller.SetMorphForm(BlobProperty.Water);
                 controller.SetLiquidFlow(1f);
                 controller.Tick(0f);
                 PrefabUtility.SaveAsPrefabAsset(instance, path);
                 loaded = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(path), instance.scene);
                 reloaded = loaded.GetComponent<PinoMorphController>();
                 reloaded.Tick(0f);
-                Require(reloaded.TargetForm == WobProperty.Liquid && reloaded.GetMorphWeight("LiquidFlow") > .999f,
+                Require(reloaded.TargetForm == BlobProperty.Water && reloaded.GetMorphWeight("LiquidFlow") > .999f,
                     "Saved Liquid flow survives reload and Tick(0)", "LiquidFlow=" + reloaded.GetMorphWeight("LiquidFlow"), report);
                 UnityEngine.Object.DestroyImmediate(loaded); loaded = null;
 
-                controller.SetMorphForm(WobProperty.Gas);
+                controller.SetMorphForm(BlobProperty.Pressure);
                 controller.Tick(0f);
                 PrefabUtility.SaveAsPrefabAsset(instance, path);
                 loaded = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(path), instance.scene);
@@ -250,7 +251,7 @@ namespace WobbleWorks.Characters.Editor
             {
                 if (loaded) UnityEngine.Object.DestroyImmediate(loaded);
                 AssetDatabase.DeleteAsset(path);
-                controller.SetMorphForm(WobProperty.None);
+                controller.SetMorphForm(BlobProperty.None);
                 controller.Tick(0f);
             }
         }
@@ -258,7 +259,7 @@ namespace WobbleWorks.Characters.Editor
         static void CheckAdapter(PinoMorphController controller, GameObject instance, Report report)
         {
             var host = new GameObject("Pino validation — inactive gameplay source");
-            host.SetActive(false); // WobPlayer.Awake must not run; its gameplay world is deliberately absent.
+            host.SetActive(false); // BlobPlayer.Awake must not run; its gameplay world is deliberately absent.
             var driver = new GameObject("Legacy visual direction driver");
             driver.transform.SetParent(host.transform, false);
             driver.transform.localRotation = Quaternion.Euler(0f, 43f, 0f);
@@ -269,10 +270,10 @@ namespace WobbleWorks.Characters.Editor
             hiddenLegacy.transform.SetParent(driver.transform, false);
             var hiddenRenderer = hiddenLegacy.AddComponent<MeshRenderer>();
             hiddenRenderer.enabled = false;
-            var source = host.AddComponent<WobPlayer>();
+            var source = host.AddComponent<BlobPlayer>();
             source.visual = driver.transform;
-            source.property = WobProperty.Spring;
-            source.springCharge = .73f;
+            source.property = BlobProperty.Bounce;
+            source.bounceCharge = .73f;
             source.absorbProgress = .42f;
             source.velocity = new Vector3(0f, 6f, 0f);
             instance.transform.SetParent(host.transform, false);
@@ -282,22 +283,22 @@ namespace WobbleWorks.Characters.Editor
             Vector3 priorScale = instance.transform.localScale;
             Vector3 priorPosition = source.transform.position;
             adapter.SyncNow(true, .016f); controller.Tick(.5f);
-            Require(controller.TargetForm == WobProperty.Spring && controller.GetMorphWeight("SpringCompress") > .6f,
+            Require(controller.TargetForm == BlobProperty.Bounce && controller.GetMorphWeight("SpringCompress") > .6f,
                 "Adapter reads existing Spring state", "form=" + controller.TargetForm + ", compression=" + controller.GetMorphWeight("SpringCompress"), report);
-            Require(source.property == WobProperty.Spring && Mathf.Approximately(source.springCharge, .73f) &&
+            Require(source.property == BlobProperty.Bounce && Mathf.Approximately(source.bounceCharge, .73f) &&
                 Mathf.Approximately(source.absorbProgress, .42f) && source.velocity == new Vector3(0f, 6f, 0f) && source.transform.position == priorPosition,
                 "Adapter leaves gameplay state unchanged", "No ability, movement, velocity or input writes", report);
             Require(Quaternion.Angle(instance.transform.rotation, driver.transform.rotation) < .01f && instance.transform.localScale == priorScale,
                 "Adapter copies orientation without legacy scale", "Separate sibling visual", report);
             Require(!visibleLegacy.enabled && !hiddenRenderer.enabled, "Legacy meshes hidden while Pino is active", "Captured renderer states", report);
 
-            source.property = WobProperty.Liquid; source.flattened = true; source.springCharge = 0f; source.absorbProgress = 0f;
+            source.property = BlobProperty.Water;  source.bounceCharge = 0f; source.absorbProgress = 0f;
             adapter.SyncNow(false, .016f); controller.Tick(1f);
-            Require(controller.TargetForm == WobProperty.Liquid && controller.GetMorphWeight("LiquidFlow") > .99f,
-                "Adapter respects committed Liquid clearance state", "flattened=true drives LiquidFlow", report);
-            source.property = WobProperty.None; source.flattened = false;
+            Require(controller.TargetForm == BlobProperty.Water && controller.GetMorphWeight("LiquidFlow") < .001f,
+                "Adapter does not invent a flatten ability", "Water has no clearance/flatten mechanic in OOPS", report);
+            source.property = BlobProperty.None;
             adapter.SyncNow(false, .016f); controller.Tick(1f);
-            Require(controller.TargetForm == WobProperty.None && controller.GetMorphWeight("Liquid") < .001f,
+            Require(controller.TargetForm == BlobProperty.None && controller.GetMorphWeight("Liquid") < .001f,
                 "Adapter returns to Normal on None", "Respawn-compatible state mapping", report);
             adapter.Configure(null, controller);
             Require(visibleLegacy.enabled && !hiddenRenderer.enabled, "Legacy renderer states restored exactly", "Previously disabled renderers stay disabled", report);

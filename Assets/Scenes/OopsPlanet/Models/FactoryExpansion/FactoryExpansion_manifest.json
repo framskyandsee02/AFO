@@ -1,0 +1,166 @@
+[
+  {
+    "name": "FE_WallUnit",
+    "triangles": 188,
+    "materials": [
+      "Cream"
+    ],
+    "size_xyz": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "note": "one metre rounded module, centre pivot"
+  },
+  {
+    "name": "FE_FloorUnit",
+    "triangles": 188,
+    "materials": [
+      "Teal"
+    ],
+    "size_xyz": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "note": "one metre floor module, centre pivot"
+  },
+  {
+    "name": "FE_Entrance",
+    "triangles": 2704,
+    "materials": [
+      "Cream",
+      "Teal",
+      "Dark",
+      "Coral",
+      "Yellow"
+    ],
+    "size_xyz": [
+      7.7,
+      6.72,
+      1.95
+    ],
+    "note": "facade only, front -Z, portal trigger goes before dark door"
+  },
+  {
+    "name": "FE_BossBody",
+    "triangles": 7736,
+    "materials": [
+      "Cream",
+      "Teal",
+      "Dark",
+      "Metal",
+      "Coral",
+      "Yellow",
+      "Dust"
+    ],
+    "size_xyz": [
+      10.9,
+      8.0,
+      5.16
+    ],
+    "note": "8m high body; face -Z, rig at floor+3m"
+  },
+  {
+    "name": "FE_BossBase",
+    "triangles": 7736,
+    "materials": [
+      "Dark",
+      "Metal",
+      "Coral"
+    ],
+    "size_xyz": [
+      7.4,
+      3.0,
+      7.4
+    ],
+    "note": "bellows base"
+  },
+  {
+    "name": "FE_BossEye",
+    "triangles": 1808,
+    "materials": [
+      "White",
+      "Dark",
+      "Blue"
+    ],
+    "size_xyz": [
+      2.0,
+      2.0,
+      1.34
+    ],
+    "note": "one eye, front -Z, centre pivot"
+  },
+  {
+    "name": "FE_BossBrow",
+    "triangles": 188,
+    "materials": [
+      "Cream"
+    ],
+    "size_xyz": [
+      1.9,
+      0.3,
+      0.32
+    ],
+    "note": "animatable expressive eyebrow"
+  },
+  {
+    "name": "FE_BossArm",
+    "triangles": 18296,
+    "materials": [
+      "Dark",
+      "Yellow"
+    ],
+    "size_xyz": [
+      4.7,
+      1.64,
+      1.64
+    ],
+    "note": "hose arm extends +X from shoulder pivot"
+  },
+  {
+    "name": "FE_BossHand",
+    "triangles": 2668,
+    "materials": [
+      "Cream",
+      "Dark",
+      "Coral",
+      "Yellow"
+    ],
+    "size_xyz": [
+      2.8,
+      2.3,
+      2.45
+    ],
+    "note": "round vacuum mitten, front -Z"
+  },
+  {
+    "name": "FE_BossArena",
+    "triangles": 5500,
+    "materials": [
+      "Cream",
+      "Coral",
+      "Yellow"
+    ],
+    "size_xyz": [
+      44.0,
+      0.55,
+      44.0
+    ],
+    "note": "44m circular yellow arena, top at y=0"
+  },
+  {
+    "name": "FE_BossGear",
+    "triangles": 2840,
+    "materials": [
+      "Metal",
+      "Yellow"
+    ],
+    "size_xyz": [
+      1.7,
+      0.36,
+      1.63
+    ],
+    "note": "round portable repair gear, 0.9m high pivot base"
+  }
+]

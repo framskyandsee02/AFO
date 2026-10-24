@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using OopsPlanet;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
@@ -20,11 +21,11 @@ namespace WobbleWorks.Characters.Editor
         public const string PrefabPath = Root + "/Prefabs/PinoCharacter.prefab";
         public const string GalleryPath = Root + "/Scenes/PinoMorphDemo.unity";
         public const string IntegrationPath = Root + "/Scenes/PinoGameplayIntegration.unity";
-        public const string SourceGameplayPath = "Assets/WobbleWorks/Scenes/WobbleGreybox01.unity";
+        public const string SourceGameplayPath = "Assets/Scenes/OopsPlanet/Scenes/OopsPlanet_V2.unity";
         public const string GalleryImagePath = "Art/Pino/Morphing/Unity_PinoMorphGallery.png";
         const int GalleryLayer = 30;
         const float GameplayVisualHeight = 1.2f;
-        static readonly WobProperty[] Forms = { WobProperty.None, WobProperty.Magnet, WobProperty.Spring, WobProperty.Gas, WobProperty.Liquid };
+        static readonly BlobProperty[] Forms = { BlobProperty.None, BlobProperty.Magnet, BlobProperty.Bounce, BlobProperty.Pressure, BlobProperty.Water };
 
         [MenuItem("Tools/Pino Character/Build Character Assets")]
         public static void BuildAll()
@@ -147,19 +148,19 @@ namespace WobbleWorks.Characters.Editor
         static CharacterMaterialProfile[] CreateProfiles(Material[] materials)
         {
             var profiles = new List<CharacterMaterialProfile>();
-            foreach (WobProperty form in Forms)
+            foreach (BlobProperty form in Forms)
             {
-                string path = Root + "/Profiles/" + (form == WobProperty.None ? "Normal" : form.ToString()) + ".asset";
+                string path = Root + "/Profiles/" + (form == BlobProperty.None ? "Normal" : PinoMorphController.ShapeNameFor(form)) + ".asset";
                 var profile = AssetDatabase.LoadAssetAtPath<CharacterMaterialProfile>(path);
                 if (!profile) { profile = ScriptableObject.CreateInstance<CharacterMaterialProfile>(); AssetDatabase.CreateAsset(profile, path); }
-                profile.name = "Pino " + (form == WobProperty.None ? "Normal" : form.ToString());
+                profile.name = "Pino " + (form == BlobProperty.None ? "Normal" : PinoMorphController.ShapeNameFor(form));
                 profile.form = form;
-                profile.material = form == WobProperty.Gas ? materials[5] : materials[0];
-                profile.tint = form == WobProperty.Magnet ? new Color(.93f, .97f, 1) :
-                    form == WobProperty.Spring ? new Color(1, .98f, .94f) :
-                    form == WobProperty.Gas ? new Color(.82f, .95f, 1) :
-                    form == WobProperty.Liquid ? new Color(.83f, 1, .96f) : Color.white;
-                profile.opacity = form == WobProperty.Gas ? .64f : 1;
+                profile.material = form == BlobProperty.Pressure ? materials[5] : materials[0];
+                profile.tint = form == BlobProperty.Magnet ? new Color(.93f, .97f, 1) :
+                    form == BlobProperty.Bounce ? new Color(1, .98f, .94f) :
+                    form == BlobProperty.Pressure ? new Color(.82f, .95f, 1) :
+                    form == BlobProperty.Water ? new Color(.83f, 1, .96f) : Color.white;
+                profile.opacity = form == BlobProperty.Pressure ? .64f : 1;
                 EditorUtility.SetDirty(profile);
                 profiles.Add(profile);
             }
@@ -217,7 +218,7 @@ namespace WobbleWorks.Characters.Editor
                 }
                 var controller = root.AddComponent<PinoMorphController>();
                 controller.Configure(model.GetComponentsInChildren<SkinnedMeshRenderer>(true), bodies, magnets, springs, profiles);
-                controller.SetMorphForm(WobProperty.None);
+                controller.SetMorphForm(BlobProperty.None);
                 // Animate an upright Unity-space pivot; the FBX child retains its axis correction.
                 var motionPivot = new GameObject("Pino Motion").transform;
                 motionPivot.SetParent(root.transform, false);
@@ -258,14 +259,14 @@ namespace WobbleWorks.Characters.Editor
                 var root = new GameObject("Pino Character Gallery");
                 SceneManager.MoveGameObjectToScene(root, gallery);
                 root.transform.position = new Vector3(5000, 0, 5000);
-                AddGalleryCharacter(root.transform, new Vector3(1.8f, 0, -.80f), WobProperty.None, "NORMAL", 0, 0, 0);
-                AddGalleryCharacter(root.transform, new Vector3(.6f, 0, -.80f), WobProperty.Magnet, "MAGNET", 0, 0, 0);
-                AddGalleryCharacter(root.transform, new Vector3(-.6f, 0, -.80f), WobProperty.Spring, "SPRING", 0, 0, 0);
-                AddGalleryCharacter(root.transform, new Vector3(-1.8f, 0, -.80f), WobProperty.Gas, "GAS", 0, 0, 0);
-                AddGalleryCharacter(root.transform, new Vector3(1.8f, 0, .80f), WobProperty.Liquid, "LIQUID", 0, 0, 0);
-                AddGalleryCharacter(root.transform, new Vector3(.6f, 0, .80f), WobProperty.Spring, "SPRING / COMPRESS", 1, 0, 0);
-                AddGalleryCharacter(root.transform, new Vector3(-.6f, 0, .80f), WobProperty.Spring, "SPRING / STRETCH", 0, 1, 0);
-                AddGalleryCharacter(root.transform, new Vector3(-1.8f, 0, .80f), WobProperty.Liquid, "LIQUID / FLOW", 0, 0, 1);
+                AddGalleryCharacter(root.transform, new Vector3(1.8f, 0, -.80f), BlobProperty.None, "NORMAL", 0, 0, 0);
+                AddGalleryCharacter(root.transform, new Vector3(.6f, 0, -.80f), BlobProperty.Magnet, "MAGNET", 0, 0, 0);
+                AddGalleryCharacter(root.transform, new Vector3(-.6f, 0, -.80f), BlobProperty.Bounce, "SPRING", 0, 0, 0);
+                AddGalleryCharacter(root.transform, new Vector3(-1.8f, 0, -.80f), BlobProperty.Pressure, "GAS", 0, 0, 0);
+                AddGalleryCharacter(root.transform, new Vector3(1.8f, 0, .80f), BlobProperty.Water, "LIQUID", 0, 0, 0);
+                AddGalleryCharacter(root.transform, new Vector3(.6f, 0, .80f), BlobProperty.Bounce, "SPRING / COMPRESS", 1, 0, 0);
+                AddGalleryCharacter(root.transform, new Vector3(-.6f, 0, .80f), BlobProperty.Bounce, "SPRING / STRETCH", 0, 1, 0);
+                AddGalleryCharacter(root.transform, new Vector3(-1.8f, 0, .80f), BlobProperty.Water, "LIQUID / FLOW", 0, 0, 1);
                 var floor = GameObject.CreatePrimitive(PrimitiveType.Plane);
                 floor.name = "Gallery floor";
                 floor.transform.SetParent(root.transform, false);
@@ -291,7 +292,7 @@ namespace WobbleWorks.Characters.Editor
             finally { RestoreActiveScene(previous, gallery, openedHere); }
         }
 
-        static void AddGalleryCharacter(Transform parent, Vector3 position, WobProperty form, string label, float compress, float stretch, float flow)
+        static void AddGalleryCharacter(Transform parent, Vector3 position, BlobProperty form, string label, float compress, float stretch, float flow)
         {
             var obj = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath), parent.gameObject.scene);
             obj.name = label; obj.transform.SetParent(parent, false); obj.transform.localPosition = position;
@@ -329,15 +330,17 @@ namespace WobbleWorks.Characters.Editor
 
         static void BuildIntegrationScene()
         {
-            if (!File.Exists(IntegrationPath) && !AssetDatabase.CopyAsset(SourceGameplayPath, IntegrationPath))
-                throw new InvalidOperationException("Could not create a separate copy of " + SourceGameplayPath);
+            if (SceneManager.GetSceneByPath(IntegrationPath).isLoaded)
+                throw new InvalidOperationException("Close the generated Pino integration scene before rebuilding.");
+            File.Copy(SourceGameplayPath, IntegrationPath, true);
+            AssetDatabase.ImportAsset(IntegrationPath, ImportAssetOptions.ForceSynchronousImport);
             Scene previous = SceneManager.GetActiveScene();
             Scene integration = OpenOwnedScene(IntegrationPath, out bool openedHere);
             try
             {
                 SceneManager.SetActiveScene(integration);
-                WobPlayer player = integration.GetRootGameObjects().SelectMany(o => o.GetComponentsInChildren<WobPlayer>(true)).FirstOrDefault();
-                if (!player || !player.visual) throw new InvalidOperationException("The copied scene has no configured WobPlayer.visual.");
+                BlobPlayer player = integration.GetRootGameObjects().SelectMany(o => o.GetComponentsInChildren<BlobPlayer>(true)).FirstOrDefault();
+                if (!player || !player.visual) throw new InvalidOperationException("The copied scene has no configured BlobPlayer.visual.");
                 foreach (var old in player.GetComponentsInChildren<PinoGameplayAdapter>(true))
                 {
                     if (old.transform.parent != player.transform || old.gameObject.name != "PinoVisual")

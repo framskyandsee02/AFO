@@ -13,6 +13,8 @@ public class BlobInteractable : MonoBehaviour {
     public int index;
     public string label;
     public Renderer indicator;
+    public Transform highlightVisual;
+    Transform cachedHighlight; Vector3 highlightScale;
     [Header("Absorbable source")]
     public AbsorbResult onAbsorbed=AbsorbResult.Remains;
     public GameObject fullVisual, remnantVisual;
@@ -27,6 +29,7 @@ public class BlobInteractable : MonoBehaviour {
     public bool Available => kind==BlobInteraction.Source && isActiveAndEnabled && !consumed && property!=BlobProperty.None;
     public bool Contains(Vector3 point) => new Bounds(transform.position,size).Contains(point);
     public void Highlight(bool selected) {
+        if(highlightVisual) { if(cachedHighlight!=highlightVisual) { cachedHighlight=highlightVisual; highlightScale=highlightVisual.localScale; } highlightVisual.localScale=highlightScale*(selected?1.05f:1); return; }
         if(indicator) indicator.transform.localScale=Vector3.one*(selected?1.13f:1);
     }
     public void Absorb() {

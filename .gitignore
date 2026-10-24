@@ -27,3 +27,18 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+
+# Local backups, generated authoring output and prompt archives.
+*.blend1
+*.blend2
+*.zip
+/Backups/
+/ArtSource/Blender/_staging_*/
+/ArtSource/Blender/Renders/
+/OOPS_PLANET_Unity_Blender_Prompt_Package_UPDATED/
+/WOBBLE_WORKS_Phase_Prompts_P0-P9/
+**/Evidence/build-test-log.txt
+
+# Legacy test output. Game sources now live under Assets/Scenes/OopsPlanet.
+/Assets/OopsPlanet/
+/Assets/OopsPlanet.meta

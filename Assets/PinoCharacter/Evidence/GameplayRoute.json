@@ -1,263 +1,270 @@
 {
-    "utc": "2026-10-23T11:18:59.1324743Z",
+    "utc": "2026-10-23T16:16:22.2440844Z",
+    "completed": true,
     "checks": [
         {
-            "name": "Absorb out of range rejected",
+            "name": "V2 scene wired (7 main puzzles, ship, 6 powers, journal)",
             "passed": true,
-            "observed": "OUT OF RANGE"
+            "observed": "main=7 parts=15"
         },
         {
-            "name": "Invalid aim cannot acquire a property",
+            "name": "h1_pit_exit — (T) Magnet drags the junk out",
             "passed": true,
-            "observed": "property=None target="
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: junk cleared pos=(-13.9, 0.0, -15.7) respawns=0 combo="
         },
         {
-            "name": "Traverse to (0.0, 0.0, 4.7)",
+            "name": "h1_pit_exit — Pressure blows the junk away",
             "passed": true,
-            "observed": "actual=(0.00, 0.03, 4.49)"
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: junk cleared pos=(-14.0, 0.0, -10.6) respawns=0 combo="
         },
         {
-            "name": "Traverse to (0.0, 0.0, 11.0)",
+            "name": "h1_pit_exit — Heat burns the cardboard junk",
             "passed": true,
-            "observed": "actual=(0.00, 0.04, 10.80)"
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: junk cleared pos=(-14.0, 0.0, -10.3) respawns=0 combo="
         },
         {
-            "name": "Jump crossed training gap",
+            "name": "h1_pit_exit — Bounce over the 3.2 m pit wall",
             "passed": true,
-            "observed": "(0.00, 0.03, 10.80)"
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: out of the pit (north) pos=(-11.3, 0.0, 2.8) respawns=0 combo="
         },
         {
-            "name": "Traverse to (0.0, 0.0, 18.0)",
+            "name": "f1_gate — (T) Electric powers the gate motor",
             "passed": true,
-            "observed": "actual=(0.00, 0.03, 17.78)"
+            "observed": "state=Solved solvedBy=motor pos=(3.2, 0.0, 39.5) respawns=0 combo="
         },
         {
-            "name": "Line of sight obstruction rejected",
+            "name": "f1_gate — Magnet drags the 6 kg counterweight onto the plate",
             "passed": true,
-            "observed": "BLOCKED"
+            "observed": "state=Solved solvedBy=WeightPlate:F1 weight plate pos=(-4.3, 0.0, 37.6) respawns=0 combo="
         },
         {
-            "name": "Early release cancels absorption",
+            "name": "f1_gate — Electric + Magnet lifts the 30 kg old machine onto the plate",
             "passed": true,
-            "observed": "property=None progress=0"
+            "observed": "state=Solved solvedBy=WeightPlate:F1 weight plate pos=(-3.7, 0.0, 37.6) respawns=0 combo=magnet+electric"
         },
         {
-            "name": "Hold completes magnet acquisition",
+            "name": "f1_gate — Heat melts the wax latch, Pressure blows the hatch open",
             "passed": true,
-            "observed": "property=Magnet"
+            "observed": "state=Solved solvedBy=LatchedDoor:F1 hatch hinge pos=(-8.0, 0.0, 41.8) respawns=0 combo="
         },
         {
-            "name": "Movement continues during absorption",
+            "name": "f1_gate — Magnet + Pressure cannon knocks the rusty latch off",
             "passed": true,
-            "observed": "distance=1.93"
+            "observed": "state=Solved solvedBy=LatchedDoor:F1 hatch hinge pos=(-8.0, 0.0, 41.8) respawns=0 combo=magnet+pressure"
         },
         {
-            "name": "Traverse to (0.0, 0.0, 18.0)",
+            "name": "f2_boiler — (T) Water + Heat steam lifts BLOB to the walkway",
             "passed": true,
-            "observed": "actual=(0.21, 0.03, 17.98)"
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the walkway pos=(-19.4, 6.0, 56.0) respawns=0 combo=water+heat"
         },
         {
-            "name": "Traverse to (0.0, 0.0, 28.0)",
+            "name": "f2_boiler — Electric powers the cargo lift",
             "passed": true,
-            "observed": "actual=(0.00, 0.03, 27.79)"
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the walkway pos=(-17.5, 6.0, 52.2) respawns=0 combo="
         },
         {
-            "name": "Traverse to (0.0, 0.0, 34.0)",
+            "name": "f2_boiler — Magnet + Bounce slingshot from the steel beam",
             "passed": true,
-            "observed": "actual=(0.00, 0.03, 33.79)"
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the walkway pos=(-17.8, 8.2, 58.1) respawns=0 combo=magnet+bounce"
         },
         {
-            "name": "Traverse to (4.8, 0.0, 36.5)",
+            "name": "f3_turbine — (T) Pressure blasts spin the turbine",
             "passed": true,
-            "observed": "actual=(4.62, 0.03, 36.40)"
+            "observed": "state=Solved solvedBy=PressureTurbine:F3 ventilation turbine pos=(10.0, 0.0, 61.0) respawns=0 combo="
         },
         {
-            "name": "Magnet moves designated physics cube",
+            "name": "f3_turbine — Electric + Pressure long spark powers the high motor",
             "passed": true,
-            "observed": "(2.56, 0.60, 35.07)"
+            "observed": "state=Solved solvedBy=turbine-motor pos=(16.0, 0.0, 52.0) respawns=0 combo=pressure+electric"
         },
         {
-            "name": "Crate pressure plate opens bridge",
+            "name": "f3_turbine — Water + Heat steam into the intake pipe",
             "passed": true,
-            "observed": "plate=0.4007764 crate=(2.56, 0.60, 35.07)"
+            "observed": "state=Solved solvedBy=SteamInlet:Condition: steam intake pos=(4.0, 0.0, 60.5) respawns=0 combo=water+heat"
         },
         {
-            "name": "Traverse to (0.0, 0.0, 40.0)",
+            "name": "f3_turbine — Electric + Bounce chain spark hits switches 1-2-3 in order",
             "passed": true,
-            "observed": "actual=(0.16, 0.03, 39.87)"
+            "observed": "state=Solved solvedBy=SwitchGroup:Condition: switches in order pos=(15.5, 0.0, 59.5) respawns=0 combo=bounce+electric"
         },
         {
-            "name": "Traverse to (0.0, 0.0, 50.0)",
+            "name": "r1_sluice — (T) Pressure blasts the straw off the platform",
             "passed": true,
-            "observed": "actual=(0.00, 0.09, 49.78)"
+            "observed": "state=Solved solvedBy=all pos=(42.9, 3.0, 17.8) respawns=0 combo="
         },
         {
-            "name": "First checkpoint reached",
+            "name": "r1_sluice — Heat burns the straw after wetting the drying rack (Water)",
             "passed": true,
-            "observed": "checkpoint=1"
+            "observed": "state=Solved solvedBy=all pos=(44.6, 3.0, 14.3) respawns=0 combo="
         },
         {
-            "name": "New absorption replaces prior property",
+            "name": "r1_sluice — Pressure + Water jet pushes the straw",
             "passed": true,
-            "observed": "property=Spring"
+            "observed": "state=Solved solvedBy=all pos=(42.9, 3.0, 17.8) respawns=0 combo=pressure+water"
         },
         {
-            "name": "Previous magnet stops after replacement",
+            "name": "r1_sluice — Heat + Pressure flamethrower (rack wetted first)",
             "passed": true,
-            "observed": "crate drift=0"
+            "observed": "state=Solved solvedBy=all pos=(44.6, 3.0, 17.8) respawns=0 combo=pressure+heat"
         },
         {
-            "name": "Traverse to (0.0, 0.0, 57.0)",
+            "name": "r2_canal — (T) Water grows the vine bridge",
             "passed": true,
-            "observed": "actual=(0.00, 0.08, 56.78)"
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: east bank pos=(62.7, 0.0, 6.0) respawns=0 combo="
         },
         {
-            "name": "Spring charge is accumulated",
+            "name": "r2_canal — Magnet + Bounce slingshot to the iron lamp post",
             "passed": true,
-            "observed": "charge=1"
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: east bank pos=(70.9, 0.0, -6.0) respawns=0 combo=magnet+bounce"
         },
         {
-            "name": "Traverse to (0.0, 5.0, 65.0)",
+            "name": "r2_canal — Water + Magnet stream drags the iron raft, then ferry",
             "passed": true,
-            "observed": "actual=(0.00, 5.10, 64.79)"
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: east bank pos=(61.7, 0.2, -12.0) respawns=0 combo=magnet+water"
         },
         {
-            "name": "Spring reaches raised landing",
+            "name": "r3_pump — (T) Electric powers the pump",
             "passed": true,
-            "observed": "position=(0.00, 5.10, 64.79)"
+            "observed": "state=Solved solvedBy=pump-power pos=(64.0, 0.0, 14.5) respawns=0 combo="
         },
         {
-            "name": "Second checkpoint reached",
+            "name": "r3_pump — Pressure spins the windmill",
             "passed": true,
-            "observed": "checkpoint=2"
+            "observed": "state=Solved solvedBy=PressureTurbine:R3 windmill pos=(69.5, 0.0, 16.0) respawns=0 combo="
         },
         {
-            "name": "Traverse to (0.0, 5.0, 69.0)",
+            "name": "r3_pump — Electric + Water shocks through the pond to the submerged terminal",
             "passed": true,
-            "observed": "actual=(0.00, 5.04, 68.79)"
+            "observed": "state=Solved solvedBy=submerged-terminal pos=(64.0, 0.0, 8.4) respawns=0 combo=water+electric"
         },
         {
-            "name": "Gas acquisition",
+            "name": "r3_pump — Water + Electric electric stream into the pond",
             "passed": true,
-            "observed": "property=Gas"
+            "observed": "state=Solved solvedBy=submerged-terminal pos=(64.0, 0.0, 8.2) respawns=0 combo=water+electric"
         },
         {
-            "name": "Traverse to (0.0, 5.0, 78.0)",
+            "name": "r3_pump — Heat + Water boils the steam-pump feed tank",
             "passed": true,
-            "observed": "actual=(0.00, 5.04, 77.79)"
+            "observed": "state=Solved solvedBy=SteamInlet:Condition: steam pump intake pos=(67.2, 11.6, 7.5) respawns=0 combo=water+heat"
         },
         {
-            "name": "Gas rises inside designated shaft",
+            "name": "r3_pump — Water + Pressure jet waters all 6 plots",
             "passed": true,
-            "observed": "height=11.2528"
+            "observed": "state=Solved solvedBy=fields-watered pos=(70.0, 0.2, -13.5) respawns=0 combo=pressure+water"
         },
         {
-            "name": "Traverse to (0.0, 11.0, 84.0)",
+            "name": "Hidden s_hub_pads — Electric + Bounce chain spark hits all 4 pads",
             "passed": true,
-            "observed": "actual=(0.00, 11.46, 83.79)"
+            "observed": "state=Solved solvedBy=SwitchGroup:Condition: 4 pads together pos=(12.0, 0.0, -12.0) respawns=0 combo=bounce+electric"
         },
         {
-            "name": "Traverse to (0.0, 11.0, 88.0)",
+            "name": "Hidden s_hub_lights — Pressure + Electric lightning wind lights 3 street lights",
             "passed": true,
-            "observed": "actual=(0.00, 11.10, 87.79)"
+            "observed": "state=Solved solvedBy=lights-all pos=(14.0, 0.0, 11.5) respawns=0 combo=pressure+electric"
         },
         {
-            "name": "Third checkpoint reached",
+            "name": "Hidden s_storage — Pressure + Bounce wind ball hits the corner switch",
             "passed": true,
-            "observed": "checkpoint=3"
+            "observed": "state=Solved solvedBy=ComboLock:Storage switch (round the corner) pos=(12.0, 0.0, 37.1) respawns=0 combo=pressure+bounce"
         },
         {
-            "name": "Liquid acquisition",
+            "name": "Hidden s_fuse — Electric + Heat short circuit melts the fuse",
             "passed": true,
-            "observed": "property=Liquid"
+            "observed": "state=Solved solvedBy=ComboLock:Fuse (short-circuit lock) pos=(-3.5, 0.0, 62.0) respawns=0 combo=electric+heat"
         },
         {
-            "name": "Traverse to (0.0, 11.0, 94.0)",
+            "name": "Hidden s_beam_ice — Heat + Magnet induction heats the beam under the ice",
             "passed": true,
-            "observed": "actual=(0.00, 11.04, 93.79)"
+            "observed": "state=Solved solvedBy=ice-melted pos=(10.0, 0.0, 53.5) respawns=0 combo=magnet+heat"
         },
         {
-            "name": "Normal silhouette cannot enter low pipe",
+            "name": "Hidden s_conveyor_weld — Heat + Electric welds the broken conveyor rail",
             "passed": true,
-            "observed": "position=(0.00, 11.04, 94.61)"
+            "observed": "state=Solved solvedBy=ComboLock:Broken conveyor rail (weld me) pos=(16.2, 0.0, 55.0) respawns=0 combo=electric+heat"
         },
         {
-            "name": "Traverse to (0.0, 11.0, 100.0)",
+            "name": "Hidden s_kiln — Heat + Bounce fireball lobbed over the kiln wall",
             "passed": true,
-            "observed": "actual=(0.00, 11.04, 99.78)"
+            "observed": "state=Solved solvedBy=kiln-lit pos=(46.0, 0.0, -10.5) respawns=0 combo=bounce+heat"
         },
         {
-            "name": "Liquid flattens in designed pipe",
+            "name": "Hidden shed roof — slingshot to the permanent metal roof anchor",
             "passed": true,
-            "observed": "height=0.32"
+            "observed": "pos=(-16.2, 7.0, 33.5)"
         },
         {
-            "name": "Unsafe expansion inside pipe prevented",
+            "name": "Hidden cold room — Bounce + Heat fireball melts the ice floor",
             "passed": true,
-            "observed": "flat=True"
+            "observed": "ice consumed=True pos=(12.0, 0.0, 33.0)"
         },
         {
-            "name": "Unsafe replacement inside pipe rejected",
+            "name": "Hidden pump roof — Water + Bounce water ball grows the vine stair",
             "passed": true,
-            "observed": "property=Liquid"
+            "observed": "growth=2 pos=(69.5, 5.0, 12.2)"
         },
         {
-            "name": "Traverse to (0.0, 11.0, 108.0)",
+            "name": "Plain Magnet refuses the 30 kg machine (limit 10 kg)",
             "passed": true,
-            "observed": "actual=(0.00, 11.04, 107.79)"
+            "observed": "held=none"
         },
         {
-            "name": "Clearance restores normal collider",
+            "name": "Water spray puts out a burning bundle and wets it",
             "passed": true,
-            "observed": "height=1.3"
+            "observed": "burning=False wet=True"
         },
         {
-            "name": "Pipe traversal records progression",
+            "name": "Electric spark has a cooldown and fizzles with no target",
             "passed": true,
-            "observed": "pipePassed=True"
+            "observed": "sparks=1"
         },
         {
-            "name": "Respawn returns to safe checkpoint",
+            "name": "Combo projectiles expire (no build-up)",
             "passed": true,
-            "observed": "pos=(0.00, 11.10, 87.00) property=None"
+            "observed": "alive=0 spawned=10"
         },
         {
-            "name": "Traverse to (0.0, 11.0, 88.0)",
+            "name": "HUD resolves Water+Electric and Electric+Water to the same combo",
             "passed": true,
-            "observed": "actual=(0.00, 11.10, 87.79)"
+            "observed": "active=water+electric"
         },
         {
-            "name": "Traverse to (0.0, 11.0, 94.0)",
+            "name": "Save v2 round trip: puzzles, ship parts and discovered combos come back",
             "passed": true,
-            "observed": "actual=(0.00, 11.04, 93.80)"
+            "observed": "cleared=True status=Ok carried=1 journal=1"
         },
         {
-            "name": "Traverse to (0.0, 11.0, 108.0)",
+            "name": "Ship: 3 parts without a rice part do not finish; the 4th (rice) launches the ship and ends the demo",
             "passed": true,
-            "observed": "actual=(0.00, 11.04, 107.78)"
+            "observed": "installed=4 notYet=True finished=True"
         },
         {
-            "name": "Traverse to (0.0, 11.0, 114.0)",
+            "name": "Rice gate: F1 alone keeps it shut, F1 + F3 opens it",
             "passed": true,
-            "observed": "actual=(0.00, 11.04, 113.00)"
+            "observed": "onlyF1Shut=True unlocked=True"
         },
         {
-            "name": "Full level completes via exit",
+            "name": "All 15 unordered combos were used in the V2 map (journal 15/15)",
             "passed": true,
-            "observed": "finished=True mask=30"
-        },
-        {
-            "name": "Crate reset restores its initial position",
-            "passed": true,
-            "observed": "crate=(-3.00, 0.60, 34.00)"
-        },
-        {
-            "name": "Full restart clears progression",
-            "passed": true,
-            "observed": "checkpoint=0 mask=0"
+            "observed": "used=15 missing="
         }
     ],
-    "passed": 51,
+    "passed": 49,
     "failed": 0,
-    "completedRoute": true
+    "combosUsed": [
+        "magnet+electric",
+        "magnet+pressure",
+        "water+heat",
+        "magnet+bounce",
+        "pressure+electric",
+        "bounce+electric",
+        "pressure+water",
+        "pressure+heat",
+        "magnet+water",
+        "water+electric",
+        "pressure+bounce",
+        "electric+heat",
+        "magnet+heat",
+        "bounce+heat",
+        "bounce+water"
+    ]
 }

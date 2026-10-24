@@ -1,0 +1,270 @@
+{
+    "utc": "2026-10-23T16:16:22.2440844Z",
+    "completed": true,
+    "checks": [
+        {
+            "name": "V2 scene wired (7 main puzzles, ship, 6 powers, journal)",
+            "passed": true,
+            "observed": "main=7 parts=15"
+        },
+        {
+            "name": "h1_pit_exit — (T) Magnet drags the junk out",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: junk cleared pos=(-13.9, 0.0, -15.7) respawns=0 combo="
+        },
+        {
+            "name": "h1_pit_exit — Pressure blows the junk away",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: junk cleared pos=(-14.0, 0.0, -10.6) respawns=0 combo="
+        },
+        {
+            "name": "h1_pit_exit — Heat burns the cardboard junk",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: junk cleared pos=(-14.0, 0.0, -10.3) respawns=0 combo="
+        },
+        {
+            "name": "h1_pit_exit — Bounce over the 3.2 m pit wall",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: out of the pit (north) pos=(-11.3, 0.0, 2.8) respawns=0 combo="
+        },
+        {
+            "name": "f1_gate — (T) Electric powers the gate motor",
+            "passed": true,
+            "observed": "state=Solved solvedBy=motor pos=(3.2, 0.0, 39.5) respawns=0 combo="
+        },
+        {
+            "name": "f1_gate — Magnet drags the 6 kg counterweight onto the plate",
+            "passed": true,
+            "observed": "state=Solved solvedBy=WeightPlate:F1 weight plate pos=(-4.3, 0.0, 37.6) respawns=0 combo="
+        },
+        {
+            "name": "f1_gate — Electric + Magnet lifts the 30 kg old machine onto the plate",
+            "passed": true,
+            "observed": "state=Solved solvedBy=WeightPlate:F1 weight plate pos=(-3.7, 0.0, 37.6) respawns=0 combo=magnet+electric"
+        },
+        {
+            "name": "f1_gate — Heat melts the wax latch, Pressure blows the hatch open",
+            "passed": true,
+            "observed": "state=Solved solvedBy=LatchedDoor:F1 hatch hinge pos=(-8.0, 0.0, 41.8) respawns=0 combo="
+        },
+        {
+            "name": "f1_gate — Magnet + Pressure cannon knocks the rusty latch off",
+            "passed": true,
+            "observed": "state=Solved solvedBy=LatchedDoor:F1 hatch hinge pos=(-8.0, 0.0, 41.8) respawns=0 combo=magnet+pressure"
+        },
+        {
+            "name": "f2_boiler — (T) Water + Heat steam lifts BLOB to the walkway",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the walkway pos=(-19.4, 6.0, 56.0) respawns=0 combo=water+heat"
+        },
+        {
+            "name": "f2_boiler — Electric powers the cargo lift",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the walkway pos=(-17.5, 6.0, 52.2) respawns=0 combo="
+        },
+        {
+            "name": "f2_boiler — Magnet + Bounce slingshot from the steel beam",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the walkway pos=(-17.8, 8.2, 58.1) respawns=0 combo=magnet+bounce"
+        },
+        {
+            "name": "f3_turbine — (T) Pressure blasts spin the turbine",
+            "passed": true,
+            "observed": "state=Solved solvedBy=PressureTurbine:F3 ventilation turbine pos=(10.0, 0.0, 61.0) respawns=0 combo="
+        },
+        {
+            "name": "f3_turbine — Electric + Pressure long spark powers the high motor",
+            "passed": true,
+            "observed": "state=Solved solvedBy=turbine-motor pos=(16.0, 0.0, 52.0) respawns=0 combo=pressure+electric"
+        },
+        {
+            "name": "f3_turbine — Water + Heat steam into the intake pipe",
+            "passed": true,
+            "observed": "state=Solved solvedBy=SteamInlet:Condition: steam intake pos=(4.0, 0.0, 60.5) respawns=0 combo=water+heat"
+        },
+        {
+            "name": "f3_turbine — Electric + Bounce chain spark hits switches 1-2-3 in order",
+            "passed": true,
+            "observed": "state=Solved solvedBy=SwitchGroup:Condition: switches in order pos=(15.5, 0.0, 59.5) respawns=0 combo=bounce+electric"
+        },
+        {
+            "name": "r1_sluice — (T) Pressure blasts the straw off the platform",
+            "passed": true,
+            "observed": "state=Solved solvedBy=all pos=(42.9, 3.0, 17.8) respawns=0 combo="
+        },
+        {
+            "name": "r1_sluice — Heat burns the straw after wetting the drying rack (Water)",
+            "passed": true,
+            "observed": "state=Solved solvedBy=all pos=(44.6, 3.0, 14.3) respawns=0 combo="
+        },
+        {
+            "name": "r1_sluice — Pressure + Water jet pushes the straw",
+            "passed": true,
+            "observed": "state=Solved solvedBy=all pos=(42.9, 3.0, 17.8) respawns=0 combo=pressure+water"
+        },
+        {
+            "name": "r1_sluice — Heat + Pressure flamethrower (rack wetted first)",
+            "passed": true,
+            "observed": "state=Solved solvedBy=all pos=(44.6, 3.0, 17.8) respawns=0 combo=pressure+heat"
+        },
+        {
+            "name": "r2_canal — (T) Water grows the vine bridge",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: east bank pos=(62.7, 0.0, 6.0) respawns=0 combo="
+        },
+        {
+            "name": "r2_canal — Magnet + Bounce slingshot to the iron lamp post",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: east bank pos=(70.9, 0.0, -6.0) respawns=0 combo=magnet+bounce"
+        },
+        {
+            "name": "r2_canal — Water + Magnet stream drags the iron raft, then ferry",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: east bank pos=(61.7, 0.2, -12.0) respawns=0 combo=magnet+water"
+        },
+        {
+            "name": "r3_pump — (T) Electric powers the pump",
+            "passed": true,
+            "observed": "state=Solved solvedBy=pump-power pos=(64.0, 0.0, 14.5) respawns=0 combo="
+        },
+        {
+            "name": "r3_pump — Pressure spins the windmill",
+            "passed": true,
+            "observed": "state=Solved solvedBy=PressureTurbine:R3 windmill pos=(69.5, 0.0, 16.0) respawns=0 combo="
+        },
+        {
+            "name": "r3_pump — Electric + Water shocks through the pond to the submerged terminal",
+            "passed": true,
+            "observed": "state=Solved solvedBy=submerged-terminal pos=(64.0, 0.0, 8.4) respawns=0 combo=water+electric"
+        },
+        {
+            "name": "r3_pump — Water + Electric electric stream into the pond",
+            "passed": true,
+            "observed": "state=Solved solvedBy=submerged-terminal pos=(64.0, 0.0, 8.2) respawns=0 combo=water+electric"
+        },
+        {
+            "name": "r3_pump — Heat + Water boils the steam-pump feed tank",
+            "passed": true,
+            "observed": "state=Solved solvedBy=SteamInlet:Condition: steam pump intake pos=(67.2, 11.6, 7.5) respawns=0 combo=water+heat"
+        },
+        {
+            "name": "r3_pump — Water + Pressure jet waters all 6 plots",
+            "passed": true,
+            "observed": "state=Solved solvedBy=fields-watered pos=(70.0, 0.2, -13.5) respawns=0 combo=pressure+water"
+        },
+        {
+            "name": "Hidden s_hub_pads — Electric + Bounce chain spark hits all 4 pads",
+            "passed": true,
+            "observed": "state=Solved solvedBy=SwitchGroup:Condition: 4 pads together pos=(12.0, 0.0, -12.0) respawns=0 combo=bounce+electric"
+        },
+        {
+            "name": "Hidden s_hub_lights — Pressure + Electric lightning wind lights 3 street lights",
+            "passed": true,
+            "observed": "state=Solved solvedBy=lights-all pos=(14.0, 0.0, 11.5) respawns=0 combo=pressure+electric"
+        },
+        {
+            "name": "Hidden s_storage — Pressure + Bounce wind ball hits the corner switch",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Storage switch (round the corner) pos=(12.0, 0.0, 37.1) respawns=0 combo=pressure+bounce"
+        },
+        {
+            "name": "Hidden s_fuse — Electric + Heat short circuit melts the fuse",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Fuse (short-circuit lock) pos=(-3.5, 0.0, 62.0) respawns=0 combo=electric+heat"
+        },
+        {
+            "name": "Hidden s_beam_ice — Heat + Magnet induction heats the beam under the ice",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ice-melted pos=(10.0, 0.0, 53.5) respawns=0 combo=magnet+heat"
+        },
+        {
+            "name": "Hidden s_conveyor_weld — Heat + Electric welds the broken conveyor rail",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Broken conveyor rail (weld me) pos=(16.2, 0.0, 55.0) respawns=0 combo=electric+heat"
+        },
+        {
+            "name": "Hidden s_kiln — Heat + Bounce fireball lobbed over the kiln wall",
+            "passed": true,
+            "observed": "state=Solved solvedBy=kiln-lit pos=(46.0, 0.0, -10.5) respawns=0 combo=bounce+heat"
+        },
+        {
+            "name": "Hidden shed roof — slingshot to the permanent metal roof anchor",
+            "passed": true,
+            "observed": "pos=(-16.2, 7.0, 33.5)"
+        },
+        {
+            "name": "Hidden cold room — Bounce + Heat fireball melts the ice floor",
+            "passed": true,
+            "observed": "ice consumed=True pos=(12.0, 0.0, 33.0)"
+        },
+        {
+            "name": "Hidden pump roof — Water + Bounce water ball grows the vine stair",
+            "passed": true,
+            "observed": "growth=2 pos=(69.5, 5.0, 12.2)"
+        },
+        {
+            "name": "Plain Magnet refuses the 30 kg machine (limit 10 kg)",
+            "passed": true,
+            "observed": "held=none"
+        },
+        {
+            "name": "Water spray puts out a burning bundle and wets it",
+            "passed": true,
+            "observed": "burning=False wet=True"
+        },
+        {
+            "name": "Electric spark has a cooldown and fizzles with no target",
+            "passed": true,
+            "observed": "sparks=1"
+        },
+        {
+            "name": "Combo projectiles expire (no build-up)",
+            "passed": true,
+            "observed": "alive=0 spawned=10"
+        },
+        {
+            "name": "HUD resolves Water+Electric and Electric+Water to the same combo",
+            "passed": true,
+            "observed": "active=water+electric"
+        },
+        {
+            "name": "Save v2 round trip: puzzles, ship parts and discovered combos come back",
+            "passed": true,
+            "observed": "cleared=True status=Ok carried=1 journal=1"
+        },
+        {
+            "name": "Ship: 3 parts without a rice part do not finish; the 4th (rice) launches the ship and ends the demo",
+            "passed": true,
+            "observed": "installed=4 notYet=True finished=True"
+        },
+        {
+            "name": "Rice gate: F1 alone keeps it shut, F1 + F3 opens it",
+            "passed": true,
+            "observed": "onlyF1Shut=True unlocked=True"
+        },
+        {
+            "name": "All 15 unordered combos were used in the V2 map (journal 15/15)",
+            "passed": true,
+            "observed": "used=15 missing="
+        }
+    ],
+    "passed": 49,
+    "failed": 0,
+    "combosUsed": [
+        "magnet+electric",
+        "magnet+pressure",
+        "water+heat",
+        "magnet+bounce",
+        "pressure+electric",
+        "bounce+electric",
+        "pressure+water",
+        "pressure+heat",
+        "magnet+water",
+        "water+electric",
+        "pressure+bounce",
+        "electric+heat",
+        "magnet+heat",
+        "bounce+heat",
+        "bounce+water"
+    ]
+}

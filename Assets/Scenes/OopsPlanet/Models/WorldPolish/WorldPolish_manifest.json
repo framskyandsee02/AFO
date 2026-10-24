@@ -1,0 +1,82 @@
+{
+  "palette": {
+    "Cream": "FFF0CE",
+    "White": "FDF8ED",
+    "Teal": "579B9C",
+    "Dark": "294A60",
+    "Metal": "9BB9BE",
+    "Coral": "EB997B",
+    "Blue": "78B4D4",
+    "Pink": "E6A2BB",
+    "Water": "50C8CE",
+    "Yellow": "F5D163",
+    "Orange": "EE9251",
+    "Leaf": "83AA78",
+    "Grass": "A5C97E",
+    "Path": "DCC7A5",
+    "Coal": "48515F",
+    "DryLeaf": "BDC57B"
+  },
+  "exports": [
+    {
+      "name": "Source_Magnet",
+      "triangles": 2440,
+      "batches": 4
+    },
+    {
+      "name": "Source_Pressure",
+      "triangles": 3612,
+      "batches": 6
+    },
+    {
+      "name": "Source_Bounce",
+      "triangles": 4588,
+      "batches": 4
+    },
+    {
+      "name": "Source_Water",
+      "triangles": 5144,
+      "batches": 5
+    },
+    {
+      "name": "Source_Electric",
+      "triangles": 2548,
+      "batches": 4
+    },
+    {
+      "name": "Source_Heat",
+      "triangles": 8112,
+      "batches": 5
+    },
+    {
+      "name": "Machine_Pump",
+      "triangles": 3276,
+      "batches": 7
+    },
+    {
+      "name": "Machine_Boiler",
+      "triangles": 4612,
+      "batches": 5
+    },
+    {
+      "name": "Machine_Turbine",
+      "triangles": 2040,
+      "batches": 3
+    },
+    {
+      "name": "Ship_Capsule",
+      "triangles": 9116,
+      "batches": 9
+    },
+    {
+      "name": "Rice_Plot",
+      "triangles": 14556,
+      "batches": 2
+    },
+    {
+      "name": "World_Accents",
+      "triangles": 28920,
+      "batches": 5
+    }
+  ]
+}

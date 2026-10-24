@@ -1,0 +1,668 @@
+{
+    "utc": "2026-10-23T19:16:24.9072670Z",
+    "checks": [
+        {
+            "round": 1,
+            "name": "f1_gate — (A) Magnet drags the scrap plates out",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: chute chute_a t=8.3s pos=(-4.8, 0.0, 33.3) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f1_gate — (B) Pressure blows the foam boxes through",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: chute chute_b t=1.6s pos=(-0.8, 0.0, 37.0) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f1_gate — (C) Pressure + Water jet pushes the 16 kg crates",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: chute chute_c t=3.4s pos=(0.8, 0.0, 36.6) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f1_gate — (D) Heat burns the cardboard bundles",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: chute chute_d t=9.9s pos=(2.4, 0.0, 37.0) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f1_gate — wrong power: Heat on the scrap lane leaves it blocked",
+            "passed": true,
+            "observed": "state=Active"
+        },
+        {
+            "round": 1,
+            "name": "f1_gate — return: walk through the opened sorting shutter",
+            "passed": true,
+            "observed": "pos=(6.6, 0.0, 44.0)"
+        },
+        {
+            "round": 1,
+            "name": "f1_gate — reset pad puts moved junk back",
+            "passed": true,
+            "observed": "offset=0.00"
+        },
+        {
+            "round": 1,
+            "name": "f4_crane — (1) Magnet drags the 6 kg counterweight onto the plate",
+            "passed": true,
+            "observed": "state=Solved solvedBy=WeightPlate:Crane weight plate t=5.0s pos=(12.7, 0.0, 45.4) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f4_crane — (2) Electric + Magnet lifts the 30 kg machine onto the plate",
+            "passed": true,
+            "observed": "state=Solved solvedBy=WeightPlate:Crane weight plate t=5.1s pos=(12.3, 0.0, 45.4) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f4_crane — (3) Magnet + Pressure cannon breaks the rusty bolt",
+            "passed": true,
+            "observed": "state=Solved solvedBy=LatchedDoor:Rust hatch hinge t=4.9s pos=(9.1, 0.0, 45.9) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f4_crane — (4) Heat melts the wax seal, Pressure pushes the crawl hatch",
+            "passed": true,
+            "observed": "state=Solved solvedBy=LatchedDoor:Wax crawl hatch hinge t=2.7s pos=(17.6, 0.0, 48.9) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f4_crane — standing on the plate yourself does not count",
+            "passed": true,
+            "observed": "state=Active"
+        },
+        {
+            "round": 1,
+            "name": "f2_boiler — (1) Heat on the vent basin raises steam -> balcony",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the control balcony t=3.4s pos=(10.6, 5.0, 65.4) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f2_boiler — (1b) Water + Heat steam spray -> balcony",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the control balcony t=3.5s pos=(10.6, 5.0, 65.4) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f2_boiler — (2) Electric powers the cargo lift",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the control balcony t=5.3s pos=(18.1, 5.0, 65.4) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f2_boiler — (3) Magnet + Bounce slingshot into the balcony beam",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the control balcony t=3.0s pos=(9.2, 5.0, 61.1) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f2_boiler — return: balcony shortcut -> walkway -> stairs -> central hall",
+            "passed": true,
+            "observed": "pos=(1.2, 0.0, 42.0)"
+        },
+        {
+            "round": 1,
+            "name": "f5_cooling — raft shuttles back to the near dock",
+            "passed": true,
+            "observed": "crossings=2 atNear=True"
+        },
+        {
+            "round": 1,
+            "name": "f5_cooling — (1) Water + Magnet drags the raft, then ferry across",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: north bank t=23.8s pos=(-11.6, 0.0, 11.5) respawns=1"
+        },
+        {
+            "round": 1,
+            "name": "f5_cooling — (2) Magnet + Bounce slingshot to the north-bank post",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: north bank t=2.6s pos=(-15.3, 0.0, 62.0) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f5_cooling — (3) Electric raises the service bridge",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: north bank t=4.1s pos=(-15.8, 0.0, 54.5) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f5_cooling — (4) Bounce from the tip of the fallen girder",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: north bank t=3.0s pos=(-18.6, 2.0, 55.4) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f5_cooling — a full Bounce cannot clear the 9.5 m channel",
+            "passed": true,
+            "observed": "state=Active respawns=1"
+        },
+        {
+            "round": 1,
+            "name": "f5_cooling — return: permanent catwalk back to the south bank",
+            "passed": true,
+            "observed": "pos=(-11.6, 0.0, 42.5)"
+        },
+        {
+            "round": 1,
+            "name": "f3_turbine — (1) Pressure blasts from the blue spot",
+            "passed": true,
+            "observed": "state=Solved solvedBy=PressureTurbine:Round vent turbine t=5.8s pos=(-15.0, 0.0, 60.2) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f3_turbine — (2) Water + Heat steam into the intake",
+            "passed": true,
+            "observed": "state=Solved solvedBy=SteamInlet:Condition: turbine steam intake t=2.9s pos=(-15.4, 6.7, 64.4) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f3_turbine — (2b) Heat boils the feed tank",
+            "passed": true,
+            "observed": "state=Solved solvedBy=SteamInlet:Condition: turbine steam intake t=2.9s pos=(-15.4, 6.7, 64.4) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f3_turbine — (3) Pressure + Electric long spark to the high motor",
+            "passed": true,
+            "observed": "state=Solved solvedBy=far-motor t=0.9s pos=(-12.5, 0.0, 54.6) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f3_turbine — the long spark did not also trip the switch sequence",
+            "passed": true,
+            "observed": "seq.met=False"
+        },
+        {
+            "round": 1,
+            "name": "f3_turbine — (4) Bounce + Electric chain spark 1 -> 2 -> 3",
+            "passed": true,
+            "observed": "state=Solved solvedBy=SwitchGroup:Condition: vent switches in order t=1.0s pos=(-18.0, 0.0, 54.2) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f3_turbine — return: door back to the central hall opens",
+            "passed": true,
+            "observed": "pos=(-2.8, 0.0, 61.4)"
+        },
+        {
+            "round": 1,
+            "name": "f6_assembly — (1) Electric + Heat welds the drive rail",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Cabinet drive rail (broken) t=1.6s pos=(-13.4, 0.4, 37.6) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f6_assembly — (2) Magnet + Pressure cannon breaks the rusty lock",
+            "passed": true,
+            "observed": "state=Solved solvedBy=LatchedDoor:Cabinet lock flap hinge t=3.9s pos=(-14.1, 0.0, 33.4) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f6_assembly — (3) Heat + Magnet induction heats the rod, the ice lock melts",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ice-lock-melted t=5.9s pos=(-14.6, 0.0, 34.6) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f6_assembly — plain Heat from the floor cannot reach the ice lock",
+            "passed": true,
+            "observed": "ice consumed=False"
+        },
+        {
+            "round": 1,
+            "name": "f6_assembly — core collected once; a second method gives nothing more",
+            "passed": true,
+            "observed": "has=True before=1 after=1"
+        },
+        {
+            "round": 1,
+            "name": "Hidden s_storage — Pressure + Bounce wind ball reaches the button round the corner",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Round-the-corner button t=2.0s pos=(14.4, 0.0, 38.1) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "Hidden s_storage — walk into the cubby and collect part_storage",
+            "passed": true,
+            "observed": "pos=(17.9, 0.0, 34.3)"
+        },
+        {
+            "round": 1,
+            "name": "Hidden s_beam_ice — Bounce + Heat fireball lobbed into the walled oven",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Toy oven (fireball only) t=2.0s pos=(16.5, 0.0, 45.5) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "Hidden s_fuse — Electric + Heat melts the turbine-room fuse",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Fuse (short-circuit lock) t=1.6s pos=(-16.6, 0.0, 58.4) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "Hidden s_factory_shockpool — plain Electric on the pool does not open it",
+            "passed": true,
+            "observed": "state=Active"
+        },
+        {
+            "round": 1,
+            "name": "Hidden s_factory_shockpool — Water + Electric stream into the pool",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Cooling pool (electric water only) t=1.6s pos=(-14.6, 0.0, 43.6) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "Hidden s_factory_shockpool — return: crawl hatch back into the receiving hall",
+            "passed": true,
+            "observed": "pos=(-8.0, 0.0, 38.3)"
+        },
+        {
+            "round": 1,
+            "name": "Hidden s_conveyor_weld — Electric + Heat welds the broken conveyor rail",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Broken conveyor rail (weld me) t=1.6s pos=(16.4, 0.0, 55.0) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "Hidden s_conveyor_weld — the outside conveyor shortcut gate unlocks",
+            "passed": true,
+            "observed": "unlocked=True"
+        },
+        {
+            "round": 1,
+            "name": "Hidden s_factory_flame — risk: careless fire burns the paper stock and the spot stays shut",
+            "passed": true,
+            "observed": "stock ignited=True"
+        },
+        {
+            "round": 1,
+            "name": "Hidden s_factory_flame — Pressure + Heat flamethrower, paper stock wetted first",
+            "passed": true,
+            "observed": "state=Solved solvedBy=all t=11.0s pos=(-2.0, 0.0, 52.2) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "Hidden water-ball sprout — Water + Bounce grows the vine ramp, part_cold_room collected",
+            "passed": true,
+            "observed": "growth=2 pos=(0.9, 6.4, 59.4)"
+        },
+        {
+            "round": 1,
+            "name": "Ruins — the plank barricade blocks the breach before it burns",
+            "passed": true,
+            "observed": "pos=(-5.2, 0.0, 58.0)"
+        },
+        {
+            "round": 1,
+            "name": "Ruins — Heat burns the rotten planks, the breach leads into the turbine room",
+            "passed": true,
+            "observed": "consumed=True pos=(-8.0, 0.0, 58.0)"
+        },
+        {
+            "round": 1,
+            "name": "Appliances — every factory source is an element appliance",
+            "passed": true,
+            "observed": "appliances=22"
+        },
+        {
+            "round": 1,
+            "name": "Appliances — absorbing swaps to the drained look and back after 20 s",
+            "passed": true,
+            "observed": "fullBefore=True drainedLook=True back=True property=Pressure"
+        },
+        {
+            "round": 1,
+            "name": "Save/load — P1 stays solved, shutter open, part_f1 kept, junk not back in the lanes",
+            "passed": true,
+            "observed": "status=Ok had=True shutterY=4.9 itemsInLanes=0"
+        },
+        {
+            "round": 1,
+            "name": "Save/load — still possible to walk into the central hall after loading",
+            "passed": true,
+            "observed": "pos=(6.6, 0.0, 41.2)"
+        },
+        {
+            "round": 1,
+            "name": "Outside interface — rice gate: shut with F1 only, opens after F1 + turbine",
+            "passed": true,
+            "observed": "shutWithF1=True unlocked=True"
+        },
+        {
+            "round": 2,
+            "name": "f1_gate — (A) Magnet drags the scrap plates out",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: chute chute_a t=8.2s pos=(-4.8, 0.0, 33.3) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f1_gate — (B) Pressure blows the foam boxes through",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: chute chute_b t=1.5s pos=(-0.8, 0.0, 37.0) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f1_gate — (C) Pressure + Water jet pushes the 16 kg crates",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: chute chute_c t=3.3s pos=(0.8, 0.0, 36.6) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f1_gate — (D) Heat burns the cardboard bundles",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: chute chute_d t=9.9s pos=(2.4, 0.0, 37.0) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f1_gate — wrong power: Heat on the scrap lane leaves it blocked",
+            "passed": true,
+            "observed": "state=Active"
+        },
+        {
+            "round": 2,
+            "name": "f1_gate — return: walk through the opened sorting shutter",
+            "passed": true,
+            "observed": "pos=(6.6, 0.0, 43.9)"
+        },
+        {
+            "round": 2,
+            "name": "f1_gate — reset pad puts moved junk back",
+            "passed": true,
+            "observed": "offset=0.00"
+        },
+        {
+            "round": 2,
+            "name": "f4_crane — (1) Magnet drags the 6 kg counterweight onto the plate",
+            "passed": true,
+            "observed": "state=Solved solvedBy=WeightPlate:Crane weight plate t=4.8s pos=(12.7, 0.0, 45.4) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f4_crane — (2) Electric + Magnet lifts the 30 kg machine onto the plate",
+            "passed": true,
+            "observed": "state=Solved solvedBy=WeightPlate:Crane weight plate t=5.0s pos=(12.3, 0.0, 45.4) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f4_crane — (3) Magnet + Pressure cannon breaks the rusty bolt",
+            "passed": true,
+            "observed": "state=Solved solvedBy=LatchedDoor:Rust hatch hinge t=4.9s pos=(9.1, 0.0, 45.9) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f4_crane — (4) Heat melts the wax seal, Pressure pushes the crawl hatch",
+            "passed": true,
+            "observed": "state=Solved solvedBy=LatchedDoor:Wax crawl hatch hinge t=2.7s pos=(17.6, 0.0, 48.9) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f4_crane — standing on the plate yourself does not count",
+            "passed": true,
+            "observed": "state=Active"
+        },
+        {
+            "round": 2,
+            "name": "f2_boiler — (1) Heat on the vent basin raises steam -> balcony",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the control balcony t=3.4s pos=(10.6, 5.0, 65.4) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f2_boiler — (1b) Water + Heat steam spray -> balcony",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the control balcony t=3.5s pos=(10.6, 5.0, 65.4) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f2_boiler — (2) Electric powers the cargo lift",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the control balcony t=5.3s pos=(18.1, 5.0, 65.4) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f2_boiler — (3) Magnet + Bounce slingshot into the balcony beam",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the control balcony t=2.9s pos=(9.2, 5.0, 61.2) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f2_boiler — return: balcony shortcut -> walkway -> stairs -> central hall",
+            "passed": true,
+            "observed": "pos=(1.3, 0.0, 42.0)"
+        },
+        {
+            "round": 2,
+            "name": "f5_cooling — raft shuttles back to the near dock",
+            "passed": true,
+            "observed": "crossings=4 atNear=True"
+        },
+        {
+            "round": 2,
+            "name": "f5_cooling — (1) Water + Magnet drags the raft, then ferry across",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: north bank t=23.8s pos=(-11.6, 0.0, 11.5) respawns=1"
+        },
+        {
+            "round": 2,
+            "name": "f5_cooling — (2) Magnet + Bounce slingshot to the north-bank post",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: north bank t=2.6s pos=(-15.3, 0.0, 62.0) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f5_cooling — (3) Electric raises the service bridge",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: north bank t=4.1s pos=(-15.8, 0.0, 54.5) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f5_cooling — (4) Bounce from the tip of the fallen girder",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: north bank t=3.0s pos=(-18.6, 2.2, 55.4) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f5_cooling — a full Bounce cannot clear the 9.5 m channel",
+            "passed": true,
+            "observed": "state=Active respawns=1"
+        },
+        {
+            "round": 2,
+            "name": "f5_cooling — return: permanent catwalk back to the south bank",
+            "passed": true,
+            "observed": "pos=(-11.6, 0.0, 42.5)"
+        },
+        {
+            "round": 2,
+            "name": "f3_turbine — (1) Pressure blasts from the blue spot",
+            "passed": true,
+            "observed": "state=Solved solvedBy=PressureTurbine:Round vent turbine t=5.8s pos=(-15.0, 0.0, 60.2) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f3_turbine — (2) Water + Heat steam into the intake",
+            "passed": true,
+            "observed": "state=Solved solvedBy=SteamInlet:Condition: turbine steam intake t=2.9s pos=(-15.4, 6.7, 64.4) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f3_turbine — (2b) Heat boils the feed tank",
+            "passed": true,
+            "observed": "state=Solved solvedBy=SteamInlet:Condition: turbine steam intake t=2.9s pos=(-15.4, 6.7, 64.4) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f3_turbine — (3) Pressure + Electric long spark to the high motor",
+            "passed": true,
+            "observed": "state=Solved solvedBy=far-motor t=0.9s pos=(-12.5, 0.0, 54.6) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f3_turbine — the long spark did not also trip the switch sequence",
+            "passed": true,
+            "observed": "seq.met=False"
+        },
+        {
+            "round": 2,
+            "name": "f3_turbine — (4) Bounce + Electric chain spark 1 -> 2 -> 3",
+            "passed": true,
+            "observed": "state=Solved solvedBy=SwitchGroup:Condition: vent switches in order t=0.9s pos=(-18.0, 0.0, 54.2) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f3_turbine — return: door back to the central hall opens",
+            "passed": true,
+            "observed": "pos=(-2.8, 0.0, 61.4)"
+        },
+        {
+            "round": 2,
+            "name": "f6_assembly — (1) Electric + Heat welds the drive rail",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Cabinet drive rail (broken) t=1.6s pos=(-13.4, 0.4, 37.6) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f6_assembly — (2) Magnet + Pressure cannon breaks the rusty lock",
+            "passed": true,
+            "observed": "state=Solved solvedBy=LatchedDoor:Cabinet lock flap hinge t=3.8s pos=(-14.1, 0.0, 33.5) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f6_assembly — (3) Heat + Magnet induction heats the rod, the ice lock melts",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ice-lock-melted t=5.9s pos=(-14.6, 0.0, 34.6) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f6_assembly — plain Heat from the floor cannot reach the ice lock",
+            "passed": true,
+            "observed": "ice consumed=False"
+        },
+        {
+            "round": 2,
+            "name": "f6_assembly — core collected once; a second method gives nothing more",
+            "passed": true,
+            "observed": "has=True before=1 after=1"
+        },
+        {
+            "round": 2,
+            "name": "Hidden s_storage — Pressure + Bounce wind ball reaches the button round the corner",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Round-the-corner button t=1.9s pos=(14.4, 0.0, 38.1) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "Hidden s_storage — walk into the cubby and collect part_storage",
+            "passed": true,
+            "observed": "pos=(17.9, 0.0, 34.3)"
+        },
+        {
+            "round": 2,
+            "name": "Hidden s_beam_ice — Bounce + Heat fireball lobbed into the walled oven",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Toy oven (fireball only) t=2.0s pos=(16.5, 0.0, 45.5) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "Hidden s_fuse — Electric + Heat melts the turbine-room fuse",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Fuse (short-circuit lock) t=1.6s pos=(-16.6, 0.0, 58.4) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "Hidden s_factory_shockpool — plain Electric on the pool does not open it",
+            "passed": true,
+            "observed": "state=Active"
+        },
+        {
+            "round": 2,
+            "name": "Hidden s_factory_shockpool — Water + Electric stream into the pool",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Cooling pool (electric water only) t=1.6s pos=(-14.6, 0.0, 43.6) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "Hidden s_factory_shockpool — return: crawl hatch back into the receiving hall",
+            "passed": true,
+            "observed": "pos=(-8.0, 0.0, 38.3)"
+        },
+        {
+            "round": 2,
+            "name": "Hidden s_conveyor_weld — Electric + Heat welds the broken conveyor rail",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Broken conveyor rail (weld me) t=1.6s pos=(16.4, 0.0, 55.0) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "Hidden s_conveyor_weld — the outside conveyor shortcut gate unlocks",
+            "passed": true,
+            "observed": "unlocked=True"
+        },
+        {
+            "round": 2,
+            "name": "Hidden s_factory_flame — risk: careless fire burns the paper stock and the spot stays shut",
+            "passed": true,
+            "observed": "stock ignited=True"
+        },
+        {
+            "round": 2,
+            "name": "Hidden s_factory_flame — Pressure + Heat flamethrower, paper stock wetted first",
+            "passed": true,
+            "observed": "state=Solved solvedBy=all t=11.0s pos=(-2.0, 0.0, 52.2) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "Hidden water-ball sprout — Water + Bounce grows the vine ramp, part_cold_room collected",
+            "passed": true,
+            "observed": "growth=2 pos=(0.9, 6.4, 59.4)"
+        },
+        {
+            "round": 2,
+            "name": "Ruins — the plank barricade blocks the breach before it burns",
+            "passed": true,
+            "observed": "pos=(-5.2, 0.0, 58.0)"
+        },
+        {
+            "round": 2,
+            "name": "Ruins — Heat burns the rotten planks, the breach leads into the turbine room",
+            "passed": true,
+            "observed": "consumed=True pos=(-7.9, 0.0, 58.0)"
+        },
+        {
+            "round": 2,
+            "name": "Appliances — every factory source is an element appliance",
+            "passed": true,
+            "observed": "appliances=22"
+        },
+        {
+            "round": 2,
+            "name": "Appliances — absorbing swaps to the drained look and back after 20 s",
+            "passed": true,
+            "observed": "fullBefore=True drainedLook=True back=True property=Pressure"
+        },
+        {
+            "round": 2,
+            "name": "Save/load — P1 stays solved, shutter open, part_f1 kept, junk not back in the lanes",
+            "passed": true,
+            "observed": "status=Ok had=True shutterY=4.9 itemsInLanes=0"
+        },
+        {
+            "round": 2,
+            "name": "Save/load — still possible to walk into the central hall after loading",
+            "passed": true,
+            "observed": "pos=(6.6, 0.0, 41.2)"
+        },
+        {
+            "round": 2,
+            "name": "Outside interface — rice gate: shut with F1 only, opens after F1 + turbine",
+            "passed": true,
+            "observed": "shutWithF1=True unlocked=True"
+        }
+    ],
+    "passed": 110,
+    "failed": 0,
+    "seconds": 578.8018188476563
+}

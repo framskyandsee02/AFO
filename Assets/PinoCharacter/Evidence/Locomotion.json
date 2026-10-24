@@ -1,5 +1,5 @@
 {
-    "generatedUtc": "2026-10-23T11:18:50.0985149Z",
+    "generatedUtc": "2026-10-23T14:29:49.8431666Z",
     "passed": 27,
     "failed": 0,
     "maximumHopHeightMetres": 0.028599735349416734,
@@ -67,47 +67,47 @@
             "details": "Locomotion never writes ability weights or physics"
         },
         {
-            "name": "Spring has visible gentle idle motion",
+            "name": "Bounce has visible gentle idle motion",
             "passed": true,
             "details": "scaleRange=0.05977339"
         },
         {
-            "name": "Spring has its own low walking bounce",
+            "name": "Bounce has its own low walking bounce",
             "passed": true,
             "details": "hopMetres=0.03088795"
         },
         {
-            "name": "Spring preserves ability geometry and player position",
+            "name": "Bounce preserves ability geometry and player position",
             "passed": true,
             "details": "Locomotion never writes ability weights or physics"
         },
         {
-            "name": "Gas has visible gentle idle motion",
+            "name": "Pressure has visible gentle idle motion",
             "passed": true,
             "details": "scaleRange=0.04158151"
         },
         {
-            "name": "Gas has its own low walking bounce",
+            "name": "Pressure has its own low walking bounce",
             "passed": true,
             "details": "hopMetres=0.03077313"
         },
         {
-            "name": "Gas preserves ability geometry and player position",
+            "name": "Pressure preserves ability geometry and player position",
             "passed": true,
             "details": "Locomotion never writes ability weights or physics"
         },
         {
-            "name": "Liquid has visible gentle idle motion",
+            "name": "Water has visible gentle idle motion",
             "passed": true,
             "details": "scaleRange=0.03378493"
         },
         {
-            "name": "Liquid has its own low walking bounce",
+            "name": "Water has its own low walking bounce",
             "passed": true,
             "details": "hopMetres=0.004289474"
         },
         {
-            "name": "Liquid preserves ability geometry and player position",
+            "name": "Water preserves ability geometry and player position",
             "passed": true,
             "details": "Locomotion never writes ability weights or physics"
         },

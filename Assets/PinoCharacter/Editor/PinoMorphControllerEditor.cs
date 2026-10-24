@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using OopsPlanet;
 
 namespace WobbleWorks.Characters.Editor
 {
@@ -18,8 +19,8 @@ namespace WobbleWorks.Characters.Editor
             EditorGUILayout.LabelField("Character Preview", EditorStyles.boldLabel);
             EditorGUILayout.HelpBox("Preview only changes this character's geometry and material. It does not grant an ability or run gameplay input.", MessageType.Info);
             using (new EditorGUILayout.HorizontalScope())
-                foreach (WobProperty form in new[] { WobProperty.None, WobProperty.Magnet, WobProperty.Spring, WobProperty.Gas, WobProperty.Liquid })
-                    if (GUILayout.Button(form == WobProperty.None ? "Normal" : form.ToString()))
+                foreach (BlobProperty form in new[] { BlobProperty.None, BlobProperty.Magnet, BlobProperty.Bounce, BlobProperty.Pressure, BlobProperty.Water })
+                    if (GUILayout.Button(form == BlobProperty.None ? "Normal" : form.ToString()))
                         Apply(controller, () => controller.SetMorphForm(form));
             EditorGUI.BeginChangeCheck();
             compression = EditorGUILayout.Slider("Spring compression", compression, 0, 1);
@@ -39,7 +40,7 @@ namespace WobbleWorks.Characters.Editor
                 compression = stretch = flow = absorption = 0;
                 controller.SetSpringCompression(0); controller.SetSpringStretch(0);
                 controller.SetLiquidFlow(0); controller.SetAbsorptionProgress(0);
-                controller.SetMorphForm(WobProperty.None); controller.Tick(0);
+                controller.SetMorphForm(BlobProperty.None); controller.Tick(0);
             });
         }
 

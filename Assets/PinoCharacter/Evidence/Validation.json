@@ -1,5 +1,5 @@
 {
-    "generatedUtc": "2026-10-23T11:18:49.7544002Z",
+    "generatedUtc": "2026-10-23T14:29:49.1025035Z",
     "unityVersion": "6000.3.25f1",
     "prefab": "Assets/PinoCharacter/Prefabs/PinoCharacter.prefab",
     "passed": 87,
@@ -266,32 +266,32 @@
             "details": "surfaceGapMetres=0.002086721"
         },
         {
-            "name": "Gas changes real geometry",
+            "name": "Pressure changes real geometry",
             "passed": true,
             "details": "maxVertexDelta=0.1664"
         },
         {
-            "name": "Eye follows surface: Gas/Pino.Eye.Left | cocoa button",
+            "name": "Eye follows surface: Pressure/Pino.Eye.Left | cocoa button",
             "passed": true,
             "details": "surfaceGapMetres=0.002205389"
         },
         {
-            "name": "Eye follows surface: Gas/Pino.Eye.Right | cocoa button",
+            "name": "Eye follows surface: Pressure/Pino.Eye.Right | cocoa button",
             "passed": true,
             "details": "surfaceGapMetres=0.00210792"
         },
         {
-            "name": "Liquid changes real geometry",
+            "name": "Water changes real geometry",
             "passed": true,
             "details": "maxVertexDelta=0.182"
         },
         {
-            "name": "Eye follows surface: Liquid/Pino.Eye.Left | cocoa button",
+            "name": "Eye follows surface: Water/Pino.Eye.Left | cocoa button",
             "passed": true,
             "details": "surfaceGapMetres=0.002179975"
         },
         {
-            "name": "Eye follows surface: Liquid/Pino.Eye.Right | cocoa button",
+            "name": "Eye follows surface: Water/Pino.Eye.Right | cocoa button",
             "passed": true,
             "details": "surfaceGapMetres=0.002094167"
         },
@@ -408,7 +408,7 @@
         {
             "name": "Adapter reads existing Spring state",
             "passed": true,
-            "details": "form=Spring, compression=0.73"
+            "details": "form=Bounce, compression=0.73"
         },
         {
             "name": "Adapter leaves gameplay state unchanged",
@@ -426,9 +426,9 @@
             "details": "Captured renderer states"
         },
         {
-            "name": "Adapter respects committed Liquid clearance state",
+            "name": "Adapter does not invent a flatten ability",
             "passed": true,
-            "details": "flattened=true drives LiquidFlow"
+            "details": "Water has no clearance/flatten mechanic in OOPS"
         },
         {
             "name": "Adapter returns to Normal on None",

@@ -1,5 +1,10 @@
 # OOPS! PLANET — README สำหรับ AI ที่มาทำต่อ
 
+**งานภาพล่าสุด 2026-10-23:** เจ้าของอนุมัติ Pino + โมเดลเดิมเป็น ref สำหรับทั้งแมพแล้ว ฉากหลัก V2 ใช้ Pino และ WorldPolishArt (revision 3) มี Blender ใหม่ 12 ชุด / แหล่งพลัง 34 จุด ผล EditMode 14/14, campaign + Pino 49/49 ครบ 15 คอมโบ, art smoke 27/27 ดู `Docs/WORLD_POLISH_2026-10-23_TH.md` พาธปัจจุบันคือ `Assets/Scenes/OopsPlanet/` แทน `Assets/OopsPlanet/` ย้ายกองเหล็ก R1 ไป (37,0,12) เพื่อไม่ขวางทางฟาง งานรอบนี้ยังไม่ commit/push
+
+**กติกาล่าสุดจากเจ้าของ: 15 คอมโบไม่เรียงลำดับ** ทุกคู่ของ 6 พลังผสมได้ผลเดียว F เดี่ยว / Q เลือกเดี่ยว / G ผสม; ให้ยึด `Docs/COMBOS_15_TH.md` แทนกติกา 30 ช่องเดิม ผลล่าสุด EditMode 14/14, V2 49/49, คอมโบ 15/15 รวม Pino ผ่านแล้ว งานยังไม่ commit/push
+
+
 เอกสารนี้เขียนให้ AI agent ตัวถัดไปอ่านก่อนเริ่มงาน (สถานะ ณ 2026-10-23)
 คนทำงานจริงควรอ่าน `README.md` (วิธีเปิดโปรเจกต์ / build) และ `Docs/HANDOFF_TH.md` (วิธีเพิ่มพลัง/ปริศนา) ประกอบ
 **ต้นฉบับของการออกแบบ v2 คือ `Docs/DESIGN_V2_TH.md`** (เจ้าของโปรเจกต์อนุมัติแล้ว) ถ้าข้อมูลในไฟล์นี้ขัดกับเอกสารนั้น ให้ยึดเอกสารออกแบบ
@@ -139,3 +144,22 @@ HUD IMGUI ปรับให้เล็กลงแล้ว เหลือส
 - `ProjectSettings/ProjectSettings.asset` ถูก Unity แก้เอง (`preloadedAssets` ว่างลง) — ตรวจกับเจ้าของก่อนรวมใน commit
 - ไฟล์ `Assets/OopsPlanet/Evidence/*.json` เป็นผลเทสต์ล่าสุด (ถูกเขียนทับทุกครั้งที่รัน)
 - ไฟล์ที่ห้ามรวมใน commit ดู §1 ข้อ 4
+
+งานแอนิเมชันและความชัดของพลัง 2026-10-23: เดิน/ดูดบนโมเดลเดิมและเส้นเอฟเฟกต์พลัง อ่าน Docs/ANIMATION_FEEDBACK_2026-10-23_TH.md; V2 57/57 คอมโบ 30/30 ไม่มี commit/push รอบนี้
+
+รวม Vrzo/Pino ในเครื่องแล้ว (merge 6f0c474) และ port ให้ตรง BlobPlayer/BlobProperty รายละเอียด Docs/VRZO_PINO_INTEGRATION_2026-10-23_TH.md; geometry 87/87, locomotion 27/27, V2 ในฉาก Pino 57/57 คอมโบ 30/30 ไม่มี state mismatch; ยังไม่ push และยังใช้ตัวละครเดิมในฉาก V2 ต้นฉบับ
+
+## 9. อัปเดต 2026-10-24 — โรงงานโถงใหญ่ + บอส (ล่าสุด)
+
+เจ้าของสั่ง **โรงงานใหญ่โถงเดียว ไม่แบ่งห้อง** แต่ยังวาร์ปจากประตูในฉากโลกไปฉากโรงงานแยก ขนาดประมาณ 90 × 159 เมตร ใช้หลังคาร่วม เครื่องจักร 6 จุดซ่อม จุดละ 3 ทางหลัก มีทางเดินชั้นบน และบอสผู้ดูแลตัวใหญ่ท้ายโถง ใช้วัตถุรอบตัว + น้ำ + การเชื่อมซ่อม บอสโจมตีได้และพลาดแล้วเริ่มที่ checkpoint บอส
+
+- อ่าน `Docs/FACTORY_EXPANSION_TH.md` สำหรับสเปก ผลทดสอบ และข้อจำกัดปัจจุบัน
+- ฉากใหม่: `Assets/Scenes/OopsPlanet/Scenes/OopsPlanet_Factory.unity` โลกเดิม: `OopsPlanet_V2.unity` มี facade และ portal ทั้งสองฉากอยู่ใน Build Settings แล้ว
+- Builder: `Tools/OOPS Planet/Factory Expansion/Build Separate Factory And Entrance` สำรองฉากก่อนสร้างและเก็บโลกภายนอกไว้ รุ่นเก่าใน `FactoryInterior` และ `OopsV2Test` ใช้ผังเก่า ไม่ใช่ผลรับรองฉากนี้
+- `Factory_SourceLayout.unity` เป็นต้นแบบสำรองผังเก่าให้ builder ไม่อยู่ใน Build Settings ห้ามลบทิ้งโดยไม่แก้ builder
+- Ref บอสเจ้าของส่งแล้ว: `ArtSource/References/FactoryCaretaker/Owner_Arena_Sketch.png` และ `Owner_Machine_Reference.png` ใช้สร้างบอสนี้ต่อได้ ไม่ต้องขอรูปเดิมซ้ำ เจ้าของอนุญาต asset ภายนอกแล้ว แต่รอบนี้ไม่ได้ดาวน์โหลด asset
+- โมเดลใหม่ปั้นใน Blender: `ArtSource/Blender/build_factory_boss.py` และ `OOPS_FactoryCaretaker.blend` FBX 11 ชิ้นรวม 49,852 สามเหลี่ยม
+- ผลล่าสุด: หลัก 66/66, เสริม 30/30, วาร์ป 7/7, บอสซ้ำ 14/14 ที่ `Assets/Scenes/OopsPlanet/Evidence/FactoryExpansion/`
+- เทสต์ต้องเพิ่ม component **หลังเข้า Play แล้ว** และเปลี่ยนไปสล็อต test ก่อนเริ่ม ไม่ฝัง component ทดสอบลงฉากก่อนเข้า Play เพราะ Unity อาจโหลด snapshot นั้นซ้ำเมื่อวาร์ป
+- เป้าหมาย 35–45 นาทีรวมบอสยังไม่ได้จับเวลาเล่นโดยคนจริง ไม่มี build PC/commit/push รอบนี้
+- เซฟจริงตอนเริ่มงาน: oops_save.json SHA256 AF5026E5413582EC3CCE2124E80E20553CBCEDC4E37042255DF22FA019260A67; oops_save_v2.json SHA256 A9D8E521FB806324352D620DB1B8ED67108E86E10E60179D6AF244FA02E1DB5A (เจ้าของเล่นหลัง handoff เก่า จึงห้ามย้อนกลับไป hash 0C1C เดิม)

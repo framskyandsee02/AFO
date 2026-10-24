@@ -1,5 +1,12 @@
 # OOPS! PLANET — We R in Trouble! (Prototype 01)
 
+> **ส่งต่องานบน `main` — 2026-10-24:** หลัง clone ให้รัน `git lfs pull`
+> แล้วเปิดโฟลเดอร์นี้ด้วย Unity **6000.3.25f1** ฉากปัจจุบันอยู่ที่
+> `Assets/Scenes/OopsPlanet/Scenes/OopsPlanet_V2.unity` และ
+> `Assets/Scenes/OopsPlanet/Scenes/OopsPlanet_Factory.unity`
+> อ่าน `Docs/GITHUB_HANDOFF_2026-10-24_TH.md` ก่อนทำต่อ พาธ `Assets/OopsPlanet/`
+> ในเนื้อหาเก่าด้านล่างเป็นพาธก่อนย้ายโฟลเดอร์
+
 เกม 3D puzzle adventure มุมกล้อง third-person บน PC ผู้เล่นเป็น **BLOB** (ตัวละครที่ไม่พูด) ที่ดูดซับพลังจากวัตถุมาใช้แก้ปริศนาเพื่อฟื้นฟูโลก
 ในโปรโตไทป์มี Hub, โซนโรงงาน และโซนนาข้าว รวมพลัง 3 แบบและปริศนา 3 ชุด
 

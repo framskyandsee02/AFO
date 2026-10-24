@@ -1,4 +1,5 @@
 using UnityEngine;
+using OopsPlanet;
 
 namespace WobbleWorks.Characters
 {
@@ -6,7 +7,7 @@ namespace WobbleWorks.Characters
     [CreateAssetMenu(menuName = "Pino/Character Material Profile", fileName = "PinoMaterialProfile")]
     public sealed class CharacterMaterialProfile : ScriptableObject
     {
-        public WobProperty form;
+        public BlobProperty form;
         [Tooltip("Optional replacement body material. The texture remains on this shared material.")]
         public Material material;
         public Color tint = Color.white;

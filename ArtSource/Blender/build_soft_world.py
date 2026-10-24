@@ -2,7 +2,7 @@ import bpy, math, json, random, os
 from mathutils import Matrix, Vector
 random.seed(1837)
 ROOT='E:/!for WORK/AFO'
-OUT=ROOT+'/Assets/OopsPlanet/Models/SoftWorld'
+OUT=ROOT+'/Assets/Scenes/OopsPlanet/Models/SoftWorld'
 os.makedirs(OUT,exist_ok=True)
 for datablock in list(bpy.data.meshes)+list(bpy.data.objects):
     if datablock.name.startswith(('SOFT_','DEC_')): datablock.name='ARCHIVE_'+datablock.name

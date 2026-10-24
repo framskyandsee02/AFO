@@ -1,0 +1,188 @@
+{
+    "utc": "",
+    "checks": [
+        {
+            "round": 0,
+            "name": "Receiving does not solve by falling off missing floor",
+            "passed": true,
+            "observed": "state=Active"
+        },
+        {
+            "round": 0,
+            "name": "Walking around trench does not commission a crossing system",
+            "passed": true,
+            "observed": "state=Active"
+        },
+        {
+            "round": 0,
+            "name": "Boss waits for all six repair points",
+            "passed": true,
+            "observed": "active=False"
+        },
+        {
+            "round": 0,
+            "name": "Loaded clean Crane",
+            "passed": true,
+            "observed": "debris=5 colliders=0"
+        },
+        {
+            "round": 0,
+            "name": "Loaded clean Boiler",
+            "passed": true,
+            "observed": "debris=7 colliders=1"
+        },
+        {
+            "round": 0,
+            "name": "Loaded clean Assembly",
+            "passed": true,
+            "observed": "debris=3 colliders=0"
+        },
+        {
+            "round": 0,
+            "name": "Loaded clean Turbine",
+            "passed": true,
+            "observed": "debris=8 colliders=1"
+        },
+        {
+            "round": 0,
+            "name": "Loaded clean Receiving",
+            "passed": true,
+            "observed": "debris=9 colliders=2"
+        },
+        {
+            "round": 0,
+            "name": "Loaded clean Cooling",
+            "passed": true,
+            "observed": "debris=4 colliders=0"
+        },
+        {
+            "round": 0,
+            "name": "Loaded clean Central",
+            "passed": true,
+            "observed": "debris=11 colliders=2"
+        },
+        {
+            "round": 0,
+            "name": "Cleaning has intermediate animation frames",
+            "passed": true,
+            "observed": "progress=0.2880582"
+        },
+        {
+            "round": 0,
+            "name": "All rooms finish clean with no invisible ruin collider",
+            "passed": true,
+            "observed": "rooms=7"
+        },
+        {
+            "round": 0,
+            "name": "Puzzle reset keeps completed room restored",
+            "passed": true,
+            "observed": "rooms=7"
+        },
+        {
+            "round": 0,
+            "name": "Door/return walk (6.50, 0.00, 43.00)",
+            "passed": true,
+            "observed": "pos=(6.5, 0.0, 42.8)"
+        },
+        {
+            "round": 0,
+            "name": "Door/return walk (35.50, 0.00, 78.00)",
+            "passed": true,
+            "observed": "pos=(35.5, 0.0, 77.7)"
+        },
+        {
+            "round": 0,
+            "name": "Door/return walk (35.50, 0.00, 98.00)",
+            "passed": true,
+            "observed": "pos=(35.5, 0.0, 97.7)"
+        },
+        {
+            "round": 0,
+            "name": "Door/return walk (27.00, 5.00, 108.50)",
+            "passed": true,
+            "observed": "pos=(27.3, 5.0, 108.5)"
+        },
+        {
+            "round": 0,
+            "name": "Door/return walk (5.10, 5.00, 108.50)",
+            "passed": true,
+            "observed": "pos=(5.3, 5.0, 108.5)"
+        },
+        {
+            "round": 0,
+            "name": "Door/return walk (5.10, 5.00, 83.50)",
+            "passed": true,
+            "observed": "pos=(5.1, 5.0, 83.8)"
+        },
+        {
+            "round": 0,
+            "name": "Door/return walk (5.10, 5.00, 67.40)",
+            "passed": true,
+            "observed": "pos=(5.1, 5.0, 67.7)"
+        },
+        {
+            "round": 0,
+            "name": "Door/return walk (5.10, 0.00, 60.40)",
+            "passed": true,
+            "observed": "pos=(5.1, 0.7, 60.7)"
+        },
+        {
+            "round": 0,
+            "name": "Door/return walk (1.00, 0.00, 62.00)",
+            "passed": true,
+            "observed": "pos=(1.2, 0.0, 61.9)"
+        },
+        {
+            "round": 0,
+            "name": "Door/return walk (-36.00, 0.00, 98.00)",
+            "passed": true,
+            "observed": "pos=(-36.0, 0.0, 97.8)"
+        },
+        {
+            "round": 0,
+            "name": "Door/return walk (-25.00, 0.00, 104.00)",
+            "passed": true,
+            "observed": "pos=(-25.3, 0.0, 104.0)"
+        },
+        {
+            "round": 0,
+            "name": "Door/return walk (2.00, 0.00, 124.70)",
+            "passed": true,
+            "observed": "pos=(2.0, 0.0, 124.9)"
+        },
+        {
+            "round": 0,
+            "name": "Door/return walk (0.00, 0.00, 124.70)",
+            "passed": true,
+            "observed": "pos=(0.3, 0.0, 124.7)"
+        },
+        {
+            "round": 0,
+            "name": "Door/return walk (0.00, 0.00, 140.00)",
+            "passed": true,
+            "observed": "pos=(0.0, 0.0, 139.8)"
+        },
+        {
+            "round": 0,
+            "name": "Spare gear held above tray",
+            "passed": true,
+            "observed": "gear=(9.14, 1.13, 165.70)"
+        },
+        {
+            "round": 0,
+            "name": "Real magnet carries spare gear onto repair bench",
+            "passed": true,
+            "observed": "gear=(9.14, 0.85, 165.69) distance=0.3409921"
+        },
+        {
+            "round": 0,
+            "name": "New game restores room debris and blockers",
+            "passed": true,
+            "observed": "rooms=7"
+        }
+    ],
+    "passed": 30,
+    "failed": 0,
+    "seconds": 0.0
+}

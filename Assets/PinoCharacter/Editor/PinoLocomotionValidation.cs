@@ -5,6 +5,7 @@ using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using OopsPlanet;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
@@ -81,7 +82,7 @@ namespace WobbleWorks.Characters.Editor
                 Vector3 restPosition = pivot.localPosition, restScale = pivot.localScale;
                 Quaternion restRotation = pivot.localRotation;
                 Vector3 rootPosition = instance.transform.position, rootScale = instance.transform.localScale;
-                morph.SetMorphForm(WobProperty.None);
+                morph.SetMorphForm(BlobProperty.None);
                 morph.IdleEnabled = true;
                 float minScale = float.MaxValue, maxScale = float.MinValue, maxAngle = 0f, idleHop = 0f;
                 for (int i = 0; i < 360; i++)
@@ -133,7 +134,7 @@ namespace WobbleWorks.Characters.Editor
                 for (int i = 0; i < 60; i++) motion.Tick(1f / 60f, Vector3.zero, true);
                 Check(motion.CurrentHopHeight == 0f, "Stopping returns smoothly to grounded idle", "The last walk pose is not left suspended", report);
 
-                foreach (WobProperty form in new[] { WobProperty.Magnet, WobProperty.Spring, WobProperty.Gas, WobProperty.Liquid })
+                foreach (BlobProperty form in new[] { BlobProperty.Magnet, BlobProperty.Bounce, BlobProperty.Pressure, BlobProperty.Water })
                 {
                     morph.SetMorphForm(form);
                     motion.ResetMotion();
@@ -151,16 +152,16 @@ namespace WobbleWorks.Characters.Editor
                         formHop = Mathf.Max(formHop, motion.CurrentHopHeight);
                     }
                     Check(formHop > .002f && formHop < .04f, form + " has its own low walking bounce", "hopMetres=" + formHop, report);
-                    Check(morph.GetMorphWeight(form.ToString()) > .999f && instance.transform.position == rootPosition,
+                    Check(morph.GetMorphWeight(PinoMorphController.ShapeNameFor(form)) > .999f && instance.transform.position == rootPosition,
                         form + " preserves ability geometry and player position", "Locomotion never writes ability weights or physics", report);
                 }
 
-                morph.SetMorphForm(WobProperty.Spring);
+                morph.SetMorphForm(BlobProperty.Bounce);
                 morph.SetSpringCompression(1f); morph.Tick(0f);
                 for (int i = 0; i < 60; i++) motion.Tick(1f / 60f, Vector3.forward * 5.5f, true);
                 Check(motion.CurrentHopHeight == 0f && morph.GetMorphWeight("SpringCompress") > .999f,
                     "Fully charged spring suppresses the walking hop", "Charge compression remains intact", report);
-                morph.SetMorphForm(WobProperty.Liquid);
+                morph.SetMorphForm(BlobProperty.Water);
                 morph.SetLiquidFlow(1f); morph.Tick(0f);
                 float flatHop = 0f, flatHeightError = 0f, flatTilt = 0f, flowWiggle = 0f;
                 for (int i = 0; i < 240; i++)
@@ -173,7 +174,7 @@ namespace WobbleWorks.Characters.Editor
                 }
                 Check(flatHop == 0f && flatHeightError < .000001f && flatTilt < .001f && flowWiggle > .005f,
                     "Flattened liquid wiggles sideways without gaining height", "hop=" + flatHop + ", heightError=" + flatHeightError + ", tilt=" + flatTilt, report);
-                morph.SetMorphForm(WobProperty.Gas);
+                morph.SetMorphForm(BlobProperty.Pressure);
                 float airborneBob = 0f;
                 for (int i = 0; i < 180; i++)
                 {
@@ -183,7 +184,7 @@ namespace WobbleWorks.Characters.Editor
                 Check(airborneBob > .002f && airborneBob < .012f && instance.transform.position == rootPosition,
                     "Gas keeps a small airborne bob without moving the player", "visualBobMetres=" + airborneBob, report);
                 float largestStep = 0f;
-                foreach (WobProperty form in new[] { WobProperty.Spring, WobProperty.Liquid, WobProperty.Magnet, WobProperty.None })
+                foreach (BlobProperty form in new[] { BlobProperty.Bounce, BlobProperty.Water, BlobProperty.Magnet, BlobProperty.None })
                 {
                     morph.BlendToMorphForm(form, .4f);
                     for (int i = 0; i < 30; i++)
@@ -194,7 +195,7 @@ namespace WobbleWorks.Characters.Editor
                     }
                 }
                 Check(largestStep < .02f, "Locomotion blends smoothly between ability forms", "largestFrameOffset=" + largestStep, report);
-                morph.SetMorphForm(WobProperty.None);
+                morph.SetMorphForm(BlobProperty.None);
                 morph.IdleEnabled = false;
                 for (int i = 0; i < 60; i++) motion.Tick(1f / 60f, Vector3.zero, true);
                 Check(Vector3.Distance(pivot.localScale, restScale) < .000001f && Quaternion.Angle(pivot.localRotation, restRotation) < .001f,
@@ -244,7 +245,7 @@ namespace WobbleWorks.Characters.Editor
                     var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab, scene);
                     instance.transform.position = new Vector3((2 - i % 5) * 1.1f, 0, i < 5 ? -.9f : .9f);
                     characters[i] = instance.GetComponent<PinoMorphController>();
-                    characters[i].SetMorphForm((WobProperty)(i % 5));
+                    characters[i].SetMorphForm(new[] { BlobProperty.None, BlobProperty.Magnet, BlobProperty.Bounce, BlobProperty.Pressure, BlobProperty.Water }[i % 5]);
                     motions[i] = instance.GetComponent<PinoLocomotionAnimator>();
                     foreach (Transform child in instance.GetComponentsInChildren<Transform>(true)) child.gameObject.layer = 30;
                 }

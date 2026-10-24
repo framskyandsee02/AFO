@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using OopsPlanet;
 
 namespace WobbleWorks.Characters
 {
@@ -69,7 +70,7 @@ namespace WobbleWorks.Characters
         {
             if (!Application.isPlaying) return;
             if (!adapter) adapter = GetComponent<PinoGameplayAdapter>();
-            WobPlayer player = adapter ? adapter.Player : null;
+            BlobPlayer player = adapter ? adapter.Player : null;
             Vector3 velocity = Vector3.zero;
             float dt = Time.deltaTime;
             if (player)

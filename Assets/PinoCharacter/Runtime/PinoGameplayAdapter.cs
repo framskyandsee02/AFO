@@ -1,10 +1,11 @@
 using System;
 using UnityEngine;
+using OopsPlanet;
 
 namespace WobbleWorks.Characters
 {
     /// <summary>
-    /// Read-only bridge from the existing WobPlayer state to Pino's presentation.
+    /// Read-only bridge from the existing BlobPlayer state to Pino's presentation.
     /// It never grants abilities, reads input, changes colliders or moves the player.
     /// Place the character beside player.visual, not below it, to avoid legacy scaling.
     /// </summary>
@@ -12,7 +13,7 @@ namespace WobbleWorks.Characters
     [DisallowMultipleComponent]
     public sealed class PinoGameplayAdapter : MonoBehaviour
     {
-        [SerializeField] WobPlayer player;
+        [SerializeField] BlobPlayer player;
         [SerializeField] PinoMorphController morph;
         [SerializeField] Transform orientationSource;
         [SerializeField] Vector3 orientationOffsetEuler;
@@ -27,7 +28,7 @@ namespace WobbleWorks.Characters
         bool legacyCaptured;
         bool synchronized;
         bool hierarchyWarning;
-        WobProperty previousProperty;
+        BlobProperty previousProperty;
         float previousCharge;
         float previousAbsorb;
         float previousVerticalSpeed;
@@ -36,10 +37,12 @@ namespace WobbleWorks.Characters
         Vector3 previousPosition;
         float releasePulse;
 
-        public WobPlayer Player => player;
+        // Only authored forms are selected; Heat/Electric retain the normal mesh.
+        public static BlobProperty FormFor(BlobProperty value) => value == BlobProperty.Magnet || value == BlobProperty.Bounce || value == BlobProperty.Pressure || value == BlobProperty.Water ? value : BlobProperty.None;
+        public BlobPlayer Player => player;
         public PinoMorphController Morph => morph;
 
-        public void Configure(WobPlayer source, PinoMorphController character, Transform orientation = null)
+        public void Configure(BlobPlayer source, PinoMorphController character, Transform orientation = null)
         {
             RestoreLegacyRenderers();
             player = source;
@@ -53,7 +56,7 @@ namespace WobbleWorks.Characters
         void Awake()
         {
             if (!morph) morph = GetComponent<PinoMorphController>();
-            if (!player) player = GetComponentInParent<WobPlayer>();
+            if (!player) player = GetComponentInParent<BlobPlayer>();
             if (!orientationSource && player) orientationSource = player.visual;
         }
 
@@ -77,15 +80,15 @@ namespace WobbleWorks.Characters
                 RestoreLegacyRenderers();
                 if (!hierarchyWarning)
                 {
-                    Debug.LogError("PinoVisual must be a sibling of WobPlayer.visual; a child would inherit the legacy morph scale.", this);
+                    Debug.LogError("PinoVisual must be a sibling of BlobPlayer.visual; a child would inherit the legacy morph scale.", this);
                     hierarchyWarning = true;
                 }
                 return;
             }
 
             float dt = Mathf.Max(0f, deltaTime >= 0f ? deltaTime : Time.deltaTime);
-            WobProperty form = player.property;
-            float charge = Mathf.Clamp01(player.springCharge);
+            BlobProperty form = FormFor(player.property);
+            float charge = Mathf.Clamp01(player.bounceCharge);
             float progress = Mathf.Clamp01(player.absorbProgress);
             bool grounded = player.Grounded;
             bool paused = player.paused || player.completed;
@@ -94,7 +97,7 @@ namespace WobbleWorks.Characters
 
             HideLegacyVisual();
             if (orientationSource && orientationSource != morph.transform)
-                morph.transform.rotation = orientationSource.rotation * Quaternion.Euler(orientationOffsetEuler);
+                morph.transform.rotation = Quaternion.Euler(0f, orientationSource.eulerAngles.y, 0f) * Quaternion.Euler(orientationOffsetEuler);
 
             morph.SetVisualPaused(paused);
             bool firstSample = !synchronized;
@@ -104,7 +107,7 @@ namespace WobbleWorks.Characters
             else if (changed)
             {
                 morph.BlendToMorphForm(form, transitionSeconds >= 0f ? transitionSeconds : Mathf.Max(0f, player.morphSeconds));
-                if (form != WobProperty.None && !paused && !teleported) morph.PlayAbsorptionReaction();
+                if (form != BlobProperty.None && !paused && !teleported) morph.PlayAbsorptionReaction();
                 releasePulse = 0f;
             }
 
@@ -113,7 +116,7 @@ namespace WobbleWorks.Characters
                 if (progress > 0f && previousAbsorb <= 0f && !changed) morph.PlayAbsorptionReaction();
                 // Gameplay exposes no release event. Infer a visual-only pulse from
                 // charge discharge AND take-off; never treat charge reset alone as a launch.
-                bool springTakeoff = previousProperty == WobProperty.Spring && form == WobProperty.Spring &&
+                bool springTakeoff = previousProperty == BlobProperty.Bounce && form == BlobProperty.Bounce &&
                     previousCharge > .01f && charge <= .001f && previousGrounded && !grounded && player.velocity.y > .1f;
                 if (springTakeoff) releasePulse = 1f;
                 else releasePulse = Mathf.MoveTowards(releasePulse, 0f, dt / Mathf.Max(.01f, springReleaseSeconds));
@@ -121,11 +124,11 @@ namespace WobbleWorks.Characters
                 if (!previousGrounded && grounded)
                     morph.PlayLandingReaction(Mathf.Clamp01(Mathf.Abs(previousVerticalSpeed) / 10f));
             }
-            if (teleported || form != WobProperty.Spring) releasePulse = 0f;
+            if (teleported || form != BlobProperty.Bounce) releasePulse = 0f;
 
-            morph.SetSpringCompression(form == WobProperty.Spring ? charge : 0f);
-            morph.SetSpringStretch(form == WobProperty.Spring ? releasePulse : 0f);
-            morph.SetLiquidFlow(form == WobProperty.Liquid && player.flattened ? 1f : 0f);
+            morph.SetSpringCompression(form == BlobProperty.Bounce ? charge : 0f);
+            morph.SetSpringStretch(form == BlobProperty.Bounce ? releasePulse : 0f);
+            morph.SetLiquidFlow(0f);
             morph.SetAbsorptionProgress(progress);
 
             previousProperty = form;

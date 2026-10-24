@@ -1,0 +1,142 @@
+{
+    "utc": "2026-10-23T16:22:00.7423969Z",
+    "passed": 27,
+    "failed": 0,
+    "checks": [
+        {
+            "name": "Magnet target can be aimed",
+            "passed": true,
+            "observed": "HOLD E TO ABSORB"
+        },
+        {
+            "name": "Magnet modeled visual and highlight keep collider scale",
+            "passed": true,
+            "observed": "renderers=4 height=0.8189999"
+        },
+        {
+            "name": "Magnet absorbs through actual E input",
+            "passed": true,
+            "observed": "consumed=True selected=Magnet"
+        },
+        {
+            "name": "Magnet restores modeled source",
+            "passed": true,
+            "observed": "available=True"
+        },
+        {
+            "name": "Pressure target can be aimed",
+            "passed": true,
+            "observed": "HOLD E TO ABSORB"
+        },
+        {
+            "name": "Pressure modeled visual and highlight keep collider scale",
+            "passed": true,
+            "observed": "renderers=6 height=1.365"
+        },
+        {
+            "name": "Pressure absorbs through actual E input",
+            "passed": true,
+            "observed": "consumed=True selected=Pressure"
+        },
+        {
+            "name": "Pressure restores modeled source",
+            "passed": true,
+            "observed": "available=True"
+        },
+        {
+            "name": "Bounce target can be aimed",
+            "passed": true,
+            "observed": "HOLD E TO ABSORB"
+        },
+        {
+            "name": "Bounce modeled visual and highlight keep collider scale",
+            "passed": true,
+            "observed": "renderers=4 height=0.7875"
+        },
+        {
+            "name": "Bounce absorbs through actual E input",
+            "passed": true,
+            "observed": "consumed=True selected=Bounce"
+        },
+        {
+            "name": "Bounce restores modeled source",
+            "passed": true,
+            "observed": "available=True"
+        },
+        {
+            "name": "Water target can be aimed",
+            "passed": true,
+            "observed": "HOLD E TO ABSORB"
+        },
+        {
+            "name": "Water modeled visual and highlight keep collider scale",
+            "passed": true,
+            "observed": "renderers=5 height=1.155"
+        },
+        {
+            "name": "Water absorbs through actual E input",
+            "passed": true,
+            "observed": "consumed=True selected=Water"
+        },
+        {
+            "name": "Water restores modeled source",
+            "passed": true,
+            "observed": "available=True"
+        },
+        {
+            "name": "Electric target can be aimed",
+            "passed": true,
+            "observed": "HOLD E TO ABSORB"
+        },
+        {
+            "name": "Electric modeled visual and highlight keep collider scale",
+            "passed": true,
+            "observed": "renderers=4 height=0.945"
+        },
+        {
+            "name": "Electric absorbs through actual E input",
+            "passed": true,
+            "observed": "consumed=True selected=Electric"
+        },
+        {
+            "name": "Electric restores modeled source",
+            "passed": true,
+            "observed": "available=True"
+        },
+        {
+            "name": "Heat target can be aimed",
+            "passed": true,
+            "observed": "HOLD E TO ABSORB"
+        },
+        {
+            "name": "Heat modeled visual and highlight keep collider scale",
+            "passed": true,
+            "observed": "renderers=5 height=0.9975001"
+        },
+        {
+            "name": "Heat absorbs through actual E input",
+            "passed": true,
+            "observed": "consumed=True selected=Heat"
+        },
+        {
+            "name": "Heat restores modeled source",
+            "passed": true,
+            "observed": "available=True"
+        },
+        {
+            "name": "Ship parts use modeled visual as animated pickup",
+            "passed": true,
+            "observed": "parts=15"
+        },
+        {
+            "name": "Collected modeled ship part disappears",
+            "passed": true,
+            "observed": "active=False"
+        },
+        {
+            "name": "Reset restores modeled ship part",
+            "passed": true,
+            "observed": "active=True"
+        }
+    ]
+}

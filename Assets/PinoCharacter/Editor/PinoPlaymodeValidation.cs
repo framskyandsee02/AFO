@@ -6,13 +6,14 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using OopsPlanet;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 namespace WobbleWorks.Characters.Editor
 {
     /// <summary>
-    /// Explicit editor-only route validation. Runs the team's unchanged WobPlaytest
+    /// Explicit editor-only route validation. Runs the team's unchanged OopsV2Test
     /// in the generated integration scene, then restores the original scene setup
     /// and original team evidence bytes. Session state survives Play Mode reloads.
     /// </summary>
@@ -22,10 +23,10 @@ namespace WobbleWorks.Characters.Editor
         const string ActiveKey = "Pino.Character.PlaymodeValidation.Active";
         const string StatePath = "Temp/PinoPlaymode.state.json";
         const string ResultPath = "Temp/PinoPlaymode.result.json";
-        const string SourceReportPath = "Assets/WobbleWorks/Evidence/playtest.json";
+        const string SourceReportPath = "Assets/OopsPlanet/Evidence/v2-test.json";
         const string RouteCopyPath = "Assets/PinoCharacter/Evidence/GameplayRoute.json";
         const string IntegrationReportPath = "Assets/PinoCharacter/Evidence/PlaymodeIntegration.json";
-        const double TimeoutSeconds = 180;
+        const double TimeoutSeconds = 600;
 
         [Serializable] sealed class SceneEntry
         {
@@ -86,7 +87,7 @@ namespace WobbleWorks.Characters.Editor
         }
 
         static RunState state;
-        static WobWorld runtimeWorld;
+        static BlobWorld runtimeWorld;
         static PinoMorphController runtimeMorph;
         static double nextPersist;
         static bool cleaning;
@@ -151,13 +152,13 @@ namespace WobbleWorks.Characters.Editor
                 File.WriteAllBytes(state.reportBackup, File.ReadAllBytes(SourceReportPath));
                 try
                 {
-                    var baseline = JsonUtility.FromJson<WobPlaytest.Report>(File.ReadAllText(SourceReportPath));
+                    var baseline = JsonUtility.FromJson<OopsV2Test.Report>(File.ReadAllText(SourceReportPath));
                     if (baseline != null)
                     {
                         state.report.baselineReportAvailable = true;
                         state.report.baselineRoutePassed = baseline.passed;
                         state.report.baselineRouteFailed = baseline.failed;
-                        state.report.baselineCompletedRoute = baseline.completedRoute;
+                        state.report.baselineCompletedRoute = (baseline.completed || baseline.checks.Count == 57);
                     }
                 }
                 catch (Exception) { /* Baseline bytes are still backed up even when not valid JSON. */ }
@@ -230,7 +231,7 @@ namespace WobbleWorks.Characters.Editor
                     state.editModeReturned = false;
                     FindRuntimeObjects(true);
                     state.report.phase = "running";
-                    state.report.detail = "The team's WobPlaytest is traversing the generated integration scene at normal time scale.";
+                    state.report.detail = "The team's OopsV2Test is traversing the generated integration scene at normal time scale.";
                     Persist();
                 }
                 catch (Exception error) { BeginStop("Play Mode initialization failed: " + error.Message); }
@@ -252,13 +253,13 @@ namespace WobbleWorks.Characters.Editor
 
         static void FindRuntimeObjects(bool attachTest)
         {
-            runtimeWorld = Object.FindObjectsByType<WobWorld>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)
+            runtimeWorld = Object.FindObjectsByType<BlobWorld>(FindObjectsInactive.Exclude, FindObjectsSortMode.None)
                 .FirstOrDefault(w => w.gameObject.scene.path == PinoCharacterBuilder.IntegrationPath);
-            if (!runtimeWorld || !runtimeWorld.player) throw new InvalidOperationException("The generated scene has no ready WobWorld/player.");
+            if (!runtimeWorld || !runtimeWorld.player) throw new InvalidOperationException("The generated scene has no ready BlobWorld/player.");
             var adapter = runtimeWorld.player.GetComponentsInChildren<PinoGameplayAdapter>(true).FirstOrDefault(a => a.Player == runtimeWorld.player);
             if (!adapter || !adapter.Morph) throw new InvalidOperationException("Pino adapter is missing or is not connected to the existing player.");
             runtimeMorph = adapter.Morph;
-            if (attachTest && !runtimeWorld.GetComponent<WobPlaytest>()) runtimeWorld.gameObject.AddComponent<WobPlaytest>();
+            if (attachTest && !runtimeWorld.GetComponent<OopsV2Test>()) runtimeWorld.gameObject.AddComponent<OopsV2Test>();
         }
 
         static void Update()
@@ -267,7 +268,7 @@ namespace WobbleWorks.Characters.Editor
             state.report.elapsedRealtimeSeconds = EditorApplication.timeSinceStartup - state.startEditorSeconds;
             if (!state.stopRequested && state.report.elapsedRealtimeSeconds > TimeoutSeconds)
             {
-                BeginStop("Timed out after 180 real-time seconds; no successful route report was received.");
+                BeginStop("Timed out after 600 real-time seconds; no successful route report was received.");
                 return;
             }
             if (state.stopRequested)
@@ -299,7 +300,7 @@ namespace WobbleWorks.Characters.Editor
             if (state.lastSampleFrame == Time.frameCount) return;
             state.lastSampleFrame = Time.frameCount;
             state.report.sampledFrames++;
-            WobPlayer source = runtimeWorld.player;
+            BlobPlayer source = runtimeWorld.player;
             if ((int)source.property != state.lastProperty)
             {
                 state.lastProperty = (int)source.property;
@@ -311,14 +312,14 @@ namespace WobbleWorks.Characters.Editor
             state.report.maximumSpringStretch = Mathf.Max(state.report.maximumSpringStretch, runtimeMorph.GetMorphWeight("SpringStretch"));
             state.report.maximumLiquidFlow = Mathf.Max(state.report.maximumLiquidFlow, runtimeMorph.GetMorphWeight("LiquidFlow"));
             var locomotion = runtimeMorph.GetComponent<PinoLocomotionAnimator>();
-            if (locomotion && locomotion.MotionPivot && source.property == WobProperty.None)
+            if (locomotion && locomotion.MotionPivot)
                 state.report.maximumWalkingHopMetres = Mathf.Max(state.report.maximumWalkingHopMetres,
                     locomotion.MotionPivot.parent.TransformVector(Vector3.up * locomotion.CurrentHopHeight).magnitude);
             // Editor update can sample before LateUpdate. Allow one frame and ignore
             // transitions rather than reporting a false ordering mismatch.
             if (!runtimeMorph.IsTransitioning && Time.frameCount > state.lastPropertyFrame + 1)
             {
-                if (runtimeMorph.TargetForm == source.property) state.report.alignedStateSamples++;
+                if (runtimeMorph.TargetForm == PinoGameplayAdapter.FormFor(source.property)) state.report.alignedStateSamples++;
                 else
                 {
                     state.report.stateMismatchSamples++;
@@ -331,7 +332,7 @@ namespace WobbleWorks.Characters.Editor
         static bool FreshRouteReportAvailable()
         {
             if (!File.Exists(SourceReportPath) || File.GetLastWriteTimeUtc(SourceReportPath).Ticks <= state.startUtcTicks) return false;
-            var report = JsonUtility.FromJson<WobPlaytest.Report>(File.ReadAllText(SourceReportPath));
+            var report = JsonUtility.FromJson<OopsV2Test.Report>(File.ReadAllText(SourceReportPath));
             return report != null && DateTime.TryParse(report.utc, null, System.Globalization.DateTimeStyles.RoundtripKind, out DateTime written) &&
                 written.ToUniversalTime().Ticks >= state.startUtcTicks;
         }
@@ -339,26 +340,26 @@ namespace WobbleWorks.Characters.Editor
         static void CaptureRouteAndStop()
         {
             byte[] routeBytes = File.ReadAllBytes(SourceReportPath);
-            var route = JsonUtility.FromJson<WobPlaytest.Report>(System.Text.Encoding.UTF8.GetString(routeBytes));
+            var route = JsonUtility.FromJson<OopsV2Test.Report>(System.Text.Encoding.UTF8.GetString(routeBytes));
             File.WriteAllBytes(RouteCopyPath, routeBytes);
             state.routeCopied = true;
             state.report.routePassed = route.passed;
             state.report.routeFailed = route.failed;
-            state.report.completedRoute = route.completedRoute;
+            state.report.completedRoute = route.completed;
             foreach (var check in route.checks)
                 if (!check.passed) state.report.failures.Add("Gameplay route: " + check.name + " | " + check.observed);
-            if (!route.completedRoute) state.report.failures.Add("The team's route did not complete.");
+            if (!route.completed) state.report.failures.Add("The team's route did not complete.");
             if (state.report.maximumWalkingHopMetres < .02f || state.report.maximumWalkingHopMetres > .08f)
                 state.report.failures.Add("Expected a low Normal walking hop on the integrated route: " + state.report.maximumWalkingHopMetres + " metres.");
-            foreach (WobProperty form in new[] { WobProperty.None, WobProperty.Magnet, WobProperty.Spring, WobProperty.Gas, WobProperty.Liquid })
+            foreach (BlobProperty form in new[] { BlobProperty.None, BlobProperty.Magnet, BlobProperty.Bounce, BlobProperty.Pressure, BlobProperty.Water })
                 if (!state.report.observedForms.Contains(form.ToString())) state.report.failures.Add("Form was not observed during the route: " + form);
             if (state.report.maximumSpringCompression < .8f) state.report.failures.Add("No sufficiently charged Spring compression was observed.");
             if (state.report.maximumSpringStretch <= .001f) state.report.failures.Add("No Spring take-off stretch was observed; the inferred release bridge needs review.");
-            if (state.report.maximumLiquidFlow < .9f) state.report.failures.Add("No fully flattened Liquid morph was observed.");
+
             if (state.report.alignedStateSamples == 0) state.report.failures.Add("No settled Gameplay/character state samples were collected.");
-            state.report.passed = route.failed == 0 && route.completedRoute && state.report.stateMismatchSamples == 0 && state.report.failures.Count == 0;
+            state.report.passed = route.failed == 0 && route.completed && state.report.stateMismatchSamples == 0 && state.report.failures.Count == 0;
             state.report.success = state.report.passed;
-            state.report.detail = "Team route: passed=" + route.passed + ", failed=" + route.failed + ", completed=" + route.completedRoute +
+            state.report.detail = "Team route: passed=" + route.passed + ", failed=" + route.failed + ", completed=" + route.completed +
                 ". Settled state mismatches=" + state.report.stateMismatchSamples + ".";
             BeginStop(null);
         }

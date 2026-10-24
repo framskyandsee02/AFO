@@ -1,0 +1,8 @@
+PASS factory to outside scene=OopsPlanet_V2 slot=test_factory_travel
+PASS walking through facade loads factory scene=OopsPlanet_Factory
+PASS slot and powers transferred slot=test_factory_travel powers=Water/Magnet
+PASS factory progress loaded parts=1
+PASS loaded boss friendly boss=3
+PASS single player camera players=1
+PASS walk exit and retain both scene progress {"version":2,"solvedPuzzles":["f6_assembly","factory_boss_repaired","h1_pit_exit"],"unlockedZones":[],"lookSensitivity":0.12999999523162843,"masterVolume":1.0,"ambienceVolume":1.0,"discoveredCombos":[],"shipParts":["part_factory_core"],"installedParts":["outside_part_fixture"]}
+failed=0

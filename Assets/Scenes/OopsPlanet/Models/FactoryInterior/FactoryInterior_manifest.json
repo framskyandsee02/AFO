@@ -1,0 +1,471 @@
+[
+ {
+  "name": "FI_BigToyPress",
+  "triangles": 10064,
+  "materials": [
+   "Cream",
+   "Teal",
+   "Metal",
+   "Coral",
+   "Yellow",
+   "Dust"
+  ],
+  "size_xyz": [
+   7.0,
+   7.4,
+   5.74
+  ],
+  "note": "origin = floor centre; front faces -z; eyes are separate in Unity"
+ },
+ {
+  "name": "FI_GiantBoiler",
+  "triangles": 9088,
+  "materials": [
+   "Cream",
+   "Teal",
+   "Dark",
+   "Metal",
+   "Coral",
+   "Yellow",
+   "Dust"
+  ],
+  "size_xyz": [
+   4.81,
+   8.13,
+   5.04
+  ],
+  "note": "origin = floor centre, r 2.2, h 7.5"
+ },
+ {
+  "name": "FI_TurbineHousing",
+  "triangles": 3612,
+  "materials": [
+   "Cream",
+   "Teal",
+   "Dark",
+   "Metal"
+  ],
+  "size_xyz": [
+   5.26,
+   5.48,
+   0.86
+  ],
+  "note": "origin = turbine centre; axis z"
+ },
+ {
+  "name": "FI_TurbineRotor",
+  "triangles": 1976,
+  "materials": [
+   "Cream",
+   "Coral"
+  ],
+  "size_xyz": [
+   4.07,
+   3.87,
+   0.85
+  ],
+  "note": "origin = hub centre; blades in xy plane; spins about z"
+ },
+ {
+  "name": "FI_OverheadCrane",
+  "triangles": 1784,
+  "materials": [
+   "Cream",
+   "Teal",
+   "Dark",
+   "Coral",
+   "Yellow"
+  ],
+  "size_xyz": [
+   13.0,
+   4.2,
+   12.0
+  ],
+  "note": "origin = crane room floor centre (unity 13.1,0,45)"
+ },
+ {
+  "name": "FI_PartsCabinet",
+  "triangles": 1824,
+  "materials": [
+   "Cream",
+   "Teal",
+   "Dark",
+   "Metal",
+   "Dust"
+  ],
+  "size_xyz": [
+   2.2,
+   5.72,
+   4.6
+  ],
+  "note": "origin = bottom centre; front faces +x"
+ },
+ {
+  "name": "FI_CabinetDoor",
+  "triangles": 1260,
+  "materials": [
+   "Cream",
+   "Metal",
+   "Yellow",
+   "Coal"
+  ],
+  "size_xyz": [
+   0.23,
+   3.2,
+   2.1
+  ],
+  "note": "origin = door centre; 0.12 x 3.2 x 2.1"
+ },
+ {
+  "name": "FI_Furnace",
+  "triangles": 6060,
+  "materials": [
+   "Teal",
+   "Dark",
+   "Metal",
+   "Coral",
+   "Glow"
+  ],
+  "size_xyz": [
+   2.4,
+   4.0,
+   2.46
+  ],
+  "note": "origin = floor centre"
+ },
+ {
+  "name": "FI_SortingChutes",
+  "triangles": 3272,
+  "materials": [
+   "Cream",
+   "Teal",
+   "Metal",
+   "Coral",
+   "Yellow",
+   "Rust"
+  ],
+  "size_xyz": [
+   7.12,
+   4.2,
+   3.2
+  ],
+  "note": "origin = floor centre of the 4 lanes (front = -z)"
+ },
+ {
+  "name": "FI_SafetyDoor",
+  "triangles": 4308,
+  "materials": [
+   "Teal",
+   "Dark",
+   "Metal",
+   "Coral",
+   "Yellow"
+  ],
+  "size_xyz": [
+   3.0,
+   4.0,
+   0.69
+  ],
+  "note": "origin = door centre; 3 x 4 x 0.45"
+ },
+ {
+  "name": "FI_Hatch",
+  "triangles": 1260,
+  "materials": [
+   "Cream",
+   "Teal",
+   "Metal"
+  ],
+  "size_xyz": [
+   1.6,
+   2.2,
+   0.36
+  ],
+  "note": "origin = centre; 1.6 x 2.2 x 0.25"
+ },
+ {
+  "name": "FI_RustBolt",
+  "triangles": 1228,
+  "materials": [
+   "Orange",
+   "Rust"
+  ],
+  "size_xyz": [
+   0.4,
+   0.4,
+   0.36
+  ],
+  "note": "origin = centre"
+ },
+ {
+  "name": "FI_WaxSeal",
+  "triangles": 768,
+  "materials": [
+   "Cream",
+   "Coral"
+  ],
+  "size_xyz": [
+   0.36,
+   0.6,
+   0.27
+  ],
+  "note": "origin = centre"
+ },
+ {
+  "name": "FI_LiftDeck",
+  "triangles": 2972,
+  "materials": [
+   "Dark",
+   "Metal",
+   "Yellow"
+  ],
+  "size_xyz": [
+   2.6,
+   0.41,
+   2.6
+  ],
+  "note": "origin = centre; 2.6 x 0.3 x 2.6"
+ },
+ {
+  "name": "FI_Raft",
+  "triangles": 2608,
+  "materials": [
+   "Cream",
+   "Coral",
+   "Yellow",
+   "Rust"
+  ],
+  "size_xyz": [
+   2.44,
+   0.73,
+   2.44
+  ],
+  "note": "origin = centre; 2.2 x 0.4 x 2.2"
+ },
+ {
+  "name": "FI_ServiceBridge",
+  "triangles": 2444,
+  "materials": [
+   "Teal",
+   "Dark",
+   "Yellow"
+  ],
+  "size_xyz": [
+   2.2,
+   0.75,
+   9.4
+  ],
+  "note": "origin = centre; 2.2 x 0.3 x 9.4 (rails above)"
+ },
+ {
+  "name": "FI_Motor",
+  "triangles": 1580,
+  "materials": [
+   "Teal",
+   "Dark",
+   "Coral",
+   "Yellow",
+   "Glow"
+  ],
+  "size_xyz": [
+   1.0,
+   1.11,
+   1.0
+  ],
+  "note": "origin = bottom centre; 0.9 x 1.1 x 0.9"
+ },
+ {
+  "name": "FI_ScrapPlate",
+  "triangles": 1900,
+  "materials": [
+   "Dark",
+   "Metal",
+   "Rust"
+  ],
+  "size_xyz": [
+   1.1,
+   0.57,
+   1.0
+  ],
+  "note": "origin = centre; 1.1 x 0.55 x 1.0 (4 kg)"
+ },
+ {
+  "name": "FI_FoamToyBox",
+  "triangles": 804,
+  "materials": [
+   "Cream",
+   "Dark",
+   "Coral"
+  ],
+  "size_xyz": [
+   1.05,
+   0.66,
+   1.03
+  ],
+  "note": "origin = centre; 1.05 x 0.65 x 1.0 (1 kg)"
+ },
+ {
+  "name": "FI_HeavyCrate",
+  "triangles": 1128,
+  "materials": [
+   "Dark",
+   "Blue",
+   "Yellow"
+  ],
+  "size_xyz": [
+   1.13,
+   1.0,
+   1.64
+  ],
+  "note": "origin = centre; 1.1 x 1.0 x 1.6 (16 kg)"
+ },
+ {
+  "name": "FI_CardboardBundle",
+  "triangles": 752,
+  "materials": [
+   "Cream",
+   "White",
+   "Orange"
+  ],
+  "size_xyz": [
+   1.1,
+   0.64,
+   1.23
+  ],
+  "note": "origin = centre; 1.1 x 0.62 x 1.2 (14 kg, burns)"
+ },
+ {
+  "name": "FI_Counterweight",
+  "triangles": 1676,
+  "materials": [
+   "Dark",
+   "Metal",
+   "Yellow"
+  ],
+  "size_xyz": [
+   1.0,
+   1.22,
+   1.0
+  ],
+  "note": "origin = centre; diameter 1 (6 kg)"
+ },
+ {
+  "name": "FI_OldPressMachine",
+  "triangles": 1260,
+  "materials": [
+   "Cream",
+   "Teal",
+   "Coral",
+   "Dust"
+  ],
+  "size_xyz": [
+   1.3,
+   1.52,
+   1.34
+  ],
+  "note": "origin = centre; 1.3 x 1.5 x 1.3 (30 kg)"
+ },
+ {
+  "name": "FI_Pillar",
+  "triangles": 3124,
+  "materials": [
+   "Cream",
+   "Teal",
+   "Dust"
+  ],
+  "size_xyz": [
+   1.0,
+   8.0,
+   1.0
+  ],
+  "note": "origin = floor; height 8 (floor to roof)"
+ },
+ {
+  "name": "FI_PipeRun",
+  "triangles": 2380,
+  "materials": [
+   "Teal",
+   "Metal",
+   "Water",
+   "Rust"
+  ],
+  "size_xyz": [
+   6.0,
+   1.08,
+   0.52
+  ],
+  "note": "origin = pipe centre; 6 m along x, a drip at +1.4"
+ },
+ {
+  "name": "FI_FloorSprouts",
+  "triangles": 1216,
+  "materials": [
+   "Leaf",
+   "Coal"
+  ],
+  "size_xyz": [
+   0.95,
+   0.4,
+   0.79
+  ],
+  "note": "origin = floor; little plants in a floor crack"
+ },
+ {
+  "name": "FI_DustPile",
+  "triangles": 720,
+  "materials": [
+   "Dust"
+  ],
+  "size_xyz": [
+   1.43,
+   0.1,
+   1.13
+  ],
+  "note": "origin = floor"
+ },
+ {
+  "name": "FI_BrokenToyBear",
+  "triangles": 1712,
+  "materials": [
+   "Cream",
+   "Dark",
+   "Coral"
+  ],
+  "size_xyz": [
+   0.86,
+   1.11,
+   0.56
+  ],
+  "note": "origin = floor; sitting plush 1 m"
+ },
+ {
+  "name": "FI_OldCrates",
+  "triangles": 564,
+  "materials": [
+   "Cream",
+   "Teal",
+   "Dust"
+  ],
+  "size_xyz": [
+   0.97,
+   1.5,
+   0.92
+  ],
+  "note": "origin = floor"
+ },
+ {
+  "name": "FI_CeilingLamp",
+  "triangles": 856,
+  "materials": [
+   "Teal",
+   "Dark",
+   "Glow"
+  ],
+  "size_xyz": [
+   0.84,
+   1.48,
+   0.84
+  ],
+  "note": "origin = shade centre; cord goes up 1 m"
+ }
+]

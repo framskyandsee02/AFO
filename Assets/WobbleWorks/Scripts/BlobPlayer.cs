@@ -141,7 +141,7 @@ public class BlobPlayer : MonoBehaviour {
         (property,secondary)=(secondary,property);
         Swapped?.Invoke();
         OnPropertiesChanged();
-        Notify("สลับพลัง: หลัก = "+NameTh(property)+", เสริม = "+NameTh(secondary),3);
+        Notify("เลือกพลังเดี่ยว: "+NameTh(property)+"  | อีกพลัง: "+NameTh(secondary),3);
     }
     public void ClearProperties() { property=BlobProperty.None; secondary=BlobProperty.None; OnPropertiesChanged(); }
     // Test / tool hook: set both slots directly.

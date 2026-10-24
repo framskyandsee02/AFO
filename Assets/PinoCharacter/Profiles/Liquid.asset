@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5560d0d4db58f28449e1c2e2c518458f, type: 3}
   m_Name: Pino Liquid
   m_EditorClassIdentifier: Assembly-CSharp::WobbleWorks.Characters.CharacterMaterialProfile
-  form: 4
+  form: 7
   material: {fileID: 2100000, guid: e9191c70f0aed0b458ceb39e8934b33f, type: 2}
   tint: {r: 0.83, g: 1, b: 0.96, a: 1}
   opacity: 1

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using OopsPlanet;
 
 namespace WobbleWorks.Characters
 {
@@ -10,6 +11,7 @@ namespace WobbleWorks.Characters
     [ExecuteAlways, DisallowMultipleComponent, DefaultExecutionOrder(1000)]
     public sealed class PinoMorphController : MonoBehaviour
     {
+        public static string ShapeNameFor(BlobProperty form) => form == BlobProperty.Bounce ? "Spring" : form == BlobProperty.Pressure ? "Gas" : form == BlobProperty.Water ? "Liquid" : form.ToString();
         public static readonly string[] ShapeNames =
         {
             "Magnet", "Spring", "SpringCompress", "SpringStretch", "Gas",
@@ -32,8 +34,8 @@ namespace WobbleWorks.Characters
         [SerializeField] bool idleEnabled = true;
         [SerializeField, Range(0f, 1f)] float idleAmplitude = .25f;
         [SerializeField, Min(0f)] float idleFrequency = .7f;
-        [SerializeField, HideInInspector] WobProperty currentForm;
-        [SerializeField, HideInInspector] WobProperty targetForm;
+        [SerializeField, HideInInspector] BlobProperty currentForm;
+        [SerializeField, HideInInspector] BlobProperty targetForm;
 
         readonly float[] pose = new float[10];
         readonly float[] fromPose = new float[10];
@@ -64,8 +66,8 @@ namespace WobbleWorks.Characters
             public MaterialPropertyBlock block;
         }
 
-        public WobProperty CurrentForm => currentForm;
-        public WobProperty TargetForm => targetForm;
+        public BlobProperty CurrentForm => currentForm;
+        public BlobProperty TargetForm => targetForm;
         public bool IsTransitioning => transitioning;
         public float TransitionSeconds
         {
@@ -114,17 +116,17 @@ namespace WobbleWorks.Characters
             visualTime = 0f;
             absorptionAge = landingAge = float.PositiveInfinity;
             absorptionProgress = 0f;
-            SetMorphForm(WobProperty.None);
+            SetMorphForm(BlobProperty.None);
         }
 
         /// <summary>Immediately set a form using the existing Gameplay enum.</summary>
-        public void SetMorphForm(WobProperty form) => BlendToMorphForm(form, 0f);
+        public void SetMorphForm(BlobProperty form) => BlendToMorphForm(form, 0f);
 
         /// <summary>
         /// Retarget from the currently displayed pose. Repeated requests for the same target
         /// do not restart an active transition; use SetMorphForm for an immediate pose.
         /// </summary>
-        public void BlendToMorphForm(WobProperty form, float seconds)
+        public void BlendToMorphForm(BlobProperty form, float seconds)
         {
             EnsureBound();
             if (!KnownForm(form)) throw new ArgumentOutOfRangeException(nameof(form));
@@ -146,7 +148,7 @@ namespace WobbleWorks.Characters
         {
             absorptionProgress = 0f;
             absorptionAge = landingAge = float.PositiveInfinity;
-            BlendToMorphForm(WobProperty.None, seconds);
+            BlendToMorphForm(BlobProperty.None, seconds);
         }
 
         /// <summary>Set a named shape override in normalized units (0..1), never 0..100.</summary>
@@ -286,8 +288,8 @@ namespace WobbleWorks.Characters
                     }
                 }
             }
-            if (!KnownForm(targetForm)) targetForm = WobProperty.None;
-            if (!KnownForm(currentForm)) currentForm = WobProperty.None;
+            if (!KnownForm(targetForm)) targetForm = BlobProperty.None;
+            if (!KnownForm(currentForm)) currentForm = BlobProperty.None;
             bound = true;
         }
 
@@ -296,13 +298,13 @@ namespace WobbleWorks.Characters
             Array.Clear(desiredPose, 0, desiredPose.Length);
             int formIndex = FormShapeIndex(targetForm);
             if (formIndex >= 0) desiredPose[formIndex] = 1f;
-            if (targetForm == WobProperty.Spring)
+            if (targetForm == BlobProperty.Bounce)
             {
                 // Compression and extension are mutually exclusive offsets from Spring.
                 desiredPose[Compress] = springCompression;
                 desiredPose[Stretch] = springStretch * (1f - springCompression);
             }
-            if (targetForm == WobProperty.Liquid) desiredPose[Flow] = liquidFlow;
+            if (targetForm == BlobProperty.Water) desiredPose[Flow] = liquidFlow;
             desiredPose[Absorb] = Mathf.Clamp01(absorptionProgress + .7f * Pulse(absorptionAge, AbsorptionReactionSeconds));
             desiredPose[Idle] = idleEnabled
                 ? idleAmplitude * (.5f + .5f * Mathf.Sin(visualTime * idleFrequency * Mathf.PI * 2f))
@@ -325,7 +327,7 @@ namespace WobbleWorks.Characters
 
         void ApplyMaterials()
         {
-            CharacterMaterialProfile normal = FindProfile(WobProperty.None);
+            CharacterMaterialProfile normal = FindProfile(BlobProperty.None);
             Color normalTint = normal ? normal.tint : Color.white;
             float normalOpacity = normal ? normal.opacity : 1f;
             float total = pose[Magnet] + pose[Spring] + pose[Gas] + pose[Liquid];
@@ -333,13 +335,13 @@ namespace WobbleWorks.Characters
             float divisor = Mathf.Max(1f, total);
             Color tint = normalTint * remainder;
             float opacity = normalOpacity * remainder;
-            AccumulateAppearance(WobProperty.Magnet, pose[Magnet] / divisor, normalTint, normalOpacity, ref tint, ref opacity);
-            AccumulateAppearance(WobProperty.Spring, pose[Spring] / divisor, normalTint, normalOpacity, ref tint, ref opacity);
-            AccumulateAppearance(WobProperty.Gas, pose[Gas] / divisor, normalTint, normalOpacity, ref tint, ref opacity);
-            AccumulateAppearance(WobProperty.Liquid, pose[Liquid] / divisor, normalTint, normalOpacity, ref tint, ref opacity);
+            AccumulateAppearance(BlobProperty.Magnet, pose[Magnet] / divisor, normalTint, normalOpacity, ref tint, ref opacity);
+            AccumulateAppearance(BlobProperty.Bounce, pose[Spring] / divisor, normalTint, normalOpacity, ref tint, ref opacity);
+            AccumulateAppearance(BlobProperty.Pressure, pose[Gas] / divisor, normalTint, normalOpacity, ref tint, ref opacity);
+            AccumulateAppearance(BlobProperty.Water, pose[Liquid] / divisor, normalTint, normalOpacity, ref tint, ref opacity);
             CharacterMaterialProfile selected = materialOverride ? materialOverride : FindProfile(targetForm);
             // Keep a transparent gas material while fading out Gas, so opacity is meaningful.
-            if (!materialOverride && pose[Gas] > .001f) selected = FindProfile(WobProperty.Gas) ?? selected;
+            if (!materialOverride && pose[Gas] > .001f) selected = FindProfile(BlobProperty.Pressure) ?? selected;
             if (materialOverride)
             {
                 tint = materialOverride.tint;
@@ -361,7 +363,7 @@ namespace WobbleWorks.Characters
             }
         }
 
-        void AccumulateAppearance(WobProperty form, float weight, Color fallbackTint,
+        void AccumulateAppearance(BlobProperty form, float weight, Color fallbackTint,
             float fallbackOpacity, ref Color tint, ref float opacity)
         {
             CharacterMaterialProfile profile = FindProfile(form);
@@ -369,7 +371,7 @@ namespace WobbleWorks.Characters
             opacity += (profile ? profile.opacity : fallbackOpacity) * weight;
         }
 
-        CharacterMaterialProfile FindProfile(WobProperty form)
+        CharacterMaterialProfile FindProfile(BlobProperty form)
         {
             for (int i = 0; i < materialProfiles.Length; i++)
                 if (materialProfiles[i] && materialProfiles[i].form == form) return materialProfiles[i];
@@ -418,18 +420,18 @@ namespace WobbleWorks.Characters
                 if (string.Equals(ShapeNames[i], name, StringComparison.Ordinal)) return i;
             return -1;
         }
-        static int FormShapeIndex(WobProperty form)
+        static int FormShapeIndex(BlobProperty form)
         {
             switch (form)
             {
-                case WobProperty.Magnet: return Magnet;
-                case WobProperty.Spring: return Spring;
-                case WobProperty.Gas: return Gas;
-                case WobProperty.Liquid: return Liquid;
+                case BlobProperty.Magnet: return Magnet;
+                case BlobProperty.Bounce: return Spring;
+                case BlobProperty.Pressure: return Gas;
+                case BlobProperty.Water: return Liquid;
                 default: return -1;
             }
         }
-        static bool KnownForm(WobProperty form) => (int)form >= (int)WobProperty.None && (int)form <= (int)WobProperty.Liquid;
+        static bool KnownForm(BlobProperty form) => form == BlobProperty.None || form == BlobProperty.Magnet || form == BlobProperty.Bounce || form == BlobProperty.Pressure || form == BlobProperty.Water;
         static float Pulse(float age, float seconds) => age >= 0f && age < seconds ? Mathf.Sin(age / seconds * Mathf.PI) : 0f;
         static float Safe01(float value) => float.IsNaN(value) || float.IsInfinity(value) ? 0f : Mathf.Clamp01(value);
         static float SafeNonnegative(float value) => float.IsNaN(value) || float.IsInfinity(value) ? 0f : Mathf.Max(0f, value);

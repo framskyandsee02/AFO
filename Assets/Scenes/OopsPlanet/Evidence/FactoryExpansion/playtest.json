@@ -1,0 +1,404 @@
+{
+    "utc": "2026-10-23T20:49:58.8831844Z",
+    "checks": [
+        {
+            "round": 1,
+            "name": "f1_gate — Magnet",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: chute chute_a t=8.2s pos=(-4.8, 0.0, 33.4) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f1_gate — Pressure",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: chute chute_b t=1.5s pos=(-0.8, 0.0, 37.0) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f1_gate — Heat",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: chute chute_d t=9.9s pos=(2.4, 0.0, 37.0) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f4_crane — Light weight",
+            "passed": true,
+            "observed": "state=Solved solvedBy=WeightPlate:Crane weight plate t=4.8s pos=(35.7, 0.0, 68.4) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f4_crane — Heavy machine",
+            "passed": true,
+            "observed": "state=Solved solvedBy=WeightPlate:Crane weight plate t=5.0s pos=(35.3, 0.0, 68.4) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f4_crane — Cannon",
+            "passed": true,
+            "observed": "state=Solved solvedBy=LatchedDoor:Rust hatch hinge t=4.8s pos=(32.1, 0.0, 68.9) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f2_boiler — Steam",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the control balcony t=3.5s pos=(33.6, 2.8, 112.9) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f2_boiler — Lift",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the control balcony t=5.3s pos=(41.1, 3.8, 112.3) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f2_boiler — Sling",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the control balcony t=2.9s pos=(32.2, 5.0, 109.5) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f5_cooling — Raft",
+            "passed": true,
+            "observed": "state=Solved solvedBy=FactoryCrossingCondition:Condition: north bank t=9.0s pos=(-31.6, 0.0, 75.5) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f5_cooling — Bridge",
+            "passed": true,
+            "observed": "state=Solved solvedBy=FactoryCrossingCondition:Condition: north bank t=4.1s pos=(-38.8, 0.0, 75.5) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f5_cooling — Girder bounce",
+            "passed": true,
+            "observed": "state=Solved solvedBy=FactoryCrossingCondition:Condition: north bank t=3.0s pos=(-41.6, 1.1, 76.4) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f3_turbine — Pressure",
+            "passed": true,
+            "observed": "state=Solved solvedBy=PressureTurbine:Round vent turbine t=5.9s pos=(-38.0, 0.0, 103.2) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f3_turbine — Steam",
+            "passed": true,
+            "observed": "state=Solved solvedBy=SteamInlet:Condition: turbine steam intake t=2.9s pos=(-38.4, 12.4, 107.4) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f3_turbine — Chain",
+            "passed": true,
+            "observed": "state=Solved solvedBy=SwitchGroup:Condition: vent switches in order t=0.9s pos=(-41.0, 0.0, 97.2) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f6_assembly — Weld",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Cabinet drive rail (broken) t=1.6s pos=(1.6, 0.4, 124.0) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f6_assembly — Cannon",
+            "passed": true,
+            "observed": "state=Solved solvedBy=LatchedDoor:Cabinet lock flap hinge t=3.9s pos=(0.9, 0.0, 119.8) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "f6_assembly — Induction",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ice-lock-melted t=5.9s pos=(0.4, 0.0, 121.0) respawns=0"
+        },
+        {
+            "round": 1,
+            "name": "Restoration animation completed",
+            "passed": true,
+            "observed": "debris=5 surfaces=1"
+        },
+        {
+            "round": 1,
+            "name": "Boss direct power rejected",
+            "passed": true,
+            "observed": "stage=0"
+        },
+        {
+            "round": 1,
+            "name": "Boss physical cannon impact",
+            "passed": true,
+            "observed": "stage=1 impacts=1 deaths=0"
+        },
+        {
+            "round": 1,
+            "name": "Boss environmental water pump",
+            "passed": true,
+            "observed": "stage=2 cooling=1"
+        },
+        {
+            "round": 1,
+            "name": "Boss weld requires actual spare part",
+            "passed": true,
+            "observed": "stage=2"
+        },
+        {
+            "round": 1,
+            "name": "Boss spare gear plus weld repairs objective",
+            "passed": true,
+            "observed": "stage=3 objective=Solved"
+        },
+        {
+            "round": 1,
+            "name": "Boss telegraphed slam can be dodged",
+            "passed": true,
+            "observed": "deaths=0 attacks=1"
+        },
+        {
+            "round": 1,
+            "name": "Boss hit returns to checkpoint",
+            "passed": true,
+            "observed": "pos=(0.00, 0.03, 140.00) deaths=1"
+        },
+        {
+            "round": 2,
+            "name": "f1_gate — Magnet",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: chute chute_a t=8.2s pos=(-4.8, 0.0, 33.4) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f1_gate — Pressure",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: chute chute_b t=1.5s pos=(-0.8, 0.0, 37.0) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f1_gate — Heat",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ClearZoneCondition:Condition: chute chute_d t=9.9s pos=(2.4, 0.0, 37.0) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f4_crane — Light weight",
+            "passed": true,
+            "observed": "state=Solved solvedBy=WeightPlate:Crane weight plate t=4.8s pos=(35.7, 0.0, 68.4) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f4_crane — Heavy machine",
+            "passed": true,
+            "observed": "state=Solved solvedBy=WeightPlate:Crane weight plate t=5.0s pos=(35.3, 0.0, 68.4) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f4_crane — Cannon",
+            "passed": true,
+            "observed": "state=Solved solvedBy=LatchedDoor:Rust hatch hinge t=4.9s pos=(32.1, 0.0, 68.9) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f2_boiler — Steam",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the control balcony t=3.5s pos=(33.6, 2.7, 113.0) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f2_boiler — Lift",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the control balcony t=5.3s pos=(41.1, 3.8, 112.3) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f2_boiler — Sling",
+            "passed": true,
+            "observed": "state=Solved solvedBy=AreaReachedCondition:Condition: on the control balcony t=2.9s pos=(32.2, 5.0, 109.5) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f5_cooling — Raft",
+            "passed": true,
+            "observed": "state=Solved solvedBy=FactoryCrossingCondition:Condition: north bank t=9.0s pos=(-31.6, 0.0, 75.5) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f5_cooling — Bridge",
+            "passed": true,
+            "observed": "state=Solved solvedBy=FactoryCrossingCondition:Condition: north bank t=4.1s pos=(-38.8, 0.0, 75.5) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f5_cooling — Girder bounce",
+            "passed": true,
+            "observed": "state=Solved solvedBy=FactoryCrossingCondition:Condition: north bank t=3.0s pos=(-41.6, 1.1, 76.4) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f3_turbine — Pressure",
+            "passed": true,
+            "observed": "state=Solved solvedBy=PressureTurbine:Round vent turbine t=5.8s pos=(-38.0, 0.0, 103.2) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f3_turbine — Steam",
+            "passed": true,
+            "observed": "state=Solved solvedBy=SteamInlet:Condition: turbine steam intake t=2.9s pos=(-38.4, 12.1, 107.4) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f3_turbine — Chain",
+            "passed": true,
+            "observed": "state=Solved solvedBy=SwitchGroup:Condition: vent switches in order t=0.9s pos=(-41.0, 0.0, 97.2) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f6_assembly — Weld",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ComboLock:Cabinet drive rail (broken) t=1.6s pos=(1.6, 0.4, 124.0) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f6_assembly — Cannon",
+            "passed": true,
+            "observed": "state=Solved solvedBy=LatchedDoor:Cabinet lock flap hinge t=3.9s pos=(0.9, 0.0, 119.8) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "f6_assembly — Induction",
+            "passed": true,
+            "observed": "state=Solved solvedBy=ice-lock-melted t=5.9s pos=(0.4, 0.0, 121.0) respawns=0"
+        },
+        {
+            "round": 2,
+            "name": "Restoration animation completed",
+            "passed": true,
+            "observed": "debris=5 surfaces=1"
+        },
+        {
+            "round": 2,
+            "name": "Boss direct power rejected",
+            "passed": true,
+            "observed": "stage=0"
+        },
+        {
+            "round": 2,
+            "name": "Boss physical cannon impact",
+            "passed": true,
+            "observed": "stage=1 impacts=1 deaths=0"
+        },
+        {
+            "round": 2,
+            "name": "Boss environmental water pump",
+            "passed": true,
+            "observed": "stage=2 cooling=1"
+        },
+        {
+            "round": 2,
+            "name": "Boss weld requires actual spare part",
+            "passed": true,
+            "observed": "stage=2"
+        },
+        {
+            "round": 2,
+            "name": "Boss spare gear plus weld repairs objective",
+            "passed": true,
+            "observed": "stage=3 objective=Solved"
+        },
+        {
+            "round": 2,
+            "name": "Boss telegraphed slam can be dodged",
+            "passed": true,
+            "observed": "deaths=0 attacks=1"
+        },
+        {
+            "round": 2,
+            "name": "Boss hit returns to checkpoint",
+            "passed": true,
+            "observed": "pos=(0.00, 0.03, 140.00) deaths=1"
+        },
+        {
+            "round": 0,
+            "name": "Walk corridor (6.50, 0.00, 57.00)",
+            "passed": true,
+            "observed": "pos=(6.5, 0.0, 56.7)"
+        },
+        {
+            "round": 0,
+            "name": "Walk corridor (0.00, 0.00, 57.00)",
+            "passed": true,
+            "observed": "pos=(0.3, 0.0, 57.0)"
+        },
+        {
+            "round": 0,
+            "name": "Walk corridor (0.00, 0.00, 61.50)",
+            "passed": true,
+            "observed": "pos=(0.0, 0.0, 61.2)"
+        },
+        {
+            "round": 0,
+            "name": "Walk corridor (-26.00, 0.00, 61.50)",
+            "passed": true,
+            "observed": "pos=(-26.2, 0.0, 61.5)"
+        },
+        {
+            "round": 0,
+            "name": "Walk corridor (0.00, 0.00, 61.50)",
+            "passed": true,
+            "observed": "pos=(-0.3, 0.0, 61.5)"
+        },
+        {
+            "round": 0,
+            "name": "Walk corridor (0.00, 0.00, 69.60)",
+            "passed": true,
+            "observed": "pos=(0.0, 0.0, 69.3)"
+        },
+        {
+            "round": 0,
+            "name": "Walk corridor (31.00, 0.00, 69.60)",
+            "passed": true,
+            "observed": "pos=(30.7, 0.0, 69.6)"
+        },
+        {
+            "round": 0,
+            "name": "Walk northern loop (0.00, 0.00, 104.00)",
+            "passed": true,
+            "observed": "pos=(0.0, 0.0, 103.8)"
+        },
+        {
+            "round": 0,
+            "name": "Walk northern loop (10.00, 0.00, 104.00)",
+            "passed": true,
+            "observed": "pos=(9.7, 0.0, 104.0)"
+        },
+        {
+            "round": 0,
+            "name": "Walk northern loop (10.00, 0.00, 122.60)",
+            "passed": true,
+            "observed": "pos=(10.0, 0.0, 122.3)"
+        },
+        {
+            "round": 0,
+            "name": "Walk northern loop (5.80, 0.00, 122.60)",
+            "passed": true,
+            "observed": "pos=(6.1, 0.0, 122.6)"
+        },
+        {
+            "round": 0,
+            "name": "Cross scene unknown progress preserved",
+            "passed": true,
+            "observed": "{\"version\":2,\"solvedPuzzles\":[\"hub_test_unknown\"],\"unlockedZones\":[],\"lookSensitivity\":0.12999999523162843,\"masterVolume\":1.0,\"ambienceVolume\":1.0,\"discoveredCombos\":[],\"shipParts\":[],\"installedParts\":[\"outside_part\"]}"
+        },
+        {
+            "round": 0,
+            "name": "Save load restores clean room instantly",
+            "passed": true,
+            "observed": "state=Solved progress=1"
+        },
+        {
+            "round": 0,
+            "name": "New game clears all scene progress",
+            "passed": true,
+            "observed": "puzzles=0"
+        }
+    ],
+    "passed": 66,
+    "failed": 0,
+    "seconds": 267.6055908203125
+}

@@ -69,7 +69,7 @@ public class BlobWorld : MonoBehaviour {
         resetting=false; Respawned?.Invoke();
     }
     // Restart = new game: the level and all progress are reset and the cleared progress is saved.
-    public void Restart() { ResetLevel(); Save(); }
+    public void Restart() { ResetLevel(); clearingOtherScenes=true; try { Save(); } finally { clearingOtherScenes=false; } }
     void ResetLevel() {
         checkpoint=spawn; checkpointIndex=0;
         propertyMask=0; finished=false; elapsed=0; deaths=-1;
@@ -81,6 +81,7 @@ public class BlobWorld : MonoBehaviour {
         var steam=GetComponent<SteamSystem>(); if(steam) steam.Clear();
         MagnetAnchor.ClearTemporary();
         FerryRaft.ResetAll();
+        ShuttleRaft.ResetAll();
         foreach(var c in Object.FindObjectsByType<ElementCarrier>(FindObjectsSortMode.None)) c.Clear();
         if(Elements) Elements.discovered.Clear();
         if(ship) ship.ResetShip();
@@ -96,6 +97,8 @@ public class BlobWorld : MonoBehaviour {
     [Header("Progress / save")]
     public string saveSlot=SaveSystem.DefaultSlot;
     public bool autoLoad=true;
+    public bool preserveOtherSceneProgress;
+    bool clearingOtherScenes;
     public ZoneGate[] zoneGates;
     public HubProgress hub;
     [Tooltip("v2: crashed ship that collects parts; the demo ends when it is fully repaired.")]
@@ -129,6 +132,7 @@ public class BlobWorld : MonoBehaviour {
         if(Elements) d.discoveredCombos.AddRange(Elements.discovered);
         if(ship) ship.WriteTo(d);
         d.lookSensitivity=player?player.lookSensitivity:.13f; d.masterVolume=AudioListener.volume; d.ambienceVolume=ambience?ambience.ambienceVolume:1;
+        if(preserveOtherSceneProgress && !clearingOtherScenes) FactoryProgressStore.Merge(this,d);
         return d;
     }
     public bool Save() { saves++; return SaveSystem.Save(saveSlot,Snapshot()); }
@@ -140,7 +144,7 @@ public class BlobWorld : MonoBehaviour {
         lastLoadStatus=SaveSystem.Load(slot,out var data);
         foreach(var id in data.solvedPuzzles) { var pz=FindPuzzle(id); if(pz) pz.Solve(true); else Debug.LogWarning("OOPS_SAVE unknown puzzle id ignored: "+id); }
         if(zoneGates!=null) foreach(var g in zoneGates) if(g && (data.unlockedZones.Contains(g.zoneId)||g.RequirementsMet)) g.Unlock(true);
-        if(Elements) foreach(var id in data.discoveredCombos) if(!Elements.discovered.Contains(id)) Elements.discovered.Add(id);
+        if(Elements) Elements.RestoreDiscoveries(data.discoveredCombos);
         if(ship) ship.ReadFrom(data);
         if(player) player.lookSensitivity=data.lookSensitivity;
         AudioListener.volume=data.masterVolume;
@@ -225,7 +229,7 @@ public class BlobWorld : MonoBehaviour {
             default: return "เล็งไปที่วัตถุที่มีพลังเพื่อดูดซับ";
         }
     }
-    public const string ControlsTh="WASD เดิน  •  SPACE กระโดด / ค้างเพื่อเด้ง  •  เมาส์ มอง  •  คลิกขวาค้าง ดมพลัง\nE ค้าง ดูดซับ  •  F พลังหลัก (+ธาตุเสริม)  •  G พลังเสริม  •  Q สลับพลัง  •  J สมุดพลัง\nR กลับจุดเช็กพอยต์  •  ESC หยุดเกม / ตั้งค่า  •  TAB มุมมองรวม";
+    public const string ControlsTh="WASD เดิน  •  SPACE กระโดด / ค้างเพื่อเด้ง  •  เมาส์ มอง  •  คลิกขวาค้าง ดมพลัง\nE ค้าง ดูดซับ  •  F พลังเดี่ยวที่เลือก  •  G ผสมพลัง  •  Q เปลี่ยนพลังที่เลือก  •  J สมุดพลัง\nR กลับจุดเช็กพอยต์  •  ESC หยุดเกม / ตั้งค่า  •  TAB มุมมองรวม";
     // v2 power journal (J): the 30 ordered combo cells, discovered ones named.
     public bool journalOpen;
     BlobElementPowers elementsCache; bool elementsLooked;
@@ -278,13 +282,13 @@ public class BlobWorld : MonoBehaviour {
                 float x=24,y=h-126;
                 Panel(new Rect(x,y,380,102));
                 DrawPowerSlot(new Rect(x+12,y+8,172,30),"F",player.property);
-                DrawPowerSlot(new Rect(x+196,y+8,172,30),"G",player.secondary);
+                DrawPowerSlot(new Rect(x+196,y+8,172,30),"+",player.secondary);
                 var combo=player.powers?player.powers.ActiveCombo:null;
                 var cell=Elements?Elements.ActiveCell:null;
-                string comboName=cell!=null?cell.nameTh:combo?combo.nameTh:"";
+                string comboName=cell!=null?"[G] "+cell.nameTh:combo?combo.nameTh:"ดูดเพิ่มอีกพลังเพื่อผสม";
                 GUI.color=new Color(1,.9f,.6f);
                 GUI.Label(new Rect(x+12,y+39,356,28),comboName,small); GUI.color=Color.white;
-                GUI.Label(new Rect(x+12,y+69,356,26),"Q สลับ   •   J สมุดพลัง   •   ESC เมนู",small);
+                GUI.Label(new Rect(x+12,y+69,356,26),"Q เลือกพลังเดี่ยว   •   J สมุดพลัง   •   ESC เมนู",small);
                 if(player.Has(BlobProperty.Pressure) && player.powers && player.powers.PressureCooldown01>0) {
                     GUI.color=BlobPlayer.PropertyColor(BlobProperty.Pressure);
                     GUI.DrawTexture(new Rect(x,y+99,380*(1-player.powers.PressureCooldown01),3),white); GUI.color=Color.white;
@@ -309,20 +313,18 @@ public class BlobWorld : MonoBehaviour {
     void JournalPanel(float w,float h) {
         var table=player.powers&&player.powers.set?player.powers.set.table:null; if(!table) return;
         Rect r=new Rect(w/2-470,110,940,560); Panel(r);
-        GUI.Label(new Rect(r.x+24,r.y+10,600,36),"สมุดพลัง  "+Elements.discovered.Count+" / 30  (กด J เพื่อปิด)",title);
-        GUI.Label(new Rect(r.x+24,r.y+48,900,26),"แถว = พลังหลัก (F, ท่าทาง)  •  คอลัมน์ = พลังเสริม (ธาตุ)  •  ช่องที่ยังไม่ค้นพบแสดงเป็น ???",small);
-        var powers=ComboTable.Powers; float cw=140, ch=74, x0=r.x+110, y0=r.y+80;
-        for(int j=0;j<powers.Length;j++) GUI.Label(new Rect(x0+j*cw,y0,cw,24),player.NameTh(powers[j]),small);
-        for(int i=0;i<powers.Length;i++) {
-            GUI.Label(new Rect(r.x+20,y0+28+i*ch,90,ch),player.NameTh(powers[i]),small);
-            for(int j=0;j<powers.Length;j++) {
-                var c=table.Get(powers[i],powers[j]);
-                string t=c==null?"—":Elements.Knows(c.id)?c.nameTh:"???";
-                GUI.color=c!=null&&Elements.Knows(c.id)?new Color(1,.92f,.6f):new Color(.7f,.72f,.75f);
-                GUI.Label(new Rect(x0+j*cw,y0+28+i*ch,cw-6,ch),t,small); GUI.color=Color.white;
-            }
+        GUI.Label(new Rect(r.x+24,r.y+10,800,36),"สมุดพลัง  "+Elements.discovered.Count+" / "+table.cells.Count+"  (กด J เพื่อปิด)",title);
+        GUI.Label(new Rect(r.x+24,r.y+48,900,26),"สองพลังผสมกันได้ผลเดียว ไม่ต้องจำลำดับดูด  •  G ใช้คอมโบ",small);
+        for(int i=0;i<table.cells.Count;i++) {
+            var c=table.cells[i]; bool known=Elements.Knows(c.id);
+            float x=r.x+24+(i/8)*450, y=r.y+88+(i%8)*56;
+            GUI.color=known?new Color(1,.92f,.6f):new Color(.7f,.72f,.75f);
+            GUI.Label(new Rect(x,y,430,26),player.NameTh(c.primary)+" + "+player.NameTh(c.secondary)+" = "+(known?c.nameTh:"???"),small);
+            if(known) GUI.Label(new Rect(x,y+24,430,27),c.effectTh,small);
         }
+        GUI.color=Color.white;
     }
+
     void PauseMenu(float w,float h) {
         if(uiLook<0) { uiLook=player.lookSensitivity; uiVolume=AudioListener.volume; uiAmbience=ambience?ambience.ambienceVolume:1; }
         Rect r=new Rect(w/2-300,h/2-250,600,500); Panel(r);
