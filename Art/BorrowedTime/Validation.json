@@ -1,0 +1,113 @@
+{
+    "completed": true,
+    "success": false,
+    "passed": 20,
+    "failed": 1,
+    "checks": [
+        {
+            "name": "Title is above Play",
+            "detail": "",
+            "passed": true
+        },
+        {
+            "name": "Exactly three main actions with the reference labels",
+            "detail": "",
+            "passed": true
+        },
+        {
+            "name": "Live game title is BORROWED TIME",
+            "detail": "",
+            "passed": true
+        },
+        {
+            "name": "Setting opens the actual settings panel",
+            "detail": "",
+            "passed": true
+        },
+        {
+            "name": "Volume clamps negative input",
+            "detail": "",
+            "passed": true
+        },
+        {
+            "name": "Volume clamps input above 100",
+            "detail": "",
+            "passed": true
+        },
+        {
+            "name": "All volume fields and sliders synchronize at 1 percent precision",
+            "detail": "",
+            "passed": true
+        },
+        {
+            "name": "All audio values reload from saved preferences",
+            "detail": "",
+            "passed": true
+        },
+        {
+            "name": "Music, effects and master route to independent real audio levels",
+            "detail": "",
+            "passed": true
+        },
+        {
+            "name": "Mute silences real output",
+            "detail": "",
+            "passed": true
+        },
+        {
+            "name": "Unmute restores remembered master level",
+            "detail": "",
+            "passed": true
+        },
+        {
+            "name": "Display options use the available resolutions and fullscreen state",
+            "detail": "",
+            "passed": true
+        },
+        {
+            "name": "Back restores main actions",
+            "detail": "",
+            "passed": true
+        },
+        {
+            "name": "Leaf and foliage layers do not block clicks",
+            "detail": "",
+            "passed": true
+        },
+        {
+            "name": "Reserved character anchor is empty",
+            "detail": "",
+            "passed": true
+        },
+        {
+            "name": "Main layout 1920x1080",
+            "detail": "fit=True, ordered=True, right=True, text=True",
+            "passed": true
+        },
+        {
+            "name": "Settings layout 1920x1080",
+            "detail": "fit=True, fields=True, scroll=True",
+            "passed": true
+        },
+        {
+            "name": "Main layout 1280x720",
+            "detail": "fit=True, ordered=True, right=True, text=True",
+            "passed": true
+        },
+        {
+            "name": "Settings layout 1280x720",
+            "detail": "fit=True, fields=True, scroll=True",
+            "passed": true
+        },
+        {
+            "name": "Validation exception",
+            "detail": "System.NullReferenceException: Object reference not set to an instance of an object\r\n  at BorrowedTime.Editor.BorrowedMenuValidation.Tick () [0x0065d] in C:\\Users\\Pc\\Documents\\GitHub\\AFO\\Assets\\BorrowedTime\\Editor\\BorrowedMenuValidation.cs:91 ",
+            "passed": false
+        },
+        {
+            "name": "Quit exits Play Mode in the Editor",
+            "detail": "",
+            "passed": true
+        }
+    ]
+}

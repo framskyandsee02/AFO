@@ -1,0 +1,18 @@
+C:\Users\Pc\Documents\GitHub\AFO\Art\BorrowedTime\Meadow3D\Source\build_meadow.py:46: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  material.use_nodes = True
+C:\Users\Pc\Documents\GitHub\AFO\Art\BorrowedTime\Meadow3D\Source\build_meadow.py:195: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  world=bpy.data.worlds.new('Soft_sky_fill'); scene.world=world; world.use_nodes=True
+BlenderMCP addon registered
+BlenderMCP addon unregistered
+
+FBX export starting... 'C:\\Users\\Pc\\Documents\\GitHub\\AFO\\Assets\\BorrowedTime\\Environment\\Models\\BT_Meadow.fbx'
+export finished in 0.5883 sec.
+Info: Saved as "BT_Meadow.blend"
+MEADOW_MODEL_READY {"seed": 246831, "dimensions_metres": [36, 26], "mesh_objects": 37, "vertices": 579245, "triangles": 476556, "flower_clusters": 300, "clover_clusters": 3900, "grass_clumps": 14000, "engine": "BLENDER_EEVEE", "camera_position": [0.0, -5.0, 24.0], "orthographic_width_metres": 30.799999237060547, "note": "Only ground and plants. No people, animals or buildings. All foliage is modelled mesh with vertex colors."}
+00:09.797  render           | Saved: 'C:\Users\Pc\Documents\GitHub\AFO\Art\BorrowedTime\Meadow3D\Preview\Blender_Meadow.png'
+MEADOW_RENDER_READY C:\Users\Pc\Documents\GitHub\AFO\Art\BorrowedTime\Meadow3D\Preview\Blender_Meadow.png
+00:10.547  render           | Saved: 'C:\Users\Pc\Documents\GitHub\AFO\Art\BorrowedTime\Meadow3D\Preview\Blender_Detail.png'
+MEADOW_DETAIL_READY C:\Users\Pc\Documents\GitHub\AFO\Art\BorrowedTime\Meadow3D\Preview\Blender_Detail.png
+Blender 5.2.3 LTS (hash e13b728c6880 built 2026-10-22 01:37:16)
+
+Blender quit

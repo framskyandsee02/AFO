@@ -1,0 +1,13 @@
+{
+  "tool": "Built-in image_gen",
+  "assets": [
+    {
+      "path": "Assets/BorrowedTime/UI/Art/GreenGlassButton.png",
+      "prompt": "Use case: stylized-concept. Asset type: ONE blank, production game UI BUTTON background, genuinely transparent PNG. Match the attached reference's glossy luminous green glass, lime double rim, lush emerald translucent green center, curved diagonal glass reflection in upper left, white green specular stroke across upper edge, and a few very subtle small square light facets inside. Long horizontal capsule rectangle, approximately 4.5:1 shape, with generous rounded corners. Very small glossy fresh leaves attached just outside the far left upper corner, and a tidy cluster of 3 fresh green leaves and ONE tiny white five-petal flower with yellow center at the right lower corner. Keep decorations restrained and the middle 70 percent entirely clear for live white text. Strong darker green center for contrast, electric lime rim, pale green inner rim. NO TEXT, letters, arrows, icons, vertical bars, slime mascot, or symbols: those will be drawn as real Unity UI. Single button only, no sprite sheet, no logo, no setting panel, no background scenery. Asset tightly framed with a small transparent margin, no checkerboard baked into pixels, no opaque rectangle behind it. Polished soft stylized illustration with smooth glass shading, matching the user reference closely."
+    },
+    {
+      "path": "Assets/BorrowedTime/UI/Art/GreenGlassTitle.png",
+      "prompt": "Use case: stylized-concept. Asset type: one BLANK green glass TITLE PANEL for a game menu, isolated on a genuinely transparent background. Wide rounded rectangle, aspect ratio 1.9:1. Match the user's glossy leaf green fantasy UI reference: rich emerald and fresh grass green translucent surface, lime-green outer bevel, thin creamy white inner rim, curved white specular gleam along top edge, a broad subtle diagonal glass reflection in upper left and a few small soft square reflected facets at the corners. Keep the large center completely clear for BORROWED TIME text that will be added separately in Unity. Decorate ONLY top-left corner and bottom-right corner with modest clusters of fresh glossy green leaves and one tiny white flower each, like the reference. Rounded rectangle corners rather than long capsule. Polished illustrated glass, soft highlights, dark medium green center for clear white lettering. The panel fills the canvas with small transparent margin. Absolutely NO text, letters, typography, icons, character or slime mascot, stars, arrows, UI controls, or other panels. No checkerboard baked into pixels; transparent outside the panel."
+    }
+  ]
+}

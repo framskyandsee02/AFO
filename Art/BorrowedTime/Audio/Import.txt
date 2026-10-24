@@ -1,0 +1,3 @@
+Soundtrack: sokoniai wo hitohira (301.5053 seconds, streaming loop)
+SFX: oxidvideos-soft-pop-sfx-433612 (0.192 seconds, preloaded mono PCM)
+Music and Effects use the existing independent audio settings.

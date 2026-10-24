@@ -1,0 +1,56 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:Style src="BorrowedMainMenu.uss" />
+    <ui:Style src="GreenGlassMenu.uss" />
+    <ui:VisualElement name="menu-root" class="menu-root" picking-mode="Ignore">
+        <ui:VisualElement name="foreground-foliage" class="foreground-foliage" picking-mode="Ignore" />
+        <ui:VisualElement name="falling-leaves" class="falling-leaves" picking-mode="Ignore" />
+        <ui:VisualElement name="menu-column" class="menu-column" picking-mode="Ignore">
+            <ui:VisualElement name="game-title" class="game-title" tooltip="BORROWED TIME" picking-mode="Ignore">
+                <ui:Label name="title-borrowed" text="Borrowed" class="glass-title-word" picking-mode="Ignore" />
+                <ui:Label name="title-time" text="Time" class="glass-title-word glass-title-time" picking-mode="Ignore" />
+            </ui:VisualElement>
+            <ui:VisualElement class="menu-buttons" picking-mode="Ignore">
+                <ui:Button name="play-button" text="Play" class="botanical-button play-button" />
+                <ui:Button name="setting-button" text="Settings" class="botanical-button" />
+                <ui:Button name="quit-button" text="Exit" class="botanical-button" />
+            </ui:VisualElement>
+            <ui:Label name="menu-status" class="menu-status" />
+        </ui:VisualElement>
+        <ui:VisualElement name="settings-overlay" class="settings-overlay hidden">
+            <ui:VisualElement name="settings-card" class="settings-card">
+                <ui:Label text="Settings" class="settings-title" />
+                <ui:ScrollView name="settings-scroll" class="settings-scroll" horizontal-scroller-visibility="Hidden" vertical-scroller-visibility="Auto">
+                    <ui:VisualElement class="sound-row">
+                        <ui:VisualElement class="sound-heading">
+                            <ui:Label text="Master volume" class="sound-label" />
+                            <ui:IntegerField name="master-number" value="80" max-length="3" class="sound-number" />
+                            <ui:Label text="%" class="percent" />
+                        </ui:VisualElement>
+                        <ui:SliderInt name="master-volume" low-value="0" high-value="100" value="80" page-size="1" class="volume-slider" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="sound-row">
+                        <ui:VisualElement class="sound-heading">
+                            <ui:Label text="Music volume" class="sound-label" />
+                            <ui:IntegerField name="music-number" value="80" max-length="3" class="sound-number" />
+                            <ui:Label text="%" class="percent" />
+                        </ui:VisualElement>
+                        <ui:SliderInt name="music-volume" low-value="0" high-value="100" value="80" page-size="1" class="volume-slider" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="sound-row">
+                        <ui:VisualElement class="sound-heading">
+                            <ui:Label text="Effects volume" class="sound-label" />
+                            <ui:IntegerField name="effects-number" value="100" max-length="3" class="sound-number" />
+                            <ui:Label text="%" class="percent" />
+                        </ui:VisualElement>
+                        <ui:SliderInt name="effects-volume" low-value="0" high-value="100" value="100" page-size="1" class="volume-slider" />
+                    </ui:VisualElement>
+                    <ui:Toggle name="mute-toggle" label="Mute all sound" class="setting-toggle" />
+                    <ui:DropdownField name="resolution-dropdown" label="Resolution" class="setting-dropdown" />
+                    <ui:Toggle name="fullscreen-toggle" label="Fullscreen" class="setting-toggle" />
+                    <ui:Label text="Changes are saved automatically." class="settings-note" />
+                </ui:ScrollView>
+                <ui:Button name="back-button" text="Back" class="back-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

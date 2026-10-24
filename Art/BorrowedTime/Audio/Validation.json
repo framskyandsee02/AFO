@@ -1,0 +1,70 @@
+{
+    "completed": true,
+    "success": true,
+    "checks": [
+        {
+            "name": "The requested soundtrack is decoded and playing on loop",
+            "passed": true
+        },
+        {
+            "name": "Hover and click use the requested pop clip",
+            "passed": true
+        },
+        {
+            "name": "All menu audio is 2D",
+            "passed": true
+        },
+        {
+            "name": "Music, Effects and Master independently control the real audio sources",
+            "passed": true
+        },
+        {
+            "name": "Soundtrack produces nonzero audio samples",
+            "passed": true
+        },
+        {
+            "name": "Hovering Play produces real pop audio",
+            "passed": true
+        },
+        {
+            "name": "Mouse clicking Settings plays the click pop and opens Settings",
+            "passed": true
+        },
+        {
+            "name": "Back still closes Settings",
+            "passed": true
+        },
+        {
+            "name": "Hovering Settings produces real pop audio",
+            "passed": true
+        },
+        {
+            "name": "Hovering Exit produces real pop audio",
+            "passed": true
+        },
+        {
+            "name": "Mute silences output while the soundtrack keeps its position",
+            "passed": true
+        },
+        {
+            "name": "Unmute restores the previous master volume",
+            "passed": true
+        },
+        {
+            "name": "Soundtrack continues into gameplay without restarting",
+            "passed": true
+        },
+        {
+            "name": "Returning to the menu does not duplicate or restart the soundtrack",
+            "passed": true
+        },
+        {
+            "name": "Button audio reconnects when returning to the menu",
+            "passed": true
+        },
+        {
+            "name": "Clicking the game title produces the same real pop audio as buttons",
+            "passed": true
+        }
+    ]
+}

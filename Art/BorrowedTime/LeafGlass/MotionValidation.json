@@ -1,0 +1,135 @@
+{
+  "passed": 8,
+  "failed": 1,
+  "checks": [
+    {
+      "name": "Decorative leaves receive live animation updates",
+      "passed": true
+    },
+    {
+      "name": "Title letters visibly change pose over time",
+      "passed": true
+    },
+    {
+      "name": "Title accepts input while decorative surface ignores clicks",
+      "passed": true
+    },
+    {
+      "name": "Pointer press squashes the title frame",
+      "passed": false
+    },
+    {
+      "name": "Pointer release bounces and lifts the title frame",
+      "passed": true
+    },
+    {
+      "name": "Title frame settles after repeated-use feedback",
+      "passed": true
+    },
+    {
+      "name": "Keyboard/controller submit also bounces the title",
+      "passed": true
+    },
+    {
+      "name": "Leaves and label motion continue when game time is paused",
+      "passed": true
+    },
+    {
+      "name": "Title toy preserves scene and settings state",
+      "passed": true
+    }
+  ],
+  "samples": {
+    "initial": {
+      "timeScale": 1.0,
+      "leafTime": 19.092617,
+      "labelY": 1.1680274,
+      "labelRotation": -0.303090245,
+      "titleScaleY": 1.0,
+      "titleY": 0.0,
+      "scene": "BorrowedTimeMainMenu",
+      "settings": false,
+      "picking": "Position",
+      "focusable": true,
+      "decorationsIgnore": true
+    },
+    "idle": {
+      "timeScale": 1.0,
+      "leafTime": 20.8323154,
+      "labelY": -1.83456659,
+      "labelRotation": -0.141663909,
+      "titleScaleY": 1.0,
+      "titleY": 0.0,
+      "scene": "BorrowedTimeMainMenu",
+      "settings": false,
+      "picking": "Position",
+      "focusable": true,
+      "decorationsIgnore": true
+    },
+    "held": {
+      "timeScale": 1.0,
+      "leafTime": 22.2091789,
+      "labelY": 0.9957943,
+      "labelRotation": 0.8101908,
+      "titleScaleY": 1.012,
+      "titleY": 0.0,
+      "scene": "BorrowedTimeMainMenu",
+      "settings": false,
+      "picking": "Position",
+      "focusable": true,
+      "decorationsIgnore": true
+    },
+    "released": {
+      "timeScale": 1.0,
+      "leafTime": 24.0009441,
+      "labelY": -1.92367339,
+      "labelRotation": -0.843166351,
+      "titleScaleY": 1.03340423,
+      "titleY": -3.805207,
+      "scene": "BorrowedTimeMainMenu",
+      "settings": false,
+      "picking": "Position",
+      "focusable": true,
+      "decorationsIgnore": true
+    },
+    "keyboard": {
+      "timeScale": 1.0,
+      "leafTime": 27.5864334,
+      "labelY": -2.45261574,
+      "labelRotation": -0.436252236,
+      "titleScaleY": 1.03763735,
+      "titleY": -4.55775452,
+      "scene": "BorrowedTimeMainMenu",
+      "settings": false,
+      "picking": "Position",
+      "focusable": true,
+      "decorationsIgnore": true
+    },
+    "pausedBefore": {
+      "timeScale": 0.0,
+      "leafTime": 29.3050861,
+      "labelY": 2.204985,
+      "labelRotation": -0.0209583342,
+      "titleScaleY": 1.02997792,
+      "titleY": -3.19609022,
+      "scene": "BorrowedTimeMainMenu",
+      "settings": false,
+      "picking": "Position",
+      "focusable": true,
+      "decorationsIgnore": true
+    },
+    "pausedAfter": {
+      "timeScale": 0.0,
+      "leafTime": 29.5712986,
+      "labelY": 1.33672893,
+      "labelRotation": 0.3012557,
+      "titleScaleY": 1.00969732,
+      "titleY": 0.0,
+      "scene": "BorrowedTimeMainMenu",
+      "settings": false,
+      "picking": "Position",
+      "focusable": true,
+      "decorationsIgnore": true
+    }
+  }
+}

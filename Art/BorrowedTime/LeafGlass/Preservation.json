@@ -1,0 +1,32 @@
+[
+  {
+    "path": "C:\\Users\\Pc\\Documents\\GitHub\\AFO\\Assets\\Scenes\\BorrowedTimeMainMenu.unity",
+    "before": "28A26D06C758E9A27360E16A07BC226429E2D7FDD8C9B2FEE15359F6D39FCB83",
+    "after": "28A26D06C758E9A27360E16A07BC226429E2D7FDD8C9B2FEE15359F6D39FCB83",
+    "unchanged": true
+  },
+  {
+    "path": "C:\\Users\\Pc\\Documents\\GitHub\\AFO\\Assets\\BorrowedTime\\Environment\\Models\\BT_Meadow.fbx",
+    "before": "0A11856FCE85466901347FE893D299D63EACB6A581B47435C5C34B75CF764F09",
+    "after": "0A11856FCE85466901347FE893D299D63EACB6A581B47435C5C34B75CF764F09",
+    "unchanged": true
+  },
+  {
+    "path": "C:\\Users\\Pc\\Documents\\GitHub\\AFO\\Assets\\BorrowedTime\\Environment\\Prefabs\\BT_Meadow.prefab",
+    "before": "DCF4BCB0DF3CB8E8302710DC36BF9ACCD9D747166F90319CD299904BF68C0071",
+    "after": "DCF4BCB0DF3CB8E8302710DC36BF9ACCD9D747166F90319CD299904BF68C0071",
+    "unchanged": true
+  },
+  {
+    "path": "C:\\Users\\Pc\\Documents\\GitHub\\AFO\\Assets\\Scenes\\Start.unity",
+    "before": "FEAC460D6D8EDB53B77F1393EB866B269859E045FF02A35813D3D70EC908D5FA",
+    "after": "FEAC460D6D8EDB53B77F1393EB866B269859E045FF02A35813D3D70EC908D5FA",
+    "unchanged": true
+  },
+  {
+    "path": "C:\\Users\\Pc\\Documents\\GitHub\\AFO\\Assets\\Settings\\Mobile_RPAsset.asset",
+    "before": "2D5182D2B8884AC88BC6ED033A0A722C23CFB15A7BC8B7DAA38DB37227BAFD09",
+    "after": "2D5182D2B8884AC88BC6ED033A0A722C23CFB15A7BC8B7DAA38DB37227BAFD09",
+    "unchanged": true
+  }
+]

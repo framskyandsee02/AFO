@@ -1,0 +1,21 @@
+{
+  "seed": 246831,
+  "dimensions_metres": [
+    36,
+    26
+  ],
+  "mesh_objects": 37,
+  "vertices": 579245,
+  "triangles": 476556,
+  "flower_clusters": 300,
+  "clover_clusters": 3900,
+  "grass_clumps": 14000,
+  "engine": "BLENDER_EEVEE",
+  "camera_position": [
+    0.0,
+    -5.0,
+    24.0
+  ],
+  "orthographic_width_metres": 30.799999237060547,
+  "note": "Only ground and plants. No people, animals or buildings. All foliage is modelled mesh with vertex colors."
+}

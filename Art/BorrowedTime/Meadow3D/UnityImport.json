@@ -1,0 +1,16 @@
+{
+    "success": true,
+    "hasVertexColors": true,
+    "hasNoCharacters": true,
+    "meshObjects": 37,
+    "vertices": 604151,
+    "triangles": 476556,
+    "size": {
+        "x": 36.23182678222656,
+        "y": 0.39137545228004458,
+        "z": 26.31850814819336
+    },
+    "scene": "Assets/Scenes/BorrowedTimeMainMenu.unity",
+    "prefab": "Assets/BorrowedTime/Environment/Prefabs/BT_Meadow.prefab",
+    "message": "Blender mesh meadow replaces the disabled painting. The menu's buttons and character anchor are preserved."
+}

@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/BorrowedTimeMainMenu.unity
+    guid: c88c487d3d9129b45bf5b496322620cc
+  - enabled: 1
     path: Assets/Scenes/Start.unity
     guid: 28982391ac657ee40a715e05ef0509fa
   m_configObjects:
