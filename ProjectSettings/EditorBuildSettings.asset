@@ -6,9 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-<<<<<<< HEAD
-    path: Assets/OopsPlanet/Scenes/OopsPlanet_Prototype01.unity
-    guid: 1f0d09417ea3aba4a868594a03b21c75
+    path: Assets/Scenes/BorrowedTimeMainMenu.unity
+    guid: c88c487d3d9129b45bf5b496322620cc
   - enabled: 1
     path: Assets/_BorrowedTime/Scenes/TrainingArea.unity
     guid: 2104e486f61ca9447a4695703c7103cf
@@ -18,10 +17,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_BorrowedTime/Scenes/FactoryInterior.unity
     guid: 36210cf14264a0e4e80999b377ac921d
-=======
+  - enabled: 1
+    path: Assets/_BorrowedTime/Scenes/FunPrototype.unity
+    guid: 6e767fedc048b3942b3f00a0ba590b92
+  - enabled: 1
     path: Assets/Scenes/MainScene.unity
     guid: 54b3aa147e6646a4cae8c3c6d277e668
->>>>>>> a99b4d908a3c493e18e2af573228e4c37756f93f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

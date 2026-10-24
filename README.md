@@ -16,8 +16,10 @@ git lfs pull
 ```
 
 เปิดโฟลเดอร์ BorrowedTime ด้วย Unity **6000.3.25f1** แล้วเปิด
-**Assets/Scenes/MainScene.unity** ฉากเริ่มต้นใน Build Settings ของ snapshot นี้
-ชี้ MainScene เช่นกัน ใช้ URP 17.3, Input System 1.20 และ Cinemachine 3.1.7
+**Assets/Scenes/BorrowedTimeMainMenu.unity** เป็นฉากเริ่มต้นใน Build Settings
+กด Play ในเมนูเพื่อเข้า **Assets/_BorrowedTime/Scenes/TrainingArea.unity**
+หน้าเมนูมีตัวละครนอนบนหญ้า ลืมตาเมื่อชี้ปุ่ม เพลงพื้นหลัง และเสียงปุ่ม/ชื่อเกม
+ปรับระดับเสียงได้ใน Settings ใช้ URP 17.3, Input System 1.20 และ Cinemachine 3.1.7
 การเปิดครั้งแรกต้องให้ Unity resolve packages ตาม Packages/manifest.json
 
 **อย่า Restore stash จาก OOPS! PLANET/Pino ทับโปรเจกต์นี้** เพราะเป็นคนละเกม

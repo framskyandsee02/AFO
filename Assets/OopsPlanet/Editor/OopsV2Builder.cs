@@ -1,4 +1,5 @@
-#if UNITY_EDITOR
+// Legacy authoring tool: enable only after restoring the OopsPlanet runtime scripts.
+#if UNITY_EDITOR && OOPS_PLANET_RUNTIME
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;

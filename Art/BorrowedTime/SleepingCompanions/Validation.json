@@ -1,0 +1,74 @@
+{
+    "completed": true,
+    "success": true,
+    "checks": [
+        {
+            "name": "Both imported models are present in the menu",
+            "passed": true
+        },
+        {
+            "name": "Sleeping poses are not overwritten by animation controllers",
+            "passed": true
+        },
+        {
+            "name": "Both characters retain their imported materials",
+            "passed": true
+        },
+        {
+            "name": "Protagonist lies on the meadow surface: Center: (-8.03, 1.80, -1.17), Extents: (2.56, 1.52, 3.92)",
+            "passed": true
+        },
+        {
+            "name": "Protagonist is visible beside the menu: (0.26, 0.46, 20.48)",
+            "passed": true
+        },
+        {
+            "name": "Robo lies on the meadow surface: Center: (-3.41, 1.35, 0.72), Extents: (1.20, 1.07, 1.37)",
+            "passed": true
+        },
+        {
+            "name": "Robo is visible beside the menu: (0.40, 0.55, 21.32)",
+            "passed": true
+        },
+        {
+            "name": "Human starts asleep",
+            "passed": true
+        },
+        {
+            "name": "Actual human eyelid blend shape is closed",
+            "passed": true
+        },
+        {
+            "name": "Robot keeps its sleeping expression",
+            "passed": true
+        },
+        {
+            "name": "Pointer entering Play opens the actual human eyes",
+            "passed": true
+        },
+        {
+            "name": "Pointer leaving Play returns the human to sleep",
+            "passed": true
+        },
+        {
+            "name": "Settings hover also opens the eyes",
+            "passed": true
+        },
+        {
+            "name": "Moving directly between buttons keeps the human awake",
+            "passed": true
+        },
+        {
+            "name": "Both companions settle back to sleep after Exit hover ends",
+            "passed": true
+        },
+        {
+            "name": "Protagonist remains beside the buttons in portrait layout",
+            "passed": true
+        },
+        {
+            "name": "Robo remains beside the buttons in portrait layout",
+            "passed": true
+        }
+    ]
+}

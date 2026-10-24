@@ -1,0 +1,64 @@
+.menu-root {
+    position: absolute; left: 0; top: 0; right: 0; bottom: 0;
+    -unity-font: url("Fonts/PatrickHand-Regular.ttf"); -unity-font-definition: initial;
+    color: rgb(66, 88, 43);
+}
+.foreground-foliage, .falling-leaves { position: absolute; left: 0; right: 0; top: 0; bottom: 0; }
+.foreground-foliage { background-image: url("Art/ForegroundFoliage.png"); background-size: 100% 100%; }
+.menu-column { position: absolute; right: 4%; top: 5%; width: 34%; max-width: 660px; height: 88%; align-items: center; }
+.game-title { width: 100%; height: 32%; flex-shrink: 0; background-image: url("Art/BorrowedTimeLogo.png"); background-size: contain; background-repeat: no-repeat; background-position: center; }
+.menu-buttons { width: 100%; flex-grow: 1; min-height: 0; justify-content: space-evenly; align-items: center; }
+.botanical-button {
+    width: 94%; height: 180px; flex-shrink: 1; min-height: 80px;
+    margin: 0; padding: 0 58px 3px 72px;
+    background-color: rgba(0, 0, 0, 0); background-image: url("Art/BotanicalButton.png"); background-size: 100% 100%;
+    border-width: 0; border-radius: 48px;
+    color: rgb(70, 92, 43); font-size: 56px; -unity-text-align: middle-center;
+    transition-property: scale, translate, -unity-background-image-tint-color; transition-duration: 0.16s;
+}
+.play-button { height: 206px; font-size: 72px; }
+.botanical-button:hover, .botanical-button:focus { scale: 1.035 1.035; translate: 0 -4px; -unity-background-image-tint-color: rgb(255, 255, 218); }
+.botanical-button:active { scale: 0.97 0.97; translate: 0 3px; -unity-background-image-tint-color: rgb(236, 232, 187); }
+.button-icon { position: absolute; left: 19%; top: 37%; width: 44px; height: 44px; }
+.play-button .button-icon { top: 37%; width: 48px; height: 48px; }
+.menu-status { width: 90%; color: rgb(255, 248, 207); white-space: normal; -unity-text-align: middle-center; font-size: 22px; }
+.settings-overlay { position: absolute; left: 0; top: 0; right: 0; bottom: 0; align-items: center; justify-content: center; background-color: rgba(21, 47, 37, 0.58); }
+.hidden { display: none; }
+.settings-open .menu-column { visibility: hidden; }
+.settings-card { width: 810px; max-width: 92%; height: 880px; max-height: 92%; padding: 18px 40px 20px 40px; align-items: center; background-color: rgb(249, 242, 212); border-radius: 34px; border-width: 3px; border-color: rgb(117, 137, 77); }
+.settings-title { font-size: 60px; color: rgb(64, 89, 48); margin: 0 0 8px 0; }
+.settings-scroll { width: 100%; flex-grow: 1; min-height: 0; }
+.settings-scroll .unity-scroll-view__content-container { padding: 0 10px; }
+.settings-scroll .unity-scroller--vertical { width: 10px; margin-left: 7px; background-color: rgba(117, 137, 77, 0.12); border-radius: 5px; }
+.settings-scroll .unity-scroller__low-button, .settings-scroll .unity-scroller__high-button { display: none; }
+.settings-scroll .unity-scroller--vertical .unity-base-slider { flex-grow: 1; margin: 3px 0; }
+.settings-scroll .unity-scroller--vertical #unity-tracker { background-color: rgba(0, 0, 0, 0); border-width: 0; }
+.settings-scroll .unity-scroller--vertical #unity-dragger { width: 6px; min-height: 25px; left: 2px; border-width: 0; border-radius: 4px; background-color: rgb(156, 177, 105); }
+.sound-row { margin: 0 0 10px 0; padding-bottom: 10px; border-bottom-width: 1px; border-bottom-color: rgba(117, 137, 77, 0.28); }
+.sound-heading { flex-direction: row; align-items: center; }
+.sound-label { flex-grow: 1; font-size: 32px; }
+.sound-number { width: 90px; font-size: 28px; }
+.sound-number .unity-base-text-field__input { background-color: rgb(255, 251, 231); color: rgb(58, 83, 40); border-radius: 10px; border-width: 1px; border-color: rgb(164, 177, 116); padding: 3px 8px; -unity-text-align: middle-center; }
+.percent { font-size: 25px; margin-left: 4px; }
+.volume-slider { height: 36px; margin: 6px 12px 0 12px; }
+.volume-slider #unity-tracker { height: 7px; background-color: rgb(187, 198, 139); border-radius: 5px; border-width: 0; }
+.volume-slider #unity-dragger { width: 25px; height: 25px; top: 6px; border-radius: 50%; border-width: 3px; border-color: rgb(255, 250, 216); background-color: rgb(97, 126, 64); }
+.volume-slider:focus #unity-dragger { background-color: rgb(153, 169, 71); }
+.setting-toggle { font-size: 29px; margin: 8px 0; }
+.setting-toggle #unity-checkmark { width: 25px; height: 25px; border-radius: 6px; border-width: 1px; border-color: rgb(121, 146, 78); background-color: rgb(219, 229, 173); }
+.setting-dropdown { margin: 12px 0; font-size: 28px; }
+.setting-dropdown .unity-base-field__label { min-width: 170px; }
+.setting-dropdown .unity-base-popup-field__input { color: rgb(65, 89, 43); background-color: rgb(255, 250, 225); border-radius: 8px; border-width: 1px; border-color: rgb(147, 164, 100); padding: 5px 12px; }
+.settings-note { font-size: 22px; color: rgb(104, 124, 75); margin-top: 10px; white-space: normal; }
+.back-button { width: 250px; height: 60px; flex-shrink: 0; margin-top: 18px; color: rgb(64, 88, 43); background-color: rgb(230, 233, 182); border-radius: 20px; border-width: 2px; border-color: rgb(126, 147, 81); font-size: 36px; transition-property: scale, background-color; transition-duration: 0.14s; }
+.back-button:hover, .back-button:focus { background-color: rgb(246, 237, 166); scale: 1.025 1.025; }
+.back-button:active { scale: 0.97 0.97; }
+.compact .menu-column { width: 46%; right: 3%; }
+.compact .botanical-button { font-size: 45px; padding-left: 65px; padding-right: 36px; }
+.compact .play-button { font-size: 59px; }
+.compact .button-icon { left: 17%; width: 36px; height: 36px; top: 39%; }
+.portrait .menu-column { width: 52%; right: 3%; height: 75%; top: 8%; }
+.portrait .game-title { height: 27%; }
+.portrait .button-icon { left: 15%; width: 32px; height: 32px; }
+.portrait .botanical-button { padding-left: 55px; padding-right: 20px; font-size: 43px; max-height: 190px; }
+.portrait .play-button { font-size: 54px; max-height: 210px; }
