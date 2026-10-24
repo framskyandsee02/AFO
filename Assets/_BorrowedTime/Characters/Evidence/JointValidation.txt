@@ -1,0 +1,8 @@
+PASS UpperArm.R angle=75 endpointTravel=0.244m movedVertices=7199
+PASS LowerArm.R angle=75 endpointTravel=0.216m movedVertices=6911
+PASS UpperLeg.R angle=75 endpointTravel=0.289m movedVertices=1645
+PASS LowerLeg.R angle=75 endpointTravel=0.286m movedVertices=1192
+PASS UpperArm.L angle=75 endpointTravel=0.244m movedVertices=2984
+PASS LowerArm.L angle=75 endpointTravel=0.216m movedVertices=2696
+PASS UpperLeg.L angle=75 endpointTravel=0.289m movedVertices=1645
+PASS LowerLeg.L angle=75 endpointTravel=0.286m movedVertices=1192

@@ -1,0 +1,270 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7594009727070700616
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7305953631533967444}
+  - component: {fileID: 8800826826043379990}
+  m_Layer: 0
+  m_Name: Robo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7305953631533967444
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7594009727070700616}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7080626224262901303}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8800826826043379990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7594009727070700616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f4b71062475bb34fbe8f12f74de7b4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BorrowedTime.Characters.BTCharacterModel
+  animator: {fileID: 3792977418688181325}
+  face: {fileID: 811506092269452104}
+  rightHand: {fileID: 0}
+  chronoDial: {fileID: 0}
+  robot: 1
+  clips:
+  - name: Hover
+    label: "\u0E25\u0E2D\u0E22\u0E23\u0E2D"
+    category: Robo
+    face: Happy
+    returnTo: 
+    power: 
+    frames: 60
+    duration: 2
+    loop: 1
+  - name: Follow
+    label: "\u0E1A\u0E34\u0E19\u0E15\u0E32\u0E21"
+    category: Robo
+    face: Neutral
+    returnTo: 
+    power: 
+    frames: 36
+    duration: 1.2
+    loop: 1
+  - name: Scan
+    label: "\u0E2A\u0E41\u0E01\u0E19"
+    category: Robo
+    face: Neutral
+    returnTo: 
+    power: 
+    frames: 72
+    duration: 2.4
+    loop: 1
+  - name: Point
+    label: "\u0E0A\u0E35\u0E49\u0E19\u0E33\u0E17\u0E32\u0E07"
+    category: Robo
+    face: Happy
+    returnTo: 
+    power: 
+    frames: 48
+    duration: 1.6
+    loop: 1
+  - name: Happy
+    label: "\u0E14\u0E35\u0E43\u0E08"
+    category: Robo
+    face: Happy
+    returnTo: 
+    power: 
+    frames: 60
+    duration: 2
+    loop: 1
+  - name: Warning
+    label: "\u0E41\u0E08\u0E49\u0E07\u0E40\u0E15\u0E37\u0E2D\u0E19"
+    category: Robo
+    face: Warning
+    returnTo: 
+    power: 
+    frames: 48
+    duration: 1.6
+    loop: 1
+  - name: Surprised
+    label: "\u0E15\u0E01\u0E43\u0E08"
+    category: Robo
+    face: Excited
+    returnTo: Hover
+    power: 
+    frames: 30
+    duration: 1
+    loop: 0
+  - name: Sad
+    label: "\u0E40\u0E28\u0E23\u0E49\u0E32"
+    category: Robo
+    face: Sad
+    returnTo: 
+    power: 
+    frames: 72
+    duration: 2.4
+    loop: 1
+  - name: Sleep
+    label: "\u0E1E\u0E31\u0E01 / \u0E2B\u0E25\u0E31\u0E1A"
+    category: Robo
+    face: Sleep
+    returnTo: 
+    power: 
+    frames: 96
+    duration: 3.2
+    loop: 1
+  - name: Wake
+    label: "\u0E15\u0E37\u0E48\u0E19 / \u0E40\u0E1B\u0E34\u0E14\u0E23\u0E30\u0E1A\u0E1A"
+    category: Robo
+    face: Neutral
+    returnTo: Hover
+    power: 
+    frames: 48
+    duration: 1.6
+    loop: 0
+  autoReturn: 1
+  autoPoseFace: 1
+  autoBlink: 1
+  blinkInterval: {x: 2.8, y: 5.2}
+  blinkDuration: 0.18
+  currentPose: Idle
+  currentFace: Happy
+--- !u!1001 &7334614969179965916
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7305953631533967444}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6514885763995628390, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.1849059
+      objectReference: {fileID: 0}
+    - target: {fileID: -6514885763995628390, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.18490547
+      objectReference: {fileID: 0}
+    - target: {fileID: -4285916764535869550, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4285916764535869550, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1257976499408653676, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: 'm_BlendShapeWeights.Array.data[0]'
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_Name
+      value: Robo
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d8233ccccb8b6bf44ab529d60122f250, type: 2}
+    - target: {fileID: 6161791113946464549, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.1849059
+      objectReference: {fileID: 0}
+    - target: {fileID: 6161791113946464549, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.18490547
+      objectReference: {fileID: 0}
+    - target: {fileID: 8930365588080843385, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8930365588080843385, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: 8930365588080843385, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8930365588080843385, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+--- !u!137 &811506092269452104 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -1257976499408653676, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+  m_PrefabInstance: {fileID: 7334614969179965916}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &3792977418688181325 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+  m_PrefabInstance: {fileID: 7334614969179965916}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7080626224262901303 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f782f365d51c95f4ba1c1523dbb8f28d, type: 3}
+  m_PrefabInstance: {fileID: 7334614969179965916}
+  m_PrefabAsset: {fileID: 0}

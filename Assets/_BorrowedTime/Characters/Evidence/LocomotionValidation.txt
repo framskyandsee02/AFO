@@ -1,0 +1,4 @@
+PASS Idle duration=3.20s plantedFootMaxError=0.00328m swingClearance=0.000m chestMotion=0.004m loopSeam=0.00001m
+PASS Walk duration=1.00s plantedFootMaxError=0.00160m swingClearance=0.074m chestMotion=0.011m loopSeam=0.00000m
+PASS opposite arm/leg swing at contact pose
+PASS Play Mode movement speed: Idle -> Walk -> Run (two cycles) -> Idle

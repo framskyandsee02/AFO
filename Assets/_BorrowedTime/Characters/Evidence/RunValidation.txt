@@ -1,0 +1,1 @@
+PASS Run: duration=0.667s cadence=180 steps/min; elbow flex=90.2..133.0 degrees; peak knee flex=149.7; pelvis bounce=0.070m; hand travel=0.383m; both feet airborne=14/100; contact samples=80/100; lowest foot=0.0093m

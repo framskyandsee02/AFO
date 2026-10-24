@@ -188,7 +188,10 @@ public static class OopsV2Builder {
     }
     // ---------- build ----------
     [MenuItem("Tools/OOPS Planet/V2/Rebuild V2 Greybox Scene (overwrites OopsPlanet_V2)")]
-    public static void Rebuild() {
+    public static void Rebuild() => RebuildScene(false);
+    [MenuItem("Tools/OOPS Planet/V2/Rebuild V2 With Soft World Art (overwrites OopsPlanet_V2)")]
+    public static void RebuildWithSoftWorld() => RebuildScene(true);
+    static void RebuildScene(bool softWorld) {
         if(EditorApplication.isPlaying) throw new System.Exception("Stop Play Mode before building a scene");
         foreach(var d in new[]{"Scenes","Materials"}) Directory.CreateDirectory(Root+"/"+d);
         AssetDatabase.Refresh();
@@ -203,6 +206,22 @@ public static class OopsV2Builder {
         waterM=Mat("V2 water",new Color(.2f,.45f,.75f)); iceM=Mat("V2 ice",new Color(.72f,.9f,1)); waxM=Mat("V2 wax",new Color(.95f,.88f,.7f));
         plantM=Mat("V2 plant seedling",new Color(.5f,.55f,.3f)); mudM=Mat("V2 mud",new Color(.35f,.25f,.15f)); machineM=Mat("V2 machine",new Color(.3f,.32f,.42f));
         glowGreen=Mat("Checkpoint green",new Color(.17f,.8f,.38f),true); partM=Mat("V2 ship part",new Color(1,.78f,.2f),true); steelBeam=Mat("V2 steel beam",new Color(.4f,.42f,.48f));
+        // Temporary blockout palette; semantic power, hazard and collectible colors remain readable.
+        // Separate material assets keep Prototype 01 and the opt-in Soft World version intact.
+        if(!softWorld) {
+            grey=Mat("Greybox Floor",new Color(.56f,.56f,.56f));
+            dark=Mat("Greybox Structure",new Color(.28f,.28f,.28f));
+            gridM=Mat("Greybox 2m Grid",new Color(.68f,.68f,.68f));
+            metal=Mat("Greybox Metal",new Color(.48f,.48f,.48f));
+            rust=Mat("Greybox Machinery",new Color(.40f,.40f,.40f));
+            wood=Mat("Greybox Crates",new Color(.60f,.60f,.60f));
+            strawM=Mat("Greybox Straw",new Color(.67f,.67f,.67f));
+            paddy=Mat("Greybox Paddy",new Color(.44f,.44f,.44f));
+            plantM=Mat("Greybox Plant",new Color(.58f,.58f,.58f));
+            mudM=Mat("Greybox Mud",new Color(.37f,.37f,.37f));
+            machineM=Mat("Greybox Machine",new Color(.34f,.34f,.34f));
+            steelBeam=Mat("Greybox Beam",new Color(.46f,.46f,.46f));
+        }
         var powerSet=EnsurePowerData();
         world=new GameObject("Oops Runtime").AddComponent<BlobWorld>();
         world.levelTitle="OOPS! PLANET / V2 GREYBOX"; world.checkpointCount=2; world.saveSlot="oops_save_v2";
@@ -217,7 +236,7 @@ public static class OopsV2Builder {
         world.puzzles=puzzles.ToArray(); world.sources=sources.ToArray(); world.zones=zones.ToArray();
         Ambience();
         BuildPlayer(powerSet);
-        OopsSoftWorldArt.Apply();
+        if(softWorld) OopsSoftWorldArt.Apply();
         EditorSceneManager.MarkSceneDirty(scene); EditorSceneManager.SaveScene(scene,ScenePath);
         AssetDatabase.SaveAssets();
         Debug.Log("OOPS_V2_BUILD_OK "+ScenePath+" | puzzles="+puzzles.Count+" sources="+sources.Count+" parts="+parts.Count);

@@ -1,0 +1,38 @@
+0.01s | Fresh journey started using scroll input
+27.52s | PASS Complete training with scroll controls and received miracle seed
+29.79s | PASS Real SceneManager transition TrainingArea → ForgottenCity; seed and energy carried over=15.1
+30.71s | PASS CITY 0 Reached first renewable source
+38.21s | PASS CITY 1 Recharged carried gauntlet through nonlethal absorption
+40.38s | PASS CITY 2 Reached public garden
+40.99s | PASS CITY 3 Rewound withered tree to mature state
+47.50s | PASS CITY 4 Polluted water caused relapse; cosmetic repair did not complete garden
+48.39s | PASS CITY 5 Left park on clear path
+50.69s | PASS CITY 6 Followed pollution pipe north
+51.81s | PASS CITY 7 Reached broken waterworks
+52.42s | PASS CITY 8 Water machine repaired with wheel back
+53.13s | PASS CITY 9 Reached diversion valve
+53.14s | PASS CITY 10 F isolated dirty feed and restored clean district water
+54.76s | PASS CITY 11 Returned along waterworks street
+57.08s | PASS CITY 12 Returned to park approach
+57.94s | PASS CITY 13 Reached garden after fixing cause
+59.26s | PASS CITY 14 Garden now permanently restored under clean water
+66.26s | PASS CITY 15 Healthy tree stayed healthy beyond relapse duration
+68.03s | PASS CITY 16 Left restored garden
+69.91s | PASS CITY 17 Reached canal crossing approach
+71.23s | PASS CITY 18 Canal bridge restored in two states
+72.17s | PASS CITY 19 Walked onto restored canal bridge
+74.20s | PASS CITY 20 Crossed canal using real bridge collision
+74.55s | PASS CITY 21 Reached east renewable source
+82.18s | PASS CITY 22 Recharged for optional and factory puzzles
+87.03s | PASS CITY 23 Reached optional garden entrance
+88.57s | PASS CITY 24 Aged optional vines and walked into small garden
+89.57s | PASS Optional notebook modal opened; player paused
+89.57s | PASS CITY 25 Closed notebook through same UI command and restored controls
+90.40s | PASS CITY 26 Returned from optional garden
+92.50s | PASS CITY 27 Reached factory forecourt
+93.82s | PASS CITY 28 Factory obstruction aged twice and crumbled
+95.53s | PASS CITY 29 Reached factory access panel
+95.54s | PASS CITY 30 Factory unlocked only after main puzzle prerequisites
+96.34s | PASS CITY 31 Reached opened factory door
+99.82s | PASS City gate crossed on foot route=Bridge; all main objectives and optional garden complete; seed retained
+99.82s | PASS Training + City completed; city walked=142.6m energy=30.1

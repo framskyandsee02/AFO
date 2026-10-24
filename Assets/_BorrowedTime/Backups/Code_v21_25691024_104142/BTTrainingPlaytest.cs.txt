@@ -1,0 +1,119 @@
+#if UNITY_EDITOR
+using System;
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
+using UnityEditor;
+using Object=UnityEngine.Object;
+namespace BorrowedTime.Editor {
+[InitializeOnLoad]
+public static class BTTrainingPlaytest {
+    static BTTrainingGame g;
+    static int step;
+    static float stepSince,castAt;
+    static double started;
+    static bool running,oldBackground;
+    static bool targetingChecked;
+    static string status="Idle";
+    static readonly List<string> log=new List<string>();
+    public static string Status => status;
+    static BTTrainingPlaytest() { EditorApplication.update+=Tick; }
+    public static void Start() {
+        if(!EditorApplication.isPlaying) throw new InvalidOperationException("Enter Play Mode first");
+        g=Object.FindFirstObjectByType<BTTrainingGame>(); if(!g) throw new Exception("No training scene");
+        log.Clear(); step=0; targetingChecked=false; started=EditorApplication.timeSinceStartup; stepSince=Time.time; oldBackground=Application.runInBackground; Application.runInBackground=true;
+        g.ResetTraining(); running=true; g.player.inputOverride=Input; status="Running"; Note("Fresh training started");
+    }
+    static void Note(string s) { log.Add((EditorApplication.timeSinceStartup-started).ToString("F2")+"s | "+s); }
+    static void Next(string s) { Note("PASS "+step+" "+s); step++; stepSince=Time.time; castAt=Time.time+.65f; }
+    static void Finish(bool ok,string message) {
+        status=(ok?"PASS":"FAIL")+" "+message; Note(status);
+        if(g && g.player) g.player.inputOverride=null;
+        Application.runInBackground=oldBackground; running=false;
+        Directory.CreateDirectory(BTTrainingBuilder.Root+"/Evidence");
+        File.WriteAllText(BTTrainingBuilder.Root+"/Evidence/Playtest.txt",string.Join("\n",log)); Debug.Log("BORROWED_TIME_PLAYTEST "+status);
+    }
+    static void Tick() {
+        if(!running) return;
+        if(!EditorApplication.isPlaying || !g) { Finish(false,"Play Mode ended"); return; }
+        if(step==18 && g.completed && g.hasMiracleSeed) {
+            Next("Received miracle seed through F interaction");
+            Finish(true,"Training completed; walked="+g.player.walked.ToString("F1")+"m energy="+g.player.energy.ToString("F1")); return;
+        }
+        if(Time.time-stepSince>24) Finish(false,"Timeout at step "+step+" position="+g.player.transform.position+" target="+(g.player.target?g.player.target.displayName:"none")+" feedback="+g.player.feedback);
+    }
+    static bool Move(Vector3 destination,ref BTPlayer.FrameInput f,float tolerance=.4f) {
+        Vector3 delta=destination-g.player.transform.position; delta.y=0;
+        if(delta.magnitude<tolerance) return true;
+        Vector3 local=Quaternion.Inverse(Quaternion.Euler(0,g.player.yaw,0))*delta.normalized;
+        f.move=new Vector2(local.x,local.z); return false;
+    }
+    static bool Aim(BTTimeTarget t,ref BTPlayer.FrameInput f) {
+        Vector3 delta=t.aimPoint.position-g.player.view.transform.position;
+        float y=Mathf.Atan2(delta.x,delta.z)*Mathf.Rad2Deg,p=-Mathf.Atan2(delta.y,new Vector2(delta.x,delta.z).magnitude)*Mathf.Rad2Deg;
+        f.look=new Vector2(Mathf.DeltaAngle(g.player.yaw,y)*.55f/.14f,-(p-g.player.pitch)*.55f/.12f); f.aim=true;
+        return g.player.target==t;
+    }
+    static void Cast(BTTimeTarget t,int goal,ref BTPlayer.FrameInput f) {
+        if(Aim(t,ref f) && Time.time>castAt) { f.scroll=t.age>goal?-120:t.age<goal?120:0; castAt=Time.time+.7f; }
+    }
+    static BTPlayer.FrameInput Input() {
+        var f=new BTPlayer.FrameInput(); if(!running) return f;
+        switch(step) {
+            case 0: if(Move(new Vector3(-18,0,-5),ref f) && g.stage==2) Next("Movement objective from controller motion"); break;
+            case 1: if(Move(new Vector3(-15,0,-1.1f),ref f)) Next("Reached living tree"); break;
+            case 2: if(Aim(g.tree,ref f)) f.absorb=true; if(g.stage==3) { if(g.tree.life<20 || g.player.energy<69) { Finish(false,"Nonlethal absorb invariant"); break; } Next("Absorbed >=20 life energy without age change"); } break;
+            case 3: if(Move(new Vector3(-8.5f,0,4),ref f)) Next("Reached bridge approach"); break;
+            case 4:
+                if(!targetingChecked && Aim(g.bridge,ref f)) {
+                    // LateUpdate can move the following camera after last frame's target.
+                    // Reconfirm the current ray before inserting the occluder.
+                    g.player.FindTarget(true);
+                    if(g.player.target!=g.bridge) break;
+                    Vector3 a=g.player.view.transform.position,b=g.bridge.aimPoint.position;
+                    var wall=GameObject.CreatePrimitive(PrimitiveType.Cube); wall.name="Temporary occlusion test"; wall.transform.position=(a+b)*.5f;
+                    wall.transform.rotation=Quaternion.LookRotation(b-a); wall.transform.localScale=new Vector3(4,4,.5f); Physics.SyncTransforms();
+                    g.player.FindTarget(true); bool blocked=g.player.target==null;
+                    Object.DestroyImmediate(wall); Physics.SyncTransforms(); g.player.FindTarget(true);
+                    if(!blocked || g.player.target!=g.bridge) { Finish(false,"Occlusion target filtering"); break; }
+                    Note("PASS Target blocked by opaque wall; target restored after wall removal");
+                    float energy=g.player.energy; int age=g.bridge.age; string reason;
+                    g.player.energy=0; bool emptyAccepted=g.bridge.TryStep(-1,g.player,out reason); g.player.energy=energy;
+                    if(emptyAccepted || age!=g.bridge.age) { Finish(false,"Empty energy accepted a cast"); break; }
+                    if(g.bridge.Absorb(20)!=0) { Finish(false,"Nonliving absorption"); break; }
+                    bool boundsAccepted=g.bridge.TryStep(1,g.player,out reason);
+                    if(boundsAccepted || g.player.energy!=energy) { Finish(false,"Age overflow"); break; }
+                    Note("PASS Empty energy, nonliving absorption and age overflow rejected without spending energy");
+                    targetingChecked=true;
+                }
+                if(targetingChecked) Cast(g.bridge,0,ref f);
+                if(g.bridge.age==0 && g.stage==4) Next("Bridge restored in two paid Rewind steps"); break;
+            case 5: if(Move(new Vector3(-5.7f,0,4),ref f)) Next("Reached bridge threshold"); break;
+            case 6: if(Move(new Vector3(-1,0,4),ref f)) Next("Walked onto real bridge collider"); break;
+            case 7: {
+                string reason; float energy=g.player.energy; int age=g.bridge.age;
+                bool accepted=g.bridge.TryStep(1,g.player,out reason);
+                if(accepted || g.bridge.age!=age || g.player.energy!=energy) { Finish(false,"Support safety failed"); break; }
+                Next("Support removal rejected while standing on bridge"); break;
+            }
+            case 8: if(Move(new Vector3(6.3f,0,4),ref f)) Next("Crossed bridge using controller"); break;
+            case 9: if(Move(new Vector3(8,0,6),ref f)) Next("Reached east renewable plant"); break;
+            case 10: {
+                BTTimeTarget t=null; foreach(var x in Object.FindObjectsByType<BTTimeTarget>(FindObjectsSortMode.None)) if(x.kind==TargetKind.Plant && x!=g.tree && x.transform.position.y<1) t=x;
+                if(t && Aim(t,ref f)) f.absorb=true;
+                if(g.player.energy>=75) Next("Renewable energy accessible beyond bridge"); break;
+            }
+            case 11: if(Move(new Vector3(12,0,7.2f),ref f)) Next("Reached vine approach"); break;
+            case 12: Cast(g.vine,1,ref f); if(g.vine.age==1 && g.stage==5) Next("Vine grew one state with Accelerate"); break;
+            case 13: if(Move(new Vector3(12,0,9.3f),ref f)) Next("Reached vine ramp"); break;
+            case 14: if(Move(new Vector3(12,3,15.5f),ref f) && g.player.transform.position.y>2.9f) Next("Climbed continuous vine collider to upper terrace"); break;
+            case 15: Cast(g.mechanism,0,ref f); if(g.mechanism.age==0) Next("Combined puzzle mechanism restored"); break;
+            case 16: Cast(g.seal,2,ref f); if(g.seal.age==2 && g.stage==6) Next("Combined puzzle seal aged; gate unlocked by prerequisites"); break;
+            case 17: if(Time.time-stepSince>3 && Move(new Vector3(12,3,20.7f),ref f)) Next("Walked through opened gate"); break;
+            case 18: f.interact=true; if(g.completed && g.hasMiracleSeed) { Next("Received miracle seed through F interaction"); Finish(true,"Training completed; walked="+g.player.walked.ToString("F1")+"m energy="+g.player.energy.ToString("F1")); } break;
+        }
+        return f;
+    }
+}
+}
+#endif

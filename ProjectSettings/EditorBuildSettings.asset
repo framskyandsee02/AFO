@@ -8,6 +8,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/OopsPlanet/Scenes/OopsPlanet_Prototype01.unity
     guid: 1f0d09417ea3aba4a868594a03b21c75
+  - enabled: 1
+    path: Assets/_BorrowedTime/Scenes/TrainingArea.unity
+    guid: 2104e486f61ca9447a4695703c7103cf
+  - enabled: 1
+    path: Assets/_BorrowedTime/Scenes/ForgottenCity.unity
+    guid: c995ade6802db3e48935276051473fc2
+  - enabled: 1
+    path: Assets/_BorrowedTime/Scenes/FactoryInterior.unity
+    guid: 36210cf14264a0e4e80999b377ac921d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

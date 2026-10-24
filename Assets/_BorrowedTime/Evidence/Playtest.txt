@@ -1,0 +1,23 @@
+0.01s | Fresh training started
+1.19s | PASS 0 Movement objective from controller motion
+2.21s | PASS 1 Reached living tree
+4.22s | PASS 2 Absorbed >=20 life energy without age change
+6.63s | PASS 3 Reached bridge approach
+6.65s | PASS Target blocked by opaque wall; target restored after wall removal
+6.65s | PASS Empty energy, nonliving absorption and age overflow rejected without spending energy
+8.00s | PASS 4 Bridge restored in two paid Rewind steps
+8.58s | PASS 5 Reached bridge threshold
+9.59s | PASS 6 Walked onto real bridge collider
+9.59s | PASS 7 Support removal rejected while standing on bridge
+11.16s | PASS 8 Crossed bridge using controller
+11.69s | PASS 9 Reached east renewable plant
+16.71s | PASS 10 Renewable energy accessible beyond bridge
+17.60s | PASS 11 Reached vine approach
+18.27s | PASS 12 Vine grew one state with Accelerate
+18.67s | PASS 13 Reached vine ramp
+20.00s | PASS 14 Climbed continuous vine collider to upper terrace
+21.36s | PASS 15 Combined puzzle mechanism restored
+22.03s | PASS 16 Combined puzzle seal aged; gate unlocked by prerequisites
+27.49s | PASS 17 Walked through opened gate
+27.51s | PASS 18 Received miracle seed through F interaction
+27.51s | PASS Training completed; walked=54.6m energy=15.1

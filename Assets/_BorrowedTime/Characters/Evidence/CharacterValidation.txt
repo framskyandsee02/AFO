@@ -1,0 +1,2 @@
+PASS Protagonist vertices=34704 triangles=54472 bones=38 expressions=8 unweighted=0 clips=Absorb,Accelerate,Aim,Cast,Celebrate,CrouchIdle,CrouchWalk,Death,Fall,GetUp,HardLand,Hit,Idle,IdleLookAround,Interact,Jump,JumpStart,Land,Pickup,PlantSeed,Pull,Push,Rewind,Run,Scan,StrafeLeft,StrafeRight,TimeTransfer,TurnLeft,TurnRight,Walk,WalkBackward,Wave
+PASS Robo vertices=14174 triangles=23664 bones=6 expressions=8 unweighted=0 clips=Follow,Happy,Hover,Point,Sad,Scan,Sleep,Surprised,Wake,Warning

@@ -1,0 +1,70 @@
+0.01s | Fresh full game started from training; actual wheel controls
+99.82s | PASS Training and City completed on foot; optional city garden restored
+102.01s | PASS Real scene transition City → Factory preserved seed, water, garden and energy=30.1
+102.01s | PASS Planting blocked before pollution / water prerequisites; miracle seed cannot supply energy
+103.12s | PASS FACTORY A / 0 Reached lobby living source
+109.33s | PASS FACTORY A / 1 Refilled incoming gauntlet through living energy
+109.33s | PASS v2.1 entry does not require optional relay repairs
+110.00s | PASS FACTORY A / 8 Reached intake panel approach
+110.62s | PASS FACTORY A / 9 Intake control repaired
+110.64s | PASS FACTORY A / 10 F opened intake gate after all relay prerequisites
+111.43s | PASS FACTORY A / 11 Went around control cabinet
+112.92s | PASS FACTORY A / 12 Walked through intake gate
+116.41s | PASS FACTORY A / 13 Reached transport bridge approach
+117.72s | PASS FACTORY A / 14 Transport bridge rewound twice
+118.62s | PASS FACTORY A / 15 Entered real bridge deck
+120.53s | PASS FACTORY A / 16 Crossed restored transport bridge
+121.35s | PASS FACTORY A / 17 Reached raw material recovery planter
+125.50s | PASS FACTORY A / 18 Recharged before elevator
+126.30s | PASS FACTORY A / 19 Reached elevator controls
+126.92s | PASS FACTORY A / 20 Repaired freight elevator control
+127.48s | PASS FACTORY A / 21 Approached open side of elevator
+128.07s | PASS FACTORY A / 22 Walked onto freight platform
+128.08s | PASS FACTORY A / 23 F started freight lift
+131.41s | PASS FACTORY A / 24 Moving platform carried real CharacterController to floor 6
+132.03s | PASS FACTORY A / 25 Walked off lift onto upper landing
+132.61s | PASS FACTORY A / 26 Reached upper service planter
+135.77s | PASS FACTORY A / 27 Upper source filled gauntlet
+136.37s | PASS FACTORY A / 28 Entered upper catwalk
+139.75s | PASS FACTORY A / 29 Walked west catwalk
+148.13s | PASS FACTORY A / 30 Crossed south transfer catwalk
+149.31s | PASS FACTORY A / 31 Reached conveyor controller
+150.63s | PASS FACTORY A / 32 Accelerated conveyor twice; cargo moved into bay
+152.71s | PASS FACTORY A / 33 Reached conveyor release panel
+152.72s | PASS FACTORY A / 34 F opened conveyor access door
+153.45s | PASS FACTORY A / 35 Aligned with access doorway
+154.99s | PASS FACTORY A / 36 Walked into boiler hall
+155.99s | PASS FACTORY A / 37 Reached boiler recovery planter
+159.14s | PASS FACTORY A / 38 Recharged for three pressure repairs
+159.60s | PASS boiler repairs remain optional; critical route open
+161.22s | PASS FACTORY A / 44 Walked behind pressure vessels
+161.70s | PASS FACTORY A / 45 Reached vent controls
+163.64s | PASS FACTORY A / 47 Walked around vent desk and through pressure door
+166.07s | PASS FACTORY A / 56 Reached ring bridge threshold
+168.61s | PASS FACTORY A / 57 Walked onto ring bridge collider
+171.17s | PASS FACTORY A / 58 Crossed into main control room
+173.31s | PASS FACTORY A / 59 Reached control room living source
+175.34s | PASS FACTORY A / 60 Recharged for shutdown operations
+175.34s | PASS direct shutdown path does not require three auxiliary valves
+177.80s | PASS FACTORY A / 69 Reached damaged main console
+178.41s | PASS FACTORY A / 70 Repaired main pollution control console
+178.42s | PASS FACTORY A / 71 F stopped active factory pollution after repaired control module
+178.43s | PASS clean water carried from city after pollution shutdown
+179.74s | PASS FACTORY A / 76 Returned through control aisle
+180.70s | PASS FACTORY A / 77 Went around shutoff valves
+181.08s | PASS FACTORY A / 78 Reached upper elevator threshold
+181.73s | PASS FACTORY A / 79 Walked onto core lift
+181.74s | PASS FACTORY A / 80 F started core lift after shutdown and water restoration
+185.07s | PASS FACTORY A / 81 Second real lift carried player to floor 12
+185.78s | PASS FACTORY A / 82 Exited core elevator
+189.98s | PASS FACTORY A / 83 Crossed upper core walkway
+191.19s | PASS FACTORY A / 84 Entered planting chamber on bridge
+192.21s | PASS FACTORY A / 85 Reached final living energy source
+194.85s | PASS FACTORY A / 86 Prepared enough living energy for seed and growth
+197.55s | PASS FACTORY A / 87 Reached optional nursery
+198.16s | PASS FACTORY A / 88 Restored optional nursery using real time power
+199.14s | PASS FACTORY A / 89 Reached seed planting approach
+199.15s | PASS FACTORY A / 90 F planted and consumed carried seed only after valid prerequisites
+201.37s | PASS FACTORY A / 91 Actual aimed absorption from miracle seed refused; energy and age unchanged
+202.69s | PASS Hopeful Renewal reached through actual controls; walked=287.5m energy=25.0
+261.70s | FAIL Play Mode ended

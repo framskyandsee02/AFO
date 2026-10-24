@@ -1,0 +1,61 @@
+PASS Hero pose=Idle dial=False
+PASS Hero pose=IdleLookAround dial=False
+PASS Hero pose=Walk dial=False
+PASS Hero pose=Run dial=False
+PASS Hero pose=WalkBackward dial=False
+PASS Hero pose=StrafeLeft dial=False
+PASS Hero pose=StrafeRight dial=False
+PASS Hero pose=TurnLeft dial=False
+PASS Hero pose=TurnRight dial=False
+PASS Hero pose=CrouchIdle dial=False
+PASS Hero pose=CrouchWalk dial=False
+PASS Hero pose=JumpStart dial=False
+PASS Hero pose=Jump dial=False
+PASS Hero pose=Fall dial=False
+PASS Hero pose=Land dial=False
+PASS Hero pose=HardLand dial=False
+PASS Hero pose=Aim dial=True
+PASS Hero pose=Absorb dial=True
+PASS Hero pose=Rewind dial=True
+PASS Hero pose=Accelerate dial=True
+PASS Hero pose=TimeTransfer dial=True
+PASS Hero pose=Cast dial=True
+PASS Hero pose=Scan dial=True
+PASS Hero pose=Interact dial=False
+PASS Hero pose=Pickup dial=False
+PASS Hero pose=PlantSeed dial=False
+PASS Hero pose=Push dial=False
+PASS Hero pose=Pull dial=False
+PASS Hero pose=Hit dial=False
+PASS Hero pose=Death dial=False
+PASS Hero pose=GetUp dial=False
+PASS Hero pose=Wave dial=False
+PASS Hero pose=Celebrate dial=False
+PASS Robo pose=Hover
+PASS Robo pose=Follow
+PASS Robo pose=Scan
+PASS Robo pose=Point
+PASS Robo pose=Happy
+PASS Robo pose=Warning
+PASS Robo pose=Surprised
+PASS Robo pose=Sad
+PASS Robo pose=Sleep
+PASS Robo pose=Wake
+PASS Hero face=Neutral
+PASS Hero face=Blink
+PASS Hero face=Serious
+PASS Hero face=Surprised
+PASS Hero face=Smile
+PASS Hero face=Thinking
+PASS Hero face=Tired
+PASS Hero face=Concerned
+PASS Hero face=Sad
+PASS Robo face=Neutral
+PASS Robo face=Happy
+PASS Robo face=Excited
+PASS Robo face=Warning
+PASS Robo face=Sad
+PASS Robo face=Question
+PASS Robo face=Angry
+PASS Robo face=Sleep
+PASS Robo face=Blink

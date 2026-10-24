@@ -1,0 +1,1 @@
+PASS automatic timed blink cycles Hero=5 Robo=5

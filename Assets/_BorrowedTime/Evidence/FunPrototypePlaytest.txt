@@ -1,0 +1,37 @@
+0.06s | PASS Bridge 0 approached living source
+4.60s | PASS Bridge 1 nonlethal refill
+5.79s | PASS Bridge 2 approached park
+6.46s | PASS Bridge 3 rewound tree one state
+12.95s | PASS Bridge 4 pollution stress changed health visual without changing age
+13.68s | PASS Bridge 5 selected crossing approach
+15.04s | PASS Bridge 6 opened selected crossing through real wheel input
+15.68s | PASS Bridge 7 on crossing collider
+15.68s | PASS Bridge 8 support removal blocked without spending energy
+17.28s | PASS Bridge 9 crossed selected route on foot
+19.04s | PASS Bridge 10 reached water controls
+19.70s | PASS Bridge 11 repaired pump
+20.13s | PASS Bridge 12 reached valve
+20.14s | PASS Bridge 13 F stopped toxic feed
+21.94s | PASS Bridge 14 returned to same route
+24.03s | PASS Bridge 15 crossed back using same collider
+24.65s | PASS Bridge 16 returned to sick tree
+26.01s | PASS actual route crossed both directions; polluted health retained temporal age; lasting restoration after source stopped
+26.21s | PASS Nature 0 approached living source
+30.72s | PASS Nature 1 nonlethal refill
+32.02s | PASS Nature 2 approached park
+32.67s | PASS Nature 3 rewound tree one state
+39.17s | PASS Nature 4 pollution stress changed health visual without changing age
+40.29s | PASS Nature 5 selected crossing approach
+40.95s | PASS Nature 6 opened selected crossing through real wheel input
+41.48s | PASS Nature 7 on crossing collider
+41.48s | PASS Nature 8 support removal blocked without spending energy
+43.08s | PASS Nature 9 crossed selected route on foot
+45.91s | PASS Nature 10 reached water controls
+46.57s | PASS Nature 11 repaired pump
+47.00s | PASS Nature 12 reached valve
+47.01s | PASS Nature 13 F stopped toxic feed
+50.92s | PASS Nature 14 returned to same route
+53.00s | PASS Nature 15 crossed back using same collider
+53.89s | PASS Nature 16 returned to sick tree
+55.25s | PASS actual route crossed both directions; polluted health retained temporal age; lasting restoration after source stopped
+55.25s | PASS Both real controller crossing routes and ecological cause/effect verified

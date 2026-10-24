@@ -1,0 +1,25 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+namespace BorrowedTime {
+// Journey data stays alive across the two scenes without duplicating the player.
+public static class BTJourney {
+    public const string TrainingPath="Assets/_BorrowedTime/Scenes/TrainingArea.unity";
+    public const string CityPath="Assets/_BorrowedTime/Scenes/ForgottenCity.unity";
+    public const string FactoryPath="Assets/_BorrowedTime/Scenes/FactoryInterior.unity";
+    public static bool HasMiracleSeed,FromTraining,OptionalGardenRestored;
+    public static float CarriedEnergy=50;
+    public static bool FromCity,CityWaterRestored,CityGardenRestored,SeedPlanted,PollutionStopped,FinalNurseryRestored;
+    public static string Ending="";
+    public static string CrossingMethod="";
+    public static void NewJourney() { HasMiracleSeed=false; FromTraining=false; OptionalGardenRestored=false; CarriedEnergy=50; FromCity=CityWaterRestored=CityGardenRestored=SeedPlanted=PollutionStopped=FinalNurseryRestored=false; Ending=""; CrossingMethod=""; }
+    public static void LoadCity(float energy) {
+        CarriedEnergy=Mathf.Clamp(energy,0,100); FromTraining=true;
+        SceneManager.LoadSceneAsync(CityPath,LoadSceneMode.Single);
+    }
+    public static void LoadTraining() { NewJourney(); SceneManager.LoadSceneAsync(TrainingPath,LoadSceneMode.Single); }
+    public static void LoadFactory(float energy,bool water,bool garden) {
+        CarriedEnergy=Mathf.Clamp(energy,0,100); FromCity=true; CityWaterRestored=water; CityGardenRestored=garden;
+        SceneManager.LoadSceneAsync(FactoryPath,LoadSceneMode.Single);
+    }
+}
+}
