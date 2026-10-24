@@ -107,6 +107,7 @@ public class BTCityGame : BTTrainingGame {
         if(Vector3.Distance(player.transform.position,factoryConsole.position)<3.2f) {
             if(!gardenRestored || !waterRestored || !CrossingPassable) { player.Message("ยังเปิดไม่ได้: ต้องฟื้นสวน แก้ระบบน้ำ และเปิดทางข้ามคลองก่อน"); return; }
             if(seal.age!=2) { player.Message("สิ่งกีดขวางยังไม่สลาย เล็งแล้วดันล้อเมาส์ไปหน้าสองขั้น"); return; }
+            if(!BTExpansionWorld.CanLeave(this,out string pending)){player.Message(pending);return;}
             factoryOpen=true; if(crossingMethod=="")crossingMethod=bridge.age==0?"Bridge":"Nature"; BTJourney.CrossingMethod=crossingMethod; PlayTone(850); player.Message("ประตูเปิดแล้ว เดินผ่านเพื่อเข้าโรงงาน หรือกลับไปฟื้นสวนเล็กก่อนได้"); return;
         }
         player.Message("F ใช้งานวาล์วน้ำ อ่านบันทึก หรือเปิดแผงควบคุมประตูเมื่อเข้าใกล้");
@@ -120,6 +121,7 @@ public class BTCityGame : BTTrainingGame {
         if(optionalBloom) optionalBloom.SetActive(optionalRestored);
     }
     public override void ResetTraining() {
+        var expansion=GetComponent<BTExpansionWorld>();if(expansion)expansion.ResetWorld();
         foreach(var t in FindObjectsByType<BTTimeTarget>(FindObjectsSortMode.None)) t.ResetTarget();
         waterRestored=gardenRestored=factoryOpen=optionalRestored=observedRelapse=completed=noteOpen=factoryLoading=false;
         BTJourney.OptionalGardenRestored=false; optionalWatered=false; crossingMethod=""; relapseAt=-1; gateLift=0; lastStage=-1;

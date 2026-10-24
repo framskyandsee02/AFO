@@ -68,12 +68,14 @@ public class BTTrainingGame : MonoBehaviour {
     }
     public virtual void Interact() {
         if(stage==6 && Vector3.Distance(player.transform.position,new Vector3(12,3,22))<3) {
+            if(!BTExpansionWorld.CanLeave(this,out string pending)){player.Message(pending);return;}
             hasMiracleSeed=true; completed=true; if(seed) seed.gameObject.SetActive(false); SetStage(7);
             BTJourney.HasMiracleSeed=true; transitionAt=Time.time+1.8f; BTSaveGame.Request(this);
             Cursor.lockState=CursorLockMode.None; Cursor.visible=true;
         } else player.Message("เดินไปหา Norman หลังประตู แล้วกด F เพื่อรับเมล็ดพันธุ์");
     }
     public virtual void ResetTraining() {
+        var expansion=GetComponent<BTExpansionWorld>();if(expansion)expansion.ResetWorld();
         BTJourney.NewJourney();
         foreach(var t in new[]{tree,bridge,vine,mechanism,seal,wonderTree}) if(t) t.ResetTarget();
         absorbed=0; completed=hasMiracleSeed=bridgeLearned=vineLearned=false;

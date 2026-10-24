@@ -45,7 +45,8 @@ public class BTPlayer : MonoBehaviour {
         if(inputOverride==null && k!=null) {
             if(k.escapeKey.wasPressedThisFrame && game.stage>0) { paused=!paused; Cursor.lockState=paused?CursorLockMode.None:CursorLockMode.Locked; Cursor.visible=paused; }
             if(k.tabKey.wasPressedThisFrame && !paused && game.stage>0) overview=!overview;
-            if(k.hKey.wasPressedThisFrame && !paused) game.ShowHint();
+            if(k.jKey.wasPressedThisFrame && game.stage>0) {var w=game.GetComponent<BTExpansionWorld>();if(w)w.ToggleJournal();}
+            if(k.hKey.wasPressedThisFrame && !paused) {var w=game.GetComponent<BTExpansionWorld>();if(!w||!w.TryHint())game.ShowHint();}
             if(k.rKey.wasPressedThisFrame && !paused && game.stage>0) game.ResetTraining();
             if(k.f5Key.wasPressedThisFrame && game.stage>0) BTSaveGame.Save(game);
             if(k.cKey.wasPressedThisFrame && (game.stage==0 || paused)) BTSaveGame.Continue();
@@ -79,7 +80,7 @@ public class BTPlayer : MonoBehaviour {
             if(f.scroll<-.01f) Cast(-1);
             if(f.scroll>.01f) Cast(1);
         } else if(f.aim && (f.absorb || Mathf.Abs(f.scroll)>.01f)) Message("เล็งวงแหวนของวัตถุที่มีพลังเวลา");
-        if(f.interact) { game.Interact(); BTSaveGame.Request(game); }
+        if(f.interact) {var w=game.GetComponent<BTExpansionWorld>();if(!w||!w.TryInteract())game.Interact();BTSaveGame.Request(game);}
     }
     void LateUpdate() {
         if(overview) {

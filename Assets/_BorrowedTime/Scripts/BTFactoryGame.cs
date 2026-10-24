@@ -123,6 +123,7 @@ public class BTFactoryGame : BTTrainingGame {
         player.Message("F ใช้งานแผงควบคุม วาล์ว ลิฟต์ หรือปลูกเมล็ดเมื่อเข้าใกล้");
     }
     public bool CanPlant(out string reason) {
+        if(!BTExpansionWorld.CanLeave(this,out reason))return false;
         if(!hasMiracleSeed) { reason="ยังไม่มีเมล็ดพันธุ์ เริ่มจากด่านฝึกและเดินทางผ่านเมืองก่อน"; return false; }
         if(!pollutionStopped || !waterFlowRestored) { reason="ปลูกไม่ได้: ต้องหยุดมลพิษและฟื้นน้ำสะอาดก่อน"; return false; }
         if(player.energy<30) { reason="ต้องมีพลัง 30 หน่วยสำหรับปลูก เติมพลังจากพืชในห้องก่อน"; return false; }
@@ -148,6 +149,7 @@ public class BTFactoryGame : BTTrainingGame {
         foreach(var l in reactorLights) if(l) { l.color=pollutionStopped?new Color(.3f,.85f,1):new Color(1,.24f,.12f); l.intensity=pollutionStopped?2:3; }
     }
     public override void ResetTraining() {
+        var expansion=GetComponent<BTExpansionWorld>();if(expansion)expansion.ResetWorld();
         foreach(var t in FindObjectsByType<BTTimeTarget>(FindObjectsInactive.Include,FindObjectsSortMode.None)) t.ResetTarget();
         entryOpen=transportRestored=freightReached=conveyorOpen=pressureBalanced=powerLatched=pollutionStopped=waterFlowRestored=seedPlanted=nurseryRestored=completed=false;
         for(int i=0;i<valvesClosed.Length;i++) valvesClosed[i]=false;
