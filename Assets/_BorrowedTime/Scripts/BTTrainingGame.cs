@@ -18,6 +18,8 @@ public class BTTrainingGame : MonoBehaviour {
     public Vector3 mapCameraPosition=new Vector3(-38,43,-43),mapCameraTarget=new Vector3(0,0,4);
     public float mapCameraSize=33;
     public bool advanceToCity=true;
+    public bool IsGentleTraining => GetType()==typeof(BTTrainingGame) && gameObject.scene.path==BTJourney.TrainingPath;
+    public float AbsorbLessonGoal => IsGentleTraining?10:20;
     float transitionAt;
     float doorLift;
     int hintTier;
@@ -27,8 +29,15 @@ public class BTTrainingGame : MonoBehaviour {
     protected virtual void Start() {
         BTJourney.NewJourney();
         InitializeAudio();
+        if(IsGentleTraining) ConfigureGentleTraining();
         if(!GetComponent<BTPresentation>()) gameObject.AddComponent<BTPresentation>();
         SetStage(0); Cursor.lockState=CursorLockMode.None; Cursor.visible=true;
+    }
+    public void ConfigureGentleTraining() {
+        if(!IsGentleTraining)return;
+        if(mechanism){mechanism.age=0;mechanism.Apply();}
+        if(seal){seal.age=2;seal.Apply();}
+        objectives=new[]{"พบ Norman และ Robo","เดินเล่นตามทางไปยังวงแหวน","ลองยืมพลังชีวิตจากต้นไม้ 10 หน่วย","ล้อเมาส์ถอย: คืนสภาพสะพาน","ล้อเมาส์ไปหน้า: ให้เถาวัลย์เติบโต","เดินขึ้นไปชมวิวบนลานพัก","พบ Norman แล้วกด F รับเมล็ดพันธุ์","พร้อมออกเดินทางแล้ว"};
     }
     public virtual void Begin() {
         if(stage!=0) return; var presentation=GetComponent<BTPresentation>(); if(presentation && !presentation.AdvanceOpening())return; SetStage(1); Cursor.lockState=CursorLockMode.Locked; Cursor.visible=false;
@@ -36,6 +45,14 @@ public class BTTrainingGame : MonoBehaviour {
     void SetStage(int next) {
         stage=next; hintTier=0;
         string[] lines={"Norman: ถุงมือนี้ยืมพลังจากชีวิต จงใช้ด้วยความระมัดระวังนะ","Robo: ยินดีต้อนรับ! เดินไปที่วงแหวน ลองวิ่งและกระโดดได้เลย","Robo: พืชให้พลังชีวิตแก่ถุงมือ เล็งต้นไม้แล้วดูดอย่างพอดี เราจะไม่ทำร้ายมันจนตาย","Robo: ลองเร่งต้นอ่อนข้างทางให้โตเต็มวัยก่อน แล้วค่อยคืนสภาพสะพานทีละขั้น","Robo: เถาวัลย์ยังเล็กอยู่ ลองพามันเติบโตเป็นทางขึ้น","Robo: ใช้สิ่งที่เรียนมา! กลไกเก่าต้องย้อนเวลา ส่วนเถาวัลย์ที่ขวางประตูต้องแก่ลง","Norman: เก่งมาก! ฉันรออยู่หลังประตู พร้อมเมล็ดพันธุ์แห่งความหวัง","Robo: ภารกิจต่อไปคือเมืองร้าง เราจะคืนชีวิตให้โลกใบนี้ไปด้วยกัน"};
+        if(IsGentleTraining) {
+            lines[1]="Robo: ค่อย ๆ เดินชมสวนได้เลย ใช้เมาส์มองรอบตัว แล้วเดินไปยังวงแหวนข้างหน้า";
+            lines[2]="Robo: ให้ครอสแฮร์ตรงกับต้นไม้ เข้าใกล้แล้วคลิกซ้ายค้าง เส้นสีเขียวคือพลังชีวิตที่ไหลเข้าถุงมือ";
+            lines[3]="Robo: ลองมองที่ผลึกสะพาน แล้วกลิ้งล้อเมาส์ถอยหนึ่งครั้งเพื่อคืนสภาพ ไม่ต้องกดคลิกขวา";
+            lines[4]="Robo: ข้ามสะพานแล้วมองผลึกเถาวัลย์ ดันล้อเมาส์ไปหน้าหนึ่งครั้ง มันจะโตเป็นทางขึ้น";
+            lines[5]="Robo: เดินขึ้นทางเถาวัลย์ไปพักชมวิวได้เลย ประตูเปิดให้แล้ว ไม่มีวงจรให้แก้เพิ่ม";
+            lines[6]="Norman: มาหาฉันหลังประตู แล้วกด F รับเมล็ดพันธุ์ ป่าด้านหลังกำลังป่วยจากมลพิษ เราต้องออกไปหยุดต้นเหตุด้วยกัน";
+        }
         roboLine=lines[next]; if(next>0) PlayTone(720);
     }
     protected virtual void Update() {
@@ -51,17 +68,17 @@ public class BTTrainingGame : MonoBehaviour {
         }
         if(seed) { seed.Rotate(0,35*Time.deltaTime,0); }
         if(moveMarker) moveMarker.gameObject.SetActive(stage==1);
-        if(stage==1 && Vector3.Distance(player.transform.position,markers[1])<2.2f && player.walked>3) SetStage(absorbed>=19.95f?3:2);
-        if(stage==3 && bridge.age==0 && (!wonderTree || wonderTree.age==1)) { bridgeLearned=true; SetStage(4); }
+        if(stage==1 && Vector3.Distance(player.transform.position,markers[1])<2.2f && player.walked>3) SetStage(absorbed>=AbsorbLessonGoal-.05f?3:2);
+        if(stage==3 && bridge.age==0 && (IsGentleTraining || !wonderTree || wonderTree.age==1)) { bridgeLearned=true; SetStage(4); }
         if(stage==4 && vine.age==1) { vineLearned=true; SetStage(5); }
-        if(stage==5 && mechanism.age==0 && seal.age==2 && bridgeLearned && vineLearned) SetStage(6);
-        doorLift=Mathf.MoveTowards(doorLift,stage>=6?5.5f:0,Time.deltaTime*2.5f);
+        if(stage==5 && bridgeLearned && vineLearned && (IsGentleTraining?player.transform.position.y>2.8f && player.transform.position.z>14:mechanism.age==0 && seal.age==2)) SetStage(6);
+        doorLift=Mathf.MoveTowards(doorLift,(stage>=6 || IsGentleTraining && stage>=5)?5.5f:0,Time.deltaTime*2.5f);
         if(door) door.localPosition=new Vector3(12,5+doorLift,19);
         if(stage>=5 && player.transform.position.y>2.8f && player.transform.position.z>14 && player.transform.position.z<18) player.checkpoint=new Vector3(12,3.1f,16);
         else if(stage>=4 && player.transform.position.x>4 && player.transform.position.z<8) player.checkpoint=new Vector3(8,.1f,4);
     }
     public virtual void EnergyAbsorbed(float amount) {
-        if(stage==1 || stage==2) { absorbed+=amount; if(stage==2 && absorbed>=19.95f) SetStage(3); }
+        if(stage==1 || stage==2) { absorbed+=amount; if(stage==2 && absorbed>=AbsorbLessonGoal-.05f) SetStage(3); }
     }
     public virtual void TargetChanged(BTTimeTarget t) {
         if(t==wonderTree && t.age==1) { roboLine="Robo: จากต้นอ่อนเป็นร่มเงา! เร่งเวลาเปลี่ยนอายุ ส่วนพลังชีวิตคืออีกอย่างหนึ่ง"; BTPresentation.Burst(t.transform.position+Vector3.up*2,Color.green,28); }
@@ -88,12 +105,18 @@ public class BTTrainingGame : MonoBehaviour {
         string[,] hints={
             {"เริ่มการฝึกกับ Robo","กด Enter เพื่อเริ่ม","กด Enter เพื่อเริ่ม"},
             {"มองหาวงแหวนสีทอง","เดินตามทางทรายไปข้างหน้า","WASD เดิน / Shift วิ่ง / Space กระโดด"},
-            {"ต้นไม้ใหญ่บนเกาะฝั่งนี้ให้พลังได้","เข้าใกล้ต้นไม้ภายใน 3 เมตร","กด RMB ค้างเล็ง แล้วกด LMB ค้างประมาณ 2 วินาที"},
-            {"ข้ามธารด้วยสะพานไม้","สะพานต้องย้อนกลับสองขั้น","เล็งวงแหวนสีฟ้า กด RMB ค้าง แล้วเลื่อนล้อเมาส์ถอยสองครั้ง"},
-            {"มองหาเถาวัลย์ตรงผาหลังสะพาน","เถาวัลย์เล็กต้องโตเป็นทางเดิน","เล็งผลึกสีเขียว กด RMB ค้าง แล้วดันล้อเมาส์ไปหน้าหนึ่งครั้ง"},
+            {"ต้นไม้ใหญ่บนเกาะฝั่งนี้ให้พลังได้","เข้าใกล้ต้นไม้ภายใน 3 เมตร","เล็งครอสแฮร์ กด LMB ค้างประมาณ 2 วินาที"},
+            {"ข้ามธารด้วยสะพานไม้","สะพานต้องย้อนกลับสองขั้น","เล็งวงแหวนสีฟ้า เล็งครอสแฮร์ เลื่อนล้อเมาส์ถอยสองครั้ง"},
+            {"มองหาเถาวัลย์ตรงผาหลังสะพาน","เถาวัลย์เล็กต้องโตเป็นทางเดิน","เล็งผลึกสีเขียว เล็งครอสแฮร์ ดันล้อเมาส์ไปหน้าหนึ่งครั้ง"},
             {"ประตูมีสองสิ่งที่ต้องจัดการ","กลไกฝั่งซ้ายต้องใหม่ เถาวัลย์ฝั่งขวาต้องแก่","ล้อเมาส์ถอย: คืนสภาพกลไก / ล้อเมาส์ไปหน้า: เร่งเถาวัลย์"},
             {"Norman อยู่ด้านหลังประตู","เดินลอดประตูไปจนถึงแท่นเมล็ดพันธุ์","เข้าใกล้แท่น แล้วกด F"},
             {"การฝึกจบแล้ว","กด R เพื่อเริ่มฝึกใหม่","ด่านเมืองร้างจะพัฒนาต่อไป"}};
+        if(IsGentleTraining){
+            hints[2,2]="ครอสแฮร์ตรงต้นไม้ แล้วคลิกซ้ายค้างประมาณ 1 วินาที ไม่ต้องคลิกขวา";
+            hints[3,1]="สะพานต้องย้อนกลับเพียงหนึ่งขั้น"; hints[3,2]="วางครอสแฮร์บนผลึกสีฟ้า แล้วกลิ้งล้อเมาส์ถอยหนึ่งครั้ง";
+            hints[4,2]="วางครอสแฮร์บนผลึกสีเขียว แล้วดันล้อเมาส์ไปหน้าหนึ่งครั้ง";
+            hints[5,0]="เส้นทางหลักพร้อมแล้ว เดินชมวิวต่อได้"; hints[5,1]="ขึ้นทางเถาวัลย์ไปยังลานสูง"; hints[5,2]="เดินตรงไปหา Norman หลังประตู ไม่ต้องแก้กลไกหรือเถาวัลย์ปิดประตู";
+        }
         roboLine="Robo: "+hints[stage,Mathf.Min(2,hintTier++)];
     }
     public void PlayTone(float frequency) {
@@ -120,6 +143,8 @@ public class BTTrainingGame : MonoBehaviour {
     protected virtual void OnGUI() {
         if(BorrowedTime.Menu.GamePauseMenu.IsPausedFor(player))return;
         if(player.hideHud) return;
+        var opening=GetComponent<BTPresentation>();
+        if(IsGentleTraining && stage==0 && opening && !opening.briefingComplete)return;
         InitUI(); GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1440f,Screen.height/900f,1));
         Box(new Rect(24,24,490,128),panel); Box(new Rect(24,24,5,128),accent);
         Label(new Rect(45,36,450,34),"BORROWED TIME",title);
@@ -134,14 +159,15 @@ public class BTTrainingGame : MonoBehaviour {
             Box(new Rect(24,724,1392,84),panel);
             Label(new Rect(44,736,110,26),"ROBO",small);
             Label(new Rect(44,765,1350,40),roboLine,body);
-            Label(new Rect(28,837,1400,40),"WASD เดิน   Shift วิ่ง   Space กระโดด   RMB เล็ง + LMB ดูดพลัง / ล้อถอย คืนสภาพ / ล้อหน้า เร่งสภาพ   F รับเมล็ด   H คำใบ้   Tab แผนที่   R เริ่มใหม่   Esc พัก",small);
+            Label(new Rect(28,837,1400,40),"WASD เดิน • Shift วิ่ง • Space กระโดด    LMB ค้าง ยืมพลัง    ล้อถอย คืนสภาพ / ล้อหน้า เร่งสภาพ    F ใช้งาน    H คำใบ้    Tab แผนที่    Esc พัก",small);
             if(!player.overview) {
-                Label(new Rect(709,435,30,30),"+",title);
+                // BTLifeFlow draws the single camera-centred reticle.
                 if(player.target) {
                     Box(new Rect(495,557,450,100),panel);
                     Label(new Rect(515,568,410,34),player.target.displayName, title);
                     string status=player.target.StateName;
-                    if(player.target.kind==TargetKind.Plant) status+="  |  พลังชีวิต "+Mathf.RoundToInt(player.target.life)+"%";
+                    if(player.target.IsLiving && player.target.absorbAllowed) status+="  |  ชีวิต "+Mathf.RoundToInt(player.target.life)+"% • LMB ค้าง";
+                    else status+=" • ล้อถอย คืน / ล้อหน้า เร่ง";
                     Label(new Rect(515,608,410,44),status,body);
                 }
                 if(stage<7 && markers!=null) {

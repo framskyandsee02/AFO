@@ -15,7 +15,7 @@ public class BTPresentation : MonoBehaviour {
         "ERI พาคุณมาถึงสถานีวิจัยของ Norman Scott\nอดีตนักวิจัยของบริษัทเจ้าของโรงงาน",
         "Norman: ฉันสร้าง Time Gauntlet เพื่อซ่อมสิ่งที่เราเคยทำลาย\nเปลี่ยนอายุของวัตถุได้ แต่ต้องยืมพลังชีวิตจากพืชอย่างพอดี",
         "Norman: นี่คือ Robo ผู้ช่วยของเธอ\nหลังฝึกเสร็จ ฉันจะมอบเมล็ดพันธุ์สุดท้ายให้ ปลูกเมื่อหยุดโรงงานและมีน้ำสะอาดแล้ว",
-        "Robo: ไปสวนฝึกกัน! H ขอคำใบ้ได้ทีละระดับ\nคืนสภาพด้วยล้อเมาส์ถอย เร่งสภาพด้วยล้อเมาส์ไปหน้า ขณะกด RMB ค้าง"
+        "Robo: ไปสวนฝึกกัน! H ขอคำใบ้ได้ทีละระดับ\nคืนสภาพด้วยล้อเมาส์ถอย เร่งสภาพด้วยล้อเมาส์ไปหน้า เล็งด้วยครอสแฮร์ได้เลย ไม่ต้องกดคลิกขวา"
     };
     void Start(){game=GetComponent<BTTrainingGame>();}
     public bool AdvanceOpening(){
@@ -41,12 +41,12 @@ public class BTPresentation : MonoBehaviour {
         if(textStyle==null){textStyle=new GUIStyle(GUI.skin.label){font=game.uiFont,fontSize=17,wordWrap=true};headingStyle=new GUIStyle(textStyle){fontSize=24,fontStyle=FontStyle.Bold};buttonStyle=new GUIStyle(GUI.skin.button){font=game.uiFont,fontSize=20};}
         GUI.depth=-5;GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1440f,Screen.height/900f,1));
         if(game.stage>0 && !game.player.overview && !game.completed && !game.player.paused){
-            GUI.Box(new Rect(24,603,290,96),"");GUI.Label(new Rect(40,610,260,33),"พลังถุงมือ  "+Mathf.RoundToInt(game.player.energy)+" / 100",headingStyle);
+            if(!game.IsGentleTraining){GUI.Box(new Rect(24,603,290,96),"");GUI.Label(new Rect(40,610,260,33),"พลังถุงมือ  "+Mathf.RoundToInt(game.player.energy)+" / 100",headingStyle);
             GUI.color=new Color(.35f,1,.7f);GUI.DrawTexture(new Rect(42,652,250*game.player.energy/100,9),Texture2D.whiteTexture);GUI.color=Color.white;
-            GUI.Label(new Rect(40,669,260,27),"พลังชีวิตที่ยืมมา • F5 บันทึก",textStyle);
-            GUI.Label(new Rect(708,435,40,35),"+",headingStyle);
+            GUI.Label(new Rect(40,669,260,27),"พลังชีวิตที่ยืมมา • F5 บันทึก",textStyle);}
+            // The player draws one reticle at the exact viewport centre.
             var t=game.player.target;
-            if(t){GUI.Box(new Rect(460,486,520,60),"");GUI.Label(new Rect(475,490,490,54),"อายุ "+t.age+" / "+(t.states==null?0:Mathf.Max(0,t.states.Length-1))+"  •  เปลี่ยนขั้นละ 15"+(t.IsLiving?"\nพลังชีวิต "+Mathf.RoundToInt(t.life)+"%"+(t.absorbAllowed?"  •  ดูดอย่างพอดี":"  •  ดูดพลังไม่ได้"):"  •  วัตถุไม่มีพลังชีวิต")+(t.pollutionStress?"  / รากป่วยจากมลพิษ":""),textStyle);}
+            if(t && !game.IsGentleTraining){GUI.Box(new Rect(460,486,520,60),"");GUI.Label(new Rect(475,490,490,54),"อายุ "+t.age+" / "+(t.states==null?0:Mathf.Max(0,t.states.Length-1))+"  •  เปลี่ยนขั้นละ 15"+(t.IsLiving?"\nพลังชีวิต "+Mathf.RoundToInt(t.life)+"%"+(t.absorbAllowed?"  •  ดูดอย่างพอดี":"  •  ดูดพลังไม่ได้"):"  •  วัตถุไม่มีพลังชีวิต")+(t.pollutionStress?"  / รากป่วยจากมลพิษ":""),textStyle);}
             foreach(var target in FindObjectsByType<BTTimeTarget>(FindObjectsSortMode.None)){
                 if(!target.aimPoint || Vector3.Distance(game.player.transform.position,target.aimPoint.position)>12 || target==t)continue;
                 var pos=target.aimPoint.position;RaycastHit hit;

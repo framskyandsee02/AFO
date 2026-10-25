@@ -36,8 +36,11 @@ public class BTTimeTarget : MonoBehaviour {
         int next=age+direction;
         if(next<0 || next>=states.Length) { reason="ถึงขอบเขตเวลาแล้ว ลองใช้อีกพลังหนึ่ง"; return false; }
         if(IsSupport && player.StandingOn(this)) { reason="ระบบนิรภัย: ลงจากทางเดินก่อนเปลี่ยนเวลา"; return false; }
-        if(player.energy<15) { reason="พลังไม่พอ กลับไปดูดจากพืชที่ฟื้นตัวแล้ว"; return false; }
-        player.energy-=15; age=next; Apply(); BTPresentation.Burst(aimPoint.position,direction<0?Color.cyan:Color.green,12); reason=displayName+" → "+StateName;
+        var economy=game?game.GetComponent<BTFactoryLifeEconomy>():null;
+        if(economy && economy.Locked(this)){reason="ระบบนี้ยืนยันแล้ว พลังถูกใช้กับเส้นทางที่เปิดไว้แล้ว";return false;}
+        float cost=economy?economy.Cost(this,next):15;
+        if(player.energy<cost) { reason=economy?"ต้องใช้พลัง 15 • หาต้นไม้ทดลอง หรือคืนวัตถุที่ยังไม่ยืนยันสู่อายุเดิมเพื่อกู้พลัง":"พลังไม่พอ กลับไปดูดจากพืชที่ฟื้นตัวแล้ว"; return false; }
+        if(economy)economy.Pay(cost);else player.energy-=cost; age=next; Apply(); BTPresentation.Burst(aimPoint.position,direction<0?Color.cyan:Color.green,12); reason=displayName+" → "+StateName+(cost<0?" • คืนพลัง 15":" • ใช้พลัง 15");
         game.TargetChanged(this); BTSaveGame.Request(game); return true;
     }
     public float Absorb(float requested) {

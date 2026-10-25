@@ -6,7 +6,7 @@ namespace BorrowedTime {
 // Explicit data only: no scene object instance IDs are written to disk.
 [Serializable] public class BTTargetSave { public string path; public int age; public float life;public bool stressed; }
 [Serializable] public class BTSaveData {
-    public BTExpansionSave expansion;public int version=1,stage;public string scene,crossing,ending;public Vector3 checkpoint;public float energy,absorbed;
+    public BTExpansionSave expansion;public int version=1,stage;public string scene,crossing,ending;public Vector3 checkpoint;public float energy,absorbed,factoryRecovery;
     public bool seed,fromTraining,fromCity,cityWater,cityGarden,optional,planted,pollution,nursery,completed,bridgeLearned,vineLearned;
     public bool[] flags,valves;public float[] lifts;public BTTargetSave[] targets;
 }
@@ -62,7 +62,7 @@ public static class BTSaveGame {
             var targets=UnityEngine.Object.FindObjectsByType<BTTimeTarget>(FindObjectsInactive.Include,FindObjectsSortMode.None);d.targets=new BTTargetSave[targets.Length];
             for(int i=0;i<targets.Length;i++)d.targets[i]=new BTTargetSave{path=Key(targets[i].transform),age=targets[i].age,life=targets[i].life,stressed=targets[i].pollutionStress};
             var c=g as BTCityGame;if(c)d.flags=new[]{c.waterRestored,c.gardenRestored,c.optionalRestored,c.observedRelapse,c.factoryOpen,c.optionalWatered};
-            var f=g as BTFactoryGame;if(f){d.flags=new[]{f.entryOpen,f.transportRestored,f.conveyorOpen,f.pressureBalanced,f.powerLatched,f.pollutionStopped,f.waterFlowRestored,f.seedPlanted,f.nurseryRestored};d.valves=(bool[])f.valvesClosed.Clone();d.lifts=new[]{f.freightLift.platform.position.y,f.coreLift.platform.position.y};}
+            var f=g as BTFactoryGame;if(f){var economy=f.GetComponent<BTFactoryLifeEconomy>();if(economy)d.factoryRecovery=economy.recoveredEnergy;d.flags=new[]{f.entryOpen,f.transportRestored,f.conveyorOpen,f.pressureBalanced,f.powerLatched,f.pollutionStopped,f.waterFlowRestored,f.seedPlanted,f.nurseryRestored};d.valves=(bool[])f.valvesClosed.Clone();d.lifts=new[]{f.freightLift.platform.position.y,f.coreLift.platform.position.y};}
             Directory.CreateDirectory(Path.GetDirectoryName(PathName));File.WriteAllText(PathName+".tmp",JsonUtility.ToJson(d,true));File.Copy(PathName+".tmp",PathName,true);
             Notice="บันทึกแล้ว • C เล่นต่อจากเมนูพัก";SavedUntil=Time.unscaledTime+3;
         }catch(Exception e){Notice="บันทึกไม่สำเร็จ: "+e.Message;SavedUntil=Time.unscaledTime+5;Debug.LogWarning(Notice);}
@@ -84,7 +84,7 @@ public static class BTSaveGame {
         var expanded=g.GetComponent<BTExpansionWorld>();if(expanded)expanded.Restore(d.expansion);
         g.hasMiracleSeed=d.seed;g.absorbed=d.absorbed;g.bridgeLearned=d.bridgeLearned;g.vineLearned=d.vineLearned;g.completed=d.completed;g.stage=d.stage;
         var c=g as BTCityGame;if(c && d.flags!=null){c.waterRestored=d.flags[0];c.gardenRestored=d.flags[1];c.optionalRestored=d.flags[2];c.observedRelapse=d.flags[3];c.factoryOpen=d.flags[4];c.optionalWatered=d.flags[5];c.crossingMethod=d.crossing;c.RefreshAfterLoad();}
-        var f=g as BTFactoryGame;if(f && d.flags!=null){f.entryOpen=d.flags[0];f.transportRestored=d.flags[1];f.conveyorOpen=d.flags[2];f.pressureBalanced=d.flags[3];f.powerLatched=d.flags[4];f.pollutionStopped=d.flags[5];f.waterFlowRestored=d.flags[6];f.seedPlanted=d.flags[7];f.nurseryRestored=d.flags[8];f.valvesClosed=d.valves;f.ending=d.ending;f.RefreshAfterLoad(d.lifts);}
+        var f=g as BTFactoryGame;if(f && d.flags!=null){var economy=f.GetComponent<BTFactoryLifeEconomy>();if(economy)economy.recoveredEnergy=Finite(d.factoryRecovery)?Mathf.Max(0,d.factoryRecovery):0;f.entryOpen=d.flags[0];f.transportRestored=d.flags[1];f.conveyorOpen=d.flags[2];f.pressureBalanced=d.flags[3];f.powerLatched=d.flags[4];f.pollutionStopped=d.flags[5];f.waterFlowRestored=d.flags[6];f.seedPlanted=d.flags[7];f.nurseryRestored=d.flags[8];f.valvesClosed=d.valves;f.ending=d.ending;f.RefreshAfterLoad(d.lifts);}
         g.player.energy=Mathf.Clamp(d.energy,0,100);g.player.checkpoint=d.checkpoint;g.player.paused=false;g.player.Respawn();if(g.seed)g.seed.gameObject.SetActive(!g.hasMiracleSeed);
         Cursor.lockState=g.completed?CursorLockMode.None:CursorLockMode.Locked;Cursor.visible=g.completed;
         Notice="โหลดบันทึกแล้ว • กลับที่จุดพักปลอดภัย";SavedUntil=Time.unscaledTime+4;

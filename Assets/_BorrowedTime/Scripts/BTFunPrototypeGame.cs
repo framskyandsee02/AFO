@@ -27,7 +27,7 @@ public class BTFunPrototypeGame : BTTrainingGame {
     protected override void OnGUI(){
         if(BorrowedTime.Menu.GamePauseMenu.IsPausedFor(player))return;
         var style=new GUIStyle(GUI.skin.label){font=uiFont,fontSize=19,wordWrap=true};GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1440f,Screen.height/900f,1));GUI.Box(new Rect(24,24,710,150),"");GUI.Label(new Rect(44,38,670,128),"FUN PROTOTYPE / สองทางข้ามและต้นเหตุของมลพิษ\n"+(waterRestored?"● น้ำสะอาด":"○ น้ำเสีย")+"   "+(relapsed?"● เห็นผลมลพิษ":"○ ทดลองคืนต้นไม้")+"\n"+roboLine,style);
-        GUI.Label(new Rect(25,834,1390,44),"WASD เดิน • RMB + ล้อถอย คืน / ล้อหน้า เร่ง / LMB ดูด • F วาล์ว • H คำใบ้ • R เริ่มใหม่ • Esc พัก",style);
+        GUI.Label(new Rect(25,834,1390,44),"WASD เดิน • เล็งครอสแฮร์ ล้อถอย คืน / ล้อหน้า เร่ง / LMB ดูด • F วาล์ว • H คำใบ้ • R เริ่มใหม่ • Esc พัก",style);
         if(GUI.Button(new Rect(1100,24,310,52),"กลับหน้าหลัก",new GUIStyle(GUI.skin.button){font=uiFont,fontSize=20}))BTJourney.LoadTraining();
         if(completed)GUI.Label(new Rect(420,350,650,100),"ฟื้นฟูสำเร็จ — R ทดลองอีกทางข้าม",style);
     }

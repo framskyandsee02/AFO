@@ -53,7 +53,7 @@ public class BTGameplayCharacter : MonoBehaviour {
             Pose(hero,player.velocity.y>0?"Jump":"Fall");heldUntil=0;
         }else if(grounded&&groundSample&&!wasGrounded){Hold("Land",.20f);Pose(hero,"Land");}
         else {
-            if(input.aim&&player.target&&player.beam&&player.beam.enabled){
+            if(input.aim&&player.target&&(player.IsAbsorbing||(player.beam&&player.beam.enabled))){
                 if(input.absorb)Hold("Absorb",.15f);
                 else if(input.scroll<0)Hold("Rewind",.65f);
                 else if(input.scroll>0)Hold("Accelerate",.65f);

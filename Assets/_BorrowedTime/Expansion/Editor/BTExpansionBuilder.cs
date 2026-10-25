@@ -239,7 +239,7 @@ public static class BTExpansionBuilder {
    Puzzle(2,c[2],names[2],"เมื่อสายน้ำกับวงจรแสงกลับมา ให้ระฆังเล่าเรื่องฤดูกาล\n"+melody+"\nทำนองถูกต้องจะเปิดสวนลับให้เก็บใบไม้แห่งความทรงจำ", "การฟื้นฟูไม่ใช่คำสั่งเดียว แต่คือการดูแลชีวิตให้กลับมาเชื่อมต่อกัน",2,new[]{0,0,0});
    DressOutside(level,c,x0,x1,z0,z1);Landscape(level);PaletteAndLighting(level);
    Sign(world.chapter+"\nระบบน้ำ • ระบบแสง • สวนลับ",entry+new Vector3(3,0,2),0,.04f);
-   game.mapCameraPosition=new Vector3(-65,90,-96);game.mapCameraTarget=new Vector3(-7,0,-10);game.mapCameraSize=65;world.Refresh();
+   game.mapCameraPosition=new Vector3(-65,90,-96);game.mapCameraTarget=new Vector3(-7,0,-10);game.mapCameraSize=65;world.ConfigureGentleTraining();world.Refresh();
    EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);Debug.Log("EXPANDED_LEVEL_READY "+scene.name+" / three new puzzle courtyards");
   }
   AssetDatabase.SaveAssets();EditorSceneManager.OpenScene(Paths[0]);

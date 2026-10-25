@@ -17,10 +17,11 @@ public class BTExpansionWorld : MonoBehaviour {
  public BTTrainingGame game;public string chapter;public BTExpansionPuzzle[] puzzles;public Font font;
  public bool journalOpen;bool previousPause;int page;GUIStyle heading,body,button,small;
  public string LastInteraction {get;private set;}
+ public bool GentleTraining => game && game.IsGentleTraining;
  public int RequiredSolved=>puzzles.Count(p=>!p.optional&&p.solved);
  public int RequiredCount=>puzzles.Count(p=>!p.optional);
  public static bool CanLeave(BTTrainingGame game,out string reason){
-  var world=game.GetComponent<BTExpansionWorld>();reason="";if(!world||world.RequiredSolved==world.RequiredCount)return true;
+  var world=game.GetComponent<BTExpansionWorld>();reason="";if(game.IsGentleTraining || !world||world.RequiredSolved==world.RequiredCount)return true;
   reason="ยังมีระบบส่วนขยายที่ต้องฟื้นฟู: "+string.Join(" / ",world.puzzles.Where(p=>!p.optional&&!p.solved).Select(p=>p.title))+" • J เปิดบันทึก";return false;
  }
  public BTExpansionInteractable Nearest(){
@@ -41,6 +42,8 @@ public class BTExpansionWorld : MonoBehaviour {
   if(game.player.inputOverride!=null)Debug.Log("EXPANSION_INTERACT "+LastInteraction+" valves="+string.Join(",",p.valves)+" ages="+string.Join(",",p.temporal.Select(t=>t.age)));
   #endif
   if(c.role==BTExpansionRole.Clue){p.clueRead=true;page=c.puzzle;ToggleJournal();return true;}
+  if(GentleTraining && c.role==BTExpansionRole.Valve){CompleteTrainingDiscovery(p);return true;}
+  if(GentleTraining && c.role==BTExpansionRole.Chime){game.PlayTone(560+c.slot*120);CompleteTrainingDiscovery(p);return true;}
   if(c.role==BTExpansionRole.Reset){p.cursor=0;Array.Clear(p.valves,0,p.valves.Length);game.player.Message("รีเซ็ตวงจรแล้ว • ทดลองใหม่ได้ พลังและของรางวัลไม่หาย");Refresh();return true;}
   if(c.role==BTExpansionRole.Reward){
    if(!p.solved){game.player.Message("ฟื้นฟูสวนลับก่อนจึงจะเก็บบันทึกความทรงจำได้");return true;}
@@ -67,6 +70,7 @@ public class BTExpansionWorld : MonoBehaviour {
  }
  public static string Symbol(int v)=>v==0?"จันทร์":v==1?"อาทิตย์":"ใบไม้";
  public bool TryHint(){var c=Nearest();if(!c)return false;var p=puzzles[c.puzzle];p.clueRead=true;
+  if(GentleTraining){game.roboLine="Robo: "+p.clue;game.player.Message(p.clue);return true;}
   string hint=p.hints++==0?p.clue:p.hints==2?(p.temporal.Length>0?"อายุที่เหมาะสมขึ้นอยู่กับหน้าที่ของวัตถุ อ่านแผ่นบันทึกของสถานที่ แล้วจัดวาล์วควบคู่กัน":"ปุ่มหนึ่งเปลี่ยนไฟของตัวเองและไฟที่เชื่อมด้วยท่อพร้อมกัน ดูทิศทางและเบาะแสบนป้าย"):(p.optional?"ลำดับ: "+string.Join(" → ",p.sequence.Select(v=>Symbol(v))):"เป้าหมายไฟ: "+string.Join(" / ",p.goals.Select(v=>Symbol(v)))+(p.temporal.Length>0?" • อายุวัตถุ: "+string.Join(" / ",p.ages):" • รีเซ็ตแล้วทดลองทีละปุ่ม"));
   game.roboLine="Robo: "+hint;game.player.Message(hint);return true;
  }
@@ -80,11 +84,30 @@ public class BTExpansionWorld : MonoBehaviour {
  public BTExpansionSave Capture()=>new BTExpansionSave{puzzles=puzzles.Select(p=>new BTExpansionPuzzleSave{id=p.id,solved=p.solved,collected=p.collected,read=p.clueRead,cursor=p.cursor,valves=(int[])p.valves.Clone()}).ToArray()};
  public void Restore(BTExpansionSave save){if(save?.puzzles==null)return;foreach(var d in save.puzzles){var p=puzzles.FirstOrDefault(x=>x.id==d.id);if(p==null)continue;p.solved=d.solved;p.collected=d.collected;p.clueRead=d.read;p.cursor=Mathf.Clamp(d.cursor,0,p.sequence.Length);if(d.valves!=null&&d.valves.Length==3)p.valves=d.valves.Select(x=>Mathf.Clamp(x,0,2)).ToArray();}Refresh();}
  public void Refresh(){foreach(var p in puzzles){if(p.restoration)p.restoration.SetActive(p.solved);for(int i=0;i<p.lamps.Length;i++)if(p.lamps[i])p.lamps[i].sharedMaterial=p.lampMaterials[p.valves[i%3]];}}
- void Start(){Refresh();}
+ public void ConfigureGentleTraining(){
+  if(!GentleTraining || puzzles==null || puzzles.Length<3)return;
+  chapter="สวนพักผ่อนและมุมทดลอง (เลือกเล่น)";
+  string[] titles={"มุมปลุกต้นกล้า","มุมเปิดสายน้ำ","มุมเสียงใบไม้"};
+  string[] clues={"วางครอสแฮร์บนต้นกล้าตรงกลาง แล้วดันล้อเมาส์ไปหน้าหนึ่งครั้ง สวนจะผลิบานเอง","เดินเข้าใกล้แท่นกลางที่สว่าง แล้วกด F หนึ่งครั้งเพื่อเปิดน้ำ ไม่มีลำดับวาล์ว","เลือกกด F ที่ระฆังใบใดก็ได้เพื่อฟังเสียงสวน แล้วเดินไปเก็บใบไม้ด้านหลัง"};
+  for(int i=0;i<3;i++){
+   var p=puzzles[i];p.optional=true;p.title=titles[i];p.clue=clues[i];
+   foreach(var c in p.controls){
+    bool enabled=c.role==BTExpansionRole.Clue || c.role==BTExpansionRole.Reward || i==1&&c.role==BTExpansionRole.Valve&&c.slot==1 || i==2&&c.role==BTExpansionRole.Chime;
+    c.gameObject.SetActive(enabled);
+    if(i==1&&c.role==BTExpansionRole.Valve&&c.slot==1)c.label="เปิดสายน้ำ (เลือกเล่น)";
+   }
+   if(i==0)for(int j=0;j<p.temporal.Length;j++)if(p.temporal[j])p.temporal[j].gameObject.SetActive(j==1);
+  }
+ }
+ void CompleteTrainingDiscovery(BTExpansionPuzzle p){
+  if(p.solved)return;p.solved=true;Refresh();game.PlayTone(790);game.player.Message("สวนกลับมามีชีวิต: "+p.title+" • สำรวจต่อได้ตามใจ");BTSaveGame.Request(game);
+ }
+ void Start(){ConfigureGentleTraining();Refresh();}
  void Update(){
   if(game && BorrowedTime.Menu.GamePauseMenu.BlocksInputFor(game.player))return;
+  if(GentleTraining && puzzles.Length>0 && !puzzles[0].solved && puzzles[0].temporal.Length>1 && puzzles[0].temporal[1].age==1)CompleteTrainingDiscovery(puzzles[0]);
   if(journalOpen&&!game.player.paused){journalOpen=false;Cursor.lockState=CursorLockMode.Locked;Cursor.visible=false;}
-  foreach(var p in puzzles){if(p.gate)p.gate.localPosition=Vector3.MoveTowards(p.gate.localPosition,p.gateClosed+Vector3.up*(p.solved?4:0),Time.deltaTime*2);for(int i=0;i<p.hands.Length;i++)if(p.hands[i])p.hands[i].localRotation=Quaternion.Euler(0,0,p.valves[i%3]*120);}
+  foreach(var p in puzzles){if(p.gate)p.gate.localPosition=Vector3.MoveTowards(p.gate.localPosition,p.gateClosed+Vector3.up*(p.solved || GentleTraining && p!=puzzles[2]?4:0),Time.deltaTime*2);for(int i=0;i<p.hands.Length;i++)if(p.hands[i])p.hands[i].localRotation=Quaternion.Euler(0,0,p.valves[i%3]*120);}
  }
  void Init(){if(body!=null)return;body=new GUIStyle(GUI.skin.label){font=font,fontSize=18,wordWrap=true};heading=new GUIStyle(body){fontSize=27,fontStyle=FontStyle.Bold};small=new GUIStyle(body){fontSize=15};button=new GUIStyle(GUI.skin.button){font=font,fontSize=19,wordWrap=true};}
  void OnGUI(){
@@ -96,14 +119,17 @@ public class BTExpansionWorld : MonoBehaviour {
    for(int i=0;i<puzzles.Length;i++){if(GUI.Button(new Rect(145,250+i*75,330,60),(puzzles[i].solved?"● ":puzzles[i].optional?"☆ ":"○ ")+puzzles[i].title,button))page=i;}
    var p=puzzles[Mathf.Clamp(page,0,puzzles.Length-1)];GUI.Label(new Rect(510,250,760,45),p.title,heading);
    GUI.Label(new Rect(510,308,760,225),p.clueRead?p.clue:"ยังไม่ได้อ่านหลักฐาน • สำรวจป้ายบันทึกประจำสถานที่ แล้วกด F",body);
-   GUI.Label(new Rect(510,535,760,65),p.solved?(p.collected?p.lore:"ฟื้นฟูสำเร็จแล้ว • สำรวจต่อเพื่อเก็บความทรงจำ"):(p.optional?"พื้นที่พิเศษ: ฟื้นระบบน้ำและแสงทั้งสองจุดก่อน":"ลองได้ไม่จำกัด • ปุ่มรีเซ็ตคืนเฉพาะวงจร ไม่กินพลัง"),body);
+   GUI.Label(new Rect(510,535,760,65),p.solved?(p.collected?p.lore:"ฟื้นฟูสำเร็จแล้ว • สำรวจต่อเพื่อเก็บความทรงจำ"):(p.optional?GentleTraining?"พื้นที่เลือกเล่น • แวะชมได้ทันที ไม่จำเป็นต้องทำก่อนรับเมล็ดพันธุ์":"พื้นที่พิเศษ: ฟื้นระบบน้ำและแสงทั้งสองจุดก่อน":"ลองได้ไม่จำกัด • ปุ่มรีเซ็ตคืนเฉพาะวงจร ไม่กินพลัง"),body);
    if(GUI.Button(new Rect(510,620,760,45),"ปิดสมุด / J",button))ToggleJournal();return;
   }
   if(game.stage==0||game.player.paused||game.completed)return;
-  GUI.Box(new Rect(24,172,330,105),"");var next=puzzles.FirstOrDefault(p=>!p.optional&&!p.solved)??puzzles.FirstOrDefault(p=>p.optional&&!p.collected);
+  if(GentleTraining){
+   GUI.Box(new Rect(24,172,330,70),"");GUI.Label(new Rect(38,180,305,58),"สวนข้างทาง • เลือกเล่นได้ตามใจ\nเดินชมวิว หรือ J อ่านมุมทดลอง",small);
+  }
+  var next=puzzles.FirstOrDefault(p=>!p.optional&&!p.solved)??puzzles.FirstOrDefault(p=>p.optional&&!p.collected);
   string navigation="ระบบหลักพร้อมแล้ว";
   if(next!=null){Vector3 toward=next.approach-game.player.transform.position;Vector3 local=Quaternion.Inverse(Quaternion.Euler(0,game.player.yaw,0))*toward;string arrow=Mathf.Abs(local.x)>Mathf.Abs(local.z)?(local.x<0?"←":"→"):(local.z<0?"↓":"↑");navigation=arrow+" "+next.title+" • "+Mathf.RoundToInt(new Vector2(toward.x,toward.z).magnitude)+" ม.";}
-  GUI.Label(new Rect(38,180,305,90),"ระบบพื้นที่ใหม่ "+RequiredSolved+" / "+RequiredCount+"   • J บันทึก\n"+chapter+"\n"+navigation,small);
+  if(!GentleTraining){GUI.Box(new Rect(24,172,330,105),"");GUI.Label(new Rect(38,180,305,90),"ระบบพื้นที่ใหม่ "+RequiredSolved+" / "+RequiredCount+"   • J บันทึก\n"+chapter+"\n"+navigation,small);}
   if(game.player.overview){foreach(var p in puzzles){var at=game.player.view.WorldToScreenPoint(p.approach+Vector3.up);if(at.z<=0)continue;float x=at.x/Screen.width*1440,y=900-at.y/Screen.height*900;GUI.Box(new Rect(x-95,y-18,190,42),"");GUI.Label(new Rect(x-88,y-13,176,36),(p.solved?"● ":p.optional?"☆ ":"○ ")+p.title,small);}return;}
   var nearest=Nearest();if(nearest){GUI.Box(new Rect(440,305,560,67),"");GUI.Label(new Rect(457,312,526,60),"F  "+nearest.label+"\n"+puzzles[nearest.puzzle].title+" • H คำใบ้",body);}
  }

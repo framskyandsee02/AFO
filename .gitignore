@@ -84,3 +84,6 @@ sysinfo.txt
 /Backups/
 /_shots/
 /MultiAgent_GameDev_Prompt_Pack/
+
+# Generated Training Area playtest evidence.
+/Captures/TrainingComfort/

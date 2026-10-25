@@ -118,7 +118,7 @@ public class BTFactoryGame : BTTrainingGame {
         if(Near(plantPoint,3)) {
             if(seedPlanted) { player.Message("เล็งผลึกต้นไม้ แล้วดันล้อเมาส์ไปหน้าเพื่อเร่งการเติบโต"); return; }
             if(!CanPlant(out string reason)) { player.Message(reason); return; }
-            player.energy-=30; seedPlanted=true; hasMiracleSeed=false; BTJourney.HasMiracleSeed=false; BTJourney.SeedPlanted=true;
+            player.energy-=30;var lifeEconomy=GetComponent<BTFactoryLifeEconomy>();if(lifeEconomy)lifeEconomy.ReleaseRecovery(); seedPlanted=true; hasMiracleSeed=false; BTJourney.HasMiracleSeed=false; BTJourney.SeedPlanted=true;
             miracleTree.gameObject.SetActive(true); miracleTree.Apply(); PlayTone(1050); player.Message("ปลูกเมล็ดแล้ว เร่งสภาพอีกสองขั้นให้เติบโต"); return;
         }
         player.Message("F ใช้งานแผงควบคุม วาล์ว ลิฟต์ หรือปลูกเมล็ดเมื่อเข้าใกล้");
@@ -150,6 +150,7 @@ public class BTFactoryGame : BTTrainingGame {
         foreach(var l in reactorLights) if(l) { l.color=pollutionStopped?new Color(.3f,.85f,1):new Color(1,.24f,.12f); l.intensity=pollutionStopped?2:3; }
     }
     public override void ResetTraining() {
+        var economy=GetComponent<BTFactoryLifeEconomy>();if(economy)economy.ResetEconomy();
         var expansion=GetComponent<BTExpansionWorld>();if(expansion)expansion.ResetWorld();
         foreach(var t in FindObjectsByType<BTTimeTarget>(FindObjectsInactive.Include,FindObjectsSortMode.None)) t.ResetTarget();
         entryOpen=transportRestored=freightReached=conveyorOpen=pressureBalanced=powerLatched=pollutionStopped=waterFlowRestored=seedPlanted=nurseryRestored=completed=false;
@@ -161,9 +162,9 @@ public class BTFactoryGame : BTTrainingGame {
         stage=1; Goal(); ApplyFactoryState(); Cursor.lockState=CursorLockMode.Locked; Cursor.visible=false;
     }
     public override void ShowHint() {
-        string[] hints={"","สำรวจโถงเข้าและเติมพลังจากพืชในกระถาง","สำรวจแผงโถงเข้า คืนสภาพแล้วกด F เพื่อเปิดทางไปลิฟต์","คืนสภาพสะพานทางขนส่งด้วยล้อเมาส์ถอยสองครั้ง","คืนสภาพแผงลิฟต์ จากนั้นยืนกลางแท่นและกด F","ดันล้อเมาส์ไปหน้าที่ระบบสายพานสองขั้น แล้วกด F ที่แผง","คืนสภาพหม้อไอน้ำทั้งสามให้สมบูรณ์ แล้วกด F ที่แผงระบาย","คืนทางเดินวงแหวนอย่างน้อยหนึ่งขั้นด้วยล้อเมาส์ถอย ให้มีพื้นเดินข้ามได้","คืนสภาพแผงหลัก แล้วกด F หยุดโรงงาน น้ำสะอาดเชื่อมมาจากเมือง","ขึ้นลิฟต์แกนกลาง เติมพลังอย่างน้อย 60 ปลูกด้วย F และเร่งต้นไม้สองขั้น"};
+        string[] hints={"","หาต้นไม้ทดลองในบ่อดิน • ดูด LMB เหลือชีวิต 20 • ไม่ฟื้นเอง • เวลา 15 ต่อขั้น","สำรวจแผงโถงเข้า คืนสภาพแล้วกด F เพื่อเปิดทางไปลิฟต์","คืนสภาพสะพานทางขนส่งด้วยล้อเมาส์ถอยสองครั้ง","คืนสภาพแผงลิฟต์ จากนั้นยืนกลางแท่นและกด F","ดันล้อเมาส์ไปหน้าที่ระบบสายพานสองขั้น แล้วกด F ที่แผง","คืนสภาพหม้อไอน้ำทั้งสามให้สมบูรณ์ แล้วกด F ที่แผงระบาย","คืนทางเดินวงแหวนอย่างน้อยหนึ่งขั้นด้วยล้อเมาส์ถอย ให้มีพื้นเดินข้ามได้","คืนสภาพแผงหลัก แล้วกด F หยุดโรงงาน น้ำสะอาดเชื่อมมาจากเมือง","ขึ้นลิฟต์แกนกลาง เติมพลังอย่างน้อย 60 ปลูกด้วย F และเร่งต้นไม้สองขั้น"};
         string[] areas={"","สำรวจโถงรับสินค้า","สังเกตแผงหน้าประตู","ดูช่องว่างในทางขนส่ง","สำรวจฐานลิฟต์","มองหาพื้นที่ปลอดภัยหลังสายพาน","เดินตามทางบริการข้างหม้อไอน้ำ","ห้องควบคุมอยู่ฝั่งตรงข้ามวงแหวน","อ่านไฟสถานะที่แผงควบคุมหลัก","สำรวจห้องปลูก มีโรงเพาะกล้าทางเลือกที่ช่วยให้พื้นที่ฟื้นกว้างขึ้น"};
-        string[] objects={"","พืชในกระถางให้พลังได้","แผงหลักมีผลึกสีฟ้า รีเลย์อื่นเป็นเครื่องเสริม","สะพานมีชิ้นส่วนสองช่วงเวลาที่เสียหาย","แผงซ่อมอยู่ใกล้แท่น กด F บนแท่นได้","ตัวควบคุมสายพานเคลื่อนลังไปช่องพัก","เครื่องจักรเสริมไม่บังคับ เปิดประตูต่อไปได้แล้ว","ผลึกสีฟ้าควบคุมทางเดินวงแหวน","เครื่องควบคุมหลักชำรุด แต่ระบบน้ำที่เมืองพร้อมแล้ว","เติมพลังจากพืช ปลูกที่แท่นกลางห้อง โรงเพาะกล้าเป็นทางเลือก"};
+        string[] objects={"","ต้นไม้ถูกต่อท่อสกัด พลังที่เหลือมีจำกัด • คืนอายุเดิมเพื่อกู้พลังที่ยังไม่ยืนยัน","แผงหลักมีผลึกสีฟ้า รีเลย์อื่นเป็นเครื่องเสริม","สะพานมีชิ้นส่วนสองช่วงเวลาที่เสียหาย","แผงซ่อมอยู่ใกล้แท่น กด F บนแท่นได้","ตัวควบคุมสายพานเคลื่อนลังไปช่องพัก","เครื่องจักรเสริมไม่บังคับ เปิดประตูต่อไปได้แล้ว","ผลึกสีฟ้าควบคุมทางเดินวงแหวน","เครื่องควบคุมหลักชำรุด แต่ระบบน้ำที่เมืองพร้อมแล้ว","เติมพลังจากพืช ปลูกที่แท่นกลางห้อง โรงเพาะกล้าเป็นทางเลือก"};
         int tier=Mathf.Min(2,factoryHintTier++);int at=Mathf.Clamp(stage,1,9);roboLine="Robo: "+(tier==0?areas[at]:tier==1?objects[at]:hints[at]);
     }
     Texture2D Solid(Color c) { var t=new Texture2D(1,1);t.SetPixel(0,0,c);t.Apply();return t; }
@@ -179,19 +180,21 @@ public class BTFactoryGame : BTTrainingGame {
         if(player.hideHud)return; InitUI();GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1440f,Screen.height/900f,1));
         DrawFactoryPanel(new Rect(24,24,650,132));GUI.DrawTexture(new Rect(24,24,5,132),tint);
         Label(new Rect(44,35,600,34),"03 / THE LAST SEED",heading);Label(new Rect(44,73,600,30),"โรงงานแห่งต้นตอ  •  หยุดมลพิษ ก่อนคืนชีวิต",factorySmall);
+        var economy=GetComponent<BTFactoryLifeEconomy>();
         string[] goals={"เข้าสู่โรงงาน","สำรวจโถงรับสินค้า","เปิดวงจรและประตูด้านใน","คืนสภาพทางขนส่ง","ซ่อมและขึ้นลิฟต์ขนส่ง","เร่งสายพานให้เปิดทาง","ซ่อมหม้อไอน้ำทั้งสามจุด","จ่ายไฟและเปิดสะพานวงแหวน","หยุดมลพิษและฟื้นระบบน้ำ","ปลูกเมล็ดพันธุ์และเร่งการเติบโต"};
         Label(new Rect(44,110,600,40),stage+" / 9   "+goals[Mathf.Clamp(stage,0,9)],factoryBody);
         DrawFactoryPanel(new Rect(1080,24,336,236));Label(new Rect(1100,38,300,32),"พลังถุงมือ  "+Mathf.RoundToInt(player.energy)+" / 100",factoryBody);GUI.DrawTexture(new Rect(1100,80,290*player.energy/100,12),tint);
+        if(economy)Label(new Rect(1100,94,310,21),"เวลา 15 / ขั้น • ปลูกและโต 60"+(economy.recoveredEnergy>0?" • พลังคืน "+Mathf.RoundToInt(economy.recoveredEnergy):""),factorySmall);
         Label(new Rect(1100,112,300,32),(pollutionStopped?"●":"○")+" หยุดมลพิษ   "+(waterFlowRestored?"●":"○")+" น้ำสะอาด",factoryBody);
         Label(new Rect(1100,151,300,30),seedPlanted?"◆ ปลูกเมล็ดแล้ว":hasMiracleSeed?"◆ เมล็ดพันธุ์จากด่านฝึก":"◇ ยังไม่มีเมล็ดพันธุ์",factorySmall);
         Label(new Rect(1100,183,300,32),(BTJourney.OptionalGardenRestored?"★":"☆")+" สวนเล็กในเมือง",factorySmall);
         Label(new Rect(1100,215,300,32),(nurseryRestored?"★":"☆")+" โรงเพาะกล้า (ทางเลือก)",factorySmall);
         if(stage>0 && !completed) {
             DrawFactoryPanel(new Rect(24,730,1392,90));Label(new Rect(44,742,1320,26),"ROBO",factorySmall);Label(new Rect(44,774,1340,42),roboLine,factoryBody);
-            Label(new Rect(25,845,1400,42),"WASD เดิน   Shift วิ่ง   Space กระโดด   RMB เล็ง + ล้อถอย คืนสภาพ / ล้อหน้า เร่งสภาพ / LMB ดูดพลัง   F ใช้งาน / ลิฟต์ / ปลูก   H คำใบ้   Tab แผนที่   R รีเซ็ต   Esc พัก",factorySmall);
+            Label(new Rect(25,845,1400,42),"WASD เดิน   Shift วิ่ง   Space กระโดด   เล็งครอสแฮร์ ล้อถอย คืนสภาพ / ล้อหน้า เร่งสภาพ / LMB ดูดพลัง   F ใช้งาน / ลิฟต์ / ปลูก   H คำใบ้   Tab แผนที่   R รีเซ็ต   Esc พัก",factorySmall);
             if(!player.overview) {
-                Label(new Rect(708,435,35,35),"+",heading);
-                if(player.target) {DrawFactoryPanel(new Rect(470,558,500,96));Label(new Rect(490,568,460,36),player.target.displayName,heading);Label(new Rect(490,611,460,36),player.target.StateName+(player.target.IsLiving && player.target.absorbAllowed?" / พลังชีวิต "+Mathf.RoundToInt(player.target.life)+"%":""),factoryBody);}
+                // Single centred reticle is drawn by BTLifeFlow.
+                if(player.target) {DrawFactoryPanel(new Rect(420,548,600,128));Label(new Rect(440,558,560,36),player.target.displayName,heading);Label(new Rect(440,600,560,36),player.target.StateName+(player.target.IsLiving && player.target.absorbAllowed?" / พลังชีวิต "+Mathf.RoundToInt(player.target.life)+" หน่วย":""),factoryBody);if(economy)Label(new Rect(440,637,560,36),economy.TargetHelp(player.target),factorySmall);}
             }
             if(markers!=null && stage<markers.Length) {
                 var p=player.view.WorldToScreenPoint(markers[stage]+Vector3.up*2.6f);if(p.z>0&&p.x>0&&p.x<Screen.width&&p.y>0&&p.y<Screen.height)Label(new Rect(p.x/Screen.width*1440-20,900-p.y/Screen.height*900-20,100,40),"◆ "+stage,heading);

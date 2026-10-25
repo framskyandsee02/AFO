@@ -15,6 +15,8 @@ public class BTPlayer : MonoBehaviour {
     public string feedback="";
     float feedbackUntil, nextCast, gait, nextAbsorbTone;
     Vector3 cameraVelocity;
+    BTLifeFlow lifeFlow;
+    public bool IsAbsorbing => lifeFlow && lifeFlow.IsFlowing;
     public struct FrameInput { public Vector2 move, look; public float scroll; public bool aim, absorb, jump, sprint, interact; }
     // Editor playtest injects input into the same movement and targeting path as the keyboard.
     [System.NonSerialized] public System.Func<FrameInput> inputOverride;
@@ -22,7 +24,7 @@ public class BTPlayer : MonoBehaviour {
         Controller=GetComponent<CharacterController>(); checkpoint=transform.position;
         BorrowedTime.Menu.GamePauseMenu.Attach(this);
     }
-    void Start() { UpdateCamera(true); }
+    void Start() { lifeFlow=GetComponent<BTLifeFlow>(); if(!lifeFlow)lifeFlow=gameObject.AddComponent<BTLifeFlow>(); UpdateCamera(true); }
     public void Message(string s) { feedback=s; feedbackUntil=Time.unscaledTime+3.2f; }
     public bool StandingOn(BTTimeTarget t) {
         var hits=Physics.RaycastAll(transform.position+Vector3.up*.18f,Vector3.down,.65f,~(1<<2),QueryTriggerInteraction.Ignore);
@@ -38,7 +40,7 @@ public class BTPlayer : MonoBehaviour {
             f.jump=k.spaceKey.wasPressedThisFrame; f.sprint=k.shiftKey.isPressed;
             f.interact=k.fKey.wasPressedThisFrame;
         }
-        if(m!=null) { f.look=m.delta.ReadValue(); f.aim=m.rightButton.isPressed; f.absorb=m.leftButton.isPressed; f.scroll=m.scroll.ReadValue().y; }
+        if(m!=null) { f.look=m.delta.ReadValue(); f.aim=false; f.absorb=m.leftButton.isPressed; f.scroll=m.scroll.ReadValue().y; }
         return f;
     }
     void Update() {
@@ -71,16 +73,19 @@ public class BTPlayer : MonoBehaviour {
             visual.rotation=Quaternion.Slerp(visual.rotation,Quaternion.LookRotation(move),12*dt);
             gait+=dt*(f.sprint?16:11);
         }
-        if(f.aim) visual.rotation=Quaternion.Slerp(visual.rotation,Quaternion.Euler(0,yaw,0),15*dt);
+        if(f.absorb || Mathf.Abs(f.scroll)>.01f) visual.rotation=Quaternion.Slerp(visual.rotation,Quaternion.Euler(0,yaw,0),15*dt);
         if(leftFoot) leftFoot.localRotation=Quaternion.Euler(Mathf.Sin(gait)*move.magnitude*22,0,0);
         if(rightFoot) rightFoot.localRotation=Quaternion.Euler(-Mathf.Sin(gait)*move.magnitude*22,0,0);
         if(transform.position.y<-7) Respawn();
-        UpdateCamera(false); FindTarget(f.aim);
-        if(f.aim && target) {
+        UpdateCamera(false); FindTarget(true);
+        // The camera-centred reticle always selects the visible target. Aim is
+        // presentation state only; no mouse button is required to acquire it.
+        f.aim=target && (f.absorb || Mathf.Abs(f.scroll)>.01f); CurrentInput=f;
+        if(target) {
             if(f.absorb) TryAbsorb(dt);
             if(f.scroll<-.01f) Cast(-1);
             if(f.scroll>.01f) Cast(1);
-        } else if(f.aim && (f.absorb || Mathf.Abs(f.scroll)>.01f)) Message("เล็งวงแหวนของวัตถุที่มีพลังเวลา");
+        } else if(f.absorb || Mathf.Abs(f.scroll)>.01f) Message("เล็งวงแหวนของวัตถุที่มีพลังเวลา");
         if(f.interact) {var w=game.GetComponent<BTExpansionWorld>();if(!w||!w.TryInteract())game.Interact();BTSaveGame.Request(game);}
     }
     void LateUpdate() {
@@ -105,7 +110,7 @@ public class BTPlayer : MonoBehaviour {
         ClearTarget(); if(!aiming) return;
         var ray=view.ViewportPointToRay(new Vector3(.5f,.5f));
         if(Physics.SphereCast(ray,.18f,out RaycastHit hit,20,~(1<<2),QueryTriggerInteraction.Ignore)) {
-            var t=hit.collider.GetComponentInParent<BTTimeTarget>(); if(!t) return;
+            var t=hit.collider.GetComponentInParent<BTTimeTarget>(); if(!t || !t.isActiveAndEnabled) return;
             Vector3 point=t.aimPoint?t.aimPoint.position:hit.point;
             if(Vector3.Distance(transform.position+Vector3.up,point)>8) return;
             Vector3 start=rightHand?rightHand.position:transform.position+Vector3.up;
@@ -123,8 +128,8 @@ public class BTPlayer : MonoBehaviour {
         if(!target.absorbAllowed) { Message("พืชนี้เป็นเป้าหมายเวลา ไม่ใช่แหล่งเติมพลัง"); return; }
         if(Vector3.Distance(transform.position,target.transform.position)>3f) { Message("เข้าใกล้ต้นไม้อีกนิด (ระยะดูดพลัง 3 เมตร)"); return; }
         float amount=target.Absorb(Mathf.Min(10*dt,100-energy)); energy+=amount;
-        if(amount>0) { if(Time.time>nextAbsorbTone){game.PlayTone(330);nextAbsorbTone=Time.time+.9f;} game.EnergyAbsorbed(amount); DrawBeam(new Color(.35f,1,.65f)); }
-        else Message(energy>=99.9f?"พลังถุงมือเต็มแล้ว":"พักต้นไม้ไว้ก่อน พืชจะฟื้นพลังได้เอง");
+        if(amount>0) { if(Time.time>nextAbsorbTone){game.PlayTone(330);nextAbsorbTone=Time.time+.9f;} game.EnergyAbsorbed(amount); if(lifeFlow)lifeFlow.Feed(target); }
+        else Message(energy>=99.9f?"พลังถุงมือเต็มแล้ว":(target.regenPerSecond<=0?"เหลือชีวิตขั้นต่ำแล้ว • หาต้นไม้ทดลองอื่น หรือกู้พลังจากวัตถุที่ยังไม่ยืนยัน":"พักต้นไม้ไว้ก่อน พืชจะฟื้นพลังได้เอง"));
     }
     public void Cast(int direction) {
         if(Time.time<nextCast) return;
