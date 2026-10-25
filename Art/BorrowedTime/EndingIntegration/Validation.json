@@ -1,0 +1,70 @@
+{
+    "completed": true,
+    "success": true,
+    "checks": [
+        {
+            "name": "Main-menu Play still targets the opening film",
+            "passed": true
+        },
+        {
+            "name": "An unfinished factory does not start the ending",
+            "passed": true
+        },
+        {
+            "name": "Finishing the factory loads the new 3D ending scene",
+            "passed": true
+        },
+        {
+            "name": "The old recovery cinematic is replaced",
+            "passed": true
+        },
+        {
+            "name": "Hopeful ending choice survives the scene transition",
+            "passed": true
+        },
+        {
+            "name": "Completion is saved before leaving the factory",
+            "passed": true
+        },
+        {
+            "name": "The supplied music and rebuilt SFX play together",
+            "passed": true
+        },
+        {
+            "name": "Ending audio uses the existing Music and Effects settings",
+            "passed": true
+        },
+        {
+            "name": "Menu music pauses during the ending",
+            "passed": true
+        },
+        {
+            "name": "Audio plays through all 76 seconds without repeated restarts",
+            "passed": true
+        },
+        {
+            "name": "The film finishes on credits with audio stopped",
+            "passed": true
+        },
+        {
+            "name": "Replay restarts the film and soundtrack",
+            "passed": true
+        },
+        {
+            "name": "Skip reaches credits",
+            "passed": true
+        },
+        {
+            "name": "Returning to the main menu restores time and menu music",
+            "passed": true
+        },
+        {
+            "name": "The alternate factory ending also loads the replacement film",
+            "passed": true
+        },
+        {
+            "name": "F8 uses the new ending's Skip action",
+            "passed": true
+        }
+    ]
+}

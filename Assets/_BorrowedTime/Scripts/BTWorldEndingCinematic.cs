@@ -1,9 +1,11 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 namespace BorrowedTime {
 [Serializable] public class BTRecoveryMaterial {public Material material;public Color from,to;public string property="_BaseColor";}
 public class BTWorldEndingCinematic : MonoBehaviour {
+ public const string EndingScenePath="Assets/_BorrowedTime/Scenes/EndingCutscene.unity";
  public BTFactoryGame game;
  public GameObject trainingVista,cityVista;
  public Vector3 cityCameraStart=new Vector3(-7,6,-16),cityCameraEnd=new Vector3(-10,5,-13),cityLookAt=new Vector3(-18,1,-2);
@@ -14,12 +16,23 @@ public class BTWorldEndingCinematic : MonoBehaviour {
  public float Elapsed{get;private set;}
  bool started;float oldFar;Vector3 cameraPosition;Quaternion cameraRotation;GUIStyle subtitle,small;
  void Awake(){
+  if(Application.CanStreamedLevelBeLoaded(EndingScenePath))return;
   var map=new System.Collections.Generic.Dictionary<Material,Material>();
   foreach(var item in recovery)if(item.material&&!map.ContainsKey(item.material))map[item.material]=new Material(item.material);
   foreach(var home in new[]{trainingVista,cityVista})foreach(var renderer in home.GetComponentsInChildren<Renderer>(true)){var materials=renderer.sharedMaterials;for(int i=0;i<materials.Length;i++)if(materials[i]&&map.ContainsKey(materials[i]))materials[i]=map[materials[i]];renderer.sharedMaterials=materials;}
   foreach(var item in recovery)if(item.material)item.material=map[item.material];
  }
  void Update(){
+  if(game.completed && Application.CanStreamedLevelBeLoaded(EndingScenePath)){
+   if(!started){
+    started=Playing=true;
+    BTSaveGame.CancelPendingContinue();BTSaveGame.Save(game);
+    game.player.ClearPresentationTarget();game.player.hideHud=true;
+    Cursor.lockState=CursorLockMode.None;Cursor.visible=true;Time.timeScale=1;
+    SceneManager.LoadSceneAsync(EndingScenePath,LoadSceneMode.Single);
+   }
+   return;
+  }
   if(!game.completed){if(started){trainingVista.SetActive(false);cityVista.SetActive(false);started=Playing=Finished=false;Elapsed=0;foreach(var m in recovery)if(m.material)m.material.SetColor(m.property,m.from);foreach(var shoot in newShoots)shoot.localScale=Vector3.zero;}return;}
   if(!started){started=true;Playing=true;Elapsed=0;oldFar=game.player.view.farClipPlane;game.player.view.farClipPlane=180;cameraPosition=game.player.view.transform.position;cameraRotation=game.player.view.transform.rotation;game.player.ClearPresentationTarget();Cursor.lockState=CursorLockMode.None;Cursor.visible=true;}
   if(!Playing)return;
@@ -42,6 +55,7 @@ public class BTWorldEndingCinematic : MonoBehaviour {
  }
  public void Finish(){game.player.view.farClipPlane=oldFar;Playing=false;Finished=true;trainingVista.SetActive(false);cityVista.SetActive(false);game.player.view.transform.position=cameraPosition;game.player.view.transform.rotation=cameraRotation;}
  void OnGUI(){
+  if(Application.CanStreamedLevelBeLoaded(EndingScenePath))return;
   if(!Playing||game.player.hideHud)return;
   if(subtitle==null){subtitle=new GUIStyle(GUI.skin.label){font=game.uiFont,fontSize=25,alignment=TextAnchor.MiddleCenter,wordWrap=true};subtitle.normal.textColor=new Color(.96f,.96f,.88f);small=new GUIStyle(subtitle){fontSize=14,alignment=TextAnchor.MiddleRight};}
   GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1440f,Screen.height/900f,1));GUI.color=Color.black;GUI.DrawTexture(new Rect(0,0,1440,70),Texture2D.whiteTexture);GUI.DrawTexture(new Rect(0,790,1440,110),Texture2D.whiteTexture);GUI.color=Color.white;

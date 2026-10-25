@@ -1,4 +1,5 @@
 using UnityEngine;
+using BorrowedTime.Menu;
 namespace BorrowedTime.Ending {
 [DefaultExecutionOrder(100)]
 public sealed class BTEndingAudio : MonoBehaviour {
@@ -6,8 +7,16 @@ public sealed class BTEndingAudio : MonoBehaviour {
  public AudioSource music,soundDesign;
  [Range(0,1)] public float masterVolume=.85f,musicVolume=.06f,sfxVolume=1f;
  float lastTime=-1;
+ AudioSource menuMusic;
+ bool resumeMenuMusic;
  public int restarts;
  static float S(float t,float a,float b){return Mathf.SmoothStep(0,1,Mathf.InverseLerp(a,b,t));}
+ void Start(){
+  var menu=Object.FindFirstObjectByType<MenuAudioFeedback>();
+  if(menu&&menu.music){menuMusic=menu.music;resumeMenuMusic=menuMusic.isPlaying;if(resumeMenuMusic)menuMusic.Pause();}
+  Route(music,MenuAudioChannel.Music);Route(soundDesign,MenuAudioChannel.Effects);
+ }
+ static void Route(AudioSource source,MenuAudioChannel channel){if(!source)return;var bus=source.GetComponent<MenuAudioBus>();if(!bus)bus=source.gameObject.AddComponent<MenuAudioBus>();bus.channel=channel;}
  void Update(){
  if(!director)return;
  if(director.manualPreview){Stop();lastTime=-1;return;}
@@ -33,5 +42,6 @@ public sealed class BTEndingAudio : MonoBehaviour {
  }
  public void Stop(){if(music)music.Stop();if(soundDesign)soundDesign.Stop();}
  void OnDisable(){Stop();lastTime=-1;}
+ void OnDestroy(){if(resumeMenuMusic&&menuMusic)menuMusic.UnPause();}
 }
 }

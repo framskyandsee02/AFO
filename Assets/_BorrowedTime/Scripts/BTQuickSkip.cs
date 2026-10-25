@@ -21,6 +21,8 @@ public class BTQuickSkip : MonoBehaviour {
  static void EnterPreview(){PreviewSession=true;BTSaveGame.CancelPendingContinue();Time.timeScale=1;}
  public static void Advance(){
   if(loading)return;
+  var ending=Object.FindFirstObjectByType<BorrowedTime.Ending.BTEndingCutscene>();
+  if(ending){if(!ending.Finished)ending.SkipToCredits();else ending.ReturnToMainMenu();return;}
   string path=SceneManager.GetActiveScene().path;
   if(path==BTJourney.TrainingPath){LoadCityPreview();return;}
   if(path==BTJourney.CityPath){LoadFactoryPreview();return;}
@@ -57,6 +59,7 @@ public class BTQuickSkip : MonoBehaviour {
   g.player.checkpoint=new Vector3(0,12.1f,18);g.player.Respawn();g.RefreshRoutes();
  }
  void OnGUI(){
+  if(Object.FindFirstObjectByType<BorrowedTime.Ending.BTEndingCutscene>())return;
   if(label==null){var g=Object.FindFirstObjectByType<BTTrainingGame>();var sky=Object.FindFirstObjectByType<BTSkyCityGame>();label=new GUIStyle(GUI.skin.label){font=g?g.uiFont:sky&&sky.hints?sky.hints.thaiFont:null,fontSize=14};label.normal.textColor=new Color(.62f,.94f,.96f);}
   GUI.depth=-100;GUI.matrix=Matrix4x4.identity;
   GUI.Label(new Rect(24,Screen.height-73,650,24),PreviewSession?"F8 ข้ามด่าน / ข้ามคัตซีน • โหมดพรีวิว ไม่บันทึกเซฟ":"F8 ข้ามไปท้ายด่าน (พรีวิว)",label);

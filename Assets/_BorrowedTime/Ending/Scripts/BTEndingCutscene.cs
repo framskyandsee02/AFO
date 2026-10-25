@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 namespace BorrowedTime.Ending {
 public sealed class BTEndingCutscene : MonoBehaviour {
  public const float Duration=76;
@@ -15,12 +17,27 @@ public sealed class BTEndingCutscene : MonoBehaviour {
  public Text letterText,title,subtitle,credits;
  public float elapsed;
  public bool manualPreview;
+ public bool Finished => elapsed>=Duration;
+ bool leaving;
+ GUIStyle actionStyle;
  public string creditNames="BORROWED TIME\n\nA world given another tomorrow\n\nCreated by the Borrowed Time team\n\nThank you for playing";
  static Vector3 V(float x,float y,float z){return new Vector3(x,y,z);}
  static float S(float t,float a,float b){return Mathf.SmoothStep(0,1,Mathf.InverseLerp(a,b,t));}
- void Start(){if(!manualPreview){elapsed=0;Evaluate(0);}}
- void Update(){if(!manualPreview){elapsed=Mathf.Min(Duration,elapsed+Time.unscaledDeltaTime);Evaluate(elapsed);}}
+ void Start(){if(!manualPreview){Time.timeScale=1;Cursor.lockState=CursorLockMode.None;Cursor.visible=true;elapsed=0;Evaluate(0);}}
+ void Update(){if(!manualPreview){if(Keyboard.current!=null&&Keyboard.current.escapeKey.wasPressedThisFrame)SkipToCredits();elapsed=Mathf.Min(Duration,elapsed+Time.unscaledDeltaTime);Evaluate(elapsed);}}
  public void Replay(){elapsed=0;manualPreview=false;Evaluate(0);}
+ public void SkipToCredits(){elapsed=Duration;Evaluate(Duration);var audio=GetComponent<BTEndingAudio>();if(audio)audio.Stop();}
+ public void ReturnToMainMenu(){if(leaving)return;leaving=true;BTSaveGame.CancelPendingContinue();BTQuickSkip.ExitPreview();Time.timeScale=1;SceneManager.LoadScene("BorrowedTimeMainMenu");}
+ void OnGUI(){
+  if(manualPreview)return;
+  GUI.depth=-200;GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1920f,Screen.height/1080f,1));
+  if(actionStyle==null)actionStyle=new GUIStyle(GUI.skin.button){font=letterText?letterText.font:null,fontSize=25};
+  if(!Finished){if(GUI.Button(new Rect(1640,28,250,52),"ข้าม / ESC",actionStyle))SkipToCredits();}
+  else{
+   if(GUI.Button(new Rect(500,970,440,62),"ดูคัตซีนอีกครั้ง",actionStyle))Replay();
+   if(GUI.Button(new Rect(980,970,440,62),"กลับหน้าเมนู",actionStyle))ReturnToMainMenu();
+  }
+ }
  public string Beat(float t){return t<9?"Seed":t<20?"Borrow sunlight":t<36?"Yggdrasil grows":t<46?"A living world":t<49?"Black":t<55?"Letter on desk":t<66?"Read letter":t<70?"End of DEMO":"Credits";}
  void Shot(Vector3 p,Vector3 target,float fov){shotCamera.transform.position=p;shotCamera.transform.LookAt(target);shotCamera.fieldOfView=fov;}
  public void Evaluate(float t){
