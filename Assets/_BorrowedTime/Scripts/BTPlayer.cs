@@ -105,6 +105,7 @@ public class BTPlayer : MonoBehaviour {
         view.transform.position=snap?desired:Vector3.SmoothDamp(view.transform.position,desired,ref cameraVelocity,.055f);
         view.transform.rotation=r;
     }
+    public void ClearPresentationTarget(){ClearTarget();}
     void ClearTarget() { if(target && target.focusRing) target.focusRing.SetActive(false); target=null; }
     public void FindTarget(bool aiming) {
         ClearTarget(); if(!aiming) return;

@@ -141,6 +141,7 @@ public class BTTrainingGame : MonoBehaviour {
     void Box(Rect r,Texture2D t) { GUI.DrawTexture(r,t); }
     void Label(Rect r,string s,GUIStyle style) { GUI.Label(r,s,style); }
     protected virtual void OnGUI() {
+        if(GetComponent<BTJourneyHUD>())return;
         if(BorrowedTime.Menu.GamePauseMenu.IsPausedFor(player))return;
         if(player.hideHud) return;
         var opening=GetComponent<BTPresentation>();

@@ -11,7 +11,7 @@ public static class BTJourney {
     public static bool FromCity,CityWaterRestored,CityGardenRestored,SeedPlanted,PollutionStopped,FinalNurseryRestored;
     public static string Ending="";
     public static string CrossingMethod="";
-    public static void NewJourney() { HasMiracleSeed=false; FromTraining=false; OptionalGardenRestored=false; CarriedEnergy=50; FromCity=CityWaterRestored=CityGardenRestored=SeedPlanted=PollutionStopped=FinalNurseryRestored=false; Ending=""; CrossingMethod=""; }
+    public static void NewJourney() { BTQuickSkip.ExitPreview(); HasMiracleSeed=false; FromTraining=false; OptionalGardenRestored=false; CarriedEnergy=50; FromCity=CityWaterRestored=CityGardenRestored=SeedPlanted=PollutionStopped=FinalNurseryRestored=false; Ending=""; CrossingMethod=""; }
     public static void LoadCity(float energy) {
         CarriedEnergy=Mathf.Clamp(energy,0,100); FromTraining=true;
         SceneManager.LoadSceneAsync(CityPath,LoadSceneMode.Single);

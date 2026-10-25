@@ -120,7 +120,7 @@ public static class BTFactoryCampaignTraining {
             if(!testing)return;
             if(!EditorApplication.isPlaying)return;
             if(mode==0 && SceneManager.GetActiveScene().path==BTJourney.CityPath){
-                var city=Object.FindFirstObjectByType<BTCityGame>();if(!city)return;
+                var sky=Object.FindFirstObjectByType<BTSkyCityGame>();if(sky){if(!BTJourney.FromTraining||!BTJourney.HasMiracleSeed)throw new Exception("Seed was not carried to Sky City");Finish(true,"Main route completed and transitioned to active Sky City carrying the miracle seed");return;}var city=Object.FindFirstObjectByType<BTCityGame>();if(!city)return;
                 if(!BTJourney.FromTraining||!city.hasMiracleSeed)throw new Exception("Seed was not carried to City");
                 Finish(true,"Main route completed and transitioned to ForgottenCity carrying the miracle seed; optional gardens untouched");return;
             }
@@ -233,7 +233,7 @@ public static class BTFactoryCampaignTraining {
         testing=false;waiting=false;SessionState.SetInt("BTFactoryCampaignTrainingMode",0);if(game&&game.player)game.player.inputOverride=null;
         Application.runInBackground=oldBackground;BTSaveGame.CancelPendingContinue();
         Note((ok?"PASS ":"FAIL ")+detail);Directory.CreateDirectory(Output);File.WriteAllLines(Output+(mode==0?"/MainRoute.txt":"/OptionalGardens.txt"),log);
-        Write(ok?"PASS":"FAIL",detail);Debug.Log("BT_TRAINING_COMFORT "+(ok?"PASS ":"FAIL ")+detail);if(ok)BTFactoryCampaignCity.StartAtCity();else{BTSaveGame.TestPathOverride=null;EditorApplication.isPlaying=false;}
+        Write(ok?"PASS":"FAIL",detail);Debug.Log("BT_TRAINING_COMFORT "+(ok?"PASS ":"FAIL ")+detail);if(ok)BTSkyCityJourneyPlaytest.StartAtCity();else{BTSaveGame.TestPathOverride=null;EditorApplication.isPlaying=false;}
     }
 }
 }

@@ -40,7 +40,7 @@ public class BTPresentation : MonoBehaviour {
         if(!game || !game.player || game.player.hideHud)return;
         if(textStyle==null){textStyle=new GUIStyle(GUI.skin.label){font=game.uiFont,fontSize=17,wordWrap=true};headingStyle=new GUIStyle(textStyle){fontSize=24,fontStyle=FontStyle.Bold};buttonStyle=new GUIStyle(GUI.skin.button){font=game.uiFont,fontSize=20};}
         GUI.depth=-5;GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1440f,Screen.height/900f,1));
-        if(game.stage>0 && !game.player.overview && !game.completed && !game.player.paused){
+        if(!game.GetComponent<BTJourneyHUD>() && game.stage>0 && !game.player.overview && !game.completed && !game.player.paused){
             if(!game.IsGentleTraining){GUI.Box(new Rect(24,603,290,96),"");GUI.Label(new Rect(40,610,260,33),"พลังถุงมือ  "+Mathf.RoundToInt(game.player.energy)+" / 100",headingStyle);
             GUI.color=new Color(.35f,1,.7f);GUI.DrawTexture(new Rect(42,652,250*game.player.energy/100,9),Texture2D.whiteTexture);GUI.color=Color.white;
             GUI.Label(new Rect(40,669,260,27),"พลังชีวิตที่ยืมมา • F5 บันทึก",textStyle);}

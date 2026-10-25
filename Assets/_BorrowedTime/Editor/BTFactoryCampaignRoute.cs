@@ -47,13 +47,13 @@ public static class BTFactoryCampaignRoute {
             var f=Object.FindFirstObjectByType<BTFactoryGame>();if(!f || f.stage==0)return;
             factory=f;
             if(!journeyPassed || !BTJourney.FromCity || !factory.hasMiracleSeed || !BTJourney.CityWaterRestored || !BTJourney.CityGardenRestored){Finish(false,"City → Factory transition contract failed");return;}
-            Note("PASS Real scene transition City → Factory preserved seed, water, garden and energy="+factory.player.energy.ToString("F1"));
+            Note((BTFactoryRouteReplay.Replaying?"PASS actual incoming checkpoint restored seed, water, garden and energy=":"PASS Real scene transition City → Factory preserved seed, water, garden and energy=")+factory.player.energy.ToString("F1"));
             if(factory.CanPlant(out string reason)){Finish(false,"Planting accepted before factory shutdown");return;}
             if(factory.miracleTree.Absorb(100)!=0){Finish(false,"Miracle seed allowed absorption");return;}
             Note("PASS Planting blocked before pollution / water prerequisites; miracle seed cannot supply energy");
-            step=0;stepTime=Time.time;factory.player.inputOverride=Input;return;
+            BTFactoryRouteReplay.Capture(factory);step=0;stepTime=Time.time;factory.player.inputOverride=Input;return;
         }
-        if(factory.completed){
+        if(factory.completed){if(!factory.GetComponent<BTWorldEndingCinematic>().Finished)return;if(!BTDirectionPlayEvidence.SawAllShots){Finish(false,"Ending shots not observed");return;}
             string expected=secondLeg?"Fragile Tomorrow":"Hopeful Renewal";
             if(factory.ending!=expected || !factory.seedPlanted || !factory.pollutionStopped || !factory.waterFlowRestored || factory.miracleTree.age!=2 || BTJourney.HasMiracleSeed || !BTJourney.SeedPlanted){Finish(false,"Ending state mismatch "+factory.ending);return;}
             Note("PASS "+expected+" reached through actual controls; walked="+factory.player.walked.ToString("F1")+"m energy="+factory.player.energy.ToString("F1"));
@@ -93,7 +93,7 @@ public static class BTFactoryCampaignRoute {
             case 11:if(Move(new Vector3(1.5f,0,-22),ref f))Next("Went around control cabinet");break;
             case 12:if(Move(new Vector3(0,0,-15),ref f))Next("Walked through intake gate");break;
             case 13:if(Move(new Vector3(-16,0,-10.7f),ref f))Next("Reached transport bridge approach");break;
-            case 14:Cast(factory.bridge,0,ref f);if(factory.bridge.age==0)Next("Transport bridge rewound twice");break;
+            case 14:Cast(factory.bridge,1,ref f);if(factory.bridge.age==1)Next("Transport bridge rewound twice");break;
             case 15:if(Move(new Vector3(-17,0,-6.5f),ref f))Next("Entered real bridge deck");break;
             case 16:if(Move(new Vector3(-17,0,2.5f),ref f))Next("Crossed restored transport bridge");break;
             case 17:if(Move(new Vector3(-21,0,3),ref f))Next("Reached raw material recovery planter");break;

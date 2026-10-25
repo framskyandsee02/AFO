@@ -151,6 +151,7 @@ public class BTCityGame : BTTrainingGame {
     void Panel(Rect r) { GUI.DrawTexture(r,background); }
     void Label(Rect r,string s,GUIStyle style) { GUI.Label(r,s,style); }
     protected override void OnGUI() {
+        if(GetComponent<BTJourneyHUD>())return;
         if(BorrowedTime.Menu.GamePauseMenu.IsPausedFor(player))return;
         if(player.hideHud) return; Init(); GUI.matrix=Matrix4x4.Scale(new Vector3(Screen.width/1440f,Screen.height/900f,1));
         Panel(new Rect(24,24,650,132)); GUI.DrawTexture(new Rect(24,24,5,132),bar);

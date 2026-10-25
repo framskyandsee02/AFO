@@ -11,7 +11,7 @@ public class BTFactoryLifeEconomy : MonoBehaviour {
  public Light[] extractionLights=new Light[0];
  public Material activeExtraction,stoppedExtraction;
  bool lastStopped;
- public bool Locked(BTTimeTarget t){
+ public bool Locked(BTTimeTarget t){var routes=GetComponent<BTFactoryRoutes>();if(routes&&routes.Committed(t))return true;
   if(t==game.miracleTree)return false;
   if(t==game.entryControl && game.entryOpen || t==game.bridge && game.transportRestored || t==game.conveyor && game.conveyorOpen || t==game.coreConsole && game.pollutionStopped)return true;
   if(t==game.liftControl && game.player.checkpoint.y>5)return true;

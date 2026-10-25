@@ -10,9 +10,9 @@ using Object=UnityEngine.Object;
 namespace BorrowedTime.Editor {
 [InitializeOnLoad]
 public static class BTFactoryFinalChecks {
- static bool continuing;static BTSaveData saved;static double due;static bool oldBackground;
+ static bool continuing,finalCheck;static BTSaveData saved;static double due;static bool oldBackground;
  static BTFactoryFinalChecks(){EditorApplication.update+=Tick;}
- public static void CheckContinue(BTFactoryGame game){
+ public static void CheckContinue(BTFactoryGame game,bool final=false){finalCheck=final;
   game.player.inputOverride=null;BTSaveGame.Save(game);saved=JsonUtility.FromJson<BTSaveData>(File.ReadAllText(BTSaveGame.PathName));
   oldBackground=Application.runInBackground;Application.runInBackground=true;due=EditorApplication.timeSinceStartup+25;continuing=true;
   if(!BTSaveGame.Continue())End(false,"Continue command rejected the isolated test save");
@@ -25,13 +25,14 @@ public static class BTFactoryFinalChecks {
   var g=Object.FindFirstObjectByType<BTFactoryGame>();if(!g||!g.completed||!BTSaveGame.Notice.StartsWith("โหลดบันทึก"))return;
   try{
    if(g.ending!="Hopeful Renewal"||g.miracleTree.age!=2||g.hasMiracleSeed||!g.seedPlanted||!g.pollutionStopped||!g.waterFlowRestored)throw new Exception("Restored ending / seed / prerequisite mismatch");
+   if(saved.factoryRoutes==null||!g.GetComponent<BTFactoryRoutes>().choices.SequenceEqual(saved.factoryRoutes))throw new Exception("Alternative route choices were lost on Continue");
    if(Mathf.Abs(g.player.energy-saved.energy)>.1f)throw new Exception("Restored energy differs");
    if(Mathf.Abs(g.GetComponent<BTFactoryLifeEconomy>().recoveredEnergy-saved.factoryRecovery)>.01f)throw new Exception("Restored recovery balance differs");
    foreach(var t in g.GetComponent<BTFactoryLifeEconomy>().specimens){var d=saved.targets.Single(s=>s.path==Key(t.transform));if(Mathf.Abs(t.life-d.life)>.01f||t.regenPerSecond!=0)throw new Exception("Depleted source regenerated on Continue: "+t.name);}
-   End(true,"Save / Continue preserved finite specimen life, player energy, recovery balance, expansion solutions, consumed seed and Hopeful Renewal ending");
+   End(true,"Save / Continue preserved finite specimen life, player energy, recovery balance, alternative route choices, consumed seed and Hopeful Renewal ending");
   }catch(Exception e){End(false,e.ToString());}
  }
- static void End(bool ok,string message){continuing=false;Directory.CreateDirectory(BTFactoryInspection.Out);File.WriteAllText(BTFactoryInspection.Out+"/SaveContinue.txt",(ok?"PASS ":"FAIL ")+message);Application.runInBackground=oldBackground;BTSaveGame.CancelPendingContinue();BTSaveGame.TestPathOverride=null;EditorApplication.isPlaying=false;}
+ static void End(bool ok,string message){continuing=false;Directory.CreateDirectory(BTFactoryInspection.Out);File.AppendAllText(BTFactoryInspection.Out+"/SaveContinue.txt",(ok?"PASS ":"FAIL ")+(finalCheck?"manual route: ":"time route: ")+message+"\n");Application.runInBackground=oldBackground;BTSaveGame.CancelPendingContinue();if(ok&&!finalCheck){BTFactoryManualPlaytest.Start(Object.FindFirstObjectByType<BTFactoryGame>());return;}BTSaveGame.TestPathOverride=null;EditorApplication.isPlaying=false;}
  [MenuItem("Tools/Borrowed Time/Factory/Repair practical light mounting")]
  public static void RepairLights(){
   if(EditorApplication.isPlaying)throw new Exception("Edit Mode required");

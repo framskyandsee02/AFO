@@ -14,7 +14,7 @@ public class BTSkyCityHints:MonoBehaviour {
  void Update(){if(Keyboard.current!=null&&Keyboard.current.hKey.wasPressedThisFrame){int d=NearestDistrict();int step=d<0?0:Mathf.Min(levels[d]++,2);current=HintText(d,step);until=Time.unscaledTime+14;}}
  void OnGUI(){
   if(game.previewOnly)return;if(style==null){style=new GUIStyle(GUI.skin.box){font=thaiFont,fontSize=18,wordWrap=true,alignment=TextAnchor.MiddleLeft,padding=new RectOffset(16,16,12,12)};style.normal.textColor=new Color(.75f,1,1);marker=new GUIStyle(GUI.skin.box){font=thaiFont,fontSize=15};}
-  GUI.Label(new Rect(Screen.width-235,103,215,30),"H — คำใบ้ทีละขั้น",new GUIStyle(GUI.skin.label){font=thaiFont,fontSize=17});
+  if(!game.GetComponent<BTJourneyHUD>())GUI.Label(new Rect(Screen.width-235,103,215,30),"H — คำใบ้ทีละขั้น",new GUIStyle(GUI.skin.label){font=thaiFont,fontSize=17});
   if(Time.unscaledTime<until)GUI.Box(new Rect(24,267,Mathf.Min(700,Screen.width-48),115),current,style);
   int goal=game.puzzles.NextNode();var point=goal>=0?game.AimPoint(goal):game.door.position;var screen=game.cam.GetComponent<Camera>().WorldToScreenPoint(point+Vector3.up*.7f);
   if(screen.z>0&&screen.x>80&&screen.x<Screen.width-80){float distance=Vector3.Distance(game.player.position,point);if(distance>3)GUI.Label(new Rect(screen.x-105,Mathf.Clamp(Screen.height-screen.y,180,Screen.height-250),210,30),"เป้าหมายถัดไป · "+Mathf.RoundToInt(distance)+" ม.",marker);}
