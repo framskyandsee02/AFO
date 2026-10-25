@@ -1,5 +1,10 @@
 # BORROWED TIME: Echoes of Tomorrow — Game Brief
 
+## Approved Sky City revision — 2026-10-25
+
+Mouse wheel down ages objects and collects time; wheel up spends time to rejuvenate them. One capped meter; draining still works at 100. Partial states persist. The city now uses the approved causal chain: canal/water-wheel opens clock access; clock transmission deploys the control ramp; both systems power the telescopic bridge; the factory door opens only after docking. 41 optional city props also support reversible ageing. See [SKY_CITY_CAUSAL_CHAIN.md](SKY_CITY_CAUSAL_CHAIN.md) for implementation, saves and validation. This revision supersedes conflicting older phase-scope and input sections below.
+
+
 **Status:** APPROVED 2026-10-24 · Phase 1 closed
 **Engine:** Unity 6.3.25f1 · URP 17.3 · Input System 1.20.0
 **Target:** Windows PC
