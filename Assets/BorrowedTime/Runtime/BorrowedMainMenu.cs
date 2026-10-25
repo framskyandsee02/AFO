@@ -10,8 +10,8 @@ namespace BorrowedTime.Menu
     [RequireComponent(typeof(UIDocument))]
     public sealed class BorrowedMainMenu : MonoBehaviour
     {
-        [Tooltip("Existing gameplay scene in Build Settings.")]
-        public string playSceneName = "TrainingArea";
+        [Tooltip("New Play starts the opening film. Continue loads the saved gameplay scene directly.")]
+        public string playSceneName = "Cutscene01_Mail";
         [Tooltip("Use the painted corner foliage overlay; disable for a clear overhead 3D meadow.")]
         public bool showForegroundFoliage = true;
         [System.NonSerialized] public GamePauseMenu pauseOwner;
