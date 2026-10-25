@@ -313,7 +313,7 @@ Transform:
   m_GameObject: {fileID: 214233852}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.5599995, y: 0.19000125, z: -0.48834455}
+  m_LocalPosition: {x: -6.5599995, y: 0.1900014, z: -1.0525193}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -445,7 +445,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82c3fddc52831c042bf19089df2870fa, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BorrowedTime.Menu.MenuAudioBus
   channel: 2
 --- !u!4 &428528408
@@ -588,7 +588,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82c3fddc52831c042bf19089df2870fa, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BorrowedTime.Menu.MenuAudioBus
   channel: 1
 --- !u!4 &685790608
@@ -686,7 +686,7 @@ Camera:
   far clip plane: 100
   field of view: 60
   orthographic: 1
-  orthographic size: 3.6514394
+  orthographic size: 8.250131
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -782,7 +782,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04828e0f10dbda94aa8b4eadc8537949, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BorrowedTime.Menu.SleepingCompanions
   menuDocument: {fileID: 1160685954}
   menuCamera: {fileID: 956050994}
@@ -919,7 +919,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82c3fddc52831c042bf19089df2870fa, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BorrowedTime.Menu.MenuAudioBus
   channel: 2
 --- !u!4 &1076603626
@@ -967,7 +967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bed5749866f5054bb7ce21964f52e97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BorrowedTime.Menu.BorrowedMainMenu
-  playSceneName: TrainingArea
+  playSceneName: Cutscene01_Mail
   showForegroundFoliage: 0
 --- !u!114 &1160685954
 MonoBehaviour:
@@ -1409,7 +1409,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 981a2ade067c2be4fa83f2236ab7915f, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BorrowedTime.Menu.MenuAudioFeedback
   menuDocument: {fileID: 1160685954}
   music: {fileID: 685790606}

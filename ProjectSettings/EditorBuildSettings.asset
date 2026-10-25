@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/BorrowedTimeMainMenu.unity
     guid: c88c487d3d9129b45bf5b496322620cc
   - enabled: 1
+    path: Assets/_BorrowedTime/Cutscenes/Cutscene01_Mail.unity
+    guid: f92bc53513729f845802426dd9dd18ca
+  - enabled: 1
+    path: Assets/_BorrowedTime/Cutscenes/Cutscene02_Interior.unity
+    guid: 7ae60b2580873cf4d9230ef6f65b695a
+  - enabled: 1
     path: Assets/_BorrowedTime/Scenes/TrainingArea.unity
     guid: 2104e486f61ca9447a4695703c7103cf
   - enabled: 1

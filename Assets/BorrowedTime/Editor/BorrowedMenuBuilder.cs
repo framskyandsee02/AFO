@@ -36,7 +36,7 @@ namespace BorrowedTime.Editor
         public static void CreateOrOpen()
         {
             if (EditorApplication.isPlayingOrWillChangePlaymode) throw new Exception("Exit Play Mode first.");
-            if (File.Exists(ScenePath)) { EditorSceneManager.OpenScene(ScenePath); return; }
+            if (File.Exists(ScenePath)) { EditorSceneManager.OpenScene(ScenePath); UseMainMenuAsStart(); return; }
             var current = EditorSceneManager.GetActiveScene();
             if (current.isDirty && !EditorSceneManager.SaveScene(current, "Assets/BorrowedTime/Editor/BeforeMenuSetup.unity", true)) throw new Exception("Could not preserve the open scene.");
             foreach (string path in Directory.GetFiles(UiPath + "Art", "*.png"))
@@ -64,16 +64,22 @@ namespace BorrowedTime.Editor
             var backdrop = camera.gameObject.AddComponent<MeadowBackdrop>(); backdrop.menuCamera = camera; backdrop.background = background.transform;
             backdrop.characterPlacement = anchor; backdrop.imageSize = new Vector2(texture.width, texture.height);
             var ui = new GameObject("Borrowed Time Main Menu UI");
-            ui.AddComponent<BorrowedMainMenu>().playSceneName = "TrainingArea";
+            ui.AddComponent<BorrowedMainMenu>().playSceneName = "Cutscene01_Mail";
             var document = ui.GetComponent<UIDocument>();
             document.panelSettings = AssetDatabase.LoadAssetAtPath<PanelSettings>(UiPath + "BorrowedMenuPanelSettings.asset");
             document.visualTreeAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(UiPath + "BorrowedMainMenu.uxml");
             EditorUtility.SetDirty(document);
             EditorSceneManager.SaveScene(scene, ScenePath);
+            UseMainMenuAsStart();
             EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true) }.Concat(EditorBuildSettings.scenes.Where(s => s.path != ScenePath)).ToArray();
             PlayerSettings.productName = "BORROWED TIME"; AssetDatabase.SaveAssets();
-            File.WriteAllText("Temp/BorrowedTime.setup.json", "{\"success\":true,\"menuScene\":\"" + ScenePath + "\",\"playScene\":\"TrainingArea\"}");
-            Debug.Log("[Borrowed Time] Main Menu created. Play opens TrainingArea.");
+            File.WriteAllText("Temp/BorrowedTime.setup.json", "{\"success\":true,\"menuScene\":\"" + ScenePath + "\",\"playScene\":\"Cutscene01_Mail\"}");
+            Debug.Log("[Borrowed Time] Main Menu created. Play opens the opening film.");
+        }
+        [MenuItem("Tools/Borrowed Time/Use Main Menu as Play Mode Start")]
+        public static void UseMainMenuAsStart()
+        {
+            EditorSceneManager.playModeStartScene=AssetDatabase.LoadAssetAtPath<SceneAsset>(ScenePath);
         }
     }
 }

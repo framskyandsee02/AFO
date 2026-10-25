@@ -1,0 +1,102 @@
+{
+    "completed": true,
+    "success": true,
+    "checks": [
+        {
+            "name": "New Play opens the first cutscene",
+            "passed": true
+        },
+        {
+            "name": "Reached shot: delivery",
+            "passed": true
+        },
+        {
+            "name": "Reached shot: letter-delivered",
+            "passed": true
+        },
+        {
+            "name": "Reached shot: collect-letter",
+            "passed": true
+        },
+        {
+            "name": "Reached shot: return-home",
+            "passed": true
+        },
+        {
+            "name": "Reached shot: reading-room",
+            "passed": true
+        },
+        {
+            "name": "Reached shot: read-letter",
+            "passed": true
+        },
+        {
+            "name": "Reached shot: time-door",
+            "passed": true
+        },
+        {
+            "name": "Reached shot: new-journey",
+            "passed": true
+        },
+        {
+            "name": "Reached shot: arrival",
+            "passed": true
+        },
+        {
+            "name": "Full opening includes delivery",
+            "passed": true
+        },
+        {
+            "name": "Full opening includes letter-delivered",
+            "passed": true
+        },
+        {
+            "name": "Full opening includes collect-letter",
+            "passed": true
+        },
+        {
+            "name": "Full opening includes return-home",
+            "passed": true
+        },
+        {
+            "name": "Full opening includes reading-room",
+            "passed": true
+        },
+        {
+            "name": "Full opening includes read-letter",
+            "passed": true
+        },
+        {
+            "name": "Full opening includes time-door",
+            "passed": true
+        },
+        {
+            "name": "Full opening includes new-journey",
+            "passed": true
+        },
+        {
+            "name": "Full opening includes arrival",
+            "passed": true
+        },
+        {
+            "name": "Opening restores normal gameplay time",
+            "passed": true
+        },
+        {
+            "name": "Opening hands control to the existing training game",
+            "passed": true
+        },
+        {
+            "name": "Escape/Skip during delivery goes directly to training",
+            "passed": true
+        },
+        {
+            "name": "Escape/Skip remains active during mailbox pickup",
+            "passed": true
+        },
+        {
+            "name": "Escape/Skip during the interior goes directly to training",
+            "passed": true
+        }
+    ]
+}
